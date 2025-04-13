@@ -2,15 +2,17 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Mafia Oyunu</title>
+  <title>Oyun Seçimi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Genel Sıfırlama */
+    /* Ortak Sıfırlama */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: linear-gradient(120deg, #272727 0%, #111 50%, #000 100%);
-      color: #f1f1f1;
       font-family: 'Poppins', sans-serif;
+      background: #121212;
+      color: #f1f1f1;
       overflow-x: hidden;
     }
     /* Ana Menü */
@@ -36,16 +38,16 @@
     }
     #mainMenu button:hover { background: #cc0000; }
 
-    /* Oyun Container'ları (başlangıçta gizli) */
+    /* Oyun Container’ları */
     .game-container { display: none; position: relative; }
 
     /* Mafia Oyunu Stilleri */
     #mafiaGameContainer {
-      padding-top: 120px; /* Üst stat barları için alan */
+      padding-top: 120px; /* Stat barları alanı */
       min-height: 100vh;
       background: #121212;
     }
-    /* Stat Barları (Sol Üst) */
+    /* Stat Barları ve Profil (Sol Üst) */
     #statBars {
       position: fixed;
       top: 20px;
@@ -57,10 +59,10 @@
       margin-bottom: 1rem;
       background: #444;
       border-radius: 5px;
-      padding: 5px;
       overflow: hidden;
+      padding: 5px;
     }
-    .stat-label { font-weight: bold; font-size: 0.9rem; margin-bottom: 3px; }
+    .stat-label { margin-bottom: 3px; font-weight: bold; font-size: 0.9rem; }
     .stat-fill {
       height: 20px;
       background: #00bfff;
@@ -69,8 +71,7 @@
     }
     .stat-text { margin-top: 3px; font-size: 0.9rem; }
     .lockedStat { opacity: 0.4; }
-    /* Profil Bilgisi */
-    #profileInfo { margin-top: 1rem; font-weight: bold; font-size: 0.9rem; }
+    #profileInfo { margin-top: 1rem; font-size: 0.9rem; font-weight: bold; }
     /* Village Travel Panel (Sağ Orta) */
     #villageTravel {
       position: fixed;
@@ -83,7 +84,7 @@
       width: 200px;
       z-index: 1000;
     }
-    #villageTravel h3 { text-align: center; margin-bottom: 1rem; }
+    #villageTravel h3 { margin-bottom: 1rem; text-align: center; }
     #villageTravel ul { list-style: none; }
     #villageTravel li {
       display: flex;
@@ -129,7 +130,8 @@
     .locked::after {
       content: "KİLİTLİ";
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       background: rgba(0,0,0,0.8);
       padding: 5px 10px;
@@ -149,7 +151,8 @@
     .task-container h3 { color: #ffcc00; margin-bottom: 10px; }
     .close-task {
       position: absolute;
-      top: 5px; right: 5px;
+      top: 5px;
+      right: 5px;
       background: transparent;
       border: none;
       color: #fff;
@@ -182,9 +185,8 @@
       transition: width 1s ease;
     }
     .progress-text { margin-top: 5px; font-weight: bold; }
-    /* Ana Menüye Dön Butonu */
+    /* Ek Butonlar */
     #mafiaMenu button { margin-top: 10px; }
-    /* SABİT BUTON GRUBU */
     .fixed-btn-group {
       position: fixed;
       bottom: 20px;
@@ -194,10 +196,79 @@
       gap: 10px;
     }
     .fixed-btn-group .btn { min-width: 130px; }
+
+    /* 101 Okey Oyunu Stilleri */
+    #okeyGameContainer {
+      display: none; /* Başlangıçta gizli */
+      padding: 20px;
+      background: var(--primary-color);
+      border-radius: 15px;
+      box-shadow: 0 8px 30px var(--shadow-dark), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      max-width: 95vw;
+      text-align: center;
+    }
+    /* Okey oyunu içeriği */
+    #okeyGameContainer #gameCanvas {
+      border: 3px solid #1a472a;
+      background-color: var(--secondary-color);
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px var(--shadow-dark);
+      margin: 20px auto;
+      display: block;
+    }
+    #okeyGameContainer #status {
+      font-size: 20px;
+      color: var(--text-light);
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 3px var(--shadow-dark);
+      font-weight: 500;
+      padding: 10px 20px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 30px;
+      display: inline-block;
+    }
+    #okeyGameContainer #controls {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    #okeyGameContainer #controls button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--button-primary);
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      box-shadow: 0 4px 6px var(--shadow-dark);
+      min-width: 120px;
+    }
+    #okeyGameContainer #controls button:hover {
+      background-color: var(--button-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px var(--shadow-dark);
+    }
+    /* Common Variables for Okey Game from CSS Variables */
+    :root {
+      --primary-color: #1b5e20;
+      --secondary-color: #388e3c;
+      --accent-color: #4caf50;
+      --text-light: #e0e0e0;
+      --text-dark: #333333;
+      --button-primary: #0288d1;
+      --button-hover: #0277bd;
+      --button-disabled: #78909c;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-dark: rgba(0, 0, 0, 0.3);
+    }
   </style>
 </head>
 <body>
-  <!-- ANA MENÜ -->
+  <!-- ANA MENÜ (Sadece Mafia Oyunu seçeneği çıkıyor) -->
   <div id="mainMenu">
     <h1>Oyun Seçimi</h1>
     <button onclick="showGame('mafia')">Mafia Oyunu</button>
@@ -236,7 +307,7 @@
         <li><span>Bubuk</span><button onclick="travelTo('Bubuk')">Seyahat Et</button></li>
       </ul>
     </div>
-    <!-- Rütbe Kartları ve Görev Alanı -->
+    <!-- Mafia Oyun Menüsü -->
     <div id="mafiaMenu">
       <div class="rank-selection">
         <div class="card" id="cardVakur">
@@ -255,6 +326,8 @@
           <button class="btn" onclick="selectRank('Baron')">Seç</button>
         </div>
       </div>
+      <!-- Ek olarak Okey101 butonu -->
+      <button class="btn" onclick="showGame('okey')">Okey101 Oyna</button>
       <!-- Görev Alanı -->
       <div class="task-container" id="taskContainer">
         <button class="close-task" onclick="closeTaskContainer()">X</button>
@@ -270,13 +343,154 @@
     </div>
   </div>
 
+  <!-- 101 Okey OYUNU -->
+  <div id="okeyGameContainer" class="game-container">
+    <div class="game-container">
+      <div id="status">Loading Okey101...</div>
+      <div id="opponent1" class="opponent-area">Opponent 1</div>
+      <div id="opponent2" class="opponent-area">Opponent 2</div>
+      <div id="opponent3" class="opponent-area">Opponent 3</div>
+      <div id="player-area" class="player-active">Your Hand</div>
+      <div class="draggable-hint">Drag tiles to organize them or to discard</div>
+      <canvas id="gameCanvas"></canvas>
+      <div id="controls">
+        <button id="drawButton">Draw Tile</button>
+        <button id="meldButton" disabled>Confirm Melds</button>
+        <button id="undoButton" disabled>Undo Move</button>
+        <button id="restartButton">New Game</button>
+      </div>
+    </div>
+    <button class="btn" onclick="showGame('mafia')">Ana Menüye Dön</button>
+  </div>
+
+  <!-- SABİT BUTON GRUBU (Ortak ek butonlar, örn. Rozet vs.) -->
+  <div class="fixed-btn-group">
+    <button class="btn" onclick="toggleBadgesModal()">Rozetlerim</button>
+    <button class="btn hidden" id="marketBtn" onclick="toggleMarketModal()">Market</button>
+    <button class="btn hidden" id="kumarhaneBtn" onclick="toggleKumarhaneModal()">Kumarhane</button>
+  </div>
+
+  <!-- MODALLER (Mafia: Envanter vs.) -->
+  <div class="modal-overlay" id="koyModal">
+    <div class="modal">
+      <button class="close-modal" onclick="toggleKoyPanelModal()">X</button>
+      <h2>Envanter & Çete Bilgileri</h2>
+      <h3>Bulunduğun Köy: <span id="currentVillageDisplay">Asman</span></h3>
+      <div class="inventory-list" id="inventoryList"></div>
+      <hr />
+      <h3>Çete Üye Sayısı: <span id="ceteUyeSayisi">0</span></h3>
+    </div>
+  </div>
+  <div class="modal-overlay" id="badgesModal">
+    <div class="modal">
+      <button class="close-modal" onclick="toggleBadgesModal()">X</button>
+      <h2>Rozetlerim</h2>
+      <div class="badge-row">
+        <div class="badge-type">
+          <div class="badge-blue">🏅</div>
+          <span class="blue-label" id="blueBadgeCount">0</span>
+          <p>Vakur (Mavi)</p>
+        </div>
+        <div class="badge-type">
+          <div class="badge-orange">🏅</div>
+          <span class="orange-label" id="orangeBadgeCount">0</span>
+          <p>Hatip (Turuncu)</p>
+        </div>
+        <div class="badge-type">
+          <div class="badge-red">🏅</div>
+          <span class="red-label" id="redBadgeCount">0</span>
+          <p>Baron (Kırmızı)</p>
+        </div>
+      </div>
+      <hr />
+      <div class="bar-section">
+        <div class="bar-title">Koruma (Vakur) 🛡️</div>
+        <div class="bar-container">
+          <div class="bar-fill dayaniklik-bar" id="dayaniklikBar"></div>
+        </div>
+        <div class="bar-value">Koruma: <span id="korumaValue">0</span> (<span id="vakurYuzde">0</span>%)</div>
+      </div>
+      <div class="bar-section">
+        <div class="bar-title">Nüfus (Hatip) 👥</div>
+        <div class="bar-container">
+          <div class="bar-fill onur-bar" id="hatipBar"></div>
+        </div>
+        <div class="bar-value">Nüfus: <span id="nufus">0</span> (<span id="hatipYuzde">0</span>%)</div>
+      </div>
+      <div class="bar-section lockedStat" id="baronStatDisplay">
+        <div class="bar-title">Etki (Baron) ♛</div>
+        <div class="bar-container">
+          <div class="bar-fill" id="baronFill"></div>
+        </div>
+        <div class="bar-value">Etki: <span id="baronValue">0</span> (<span id="baronYuzde">0</span>%)</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="marketModal">
+    <div class="modal">
+      <button class="close-modal" onclick="toggleMarketModal()">X</button>
+      <h2>Market</h2>
+      <p>Baron görevleri aktif olduğunda satın alabilirsiniz:</p>
+      <div class="market-item" id="koyItem">
+        <div>Köy (75.000$)</div>
+        <button class="btn" onclick="buyItem('Köy', 75000)">Satın Al</button>
+      </div>
+      <div class="market-item">
+        <div>At (5.000$)</div>
+        <button class="btn" onclick="buyItem('At', 5000)">Satın Al</button>
+      </div>
+      <div class="market-item">
+        <div>Uçak (4.000$)</div>
+        <button class="btn" onclick="buyItem('Uçak', 4000)">Satın Al</button>
+      </div>
+      <div class="market-item">
+        <div>Kumarhane Kur (40.000$)</div>
+        <button class="btn" onclick="buyItem('Kumarhane', 40000)">Satın Al</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="kumarhaneModal">
+    <div class="modal">
+      <button class="close-modal" onclick="toggleKumarhaneModal()">X</button>
+      <h2>Kumarhane</h2>
+      <p>Şansınızı deneyin! %50 kazanma şansı.</p>
+      <div class="kumarhane-input">
+        <input type="number" id="betAmount" placeholder="Bahis ($)" />
+        <button class="btn" onclick="playGamble()">Oyna</button>
+      </div>
+      <p id="gambleResult"></p>
+    </div>
+  </div>
+
+  <!-- MAFA OYUNU JS KODLARI -->
   <script>
-    /* ------------------------
-       MAFA OYUNU KODLARI
-    ------------------------ */
-    // Rütbe görev dizileri (basit, orta, zor, ileri, son)
-    const mafiaTierOrder = ["basit", "orta", "zor", "ileri", "son"];
-    const mafiaTasks = {
+    /* Ana Menü ve oyunlar arası geçiş fonksiyonları */
+    function showGame(game) {
+      if (game === 'mafia') {
+        document.getElementById('mainMenu').style.display = 'none';
+        document.getElementById('okeyGameContainer').style.display = 'none';
+        document.getElementById('mafiaGameContainer').style.display = 'block';
+      } else if (game === 'okey') {
+        document.getElementById('mafiaGameContainer').style.display = 'none';
+        document.getElementById('mainMenu').style.display = 'none';
+        document.getElementById('okeyGameContainer').style.display = 'block';
+      }
+    }
+    function showMainMenu() {
+      document.getElementById('mafiaGameContainer').style.display = 'none';
+      document.getElementById('okeyGameContainer').style.display = 'none';
+      document.getElementById('mainMenu').style.display = 'flex';
+    }
+
+    /* Mafia Oyununa ait temel kodlar */
+    let currentRank = "Vakur";
+    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
+    let isHatipUnlocked = false, isBaronUnlocked = false;
+    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
+    let money = 500000;
+    let onur = 0;
+    const tierOrder = ["basit", "orta", "zor", "ileri", "son"];
+    const tasks = {
       vakur: {
         basit: [
           "Bir çocuğun okul çantası almasına yardımcı ol.",
@@ -288,258 +502,51 @@
           "Bir hayır kurumuna ufak bağış yap veya yardım topla.",
           "Otobüste yaşlı veya hamile birine yer ver."
         ],
-        orta: [
-          "Aile içinde tartışan iki akrabayı barıştır.",
-          "Mahallede yardım kermesi veya etkinlik organize et.",
-          "Maddi durumu kötü bir öğrenciye burs/kitap yardımı ayarla.",
-          "Bir STK’nın etkinliğinde aktif rol al.",
-          "Bakımsız parkı onarmak için gönüllüler topla.",
-          "Kan bağışı kampanyasına katkıda bulun.",
-          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
-          "Zorbalığa uğrayan birine çevrimiçi destek bul."
-        ],
-        zor: [
-          "Afet bölgesine yardım ekibi olarak katıl.",
-          "Kronik sorunu için belediyeyle görüşüp çözüm talep et.",
-          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
-          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
-          "Küs olan iki arkadaşın barışmasına aracılık et.",
-          "Toplum dışlanmış birini etkinliklere dahil et.",
-          "Küçük çaplı bağış kampanyası düzenle.",
-          "Yerel hastanede gönüllü refakat programına katıl."
-        ],
-        ileri: [
-          "Büyük ölçekli yardım projesine liderlik et.",
-          "Gençlere yönelik mentorluk programı başlat.",
-          "Meslek edindirme kursu organize et.",
-          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
-          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
-          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
-          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
-          "Ücretsiz terapi/rehberlik günü organize et."
-        ],
-        son: [
-          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
-          "Büyük bağış konseri/festival düzenle.",
-          "Gönüllüleri bir araya getiren platform kur.",
-          "Eğitim bursu fonu başlat.",
-          "Aile içi şiddete karşı koruma ve rehabilitasyon hizmetleri oluştur.",
-          "Yardım vakfı kurarak sürekli yardım yürüt.",
-          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
-          "Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz."
-        ]
+        orta: ["Orta Görev 1", "Orta Görev 2", "Orta Görev 3", "Orta Görev 4", "Orta Görev 5", "Orta Görev 6", "Orta Görev 7", "Orta Görev 8"],
+        zor: ["Zor Görev 1", "Zor Görev 2", "Zor Görev 3", "Zor Görev 4", "Zor Görev 5", "Zor Görev 6", "Zor Görev 7", "Zor Görev 8"],
+        ileri: ["İleri Görev 1", "İleri Görev 2", "İleri Görev 3", "İleri Görev 4", "İleri Görev 5", "İleri Görev 6", "İleri Görev 7", "İleri Görev 8"],
+        son: ["Son Görev 1", "Son Görev 2", "Son Görev 3", "Son Görev 4", "Son Görev 5", "Son Görev 6", "Son Görev 7", "Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz."]
       },
       hatip: {
-        basit: [
-          "Sokak kavgasını tatlı dille sakinleştir.",
-          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
-          "Aile içi gerginliği dinleyerek gider.",
-          "Sosyal medyada tartışmayı tatlıya bağla.",
-          "Yanlış bilgiyi doğru kaynakla düzelt.",
-          "Dedikoduyu kaynağından çürüterek sakinleştir.",
-          "Okul/kulüp etkinliğinde kısa konuşma yap.",
-          "Ufak grupta hitabet pratiği yap."
-        ],
-        orta: [
-          "Komşular arasındaki sorunu toplantı ile çöz.",
-          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
-          "Yerel hayır kurumuna bağış toplamak için ikna et.",
-          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
-          "Aile şirketinde tartışmada hakemlik yap.",
-          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
-          "Mahalle muhtarıyla imza kampanyası başlat.",
-          "Gönüllü ekiple sokak sanatçılarına destek sağla."
-        ],
-        zor: [
-          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
-          "Ulusal platformda toplumsal bir konuda konuş.",
-          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
-          "Mahalle halkının taleplerini dile getirip sonuç al.",
-          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
-          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
-          "Binlerce kişilik tartışmayı sakinleştir.",
-          "Sivil toplum zirvesinde temsilci olarak konuş."
-        ],
-        ileri: [
-          "Bölgesel toplum hareketine önderlik et.",
-          "Ulusal konferansta çözüm önerileri sun.",
-          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
-          "Barış çalıştayında moderatörlük yap.",
-          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
-          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
-          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
-          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver."
-        ],
-        son: [
-          "Uluslararası konferansta ülkeni temsil et.",
-          "Farklı ülkelerden liderleri bir araya getir.",
-          "Barışçıl çözümlerle ödül al.",
-          "Büyük kampanyayla yasa değişikliğini sağla.",
-          "Diplomatik krizde aracı rol üstlen.",
-          "‘Barış ve Uzlaşma Vakfı’ kurarak projeler yönet.",
-          "Önemli çatışma bölgelerine arabulucu olarak davet al.",
-          "Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."
-        ]
+        basit: ["Hatip Basit 1", "Hatip Basit 2", "Hatip Basit 3", "Hatip Basit 4", "Hatip Basit 5", "Hatip Basit 6", "Hatip Basit 7", "Hatip Basit 8"],
+        orta: ["Hatip Orta 1", "Hatip Orta 2", "Hatip Orta 3", "Hatip Orta 4", "Hatip Orta 5", "Hatip Orta 6", "Hatip Orta 7", "Hatip Orta 8"],
+        zor: ["Hatip Zor 1", "Hatip Zor 2", "Hatip Zor 3", "Hatip Zor 4", "Hatip Zor 5", "Hatip Zor 6", "Hatip Zor 7", "Hatip Zor 8"],
+        ileri: ["Hatip İleri 1", "Hatip İleri 2", "Hatip İleri 3", "Hatip İleri 4", "Hatip İleri 5", "Hatip İleri 6", "Hatip İleri 7", "Hatip İleri 8"],
+        son: ["Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."]
       },
       baron: {
-        basit: [
-          "Ufak çapta uyuşturucu satmayı dene.",
-          "Mahallede küçük 'koruma ücreti' topla.",
-          "Kafe/mekândan ufak haraç iste.",
-          "Sokak satıcıları arasında rekabeti lehine çevir.",
-          "Sahte marka ürünlerin satış ağını oluştur.",
-          "Şantaj veya tehditle rakibi sustur.",
-          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
-          "Kaçak içki satışı yapan ekibe arka çık."
-        ],
-        orta: [
-          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
-          "Polis/memurlarla rüşvet bağlantısı kur.",
-          "Yasadışı kumar organizasyonu başlat.",
-          "Rakip çeteyle gerginliği lehine çöz.",
-          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
-          "Yasa dışı bahis mekanlarıyla anlaş.",
-          "Kara para aklama için küçük sermaye oluştur.",
-          "Gece kulübünün 'gizli ortak' statüsünü al."
-        ],
-        zor: [
-          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
-          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
-          "Polis ve siyasi bağlantıları güçlendir.",
-          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
-          "Gece kulüpleri ve barlarda yatırımın tekeli olsun.",
-          "Rakip çetenin liderini korkutarak saflarına katıl.",
-          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
-          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır."
-        ],
-        ileri: [
-          "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
-          "Üst düzey bürokratlarla gizli anlaşmalar yap, dokunulmazlık sağla.",
-          "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
-          "Yurt dışı kara para aklama ofisleri aç.",
-          "Güvenlik birimlerinde kilit isimleri satın al.",
-          "Şehrin en büyük limanlarında kontrol sağla.",
-          "Gösterişli hayır işleriyle meşrulaş.",
-          "Casino, otel, gece kulübü zinciri kurarak yasadışı gelirleri yasal işletmeye dönüştür."
-        ],
-        son: [
-          "Büyük kumarhane zinciri ve malikâne sahibi ol.",
-          "Uluslararası mafya ağının ülke temsilcisini üstlen.",
-          "Siyasete dolaylı girip seçim kampanyalarını fonla.",
-          "Yeraltı dünyasında 'Baronlar Konseyi' kur.",
-          "Devletin kritik kurumlarına adam yerleştir.",
-          "Lüks yaşam sürerken yurt dışı yatırımları yönet.",
-          "Rakip baronlara karşı koordineli operasyon yap.",
-          "Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."
-        ]
+        basit: ["Baron Basit 1", "Baron Basit 2", "Baron Basit 3", "Baron Basit 4", "Baron Basit 5", "Baron Basit 6", "Baron Basit 7", "Baron Basit 8"],
+        orta: ["Baron Orta 1", "Baron Orta 2", "Baron Orta 3", "Baron Orta 4", "Baron Orta 5", "Baron Orta 6", "Baron Orta 7", "Baron Orta 8"],
+        zor: ["Baron Zor 1", "Baron Zor 2", "Baron Zor 3", "Baron Zor 4", "Baron Zor 5", "Baron Zor 6", "Baron Zor 7", "Baron Zor 8"],
+        ileri: ["Baron İleri 1", "Baron İleri 2", "Baron İleri 3", "Baron İleri 4", "Baron İleri 5", "Baron İleri 6", "Baron İleri 7", "Baron İleri 8"],
+        son: ["Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."]
       }
     };
-      
-    // Global değişkenler
-    let currentRank = "Vakur";  // Başlangıçta sadece Vakur aktif
-    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
-    let isHatipUnlocked = false, isBaronUnlocked = false;
-    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
-    let money = 500000;
-    let onur = 0;
-    
-    // Stat hesapları
-    function getVakurKoruma() {
-      let koruma = Math.floor(vakurTaskCount / 22);
-      return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
-    }
-    function getHatipNufus() {
-      let nufus = Math.floor(hatipTaskCount / 40) * 5;
-      return (nufus % 201 === 0 && nufus > 0) ? 200 : nufus % 201;
-    }
-    function getBaronEtki() {
-      let etki = Math.floor(baronTaskCount * 2);
-      return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
-    }
-      
-    // Köy seyahati
-    const villages = ["Asman", "Mizrin", "Qeruk", "Shuman", "Alizera", "Bubuk"];
-    let currentVillage = "Asman";
-      
-    function updateStatBars() {
-      // Vakur Barı
-      let vakurValue = getVakurKoruma();
-      let vakurYuzde = (vakurValue / 660) * 100;
-      document.getElementById('vakurText').innerText = "Koruma: " + vakurValue + " (" + Math.floor(vakurYuzde) + "%)";
-      document.getElementById('vakurFill').style.width = vakurYuzde + "%";
-      // Hatip Barı
-      if (isHatipUnlocked) {
-        document.getElementById('hatipStat').classList.remove("lockedStat");
-        let hatipValue = getHatipNufus();
-        let hatipYuzde = (hatipValue / 200) * 100;
-        document.getElementById('hatipText').innerText = "Nüfus: " + hatipValue + " (" + Math.floor(hatipYuzde) + "%)";
-        document.getElementById('hatipFill').style.width = hatipYuzde + "%";
-      } else {
-        document.getElementById('hatipStat').classList.add("lockedStat");
-      }
-      // Baron Barı
-      if (isBaronUnlocked) {
-        document.getElementById('baronStat').classList.remove("lockedStat");
-        let baronValue = getBaronEtki();
-        let baronYuzde = (baronValue / 500) * 100;
-        document.getElementById('baronText').innerText = "Etki: " + baronValue + " (" + Math.floor(baronYuzde) + "%)";
-        document.getElementById('baronFill').style.width = baronYuzde + "%";
-      } else {
-        document.getElementById('baronStat').classList.add("lockedStat");
-      }
-    }
-      
-    function updateProfileInfo() {
-      document.getElementById('currentVillageDisplay').innerText = currentVillage;
-    }
-      
-    function updateMoneyUI() {
-      document.getElementById('money').innerText = money;
-    }
-      
-    function updateBadgesUI() {
-      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
-      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
-      document.getElementById('redBadgeCount').innerText = redBadgeCount;
-    }
-      
-    function selectRank(rank) {
-      if (rank === "Vakur") currentRank = "Vakur";
-      else if (rank === "Hatip") { if (!isHatipUnlocked) return; currentRank = "Hatip"; }
-      else if (rank === "Baron") { if (!isBaronUnlocked) return; currentRank = "Baron"; }
-      showMafiaTask();
-      document.getElementById('taskContainer').classList.add('active');
-    }
-      
-    function closeTaskContainer() {
-      document.getElementById('taskContainer').classList.remove('active');
-    }
       
     function showMafiaTask() {
       const container = document.getElementById('taskOptions');
       container.innerHTML = "";
       let taskCount, tierIndex, activeIndex, currentTier, taskList;
-      
       if (currentRank === "Vakur") {
         taskCount = vakurTaskCount;
         tierIndex = Math.floor(taskCount / 8);
         activeIndex = taskCount % 8;
-        currentTier = mafiaTierOrder[tierIndex % mafiaTierOrder.length];
-        taskList = mafiaTasks.vakur[currentTier];
+        currentTier = tierOrder[tierIndex % tierOrder.length];
+        taskList = tasks.vakur[currentTier];
         document.getElementById('rankTitle').innerText = "Vakur Görevleri (" + currentTier + ")";
       } else if (currentRank === "Hatip") {
         taskCount = hatipTaskCount;
         tierIndex = Math.floor(taskCount / 8);
         activeIndex = taskCount % 8;
-        currentTier = mafiaTierOrder[tierIndex % mafiaTierOrder.length];
-        taskList = mafiaTasks.hatip[currentTier];
+        currentTier = tierOrder[tierIndex % tierOrder.length];
+        taskList = tasks.hatip[currentTier];
         document.getElementById('rankTitle').innerText = "Hatip Görevleri (" + currentTier + ")";
       } else if (currentRank === "Baron") {
         taskCount = baronTaskCount;
         tierIndex = Math.floor(taskCount / 8);
         activeIndex = taskCount % 8;
-        currentTier = mafiaTierOrder[tierIndex % mafiaTierOrder.length];
-        taskList = mafiaTasks.baron[currentTier];
+        currentTier = tierOrder[tierIndex % tierOrder.length];
+        taskList = tasks.baron[currentTier];
         document.getElementById('rankTitle').innerText = "Baron Görevleri (" + currentTier + ")";
       }
       
@@ -571,11 +578,14 @@
         const div = document.createElement('div');
         div.classList.add('task-option');
         div.innerText = task;
-        if (index < activeIndex) div.classList.add('completed');
-        else if (index === activeIndex) {
+        if (index < activeIndex) {
+          div.classList.add('completed');
+        } else if (index === activeIndex) {
           div.classList.add('active');
           div.addEventListener('click', mafiaTaskComplete);
-        } else div.classList.add('locked');
+        } else {
+          div.classList.add('locked');
+        }
         container.appendChild(div);
       });
       
@@ -603,7 +613,6 @@
         if (blueBadgeCount > 0) blueBadgeCount--;
       }
       
-      // Rütbe terfisi: Vakur 40 görevde Hatip, Hatip 40 görevde Baron
       if (currentRank === "Vakur" && vakurTaskCount >= 40 && !isHatipUnlocked) {
         isHatipUnlocked = true;
         document.getElementById('cardHatip').classList.remove('locked');
@@ -638,33 +647,3 @@
       
     function updateMoneyUI() {
       document.getElementById('money').innerText = money;
-    }
-      
-    function updateBadgesUI() {
-      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
-      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
-      document.getElementById('redBadgeCount').innerText = redBadgeCount;
-    }
-      
-    // Ana Menüye Dön butonu: Mafia oyunundan çıkıp ana menüye geri dön
-    function showMainMenu() {
-      document.getElementById('mafiaGameContainer').style.display = 'none';
-      document.getElementById('mainMenu').style.display = 'flex';
-    }
-      
-    function showGame(game) {
-      // Sadece Mafia oyunu seçilirse, ana menüde tek seçenek gözükecek.
-      document.getElementById('mainMenu').style.display = 'none';
-      if (game === 'mafia') {
-        document.getElementById('mafiaGameContainer').style.display = 'block';
-      }
-    }
-      
-    // Başlangıç güncellemeleri
-    updateStatBars();
-    updateProfileInfo();
-    updateMoneyUI();
-    updateBadgesUI();
-  </script>
-</body>
-</html>
