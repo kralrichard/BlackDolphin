@@ -21,7 +21,7 @@
     }
     /* HEADER */
     header {
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0,0,0,0.85);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -50,7 +50,7 @@
       margin-left: 5px;
       font-weight: bold;
     }
-    /* MAIN */
+    /* MAIN İÇERİK */
     main {
       flex: 1;
       max-width: 1200px;
@@ -87,9 +87,9 @@
       justify-content: center;
     }
     .card {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.05);
       backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
       width: 250px;
       padding: 1.5rem;
@@ -106,8 +106,8 @@
     }
     .locked {
       opacity: 0.4;
-      position: relative;
       pointer-events: none;
+      position: relative;
     }
     .locked::after {
       content: "KİLİTLİ";
@@ -150,9 +150,9 @@
       padding: 0.75rem;
       border: 1px solid #555;
       border-radius: 5px;
-      text-align: left;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.05);
       cursor: default;
+      text-align: left;
     }
     .task-option.active {
       background: #ff4444;
@@ -201,7 +201,7 @@
     .hidden {
       display: none !important;
     }
-    /* MODAL ve diğer stiller: Eski dosyadaki gibi */
+    /* MODAL ve diğer stiller (eski kodla uyumlu) */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -260,6 +260,7 @@
       border: 1px solid #444;
       margin: 1rem 0;
     }
+    /* Vakur İstatistikleri: Dayanıklılık ve Koruma (🛡️) */
     .bar-section {
       margin-bottom: 1.5rem;
     }
@@ -289,50 +290,13 @@
     .dayaniklik-bar {
       background: #00bfff;
     }
+    /* Hatip İstatistikleri: Onur ve Nüfus (👥) */
     .onur-bar {
       background: #ffa500;
     }
     .nufus-value {
       color: #fff;
       font-weight: bold;
-    }
-    .market-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 0.5rem 0;
-      padding: 0.5rem;
-      background: rgba(255,255,255,0.05);
-      border-radius: 5px;
-    }
-    .market-item button {
-      font-size: 0.9rem;
-      padding: 0.3rem 0.8rem;
-    }
-    .kumarhane-input {
-      margin: 1rem 0;
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-    }
-    .kumarhane-input input {
-      width: 100px;
-      padding: 0.3rem;
-      text-align: center;
-      border-radius: 5px;
-      border: 1px solid #999;
-    }
-    .inventory-list img {
-      width: 32px;
-      height: 32px;
-      margin-right: 8px;
-      vertical-align: middle;
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0); }
     }
   </style>
 </head>
@@ -347,7 +311,6 @@
   <main>
     <h1>Black Dolphine Mafya Dünyasına Hoş Geldiniz!</h1>
     <h4>Vakur (Mavi 🏅), Hatip (Turuncu 🏅) veya Baron (Kırmızı 🏅) olarak suç dünyasına adım atın.</h4>
-
     <!-- RÜTBE KARTLARI -->
     <div class="rank-selection">
       <div class="card" id="cardVakur">
@@ -366,13 +329,10 @@
         <button class="btn" onclick="selectRank('Baron')">Seç</button>
       </div>
     </div>
-
     <!-- GÖREV ALANI -->
     <div class="task-container" id="taskContainer">
       <h3 id="rankTitle"></h3>
-      <!-- Görev seçenekleri listesi (her kademe için 8 seçenek) -->
       <div id="taskOptions"></div>
-      <!-- İlerleme Çubuğu -->
       <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
       </div>
@@ -387,7 +347,7 @@
     <button class="btn hidden" id="kumarhaneBtn" onclick="toggleKumarhaneModal()">Kumarhane</button>
   </div>
 
-  <!-- MODALLER (Köy, Rozet, Market, Kumarhane) -->
+  <!-- MODALLER: Köy, Rozetler, Market, Kumarhane -->
   <div class="side-panel" id="koyPanelTrigger">
     <img src="https://via.placeholder.com/64?text=K%C3%B6y" alt="Köy" onclick="toggleKoyPanelModal()" />
     <p>Köyün</p>
@@ -423,6 +383,7 @@
         </div>
       </div>
       <hr />
+      <!-- Vakur İstatistikleri -->
       <div class="bar-section">
         <div class="bar-title">Dayanıklılık (Vakur)</div>
         <div class="bar-container">
@@ -431,6 +392,11 @@
         <div class="bar-value">Güç: <span id="dayaniklikValue">0</span></div>
       </div>
       <div class="bar-section">
+        <div class="bar-title">Koruma Puanı (Vakur) 🛡️</div>
+        <div class="bar-value">Koruma: <span id="korumaValue">0</span></div>
+      </div>
+      <!-- Hatip İstatistikleri -->
+      <div class="bar-section">
         <div class="bar-title">Onur (Hatip)</div>
         <div class="bar-container">
           <div class="bar-fill onur-bar" id="onurBar"></div>
@@ -438,7 +404,7 @@
         <div class="bar-value">Onur: <span id="onurValue">0</span></div>
       </div>
       <div class="bar-section">
-        <div class="bar-title">Nüfus (Hatip)</div>
+        <div class="bar-title">Nüfus (Hatip) 👥</div>
         <div class="bar-value">Nüfus: <span id="nufus">0</span></div>
       </div>
     </div>
@@ -583,7 +549,7 @@
           "Uluslararası konferansta ülkeni temsil et.",
           "Farklı ülkelerden liderleri bir araya getir.",
           "Barışçıl çözümlerle ödül al.",
-          "Büyük çaplı kampanyayla yasa değişikliğini sağla.",
+          "Büyük kampanyayla yasa değişikliğini sağla.",
           "Diplomatik krizde aracı rol üstlen.",
           "‘Barış ve Uzlaşma Vakfı’ kurarak projeler yönet.",
           "Önemli çatışma bölgelerine arabulucu olarak davet al.",
@@ -613,7 +579,7 @@
         ],
         zor: [
           "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
-          "Rakip baronun iş anlaşmasına sız ve bilgileri çal.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
           "Polis ve siyasi bağlantıları güçlendir.",
           "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
           "Gece kulüpleri ve barlarda yatırımın tekeli olsun.",
@@ -647,7 +613,7 @@
     // ----------------------------------------------------
     // 2. GLOBAL DEĞİŞKENLER ve RÜTBE KİLİT DURUMLARI
     // ----------------------------------------------------
-    let currentRank = "Vakur";  // Başlangıçta yalnızca Vakur aktif
+    let currentRank = "Vakur"; // Başlangıçta yalnızca Vakur aktif
     let vakurTaskCount = 0;
     let hatipTaskCount = 0;
     let baronTaskCount = 0;
@@ -659,8 +625,11 @@
     let redBadgeCount = 0;
     let money = 500000;
     let dayaniklilik = 0;
-    let nufus = 0;
     let onur = 0;
+
+    // Yeni değişkenler:
+    let korumaPuani = 0;   // Vakur için; her 22 görevde 1 artacak.
+    let nufus = 0;         // Hatip için; her 40 görevde 5 artacak.
 
     // Market ve envanter değişkenleri
     let hasKoy = false;
@@ -685,14 +654,10 @@
       if (rank === "Vakur") {
         currentRank = "Vakur";
       } else if (rank === "Hatip") {
-        if (!isHatipUnlocked) {
-          return;
-        }
+        if (!isHatipUnlocked) return;
         currentRank = "Hatip";
       } else if (rank === "Baron") {
-        if (!isBaronUnlocked) {
-          return;
-        }
+        if (!isBaronUnlocked) return;
         currentRank = "Baron";
       }
       showNextTask();
@@ -700,11 +665,11 @@
     }
 
     // ----------------------------------------------------
-    // GÖREV GÖSTERME: Her rol için kademeli (her kademede 8 seçenek)
+    // GÖREV GÖSTERME: Her rol için, 5 kademede (her kademede 8 seçenek)
     // ----------------------------------------------------
     function showNextTask() {
       let taskCount, tierIndex, activeIndex, currentTier, taskList;
-      taskOptionsContainer.innerHTML = ""; // Eski seçenekleri temizle
+      taskOptionsContainer.innerHTML = ""; // Önceki seçenekler temizlenir.
       
       if (currentRank === "Vakur") {
         taskCount = vakurTaskCount;
@@ -747,20 +712,17 @@
         updateProgressBar((baronTaskCount / 40) * 100);
       }
 
-      // Tüm 8 seçenek listeleniyor: tamamlanan, aktif ve kilitli
+      // Tüm 8 seçenek listelenir: tamamlanmış olanlar, aktif olan ve kilitli kalanlar.
       taskList.forEach((task, index) => {
         const div = document.createElement('div');
         div.classList.add('task-option');
         div.innerText = task;
         if (index < activeIndex) {
-          // Tamamlandı
           div.classList.add('completed');
         } else if (index === activeIndex) {
-          // Aktif, tıklanabilir
           div.classList.add('active');
           div.addEventListener('click', completeActiveTask);
         } else {
-          // Henüz kilitli
           div.classList.add('locked');
         }
         taskOptionsContainer.appendChild(div);
@@ -768,45 +730,50 @@
     }
 
     // ----------------------------------------------------
-    // Aktif Görevi Tamamlama: Sadece aktif seçeneğe tıklama ile gerçekleşir.
+    // Aktif Görev Tamamlama: Sadece aktif seçeneğe tıklanınca.
     // ----------------------------------------------------
     function completeActiveTask() {
-      // Her rol için ödüllendirme işlemleri (örnek: Vakur için mavi rozet, güç artışı)
       if (currentRank === "Vakur") {
         vakurTaskCount++;
-        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        const rozetKazanc = Math.floor(Math.random() * 3) + 1;
         blueBadgeCount += rozetKazanc;
         dayaniklilik += rozetKazanc;
-        // Vakur 40 görev tamamlandığında Hatip kilidi açılır
-        if (vakurTaskCount === 40) {
-          isHatipUnlocked = true;
-          document.getElementById('cardHatip').classList.remove('locked');
+        if (vakurTaskCount % 22 === 0) {
+          korumaPuani++;  // Her 22 Vakur görevinde 1 koruma puanı
         }
       } else if (currentRank === "Hatip") {
         hatipTaskCount++;
-        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        const rozetKazanc = Math.floor(Math.random() * 3) + 1;
         orangeBadgeCount += rozetKazanc;
-        nufus += rozetKazanc;
         onur += rozetKazanc;
-        if (hatipTaskCount === 40) {
-          isBaronUnlocked = true;
-          document.getElementById('cardBaron').classList.remove('locked');
+        if (hatipTaskCount % 40 === 0) {
+          nufus += 5;  // Her 40 Hatip görevinde 5 nüfus eklenir.
         }
       } else if (currentRank === "Baron") {
         baronTaskCount++;
-        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        const rozetKazanc = Math.floor(Math.random() * 3) + 1;
         redBadgeCount += rozetKazanc;
-        let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
+        const cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
         money += cashGain;
-        if(blueBadgeCount > 0) {
+        if (blueBadgeCount > 0) {
           blueBadgeCount -= 1;
           dayaniklilik = Math.max(dayaniklilik - 1, 0);
         }
       }
       updateBadgesUI();
       updateMoneyUI();
-      // Sonuç olarak listede aktif görev tamamlandı, tekrar render ediliyor.
       showNextTask();
+      
+      // Eğer Vakur görevleri tamamlanırsa Hatip kilidi açılır.
+      if (currentRank === "Vakur" && vakurTaskCount === 40) {
+        isHatipUnlocked = true;
+        document.getElementById('cardHatip').classList.remove('locked');
+      }
+      // Eğer Hatip görevleri tamamlanırsa Baron kilidi açılır.
+      if (currentRank === "Hatip" && hatipTaskCount === 40) {
+        isBaronUnlocked = true;
+        document.getElementById('cardBaron').classList.remove('locked');
+      }
     }
 
     // ----------------------------------------------------
@@ -828,10 +795,8 @@
       let dBarWidth = dayaniklilik * 10;
       if (dBarWidth > 300) dBarWidth = 300;
       document.getElementById('dayaniklikBar').style.width = dBarWidth + "px";
+      document.getElementById('korumaValue').innerText = korumaPuani;
       document.getElementById('onurValue').innerText = onur;
-      let oBarWidth = onur * 10;
-      if (oBarWidth > 300) oBarWidth = 300;
-      document.getElementById('onurBar').style.width = oBarWidth + "px";
       document.getElementById('nufus').innerText = nufus;
     }
     function updateMoneyUI() {
@@ -842,12 +807,8 @@
     // MARKET & ENVANTER İşlemleri (Eski kodun mantığı)
     // ----------------------------------------------------
     function buyItem(itemName, price) {
-      if (money < price) {
-        return;
-      }
-      if (!isBaronUnlocked) {
-        return;
-      }
+      if (money < price) return;
+      if (!isBaronUnlocked) return;
       money -= price;
       updateMoneyUI();
       switch(itemName) {
