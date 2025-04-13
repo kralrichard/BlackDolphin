@@ -2,23 +2,25 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Black Dolphine - Logo Tasarımı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Dolphine - Mafia Oyunu / Okey101</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Genel Sıfırlama ve Temel Stil */
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #000;
-      font-family: sans-serif;
-      color: #fff;
-    }
-    /* Üst Logo Bölgesi */
-    header {
-      position: relative;
+    /* ========================
+       Black Dolphine Header Stilleri
+       ======================== */
+    .logo-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px 0;
+      z-index: 2000;
       text-align: center;
-      padding: 40px 0;
-      /* Logoyu öne çıkarmak için diğer içerikten uzaklaştırıyoruz */
-      margin-bottom: 60px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
     .logo-container {
       display: inline-flex;
@@ -26,61 +28,1414 @@
       justify-content: center;
     }
     .logo-text {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: bold;
       text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
       color: #fff;
-      position: relative;
-      /* 3D etkisi için text-shadow ve ::before pseudo-element kullanımı */
-      text-shadow: 2px 2px 0 #000, 4px 4px 0 #fff;
+      /* 3D efekt: siyah ve beyaz gölge katmanları */
+      text-shadow: 
+         2px 2px 0px #000,
+         4px 4px 0px #fff,
+         6px 6px 5px rgba(0,0,0,0.5);
     }
-    /* Alternatif bir 3D efekti için (opsiyonel)
-    .logo-text::before {
-      content: "BLACK DOLPİNE";
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      color: #000;
-      z-index: -1;
-      transform: translate(3px, 3px);
-    }
-    */
     .logo-dolphin {
       margin-left: 20px;
-      display: flex;
-      align-items: center;
     }
-    /* Yunus (Dolphin) Grafiği: Yeşil dolu, beyaz kenarlı */
     .logo-dolphin svg {
       width: 80px;
       height: auto;
-      display: block;
     }
-    /* Diğer İçeriklerin Yerleştirilmesi */
-    .content {
-      text-align: center;
+    /* Üst sağa para bilgisi (Okey101) */
+    .money {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.2rem;
+      background: #222;
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: 1px solid #333;
+      color: #ffcc00;
+      font-weight: bold;
+      z-index: 2100;
+    }
+    
+    /* ========================
+       Okey101 Oyun Stilleri (GitHub kodundan)
+       ======================== */
+    :root {
+      --primary-color: #1b5e20;
+      --secondary-color: #388e3c;
+      --accent-color: #4caf50;
+      --text-light: #e0e0e0;
+      --text-dark: #333333;
+      --button-primary: #0288d1;
+      --button-hover: #0277bd;
+      --button-disabled: #78909c;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-dark: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #2e2e2e;
+      background-image: radial-gradient(circle at center, #3a3a3a, #1a1a1a);
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      transition: background-color 0.5s;
+      overflow: hidden;
+      padding-top: 120px; /* Başlık için boşluk */
+    }
+    .game-container {
+      background: var(--primary-color);
       padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px var(--shadow-dark), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      text-align: center;
+      max-width: 95vw;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 100px;
+    }
+    .game-container:hover {
+      box-shadow: 0 12px 40px var(--shadow-dark), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    }
+    #gameCanvas {
+      border: 3px solid #1a472a;
+      background-color: var(--secondary-color);
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px var(--shadow-dark);
+      transition: box-shadow 0.3s;
+    }
+    #status {
+      font-size: 20px;
+      color: var(--text-light);
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 3px var(--shadow-dark);
+      font-weight: 500;
+      padding: 10px 20px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 30px;
+      display: inline-block;
+      transition: background-color 0.3s;
+    }
+    #controls {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--button-primary);
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      box-shadow: 0 4px 6px var(--shadow-dark);
+      min-width: 120px;
+    }
+    button:hover {
+      background-color: var(--button-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px var(--shadow-dark);
+    }
+    button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px var(--shadow-dark);
+    }
+    button:disabled {
+      background-color: var(--button-disabled);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 2px 4px var(--shadow-dark);
+      opacity: 0.7;
+    }
+    .opponent-area {
+      position: absolute;
+      color: var(--text-light);
+      font-size: 16px;
+      font-weight: 500;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .opponent-active {
+      background-color: rgba(76, 175, 80, 0.3);
+      transform: scale(1.05);
+    }
+    #opponent1 { top: 20px; left: 50%; transform: translateX(-50%); }
+    #opponent2 { top: 50%; left: 10px; transform: translateY(-50%); }
+    #opponent3 { top: 50%; right: 10px; transform: translateY(-50%); }
+    #player-area {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-light);
+      font-size: 16px;
+      font-weight: 500;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background-color 0.3s;
+    }
+    .player-active {
+      background-color: rgba(76, 175, 80, 0.3) !important;
+    }
+    .info-panel {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: var(--text-light);
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 300px;
+      text-align: left;
+      font-size: 14px;
+      z-index: 100;
+      transform: translateX(120%);
+      transition: transform 0.5s ease;
+      box-shadow: 0 5px 15px var(--shadow-dark);
+    }
+    .info-panel.show {
+      transform: translateX(0);
+    }
+    .info-panel h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      border-bottom: 1px solid var(--accent-color);
+      padding-bottom: 5px;
+    }
+    .info-panel p {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .info-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 101;
+      width: 40px;
+      height: 40px;
+      background-color: var(--button-primary);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 3px 8px var(--shadow-dark);
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .info-toggle:hover {
+      background-color: var(--button-hover);
+      transform: scale(1.1);
+    }
+    .info-toggle-icon {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .notification {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 1000;
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      text-align: center;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+    }
+    .notification.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.5s;
+    }
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--accent-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .sound-toggle {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 101;
+      width: 40px;
+      height: 40px;
+      background-color: var(--button-primary);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 3px 8px var(--shadow-dark);
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .sound-toggle:hover {
+      background-color: var(--button-hover);
+      transform: scale(1.1);
+    }
+    .sound-toggle-icon {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    @media (max-width: 1100px) {
+      #gameCanvas {
+        width: 90vw;
+        height: auto;
+      }
+      .game-container {
+        padding: 15px;
+      }
+    }
+    @media (max-width: 600px) {
+      button {
+        padding: 10px 16px;
+        font-size: 14px;
+        min-width: 100px;
+      }
+      .opponent-area {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+      #status {
+        font-size: 16px;
+        padding: 8px 16px;
+      }
+      .info-panel {
+        max-width: 250px;
+      }
+    }
+    .draggable-hint {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-light);
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .draggable-hint.show {
+      opacity: 1;
+    }
+    /* ========================
+       Fixed Button for Okey on Bottom Left
+       ======================== */
+    .fixed-btn-left {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+    .fixed-btn-left .btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--button-primary);
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      box-shadow: 0 4px 6px var(--shadow-dark);
+      min-width: 120px;
+    }
+    .fixed-btn-left .btn:hover {
+      background-color: var(--button-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px var(--shadow-dark);
+    }
+    .fixed-btn-left .btn:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px var(--shadow-dark);
+    }
+    .fixed-btn-left .btn:disabled {
+      background-color: var(--button-disabled);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 2px 4px var(--shadow-dark);
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
-  <header>
+  <!-- Black Dolphine Header -->
+  <header class="logo-header">
     <div class="logo-container">
       <div class="logo-text">BLACK DOLPİNE</div>
       <div class="logo-dolphin">
-        <svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
-          <!-- Basit bir yunus (dolphin) formu: eğimli, kavisli hatları temsil ediyor -->
-          <path d="M5,20 C20,5 60,5 75,20 C60,35 20,35 5,20 Z" 
-                fill="#00cc66" stroke="#fff" stroke-width="2"/>
+        <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dolphinGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00cc66"/>
+              <stop offset="100%" stop-color="#00994d"/>
+            </linearGradient>
+          </defs>
+          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z" fill="url(#dolphinGradient)" stroke="#fff" stroke-width="2"/>
         </svg>
       </div>
     </div>
+    <div class="money">Dolar: <span id="money">500000</span></div>
   </header>
-  
-  <!-- Logonun altında gelecek diğer içerikler -->
-  <div class="content">
-    <p>Diğer içerikler buraya gelecek...</p>
+
+  <!-- Okey101 Game Container -->
+  <div class="loading-overlay">
+    <div class="spinner"></div>
   </div>
+  <div class="game-container">
+    <div id="status">Loading Okey101...</div>
+    <div id="opponent1" class="opponent-area">Opponent 1</div>
+    <div id="opponent2" class="opponent-area">Opponent 2</div>
+    <div id="opponent3" class="opponent-area">Opponent 3</div>
+    <div id="player-area" class="player-active">Your Hand</div>
+    <div class="draggable-hint">Drag tiles to organize them or to discard</div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="controls">
+      <button id="drawButton">Draw Tile</button>
+      <button id="meldButton" disabled>Confirm Melds</button>
+      <button id="undoButton" disabled>Undo Move</button>
+      <button id="restartButton">New Game</button>
+    </div>
+  </div>
+  <div class="notification" id="notification">Your turn to play!</div>
+  <div class="info-toggle" id="infoToggle">
+    <div class="info-toggle-icon">i</div>
+  </div>
+  <div class="sound-toggle" id="soundToggle">
+    <div class="sound-toggle-icon">🔊</div>
+  </div>
+  <div class="info-panel" id="infoPanel">
+    <h3>How to Play Okey101</h3>
+    <p><strong>Objective:</strong> Create valid melds with all your tiles.</p>
+    <p><strong>Turns:</strong> Draw a tile, organize your hand into valid melds, then discard one tile.</p>
+    <p><strong>Valid Melds:</strong></p>
+    <p>- <strong>Sets:</strong> 3-4 tiles of the same number but different colors</p>
+    <p>- <strong>Runs:</strong> 3+ consecutive numbers of the same color</p>
+    <p>- Jokers can substitute for any tile</p>
+    <p><strong>Controls:</strong></p>
+    <p>- Click on draw pile or discard pile to take a tile</p>
+    <p>- Drag tiles to rearrange your hand</p>
+    <p>- Group tiles together to form melds</p>
+    <p>- Click "Confirm Melds" to validate your groups</p>
+    <p>- Drag a tile to the discard pile to end your turn</p>
+  </div>
+
+  <!-- Fixed Button Group (Bottom Right) -->
+  <div class="fixed-btn-group">
+    <button class="btn" onclick="toggleBadgesModal()">Rozetlerim</button>
+    <button class="btn" id="marketBtn" style="display:none;" onclick="toggleMarketModal()">Market</button>
+    <button class="btn" id="kumarhaneBtn" style="display:none;" onclick="toggleKumarhaneModal()">Kumarhane</button>
+  </div>
+
+  <!-- Fixed Button for Okey (Bottom Left) -->
+  <div class="fixed-btn-left">
+    <button class="btn" onclick="okeyButtonClicked()">Okey</button>
+  </div>
+
+  <script>
+    // =========================
+    // Okey101 Game Code (Combined)
+    // =========================
+
+    // Game constants and variables
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const status = document.getElementById('status');
+    const meldButton = document.getElementById('meldButton');
+    const undoButton = document.getElementById('undoButton');
+    const restartButton = document.getElementById('restartButton');
+    const drawButton = document.getElementById('drawButton');
+    const notification = document.getElementById('notification');
+    const infoToggle = document.getElementById('infoToggle');
+    const infoPanel = document.getElementById('infoPanel');
+    const soundToggle = document.getElementById('soundToggle');
+    const loadingOverlay = document.querySelector('.loading-overlay');
+    const draggableHint = document.querySelector('.draggable-hint');
+    const playerArea = document.getElementById('player-area');
+    const opponentAreas = [
+        document.getElementById('opponent1'),
+        document.getElementById('opponent2'),
+        document.getElementById('opponent3')
+    ];
+
+    // Canvas size
+    canvas.width = 1000;
+    canvas.height = 700;
+
+    // Tile properties
+    const tileWidth = 40;
+    const tileHeight = 60;
+    const tileMargin = 6;
+    const tileColors = {
+        red: '#e53935',
+        blue: '#1e88e5',
+        yellow: '#fdd835',
+        black: '#424242',
+        joker: '#9575cd'
+    };
+
+    // Game state variables
+    let tiles = [];
+    let playerHand = [];
+    let opponents = [[], [], []];
+    let drawStack = [];
+    let discardPile = [];
+    let meldedTiles = [[], [], [], []];
+    let draggingTile = null;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    let gameState = 'loading';
+    let currentPlayer = 0;
+    let lastMove = null;
+    let hoverTile = null;
+    let soundEnabled = true;
+    let notificationTimeout = null;
+    let drawStackPosition = { x: 0, y: 0, width: 0, height: 0 };
+    let discardPilePosition = { x: 0, y: 0, width: 0, height: 0 };
+    let lastDrawnFrom = null;
+    let mouseX = 0;
+    let mouseY = 0;
+    let opponentTimeout = null;
+
+    // Animation properties
+    const animations = [];
+
+    // Sound system
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const sounds = {
+        drawTile: createSound(440, 0.1),
+        discardTile: createSound(220, 0.1),
+        meldSuccess: createSound([440, 550, 660], 0.2),
+        gameStart: createSound([440, 550, 660, 880], 0.3),
+        gameEnd: createSound([880, 660, 550, 440], 0.3)
+    };
+
+    function createSound(frequency, duration) {
+        return function() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            const currentTime = audioContext.currentTime;
+            
+            if (Array.isArray(frequency)) {
+                frequency.forEach((freq, index) => {
+                    oscillator.frequency.setValueAtTime(freq, currentTime + (index * duration));
+                });
+            } else {
+                oscillator.frequency.setValueAtTime(frequency, currentTime);
+            }
+            
+            gainNode.gain.setValueAtTime(0.5, currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, currentTime + duration);
+            
+            oscillator.start(currentTime);
+            oscillator.stop(currentTime + duration);
+        };
+    }
+
+    // UI settings
+    const dropZoneHighlight = 'rgba(255, 255, 255, 0.2)';
+    const validMeldHighlight = 'rgba(76, 175, 80, 0.3)';
+    const invalidMeldHighlight = 'rgba(244, 67, 54, 0.3)';
+    const hoverEffect = 'rgba(255, 255, 255, 0.1)';
+
+    // Tile class with enhanced visuals
+    class Tile {
+        constructor(number, color, x, y, id) {
+            this.number = number;
+            this.colorName = color;
+            this.color = tileColors[color];
+            this.x = x;
+            this.y = y;
+            this.id = id;
+            this.targetX = x;
+            this.targetY = y;
+            this.isJoker = number === 0;
+            this.isMelded = false;
+            this.isHovered = false;
+            this.rotation = 0;
+            this.scale = 1;
+            this.opacity = 1;
+            this.baseRotation = (Math.random() * 0.03) - 0.015;
+        }
+
+        draw() {
+            ctx.save();
+            
+            ctx.translate(this.x + tileWidth/2, this.y + tileHeight/2);
+            ctx.rotate(this.rotation + this.baseRotation);
+            ctx.scale(this.scale, this.scale);
+            ctx.globalAlpha = this.opacity;
+            
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            const radius = 5;
+            ctx.moveTo(-tileWidth/2 + radius, -tileHeight/2);
+            ctx.lineTo(tileWidth/2 - radius, -tileHeight/2);
+            ctx.arcTo(tileWidth/2, -tileHeight/2, tileWidth/2, -tileHeight/2 + radius, radius);
+            ctx.lineTo(tileWidth/2, tileHeight/2 - radius);
+            ctx.arcTo(tileWidth/2, tileHeight/2, tileWidth/2 - radius, tileHeight/2, radius);
+            ctx.lineTo(-tileWidth/2 + radius, tileHeight/2);
+            ctx.arcTo(-tileWidth/2, tileHeight/2, -tileWidth/2, tileHeight/2 - radius, radius);
+            ctx.lineTo(-tileWidth/2, -tileHeight/2 + radius);
+            ctx.arcTo(-tileWidth/2, -tileHeight/2, -tileWidth/2 + radius, -tileHeight/2, radius);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.strokeStyle = this.isMelded ? '#4caf50' : (this.isHovered ? '#fff' : '#000');
+            ctx.lineWidth = this.isMelded ? 3 : (this.isHovered ? 2 : 1);
+            ctx.stroke();
+            
+            if (this.isHovered && !this.isMelded) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.fill();
+            }
+            
+            ctx.fillStyle = '#fff';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetX = 1;
+            ctx.shadowOffsetY = 1;
+            ctx.font = this.isJoker ? 'bold 20px Poppins' : 'bold 18px Poppins';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(this.isJoker ? 'J' : this.number, 0, 0);
+            
+            if (!this.isJoker) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
+                ctx.fillRect(-tileWidth/4, -tileHeight/4, tileWidth/2, tileHeight/2);
+            }
+            
+            ctx.restore();
+        }
+
+        containsPoint(px, py) {
+            return px >= this.x && px <= this.x + tileWidth &&
+                   py >= this.y && py <= this.y + tileHeight;
+        }
+        
+        pickUp() {
+            this.scale = 1.1;
+            this.rotation = 0.05;
+            return this;
+        }
+        
+        putDown() {
+            this.scale = 1;
+            this.rotation = 0;
+            return this;
+        }
+        
+        highlight(isValid) {
+            this.isHighlighted = true;
+            this.highlightColor = isValid ? validMeldHighlight : invalidMeldHighlight;
+            return this;
+        }
+        
+        removeHighlight() {
+            this.isHighlighted = false;
+            return this;
+        }
+    }
+
+    class Animation {
+        constructor(tile, targetX, targetY, duration, easing = 'easeOutQuad', onComplete = null) {
+            this.tile = tile;
+            this.startX = tile.x;
+            this.startY = tile.y;
+            this.targetX = targetX;
+            this.targetY = targetY;
+            this.duration = duration;
+            this.startTime = performance.now();
+            this.easing = easing;
+            this.onComplete = onComplete;
+            this.completed = false;
+            this.startRotation = tile.rotation;
+            this.targetRotation = 0;
+            this.startScale = tile.scale;
+            this.targetScale = 1;
+        }
+        
+        ease(t) {
+            switch(this.easing) {
+                case 'linear':
+                    return t;
+                case 'easeInQuad':
+                    return t * t;
+                case 'easeOutQuad':
+                    return t * (2 - t);
+                case 'easeInOutQuad':
+                    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+                case 'easeOutBack':
+                    const c1 = 1.70158;
+                    const c3 = c1 + 1;
+                    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+                default:
+                    return t;
+            }
+        }
+
+        update() {
+            if (this.completed) return false;
+            
+            const elapsed = performance.now() - this.startTime;
+            const progress = Math.min(elapsed / this.duration, 1);
+            const easedProgress = this.ease(progress);
+            
+            this.tile.x = this.startX + (this.targetX - this.startX) * easedProgress;
+            this.tile.y = this.startY + (this.targetY - this.startY) * easedProgress;
+            this.tile.rotation = this.startRotation + (this.targetRotation - this.startRotation) * easedProgress;
+            this.tile.scale = this.startScale + (this.targetScale - this.startScale) * easedProgress;
+            
+            if (progress >= 1) {
+                this.completed = true;
+                this.tile.x = this.targetX;
+                this.tile.y = this.targetY;
+                this.tile.rotation = this.targetRotation;
+                this.tile.scale = this.targetScale;
+                
+                if (this.onComplete) {
+                    this.onComplete();
+                }
+                return false;
+            }
+            
+            return true;
+        }
+    }
+
+    function playOpponentTurn(opponentIndex) {
+        if (gameState !== 'opponent' || currentPlayer !== opponentIndex + 1) return;
+        
+        const opponent = opponents[opponentIndex];
+        const opponentMelds = meldedTiles[opponentIndex + 1];
+        
+        const validMelds = checkMelds(opponent);
+        if (validMelds.length > 0) {
+            const meld = validMelds[0];
+            meld.forEach(tile => {
+                tile.isMelded = true;
+                const index = opponent.indexOf(tile);
+                if (index !== -1) {
+                    opponent.splice(index, 1);
+                }
+            });
+            opponentMelds.push(meld);
+            if (soundEnabled) sounds.meldSuccess();
+        }
+        
+        if (opponent.length < 14) {
+            const tile = drawStack.pop() || discardPile.pop();
+            if (tile) {
+                opponent.push(tile);
+                if (soundEnabled) sounds.drawTile();
+            }
+        }
+        
+        const newMelds = checkMelds(opponent);
+        if (newMelds.length > 0) {
+            const meld = newMelds[0];
+            meld.forEach(tile => {
+                tile.isMelded = true;
+                const index = opponent.indexOf(tile);
+                if (index !== -1) {
+                    opponent.splice(index, 1);
+                }
+            });
+            opponentMelds.push(meld);
+            if (soundEnabled) sounds.meldSuccess();
+        }
+        
+        if (opponent.length > 0) {
+            const nonMelded = opponent.filter(tile => !tile.isMelded);
+            if (nonMelded.length > 0) {
+                nonMelded.sort((a, b) => b.number - a.number);
+                const tileToDiscard = nonMelded[0];
+                const index = opponent.indexOf(tileToDiscard);
+                if (index !== -1) {
+                    opponent.splice(index, 1);
+                    discardPile.push(tileToDiscard);
+                    if (soundEnabled) sounds.discardTile();
+                }
+            }
+        }
+        
+        currentPlayer = (currentPlayer + 1) % 4;
+        if (currentPlayer === 0) {
+            gameState = 'player';
+            updateStatusMessage('Your turn: Draw a tile!');
+        } else {
+            updateStatusMessage(`Opponent ${currentPlayer}'s turn`);
+            opponentTimeout = setTimeout(() => {
+                playOpponentTurn(currentPlayer - 1);
+            }, 1000);
+        }
+        
+        updateButtonStates();
+        updatePlayerIndicators();
+    }
+
+    canvas.addEventListener('mouseup', event => {
+        if (!draggingTile) return;
+        
+        if (isOverDiscardPile()) {
+            const index = playerHand.indexOf(draggingTile);
+            if (index !== -1) {
+                playerHand.splice(index, 1);
+                discardPile.push(draggingTile);
+                if (soundEnabled) sounds.discardTile();
+                
+                gameState = 'opponent';
+                currentPlayer = 1;
+                updateStatusMessage("Opponent 1's turn");
+                updateButtonStates();
+                updatePlayerIndicators();
+                
+                opponentTimeout = setTimeout(() => {
+                    playOpponentTurn(0);
+                }, 1000);
+            }
+        }
+        
+        draggingTile.putDown();
+        draggingTile = null;
+        updatePlayerHand();
+    });
+
+    function initGame() {
+        if (opponentTimeout) {
+            clearTimeout(opponentTimeout);
+            opponentTimeout = null;
+        }
+        
+        loadingOverlay.style.opacity = '1';
+        loadingOverlay.style.display = 'flex';
+        gameState = 'loading';
+        
+        tiles.length = 0;
+        playerHand.length = 0;
+        opponents.forEach(op => (op.length = 0));
+        drawStack.length = 0;
+        discardPile.length = 0;
+        meldedTiles.forEach(m => (m.length = 0));
+        animations.length = 0;
+        
+        setTimeout(() => {
+            createTiles();
+            distributeTiles();
+            updatePlayerHand();
+            
+            gameState = 'player';
+            currentPlayer = 0;
+            updateStatusMessage('Your turn: Draw a tile!');
+            updateButtonStates();
+            updatePlayerIndicators();
+            
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                showNotification('Game started! Your turn');
+                setTimeout(() => {
+                    draggableHint.classList.add('show');
+                    setTimeout(() => {
+                        draggableHint.classList.remove('show');
+                    }, 5000);
+                }, 2000);
+            }, 500);
+        }, 1000);
+    }
+
+    function createTiles() {
+        let id = 0;
+        const colorNames = ['red', 'blue', 'yellow', 'black'];
+        
+        for (let colorIndex = 0; colorIndex < 4; colorIndex++) {
+            for (let number = 1; number <= 13; number++) {
+                for (let i = 0; i < 2; i++) {
+                    tiles.push(new Tile(number, colorNames[colorIndex], 0, 0, id++));
+                }
+            }
+        }
+        tiles.push(new Tile(0, 'joker', 0, 0, id++));
+        tiles.push(new Tile(0, 'joker', 0, 0, id++));
+        
+        for (let i = tiles.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+        }
+    }
+
+    function distributeTiles() {
+        drawStack = [...tiles];
+        
+        playerHand = drawStack.splice(0, 14);
+        
+        opponents[0] = drawStack.splice(0, 14);
+        opponents[1] = drawStack.splice(0, 14);
+        opponents[2] = drawStack.splice(0, 14);
+        
+        discardPile.push(drawStack.pop());
+    }
+
+    function updatePlayerHand() {
+        const nonMelded = playerHand.filter(tile => !tile.isMelded);
+        
+        nonMelded.sort((a, b) => {
+            if (a.colorName === b.colorName) {
+                return a.number - b.number;
+            }
+            const colorOrder = ['red', 'blue', 'yellow', 'black', 'joker'];
+            return colorOrder.indexOf(a.colorName) - colorOrder.indexOf(b.colorName);
+        });
+        
+        const startX = (canvas.width - (nonMelded.length * (tileWidth + tileMargin) - tileMargin)) / 2;
+        nonMelded.forEach((tile, index) => {
+            tile.targetX = startX + index * (tileWidth + tileMargin);
+            tile.targetY = canvas.height - tileHeight - 30;
+            
+            if (Math.abs(tile.x - tile.targetX) > 1 || Math.abs(tile.y - tile.targetY) > 1) {
+                animations.push(new Animation(tile, tile.targetX, tile.targetY, 300, 'easeOutQuad'));
+            } else {
+                tile.x = tile.targetX;
+                tile.y = tile.targetY;
+            }
+        });
+    }
+
+    function updateButtonStates() {
+        meldButton.disabled = !(gameState === 'player' && playerHand.some(tile => !tile.isMelded));
+        undoButton.disabled = !lastMove;
+        drawButton.disabled = !(gameState === 'player' && playerHand.length === 14);
+    }
+
+    function updatePlayerIndicators() {
+        playerArea.classList.remove('player-active');
+        opponentAreas.forEach(area => area.classList.remove('opponent-active'));
+        
+        if (currentPlayer === 0) {
+            playerArea.classList.add('player-active');
+        } else {
+            opponentAreas[currentPlayer - 1].classList.add('opponent-active');
+        }
+    }
+
+    function updateStatusMessage(message) {
+        status.style.opacity = '0';
+        setTimeout(() => {
+            status.textContent = message;
+            status.style.opacity = '1';
+        }, 300);
+    }
+
+    function showNotification(message, duration = 2000) {
+        if (notificationTimeout) {
+            clearTimeout(notificationTimeout);
+        }
+        notification.textContent = message;
+        notification.classList.add('show');
+        notificationTimeout = setTimeout(() => {
+            notification.classList.remove('show');
+        }, duration);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        drawTableBackground();
+        
+        if (drawStack.length > 0) {
+            drawDrawStack();
+        }
+        
+        if (discardPile.length > 0) {
+            drawDiscardPile();
+        }
+        
+        drawMelds();
+        drawOpponents();
+        drawPlayerHand();
+        
+        if (draggingTile) draggingTile.draw();
+        
+        if (draggingTile) {
+            drawDropZones();
+        }
+    }
+
+    function drawTableBackground() {
+        ctx.fillStyle = '#1b5e20';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        for (let y = 0; y < canvas.height; y += 20) {
+            for (let x = 0; x < canvas.width; x += 20) {
+                ctx.fillRect(x, y, 10, 10);
+            }
+        }
+        
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.beginPath();
+        ctx.ellipse(canvas.width/2, canvas.height/2, 200, 150, 0, 0, Math.PI*2);
+        ctx.fill();
+        
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.1)';
+        ctx.shadowBlur = 40;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    }
+
+    function drawDrawStack() {
+        const centerX = canvas.width / 2 - tileWidth - 60;
+        const centerY = canvas.height / 2 - tileHeight / 2;
+        
+        drawStackPosition = {
+            x: centerX,
+            y: centerY,
+            width: tileWidth,
+            height: tileHeight
+        };
+        
+        for (let i = 0; i < Math.min(drawStack.length, 10); i++) {
+            const offset = 1.5 * (10 - i);
+            ctx.fillStyle = `rgba(200, 200, 200, ${0.7 + i * 0.03})`;
+            ctx.fillRect(centerX - offset, centerY - offset, tileWidth, tileHeight);
+        }
+        
+        ctx.fillStyle = '#ddd';
+        ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+        
+        ctx.strokeStyle = hoverTile === 'drawStack' ? '#fff' : '#000';
+        ctx.lineWidth = hoverTile === 'drawStack' ? 2 : 1;
+        ctx.strokeRect(centerX, centerY, tileWidth, tileHeight);
+        
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 16px Poppins';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 5;
+        ctx.fillText(`${drawStack.length}`, centerX + tileWidth/2, centerY + tileHeight/2);
+        ctx.shadowBlur = 0;
+        
+        if (hoverTile === 'drawStack') {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+        }
+    }
+
+    function drawDiscardPile() {
+        const centerX = canvas.width / 2 + 20;
+        const centerY = canvas.height / 2 - tileHeight / 2;
+        
+        discardPilePosition = {
+            x: centerX,
+            y: centerY,
+            width: tileWidth,
+            height: tileHeight
+        };
+        
+        const visibleCount = Math.min(discardPile.length, 3);
+        for (let i = 0; i < visibleCount; i++) {
+            const index = discardPile.length - 1 - i;
+            if (index >= 0) {
+                const tile = discardPile[index];
+                const offset = i * 5;
+                tile.x = centerX - offset;
+                tile.y = centerY - offset;
+                
+                ctx.globalAlpha = 0.3;
+                ctx.fillStyle = tile.color;
+                ctx.fillRect(tile.x + 3, tile.y + 3, tileWidth, tileHeight);
+                ctx.globalAlpha = 1;
+                
+                ctx.globalAlpha = 1 - (i * 0.2);
+                tile.draw();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        if (hoverTile === 'discardPile' && discardPile.length > 0) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+        }
+    }
+
+    function drawMelds() {
+        meldedTiles.forEach((melds, playerIndex) => {
+            melds.forEach((meld, meldIndex) => {
+                const y = playerIndex === 0 ? 
+                    canvas.height - 2 * (tileHeight + 10) - 30 - meldIndex * (tileHeight + 10) :
+                    20 + meldIndex * (tileHeight + 10);
+                
+                const xBase = playerIndex === 0 ? 20 : canvas.width - 20 - meld.length * (tileWidth + tileMargin);
+                
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+                ctx.fillRect(
+                    xBase - 5, 
+                    y - 5, 
+                    meld.length * (tileWidth + tileMargin) + 10, 
+                    tileHeight + 10
+                );
+                
+                meld.forEach((tile, tileIndex) => {
+                    tile.x = xBase + tileIndex * (tileWidth + tileMargin);
+                    tile.y = y;
+                    tile.draw();
+                });
+            });
+        });
+    }
+
+    function drawOpponents() {
+        opponents.forEach((hand, index) => {
+            const nonMelded = hand.filter(tile => !tile.isMelded);
+            
+            if (index === 0) {
+                const startX = (canvas.width - (nonMelded.length * (tileWidth / 2 + tileMargin) - tileMargin)) / 2;
+                nonMelded.forEach((_, tileIndex) => {
+                    const x = startX + tileIndex * (tileWidth / 2 + tileMargin);
+                    const y = 80;
+                    ctx.fillStyle = '#546e7a';
+                    ctx.fillRect(x, y, tileWidth / 2, tileHeight / 2);
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                    ctx.beginPath();
+                    ctx.arc(x + (tileWidth / 4), y + (tileHeight / 4), tileWidth / 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#37474f';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, tileWidth / 2, tileHeight / 2);
+                });
+            } else if (index === 1) {
+                nonMelded.forEach((_, tileIndex) => {
+                    const x = 80;
+                    const y = 150 + tileIndex * (tileWidth / 2 + tileMargin);
+                    ctx.fillStyle = '#546e7a';
+                    ctx.fillRect(x, y, tileHeight / 2, tileWidth / 2);
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                    ctx.beginPath();
+                    ctx.arc(x + (tileHeight / 4), y + (tileWidth / 4), tileWidth / 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#37474f';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, tileHeight / 2, tileWidth / 2);
+                });
+            } else {
+                nonMelded.forEach((_, tileIndex) => {
+                    const x = canvas.width - 100;
+                    const y = 150 + tileIndex * (tileWidth / 2 + tileMargin);
+                    ctx.fillStyle = '#546e7a';
+                    ctx.fillRect(x, y, tileHeight / 2, tileWidth / 2);
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                    ctx.beginPath();
+                    ctx.arc(x + (tileHeight / 4), y + (tileWidth / 4), tileWidth / 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#37474f';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, tileHeight / 2, tileWidth / 2);
+                });
+            }
+        });
+    }
+
+    function drawPlayerHand() {
+        playerHand.forEach(tile => {
+            if (!draggingTile && tile.containsPoint(mouseX, mouseY) && !tile.isMelded) {
+                tile.isHovered = true;
+                if (tile.y > tile.targetY - 5) {
+                    tile.y = tile.targetY - 5;
+                }
+            } else {
+                tile.isHovered = false;
+                if (!draggingTile && !tile.isMelded && Math.abs(tile.y - tile.targetY) > 0.1) {
+                    tile.y = tile.targetY;
+                }
+            }
+            
+            if (tile !== draggingTile && !tile.isMelded) tile.draw();
+        });
+    }
+
+    function drawDropZones() {
+        ctx.fillStyle = isOverDiscardPile() ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)';
+        ctx.beginPath();
+        ctx.ellipse(
+            discardPilePosition.x + tileWidth/2, 
+            discardPilePosition.y + tileHeight/2, 
+            tileWidth, tileHeight, 0, 0, Math.PI*2
+        );
+        ctx.fill();
+        
+        const validMelds = checkMelds(playerHand);
+        if (validMelds.length > 0) {
+            validMelds.forEach(meld => {
+                let minX = Math.min(...meld.map(t => t.x));
+                let maxX = Math.max(...meld.map(t => t.x)) + tileWidth;
+                let minY = Math.min(...meld.map(t => t.y));
+                let maxY = Math.max(...meld.map(t => t.y)) + tileHeight;
+                
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.2)';
+                ctx.fillRect(minX - 5, minY - 5, maxX - minX + 10, maxY - minY + 10);
+                ctx.strokeStyle = 'rgba(76, 175, 80, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(minX - 5, minY - 5, maxX - minX + 10, maxY - minY + 10);
+            }); 
+        }
+    }
+
+    function getMousePosition(event) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
+    }
+
+    function isOverDiscardPile() {
+        if (!draggingTile) return false;
+        return mouseX >= discardPilePosition.x && 
+               mouseX <= discardPilePosition.x + discardPilePosition.width &&
+               mouseY >= discardPilePosition.y && 
+               mouseY <= discardPilePosition.y + discardPilePosition.height;
+    }
+
+    function checkMelds(hand) {
+        const validMelds = [];
+        const nonMelded = hand.filter(tile => !tile.isMelded);
+        
+        const numberGroups = {};
+        nonMelded.forEach(tile => {
+            if (!numberGroups[tile.number]) {
+                numberGroups[tile.number] = [];
+            }
+            numberGroups[tile.number].push(tile);
+        });
+        
+        Object.values(numberGroups).forEach(group => {
+            if (group.length >= 3) {
+                validMelds.push(group);
+            }
+        });
+        
+        const colorGroups = {};
+        nonMelded.forEach(tile => {
+            if (!colorGroups[tile.colorName]) {
+                colorGroups[tile.colorName] = [];
+            }
+            colorGroups[tile.colorName].push(tile);
+        });
+        
+        Object.values(colorGroups).forEach(group => {
+            group.sort((a, b) => a.number - b.number);
+            for (let i = 0; i < group.length - 2; i++) {
+                if (group[i].number + 1 === group[i + 1].number && 
+                    group[i + 1].number + 1 === group[i + 2].number) {
+                    validMelds.push([group[i], group[i + 1], group[i + 2]]);
+                }
+            }
+        });
+        
+        return validMelds;
+    }
+
+    canvas.addEventListener('mousemove', event => {
+        const mouse = getMousePosition(event);
+        mouseX = mouse.x;
+        mouseY = mouse.y;
+        
+        if (draggingTile) {
+            draggingTile.x = mouse.x - dragOffsetX;
+            draggingTile.y = mouse.y - dragOffsetY;
+        }
+        
+        hoverTile = null;
+        if (mouse.x >= drawStackPosition.x && 
+            mouse.x <= drawStackPosition.x + drawStackPosition.width &&
+            mouse.y >= drawStackPosition.y && 
+            mouse.y <= drawStackPosition.y + drawStackPosition.height) {
+            hoverTile = 'drawStack';
+        } else if (mouse.x >= discardPilePosition.x && 
+                   mouse.x <= discardPilePosition.x + discardPilePosition.width &&
+                   mouse.y >= discardPilePosition.y && 
+                   mouse.y <= discardPilePosition.y + discardPilePosition.height) {
+            hoverTile = 'discardPile';
+        }
+    });
+
+    canvas.addEventListener('mousedown', event => {
+        if (gameState !== 'player') return;
+        
+        const mouse = getMousePosition(event);
+        
+        if (hoverTile === 'drawStack' && playerHand.length < 14) {
+            const tile = drawStack.pop();
+            if (tile) {
+                playerHand.push(tile);
+                lastDrawnFrom = 'stack';
+                updatePlayerHand();
+                if (soundEnabled) sounds.drawTile();
+            }
+            return;
+        }
+        
+        if (hoverTile === 'discardPile' && playerHand.length < 14) {
+            const tile = discardPile.pop();
+            if (tile) {
+                playerHand.push(tile);
+                lastDrawnFrom = 'discard';
+                updatePlayerHand();
+                if (soundEnabled) sounds.discardTile();
+            }
+            return;
+        }
+        
+        for (let i = playerHand.length - 1; i >= 0; i--) {
+            const tile = playerHand[i];
+            if (tile.containsPoint(mouse.x, mouse.y) && !tile.isMelded) {
+                draggingTile = tile.pickUp();
+                dragOffsetX = mouse.x - tile.x;
+                dragOffsetY = mouse.y - tile.y;
+                break;
+            }
+        }
+    });
+
+    // Info panel toggle
+    infoToggle.addEventListener('click', () => {
+        infoPanel.classList.toggle('show');
+    });
+
+    // Sound toggle
+    soundToggle.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        soundToggle.querySelector('.sound-toggle-icon').textContent = soundEnabled ? '🔊' : '🔇';
+    });
+
+    // Game controls
+    drawButton.addEventListener('click', () => {
+        if (gameState === 'player' && playerHand.length < 14) {
+            const tile = drawStack.pop();
+            if (tile) {
+                playerHand.push(tile);
+                lastDrawnFrom = 'stack';
+                updatePlayerHand();
+                if (soundEnabled) sounds.drawTile();
+            }
+        }
+    });
+
+    meldButton.addEventListener('click', () => {
+        if (gameState === 'player') {
+            const validMelds = checkMelds(playerHand);
+            if (validMelds.length > 0) {
+                validMelds.forEach(meld => {
+                    meld.forEach(tile => {
+                        tile.isMelded = true;
+                        const index = playerHand.indexOf(tile);
+                        if (index !== -1) {
+                            playerHand.splice(index, 1);
+                        }
+                    });
+                    meldedTiles[0].push(meld);
+                });
+                updatePlayerHand();
+                if (soundEnabled) sounds.meldSuccess();
+                showNotification('Valid meld!');
+            } else {
+                showNotification('No valid melds found', 1500);
+            }
+        }
+    });
+
+    undoButton.addEventListener('click', () => {
+        if (lastMove) {
+            playerHand = lastMove.hand;
+            drawStack = lastMove.stack;
+            discardPile = lastMove.discard;
+            meldedTiles = lastMove.melds;
+            lastMove = null;
+            updatePlayerHand();
+            updateButtonStates();
+        }
+    });
+
+    restartButton.addEventListener('click', () => {
+        initGame();
+    });
+
+    // Animation loop
+    function animate() {
+        for (let i = animations.length - 1; i >= 0; i--) {
+            if (!animations[i].update()) {
+                animations.splice(i, 1);
+            }
+        }
+        
+        draw();
+        
+        requestAnimationFrame(animate);
+    }
+
+    function okeyButtonClicked() {
+        alert("Okey button clicked!");
+    }
+
+    initGame();
+    animate();
+  </script>
 </body>
 </html>
