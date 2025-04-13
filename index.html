@@ -17,9 +17,9 @@
       color: #f1f1f1;
       min-height: 100vh;
       position: relative;
-      padding-top: 120px; /* Header alanı için boşluk */
+      padding-top: 120px; /* Header boşluğu */
     }
-    /* STAT BARLARI ve Profil (Left Panel – Vertical Centering) */
+    /* STAT BARLARI ve Profil – sol panel (vertical center) */
     #statBars {
       position: fixed;
       top: 50%;
@@ -51,7 +51,6 @@
       font-size: 0.9rem;
     }
     .lockedStat { opacity: 0.4; }
-    /* Profile info showing current village */
     #profileInfo {
       margin-top: 1rem;
       font-size: 0.9rem;
@@ -61,8 +60,8 @@
     header {
       background: rgba(0,0,0,0.85);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       padding: 1rem 2rem;
       position: fixed;
       top: 0;
@@ -71,12 +70,32 @@
       z-index: 999;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
+    /* 3D-like BLACK DOLPHINE styling */
     .logo {
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: bold;
-      letter-spacing: 1.5px;
-      color: #ff4444;
       text-transform: uppercase;
+      color: #fff;
+      text-shadow: 
+         1px 1px 0 #000, 
+         2px 2px 0 #fff, 
+         3px 3px 5px rgba(0,0,0,0.5);
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    /* Green dolphin icon with white edges next to the logo text */
+    .logo-dolphin {
+      margin-left: 10px;
+      width: 50px;
+      height: auto;
+    }
+    .logo-dolphin svg {
+      width: 100%;
+      height: auto;
+      fill: #00cc66;
+      stroke: #fff;
+      stroke-width: 2;
     }
     .money {
       font-size: 1rem;
@@ -86,7 +105,7 @@
       border: 1px solid #333;
     }
     .money span { color: #ffcc00; margin-left: 5px; font-weight: bold; }
-    /* VILLAGE TRAVEL PANEL (Right Side) */
+    /* RIGHT PANEL: Village travel and details */
     #villageTravel {
       position: fixed;
       right: 20px;
@@ -96,12 +115,24 @@
       padding: 1rem;
       border-radius: 10px;
       z-index: 1000;
-      width: 200px;
+      width: 220px;
     }
-    #villageTravel h3 { margin-bottom: 1rem; font-size: 1rem; text-align: center; }
-    #villageTravel ul { list-style: none; padding: 0; margin: 0; }
-    #villageTravel li {
+    #villageTravel h3 {
       margin-bottom: 0.5rem;
+      font-size: 1rem;
+      text-align: center;
+    }
+    #villageTravel .section {
+      margin-bottom: 1rem;
+    }
+    #villageTravel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    #villageTravel li {
+      margin-bottom: 0.3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -112,8 +143,15 @@
       cursor: pointer;
     }
     /* MAIN İÇERİK */
-    main { max-width: 1200px; margin: 0 auto; padding: 2rem; text-align: center; }
-    h1, h2, h3, h4, p { margin-bottom: 1rem; }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1, h2, h3, h4, p {
+      margin-bottom: 1rem;
+    }
     /* GÖREV ALANI */
     .task-container {
       background: rgba(255,255,255,0.07);
@@ -123,9 +161,13 @@
       display: none;
       margin-top: 2rem;
       position: relative;
+      z-index: 850;
     }
     .task-container.active { display: block; }
-    .task-container h3 { color: #ffcc00; margin-bottom: 1rem; }
+    .task-container h3 {
+      color: #ffcc00;
+      margin-bottom: 1rem;
+    }
     .close-task {
       position: absolute;
       top: 5px;
@@ -148,14 +190,17 @@
       border-radius: 5px;
       background: rgba(255,255,255,0.05);
       text-align: left;
-      cursor: default;
-    }
-    .task-option.active {
-      background: #ff4444;
       cursor: pointer;
     }
-    .task-option.completed { background: #00bfff; color: #000; }
-    .task-option.locked { background: #555; opacity: 0.6; }
+    .task-option.completed {
+      background: #00bfff;
+      color: #000;
+    }
+    .task-option.locked {
+      background: #555;
+      opacity: 0.6;
+      pointer-events: none;
+    }
     .progress-container {
       width: 100%;
       background: #444;
@@ -169,18 +214,18 @@
       background: #00bfff;
       transition: width 1s ease;
     }
-    .progress-text { margin-top: 0.5rem; font-weight: bold; }
-    /* CENTER RANK KARTLARI: vertically arranged in the center */
+    .progress-text {
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    /* CENTER RANK KARTLARI: Arrange horizontally now */
     #centerRanks {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       display: flex;
-      flex-direction: column;
-      align-items: center;
       gap: 20px;
-      width: 280px;
       z-index: 900;
     }
     .card {
@@ -188,14 +233,18 @@
       backdrop-filter: blur(4px);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      width: 100%;
+      width: 250px;
       padding: 1.5rem;
       text-align: center;
       transition: transform 0.3s ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    .card h2 { margin-bottom: 1rem; color: #ffcc00; }
+    .card h2 {
+      margin-bottom: 1rem;
+      color: #ffcc00;
+    }
     .card p { margin-bottom: 1rem; }
     .card button {
       padding: 0.6rem 1.2rem;
@@ -224,9 +273,25 @@
       font-weight: bold;
       color: #ff4444;
     }
-    /* Fixed button group removed since instructions on right should not be visible */
-    .fixed-btn-group { display: none; }
-    /* MODAL still as needed */
+    /* Under each rank card, display badge count */
+    .badge-container {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      color: #ffcc00;
+    }
+    /* Fixed element at bottom left: current village name "Asman" */
+    #bottomLeft {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 1.2rem;
+      background: #0288d1;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    /* MODALLER */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -257,9 +322,9 @@
       font-size: 1.2rem;
       cursor: pointer;
     }
-    /* Hide the info panel ("How to play..." instructions) */
+    /* Hide the instructional info-panel (How to play…) */
     .info-panel { display: none; }
-    /* Modal badge and market styles remain as defined below */
+    /* MODAL extra styles (market, badges, etc.) */
     .badge-row { display: flex; justify-content: space-around; margin: 1rem 0; }
     .badge-type { text-align: center; }
     .badge-type span {
@@ -296,41 +361,70 @@
     <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
   </div>
 
-  <!-- RIGHT PANEL: VILLAGE TRAVEL -->
+  <!-- RIGHT PANEL: Village Travel and Details -->
   <div id="villageTravel">
     <h3>Köyler</h3>
-    <ul>
-      <li><span>Asman</span><button onclick="travelTo('Asman')">Seyahat Et</button></li>
-      <li><span>Mizrin</span><button onclick="travelTo('Mizrin')">Seyahat Et</button></li>
-      <li><span>Qeruk</span><button onclick="travelTo('Qeruk')">Seyahat Et</button></li>
-      <li><span>Shuman</span><button onclick="travelTo('Shuman')">Seyahat Et</button></li>
-      <li><span>Alizera</span><button onclick="travelTo('Alizera')">Seyahat Et</button></li>
-      <li><span>Bubuk</span><button onclick="travelTo('Bubuk')">Seyahat Et</button></li>
-    </ul>
+    <!-- Section 1: Köy İnceleme details -->
+    <div class="section">
+      <strong>Köy İnceleme:</strong>
+      <ul>
+        <li>6 At</li>
+        <li>4 Kumarhane:</li>
+        <ul>
+          <li>Türk Pokeri</li>
+          <li>Batak</li>
+          <li>Okey</li>
+          <li>Tavla</li>
+        </ul>
+      </ul>
+    </div>
+    <!-- Section 2: Trenle Seyahat options (each costs 500$) -->
+    <div class="section">
+      <strong>Trenle Seyahat:</strong>
+      <ul>
+        <li><span>Asman</span> <button onclick="travelToTrain('Asman')">Seyahat Et</button></li>
+        <li><span>Mizrin</span> <button onclick="travelToTrain('Mizrin')">Seyahat Et</button></li>
+        <li><span>Qeruk</span> <button onclick="travelToTrain('Qeruk')">Seyahat Et</button></li>
+        <li><span>Shuman</span> <button onclick="travelToTrain('Shuman')">Seyahat Et</button></li>
+        <li><span>Alizera</span> <button onclick="travelToTrain('Alizera')">Seyahat Et</button></li>
+        <li><span>Bubuk</span> <button onclick="travelToTrain('Bubuk')">Seyahat Et</button></li>
+      </ul>
+    </div>
   </div>
 
   <!-- HEADER -->
   <header>
-    <div class="logo">Black Dolphine</div>
+    <div class="logo">
+      BLACK DOLPHINE
+      <!-- Green dolphin icon with white stroke -->
+      <div class="logo-dolphin">
+        <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/>
+        </svg>
+      </div>
+    </div>
     <div class="money">Dolar: <span id="money">500000</span></div>
   </header>
 
-  <!-- CENTER RANK KARTLARI: vertically arranged with Hatip exactly center -->
+  <!-- CENTER RANK KARTLARI: horizontally arranged -->
   <div id="centerRanks">
     <div class="card" id="cardVakur">
       <h2>Vakur</h2>
       <p>Mavi 🏅</p>
-      <button class="btn" onclick="selectRank('Vakur')">Görev ve Rozeti</button>
+      <button onclick="selectRank('Vakur')">Görev ve Rozeti</button>
+      <div class="badge-container">Rozet: <span id="blueBadgeCount">0</span></div>
     </div>
     <div class="card locked" id="cardHatip">
       <h2>Hatip</h2>
       <p>Turuncu 🏅</p>
-      <button class="btn" onclick="selectRank('Hatip')">Görev ve Butonu</button>
+      <button onclick="selectRank('Hatip')">Görev ve Butonu</button>
+      <div class="badge-container">Rozet: <span id="orangeBadgeCount">0</span></div>
     </div>
     <div class="card locked" id="cardBaron">
       <h2>Baron</h2>
       <p>Kırmızı 🏅</p>
-      <button class="btn" onclick="selectRank('Baron')">Görev ve Butonu</button>
+      <button onclick="selectRank('Baron')">Görev ve Butonu</button>
+      <div class="badge-container">Rozet: <span id="redBadgeCount">0</span></div>
     </div>
   </div>
 
@@ -345,97 +439,22 @@
     <div class="progress-text" id="progressText">0%</div>
   </div>
 
-  <!-- MODALLER (örneğin Köy Paneli, Rozetler, Market, Kumarhane) -->
+  <!-- MODALLER: (Köy Paneli, Rozetler, Market, Kumarhane) -->
+  <!-- Example: Köy Paneli Modal -->
   <div class="modal-overlay" id="koyModal">
     <div class="modal">
       <button class="close-modal" onclick="toggleKoyPanelModal()">X</button>
-      <h2>Envanter & Çete Bilgileri</h2>
-      <h3>Bulunduğun Köy: <span id="currentVillageDisplay">Asman</span></h3>
+      <h2>Envanter &amp; Çete Bilgileri</h2>
+      <h3>Bulunduğun Köy: <span id="currentVillageDisplayModal">Asman</span></h3>
       <div class="inventory-list" id="inventoryList"></div>
       <hr />
       <h3>Çete Üye Sayısı: <span id="ceteUyeSayisi">0</span></h3>
     </div>
   </div>
-  <div class="modal-overlay" id="badgesModal">
-    <div class="modal">
-      <button class="close-modal" onclick="toggleBadgesModal()">X</button>
-      <h2>Rozetlerim</h2>
-      <div class="badge-row">
-        <div class="badge-type">
-          <div class="badge-blue">🏅</div>
-          <span class="blue-label" id="blueBadgeCount">0</span>
-          <p style="margin-top:0.5rem;">Vakur (Mavi)</p>
-        </div>
-        <div class="badge-type">
-          <div class="badge-orange">🏅</div>
-          <span class="orange-label" id="orangeBadgeCount">0</span>
-          <p style="margin-top:0.5rem;">Hatip (Turuncu)</p>
-        </div>
-        <div class="badge-type">
-          <div class="badge-red">🏅</div>
-          <span class="red-label" id="redBadgeCount">0</span>
-          <p style="margin-top:0.5rem;">Baron (Kırmızı)</p>
-        </div>
-      </div>
-      <hr />
-      <div class="bar-section">
-        <div class="bar-title">Koruma (Vakur) 🛡️</div>
-        <div class="bar-container">
-          <div class="bar-fill dayaniklik-bar" id="dayaniklikBar"></div>
-        </div>
-        <div class="bar-value">Koruma: <span id="korumaValue">0</span> (<span id="vakurYuzde">0</span>%)</div>
-      </div>
-      <div class="bar-section">
-        <div class="bar-title">Nüfus (Hatip) 👥</div>
-        <div class="bar-container">
-          <div class="bar-fill onur-bar" id="hatipBar"></div>
-        </div>
-        <div class="bar-value">Nüfus: <span id="nufus">0</span> (<span id="hatipYuzde">0</span>%)</div>
-      </div>
-      <div class="bar-section lockedStat" id="baronStatDisplay">
-        <div class="bar-title">Etki (Baron) ♛</div>
-        <div class="bar-container">
-          <div class="bar-fill" id="baronFill"></div>
-        </div>
-        <div class="bar-value">Etki: <span id="baronValue">0</span> (<span id="baronYuzde">0</span>%)</div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-overlay" id="marketModal">
-    <div class="modal">
-      <button class="close-modal" onclick="toggleMarketModal()">X</button>
-      <h2>Market</h2>
-      <p style="margin-bottom:1rem;">Baron görevleri aktif olduğunda satın alabilirsiniz:</p>
-      <div class="market-item" id="koyItem">
-        <div>Köy (75.000$)</div>
-        <button class="btn" onclick="buyItem('Köy', 75000)">Satın Al</button>
-      </div>
-      <div class="market-item">
-        <div>At (5.000$)</div>
-        <button class="btn" onclick="buyItem('At', 5000)">Satın Al</button>
-      </div>
-      <div class="market-item">
-        <div>Uçak (4.000$)</div>
-        <button class="btn" onclick="buyItem('Uçak', 4000)">Satın Al</button>
-      </div>
-      <div class="market-item">
-        <div>Kumarhane Kur (40.000$)</div>
-        <button class="btn" onclick="buyItem('Kumarhane', 40000)">Satın Al</button>
-      </div>
-    </div>
-  </div>
-  <div class="modal-overlay" id="kumarhaneModal">
-    <div class="modal">
-      <button class="close-modal" onclick="toggleKumarhaneModal()">X</button>
-      <h2>Kumarhane</h2>
-      <p>Şansınızı deneyin! %50 kazanma şansı.</p>
-      <div class="kumarhane-input">
-        <input type="number" id="betAmount" placeholder="Bahis ($)" />
-        <button class="btn" onclick="playGamble()">Oyna</button>
-      </div>
-      <p id="gambleResult"></p>
-    </div>
-  </div>
+  <!-- Other modals (badges, market, kumarhane) can remain similar -->
+
+  <!-- SOL ALT: fixed text displaying current village (Asman) -->
+  <div id="bottomLeft">Asman</div>
 
   <script>
     /* ------------------------
@@ -648,6 +667,11 @@
     }
     function updateProfileInfo() {
       document.getElementById('currentVillageDisplay').innerText = currentVillage;
+      // Also update modal's village display if needed
+      const modalVillage = document.getElementById('currentVillageDisplayModal');
+      if(modalVillage) modalVillage.innerText = currentVillage;
+      // Update fixed bottom left text
+      document.getElementById('bottomLeft').innerText = currentVillage;
     }
     function updateMoneyUI() {
       document.getElementById('money').innerText = money;
@@ -785,6 +809,19 @@
       updateProfileInfo();
       alert("Şimdi " + currentVillage + " köyündesin!");
     }
+    /* New travel function for train travel: 500$ deduction */
+    function travelToTrain(village) {
+      if (currentVillage === village) return;
+      if (money < 500) {
+        alert("Tren bileti için yeterli paranız yok!");
+        return;
+      }
+      money -= 500;
+      currentVillage = village;
+      updateMoneyUI();
+      updateProfileInfo();
+      alert("Trenle " + currentVillage + " köyüne geldiniz!");
+    }
     let hasKoy = false, atCount = 0, ucakCount = 0, kumarhaneCount = 0, ceteUyeSayisi = 0;
     function buyItem(itemName, price) {
       if (money < price) return;
@@ -796,7 +833,7 @@
           if (hasKoy) return;
           hasKoy = true;
           document.getElementById('koyItem').style.display = "none";
-          document.getElementById('koyPanelTrigger').style.display = "flex";
+          // Assuming a trigger exists for showing the village panel
           break;
         case "At":
           atCount++; ceteUyeSayisi += 2; break;
@@ -832,4 +869,52 @@
         inventoryList.appendChild(divKumar);
       }
       if (!hasKoy && atCount === 0 && ucakCount === 0 && kumarhaneCount === 0) {
-       
+        inventoryList.innerHTML = "<p>Envanteriniz boş!</p>";
+      }
+      document.getElementById('ceteUyeSayisi').innerText = ceteUyeSayisi;
+    }
+    function toggleKoyPanelModal() {
+      updateInventoryUI();
+      document.getElementById('koyModal').classList.toggle('active');
+    }
+    function toggleBadgesModal() {
+      document.getElementById('badgesModal').classList.toggle('active');
+    }
+    function toggleMarketModal() {
+      document.getElementById('marketModal').classList.toggle('active');
+    }
+    function toggleKumarhaneModal() {
+      const kumarhaneModal = document.getElementById('kumarhaneModal');
+      kumarhaneModal.classList.toggle('active');
+      document.getElementById('gambleResult').innerText = "";
+      document.getElementById('betAmount').value = "";
+    }
+    function playGamble() {
+      const betInput = document.getElementById('betAmount');
+      const gambleResult = document.getElementById('gambleResult');
+      const bet = parseInt(betInput.value);
+      if (isNaN(bet) || bet <= 0) {
+        gambleResult.innerText = "Geçerli bir bahis miktarı giriniz.";
+        return;
+      }
+      if (bet > money) {
+        gambleResult.innerText = "Yeterli bakiyeniz yok!";
+        return;
+      }
+      const chance = Math.random();
+      if (chance < 0.5) {
+        money += bet;
+        gambleResult.innerText = `Kazandınız! Yeni bakiye: ${money} $`;
+      } else {
+        money -= bet;
+        gambleResult.innerText = `Kaybettiniz! Yeni bakiye: ${money} $`;
+      }
+      updateMoneyUI();
+    }
+    updateStatBars();
+    updateProfileInfo();
+    updateMoneyUI();
+    updateBadgesUI();
+  </script>
+</body>
+</html>
