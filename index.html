@@ -66,7 +66,7 @@
       margin-left: 5px;
       font-weight: bold;
     }
-    
+
     /* SOL PANEL: Durumum (Collapsible) */
     #durumumContainer {
       position: fixed;
@@ -131,7 +131,7 @@
       font-weight: bold;
       text-align: center;
     }
-    
+
     /* SAĞ PANEL: Üç ayrı kutucuk, alt alta */
     #rightContainer {
       position: fixed;
@@ -196,7 +196,7 @@
     #trenPagination span.active {
       background: #555;
     }
-    
+
     /* ORTA PANEL: Rank Kartları – Yatay Hizalı */
     #centerRanks {
       position: absolute;
@@ -254,7 +254,7 @@
       font-size: 1.2rem;
       color: #ffcc00;
     }
-    
+
     /* SOL ALT: Sabit Köy Bilgisi */
     #bottomLeft {
       position: fixed;
@@ -267,7 +267,7 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       z-index: 1000;
     }
-    
+
     /* GÖREV VE ROZETİ SAYFASI (Overlay) */
     #gorevPage {
       display: none;
@@ -298,7 +298,20 @@
   </style>
 </head>
 <body>
-  <!-- Ana Sayfa İçeriği -->
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      BLACK DOLPHINE
+      <div class="logo-dolphin">
+        <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/>
+        </svg>
+      </div>
+    </div>
+    <div class="money">Dolar: <span id="money">500000</span></div>
+  </header>
+
+  <!-- Ana sayfa kapsayıcısı -->
   <div id="mainPage">
     <!-- SOL PANEL: Durumum Sekmesi -->
     <div id="durumumContainer">
@@ -325,7 +338,7 @@
         <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
       </div>
     </div>
-    
+
     <!-- SAĞ PANEL: Üç Ayrı Kutucuk -->
     <div id="rightContainer">
       <!-- Köy İncelemesi Kutusu -->
@@ -343,7 +356,6 @@
       <div id="koySeyahatiBox">
         <h3>Köy Seyahati</h3>
         <ul id="koySeyahatiList">
-          <!-- Örnek liste: Sadece temel köyler -->
           <li><span>Asman</span><button onclick="travelTo('Asman')">Seyahat Et</button></li>
           <li><span>Mizrin</span><button onclick="travelTo('Mizrin')">Seyahat Et</button></li>
           <li><span>Qeruk</span><button onclick="travelTo('Qeruk')">Seyahat Et</button></li>
@@ -352,26 +364,11 @@
       <!-- Trenle Seyahat Kutusu -->
       <div id="trenSeyahatBox">
         <h3>Trenle Seyahat</h3>
-        <ul class="trenList" id="trenList">
-          <!-- Sayfalama ile listelenecek -->
-        </ul>
+        <ul class="trenList" id="trenList"></ul>
         <div id="trenPagination"></div>
       </div>
     </div>
-    
-    <!-- HEADER -->
-    <header>
-      <div class="logo">
-        BLACK DOLPHINE
-        <div class="logo-dolphin">
-          <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/>
-          </svg>
-        </div>
-      </div>
-      <div class="money">Dolar: <span id="money">500000</span></div>
-    </header>
-    
+
     <!-- ORTA PANEL: Rank Kartları (Yatay Hizalı) -->
     <div id="centerRanks">
       <div class="card" id="cardVakur">
@@ -393,21 +390,79 @@
         <div class="badge-container">Rozet: <span id="redBadgeCount">0</span></div>
       </div>
     </div>
-    
-    <!-- SOL ALT: Sabit Köy Bilgisi -->
-    <div id="bottomLeft">Asman</div>
-  </div>
-  
+
+  </div><!-- /#mainPage -->
+
   <!-- GÖREV VE ROZETİ SAYFASI (Overlay) -->
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
     <p>Burada <span id="gorevRank"></span> görevleri ve rozetleri listelenecek.</p>
-    <!-- Detaylı görev içeriği geliştirilebilir -->
   </div>
-  
+
+  <!-- SOL ALT: Sabit Köy Bilgisi -->
+  <div id="bottomLeft">Asman</div>
+
   <script>
-    /* --- Toggle Fonksiyonu (Durumum Sekmesi) --- */
+    /************** GENEL DEĞİŞKENLER ve İLK AYARLAR **************/
+    let money = 500000;             // Başlangıç parası
+    let currentVillage = "Asman";   // Başlangıç köyü
+
+    // Rank ve Görev ile ilgili
+    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
+    let isHatipUnlocked = false, isBaronUnlocked = false;
+    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
+
+    /************** KÖY LİSTESİ **************/
+    const trenKoyler = [
+      "Twılveser", "Ashma", "Ogean", "Karuk", "Tilkarut",
+      "Midep", "Ömerk", "Tilal", "Olik", "Mıshecerk",
+      "Mızelb", "Kergü", "Bozdepe", "Cinnık", "Mızrin",
+      "Bostancı", "Masucark", "Kırıkan", "Kuzluk", "Qeremsal",
+      "Medırbaz", "Hecuk", "Zebeşker", "Mirğan", "Dideri",
+      "Kazıka", "Nehlnehli", "Birdirej", "Cembel", "Sipinar",
+      "Kuremusa"
+    ];
+
+    /*
+      İSTENEN: 1. sayfada 3 köy, 2. sayfada 3 köy, geri kalan sayfalarda 5'er köy.
+      31 köy var. Dağılım:
+        Sayfa1: 3 köy
+        Sayfa2: 3 köy (toplam 6)
+        Sayfa3: 5 köy (toplam 11)
+        Sayfa4: 5 köy (toplam 16)
+        Sayfa5: 5 köy (toplam 21)
+        Sayfa6: 5 köy (toplam 26)
+        Sayfa7: 5 köy (toplam 31)
+    */
+    const pageSizes = [3, 3, 5, 5, 5, 5, 5]; // Toplamda 7 sayfa
+
+    // Kaç sayfa var?
+    const totalPages = pageSizes.length;
+
+    // Mevcut sayfa
+    let currentTrenPage = 1;
+
+    /************** SAYFAYI BAŞLATMA (window.onload) **************/
+    window.onload = function() {
+      updateMoneyUI();
+      updateProfileInfo();
+      initKoyInceleme();
+      updateStatBars();
+      updateBadgesUI();
+      displayTrenPage(currentTrenPage); // Tren sayfasını başlat
+    };
+
+    /************** DÖVİZ GÜNCELLEME & KÖY ADI GÜNCELLEME **************/
+    function updateMoneyUI() {
+      document.getElementById('money').innerText = money;
+    }
+    function updateProfileInfo() {
+      document.getElementById('currentVillageDisplay').innerText = currentVillage;
+      document.getElementById('bottomLeft').innerText = currentVillage;
+    }
+
+    /************** DURUMUM SEKMESİ (Aç-Kapa) **************/
     function toggleDurumum() {
       var content = document.getElementById('durumumContent');
       var tab = document.getElementById('durumumTab');
@@ -419,76 +474,30 @@
         tab.innerHTML = "Durumum &#9650;";
       }
     }
-    
-    /* --- Köy İncelemesi --- */
+
+    /************** KÖY İNCELEME **************/
     function inceleKoy(koy) {
       alert("Köy inceleme sayfası: " + koy);
-      // Detaylı inceleme sayfası modal veya yeni sayfa olarak geliştirilebilir.
+      // Burada isteğe göre başka bir modala veya sayfaya yönlendirebilirsiniz.
     }
-    
-    /* --- Görev ve Rozeti Sayfası (Overlay) --- */
-    function openGorevPage(rank) {
-      document.getElementById('mainPage').style.display = "none";
-      var gorevPage = document.getElementById('gorevPage');
-      gorevPage.style.display = "block";
-      document.getElementById('gorevHeader').innerText = rank + " Görevleri ve Rozetleri";
-      document.getElementById('gorevRank').innerText = rank;
+
+    /************** KÖY İNCELEMEDE MALİKANE & SIĞINAK DEĞERLERİ **************/
+    function randomMalikane() {
+      const arr = [5, 10, 15];
+      return arr[Math.floor(Math.random() * arr.length)];
     }
-    function closeGorevPage() {
-      document.getElementById('gorevPage').style.display = "none";
-      document.getElementById('mainPage').style.display = "block";
+    function randomSiginak() {
+      const arr = [50, 75, 100];
+      return arr[Math.floor(Math.random() * arr.length)];
     }
-    
-    /* --- Sağ Panel: Tren Seyahat Sayfalaması --- */
-    const trenKoyler = [
-      "Twılveser", "Ashma", "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk", "Tilal", "Olik",
-      "Mıshecerk", "Mızelb", "Kergü", "Bozdepe", "Cinnık", "Mızrin", "Bostancı", "Masucark",
-      "Kırıkan", "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk", "Zebeşker", "Mirğan", "Dideri",
-      "Kazıka", "Nehlnehli", "Birdirej", "Cembel", "Sipinar", "Kuremusa"
-    ];
-    const itemsPerPage = 10;
-    let currentTrenPage = 1;
-    function displayTrenPage(page) {
-      currentTrenPage = page;
-      const trenList = document.getElementById('trenList');
-      trenList.innerHTML = "";
-      const startIndex = (page - 1) * itemsPerPage;
-      const endIndex = Math.min(startIndex + itemsPerPage, trenKoyler.length);
-      for (let i = startIndex; i < endIndex; i++) {
-        const li = document.createElement('li');
-        li.innerHTML = `<span>${trenKoyler[i]}</span> <button onclick="travelToTrain('${trenKoyler[i]}')">Seyahat Et</button>`;
-        trenList.appendChild(li);
-      }
-      renderTrenPagination();
+    function initKoyInceleme() {
+      document.getElementById('malikaneAdet').innerText = randomMalikane();
+      document.getElementById('siginakDeger').innerText = randomSiginak();
     }
-    function renderTrenPagination() {
-      const totalPages = Math.ceil(trenKoyler.length / itemsPerPage);
-      const pagination = document.getElementById('trenPagination');
-      pagination.innerHTML = "";
-      for (let p = 1; p <= totalPages; p++) {
-        const span = document.createElement('span');
-        span.innerText = p;
-        if(p === currentTrenPage) {
-          span.classList.add('active');
-        }
-        span.onclick = () => displayTrenPage(p);
-        pagination.appendChild(span);
-      }
-    }
-    
-    /* --- Seyahat İşlevleri --- */
-    let currentVillage = "Asman";
-    function updateMoneyUI() {
-      document.getElementById('money').innerText = money;
-    }
-    function updateProfileInfo() {
-      document.getElementById('currentVillageDisplay').innerText = currentVillage;
-      var modalVillage = document.getElementById('currentVillageDisplayModal');
-      if (modalVillage) modalVillage.innerText = currentVillage;
-      document.getElementById('bottomLeft').innerText = currentVillage;
-    }
+
+    /************** KÖY SEYAHATİ BUTONLARI **************/
     function travelTo(village) {
-      if (currentVillage === village) return;
+      if (currentVillage === village) return; // Aynı köyse işlem yapma
       if (money < 500) {
         alert("Seyahat için yeterli paranız yok!");
         return;
@@ -499,8 +508,54 @@
       updateProfileInfo();
       alert("Şimdi " + currentVillage + " köyündesin!");
     }
+
+    /************** TRENLE SEYAHAT - SAYFALAMA **************/
+    function displayTrenPage(page) {
+      currentTrenPage = page;
+
+      // 1) Bu sayfada kaç köy gösterilecek (pageSizes dizisinden çekiyoruz)
+      let pageSize = pageSizes[page - 1];
+
+      // 2) startIndex hesaplayalım (önceki sayfaların toplamı kadar kay)
+      let startIndex = 0;
+      for(let i = 0; i < page - 1; i++){
+        startIndex += pageSizes[i];
+      }
+      let endIndex = startIndex + pageSize;
+
+      // 3) HTML listesini temizle ve yeni köyleri ekle
+      const trenList = document.getElementById('trenList');
+      trenList.innerHTML = "";
+
+      for (let i = startIndex; i < endIndex; i++) {
+        // i, trenKoyler dizisinin dışına çıkmasın
+        if (i >= trenKoyler.length) break;
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${trenKoyler[i]}</span> <button onclick="travelToTrain('${trenKoyler[i]}')">Seyahat Et</button>`;
+        trenList.appendChild(li);
+      }
+
+      // 4) Sayfalama butonlarını yeniden oluştur
+      renderTrenPagination();
+    }
+
+    function renderTrenPagination() {
+      const pagination = document.getElementById('trenPagination');
+      pagination.innerHTML = "";
+
+      for (let p = 1; p <= totalPages; p++) {
+        const span = document.createElement('span');
+        span.innerText = p;
+        if (p === currentTrenPage) {
+          span.classList.add('active');
+        }
+        span.onclick = () => displayTrenPage(p);
+        pagination.appendChild(span);
+      }
+    }
+
     function travelToTrain(village) {
-      if (currentVillage === village) return;
+      if (currentVillage === village) return; // Aynı köyse işlem yapma
       if (money < 500) {
         alert("Tren bileti için yeterli paranız yok!");
         return;
@@ -511,51 +566,8 @@
       updateProfileInfo();
       alert("Trenle " + currentVillage + " köyüne geldiniz!");
     }
-    
-    /* --- Random Değerler: Malikane & Sığınak --- */
-    function randomMalikane() {
-      const arr = [5, 10, 15];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-    function randomSiginak() {
-      const arr = [50, 75, 100];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-    function initKoyInceleme() {
-      // Malikane ve Sığınak için span'ların içeriğini ayarla
-      // Bu span'ları #malikaneAdet ve #siginakDeger olarak bekliyoruz.
-      document.getElementById('malikaneAdet').innerText = randomMalikane();
-      document.getElementById('siginakDeger').innerText = randomSiginak();
-    }
-    
-    /* --- Rank Kartları ve Görev İşlemleri --- */
-    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
-    let isHatipUnlocked = false, isBaronUnlocked = false;
-    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
-    function updateStatBars() {
-      let vakurValue = getVakurKoruma();
-      let vakurYuzde = (vakurValue / 660) * 100;
-      document.getElementById('vakurText').innerText = "Koruma: " + vakurValue + " (" + Math.floor(vakurYuzde) + "%)";
-      document.getElementById('vakurFill').style.width = vakurYuzde + "%";
-      if (isHatipUnlocked) {
-        document.getElementById('hatipStat').classList.remove("lockedStat");
-        let hatipValue = getHatipNufus();
-        let hatipYuzde = (hatipValue / 200) * 100;
-        document.getElementById('hatipText').innerText = "Nüfus: " + hatipValue + " (" + Math.floor(hatipYuzde) + "%)";
-        document.getElementById('hatipFill').style.width = hatipYuzde + "%";
-      } else {
-        document.getElementById('hatipStat').classList.add("lockedStat");
-      }
-      if (isBaronUnlocked) {
-        document.getElementById('baronStat').classList.remove("lockedStat");
-        let baronValue = getBaronEtki();
-        let baronYuzde = (baronValue / 500) * 100;
-        document.getElementById('baronText').innerText = "Etki: " + baronValue + " (" + Math.floor(baronYuzde) + "%)";
-        document.getElementById('baronFill').style.width = baronYuzde + "%";
-      } else {
-        document.getElementById('baronStat').classList.add("lockedStat");
-      }
-    }
+
+    /************** RANK & STAT BARI GÜNCELLEMELERİ **************/
     function getVakurKoruma() {
       let koruma = Math.floor(vakurTaskCount / 22);
       return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
@@ -568,149 +580,15 @@
       let etki = Math.floor(baronTaskCount * 2);
       return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
     }
-    function updateBadgesUI() {
-      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
-      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
-      document.getElementById('redBadgeCount').innerText = redBadgeCount;
-      
-      // Ayrıca sol paneldeki badge-indicator'ları güncelleyelim:
-      document.getElementById('vakurBadgeCount').innerText = blueBadgeCount;
-      document.getElementById('hatipBadgeCount').innerText = orangeBadgeCount;
-      document.getElementById('baronBadgeCount').innerText = redBadgeCount;
-    }
-    
-    function selectRank(rank) {
-      if (rank === "Vakur") {
-        currentRank = "Vakur";
-      } else if (rank === "Hatip") {
-        if (!isHatipUnlocked) return;
-        currentRank = "Hatip";
-      } else if (rank === "Baron") {
-        if (!isBaronUnlocked) return;
-        currentRank = "Baron";
-      }
-      openGorevPage(currentRank);
-    }
-    
-    function openGorevPage(rank) {
-      document.getElementById('mainPage').style.display = "none";
-      var gorevPage = document.getElementById('gorevPage');
-      gorevPage.style.display = "block";
-      document.getElementById('gorevHeader').innerText = rank + " Görevleri ve Rozetleri";
-      document.getElementById('gorevRank').innerText = rank;
-    }
-    function closeGorevPage() {
-      document.getElementById('gorevPage').style.display = "none";
-      document.getElementById('mainPage').style.display = "block";
-    }
-    
-    /* --- Modal Toggle (Örnek: Köy Paneli) --- */
-    function toggleKoyPanelModal() {
-      var modal = document.getElementById('koyModal');
-      modal.classList.toggle('active');
-    }
-    
-    /* --- Tren Seyahat Sayfalaması --- */
-    const itemsPerPage = 10;
-    let currentTrenPage = 1;
-    function displayTrenPage(page) {
-      currentTrenPage = page;
-      const trenList = document.getElementById('trenList');
-      trenList.innerHTML = "";
-      const startIndex = (page - 1) * itemsPerPage;
-      const endIndex = Math.min(startIndex + itemsPerPage, trenKoyler.length);
-      for (let i = startIndex; i < endIndex; i++) {
-        const li = document.createElement('li');
-        li.innerHTML = `<span>${trenKoyler[i]}</span> <button onclick="travelToTrain('${trenKoyler[i]}')">Seyahat Et</button>`;
-        trenList.appendChild(li);
-      }
-      renderTrenPagination();
-    }
-    function renderTrenPagination() {
-      const totalPages = Math.ceil(trenKoyler.length / itemsPerPage);
-      const pagination = document.getElementById('trenPagination');
-      pagination.innerHTML = "";
-      for (let p = 1; p <= totalPages; p++) {
-        const span = document.createElement('span');
-        span.innerText = p;
-        if(p === currentTrenPage) { span.classList.add('active'); }
-        span.onclick = () => displayTrenPage(p);
-        pagination.appendChild(span);
-      }
-    }
-    
-    /* --- Seyahat İşlevleri --- */
-    let money = 500000;
-    let currentVillage = "Asman";
-    function updateMoneyUI() {
-      document.getElementById('money').innerText = money;
-    }
-    function updateProfileInfo() {
-      document.getElementById('currentVillageDisplay').innerText = currentVillage;
-      var modalVillage = document.getElementById('currentVillageDisplayModal');
-      if (modalVillage) modalVillage.innerText = currentVillage;
-      document.getElementById('bottomLeft').innerText = currentVillage;
-    }
-    function travelTo(village) {
-      if (currentVillage === village) return;
-      if (money < 500) { alert("Seyahat için yeterli paranız yok!"); return; }
-      money -= 500;
-      currentVillage = village;
-      updateMoneyUI();
-      updateProfileInfo();
-      alert("Şimdi " + currentVillage + " köyündesin!");
-    }
-    function travelToTrain(village) {
-      if (currentVillage === village) return;
-      if (money < 500) { alert("Tren bileti için yeterli paranız yok!"); return; }
-      money -= 500;
-      currentVillage = village;
-      updateMoneyUI();
-      updateProfileInfo();
-      alert("Trenle " + currentVillage + " köyüne geldiniz!");
-    }
-    
-    /* --- Random Değerler: Malikane & Sığınak --- */
-    function randomMalikane() {
-      const arr = [5, 10, 15];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-    function randomSiginak() {
-      const arr = [50, 75, 100];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-    function initKoyInceleme() {
-      document.getElementById('malikaneAdet').innerText = randomMalikane();
-      document.getElementById('siginakDeger').innerText = randomSiginak();
-    }
-    
-    /* --- Köy Listesi for Tren Seyahat --- */
-    const trenKoyler = [
-      "Twılveser", "Ashma", "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk", "Tilal", "Olik",
-      "Mıshecerk", "Mızelb", "Kergü", "Bozdepe", "Cinnık", "Mızrin", "Bostancı", "Masucark",
-      "Kırıkan", "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk", "Zebeşker", "Mirğan", "Dideri",
-      "Kazıka", "Nehlnehli", "Birdirej", "Cembel", "Sipinar", "Kuremusa"
-    ];
-    
-    window.onload = function() {
-      displayTrenPage(1);
-      initKoyInceleme();
-      updateMoneyUI();
-      updateProfileInfo();
-      updateStatBars();
-      updateBadgesUI();
-    }
-    
-    /* --- Stat & Rozet Güncellemeleri --- */
-    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
-    let isHatipUnlocked = false, isBaronUnlocked = false;
-    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
-    
+
     function updateStatBars() {
+      // Vakur
       let vakurValue = getVakurKoruma();
       let vakurYuzde = (vakurValue / 660) * 100;
       document.getElementById('vakurText').innerText = "Koruma: " + vakurValue + " (" + Math.floor(vakurYuzde) + "%)";
       document.getElementById('vakurFill').style.width = vakurYuzde + "%";
+
+      // Hatip
       if (isHatipUnlocked) {
         document.getElementById('hatipStat').classList.remove("lockedStat");
         let hatipValue = getHatipNufus();
@@ -720,6 +598,8 @@
       } else {
         document.getElementById('hatipStat').classList.add("lockedStat");
       }
+
+      // Baron
       if (isBaronUnlocked) {
         document.getElementById('baronStat').classList.remove("lockedStat");
         let baronValue = getBaronEtki();
@@ -730,18 +610,8 @@
         document.getElementById('baronStat').classList.add("lockedStat");
       }
     }
-    function getVakurKoruma() {
-      let koruma = Math.floor(vakurTaskCount / 22);
-      return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
-    }
-    function getHatipNufus() {
-      let nufus = Math.floor(hatipTaskCount / 40) * 5;
-      return (nufus % 201 === 0 && nufus > 0) ? 200 : nufus % 201;
-    }
-    function getBaronEtki() {
-      let etki = Math.floor(baronTaskCount * 2);
-      return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
-    }
+
+    /************** ROZET GÖSTERGESİ GÜNCELLEME **************/
     function updateBadgesUI() {
       document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
       document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
@@ -750,20 +620,8 @@
       document.getElementById('hatipBadgeCount').innerText = orangeBadgeCount;
       document.getElementById('baronBadgeCount').innerText = redBadgeCount;
     }
-    
-    function selectRank(rank) {
-      if (rank === "Vakur") {
-        currentRank = "Vakur";
-      } else if (rank === "Hatip") {
-        if (!isHatipUnlocked) return;
-        currentRank = "Hatip";
-      } else if (rank === "Baron") {
-        if (!isBaronUnlocked) return;
-        currentRank = "Baron";
-      }
-      openGorevPage(currentRank);
-    }
-    
+
+    /************** GÖREV & ROZETİ SAYFASI (Overlay) **************/
     function openGorevPage(rank) {
       document.getElementById('mainPage').style.display = "none";
       var gorevPage = document.getElementById('gorevPage');
@@ -775,22 +633,6 @@
       document.getElementById('gorevPage').style.display = "none";
       document.getElementById('mainPage').style.display = "block";
     }
-    
   </script>
-  
-  <!-- Ana sayfa kapsayıcısı -->
-  <div id="mainPage">
-    <!-- (Yukarıdaki tüm ana içerikler) -->
-  </div>
-  
-  <!-- GÖREV VE ROZETİ SAYFASI (Overlay) -->
-  <div id="gorevPage">
-    <button onclick="closeGorevPage()">Geri Dön</button>
-    <h1 id="gorevHeader"></h1>
-    <p>Burada <span id="gorevRank"></span> görevleri ve rozetleri listelenecek.</p>
-  </div>
-  
-  <!-- SOL ALT: Sabit Köy Bilgisi -->
-  <div id="bottomLeft">Asman</div>
 </body>
 </html>
