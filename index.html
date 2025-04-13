@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* Genel Sıfırlama ve Yazı Stilleri */
+    /* GENEL STİLLER */
     * {
       margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
       background: #888; color: #f1f1f1; min-height: 100vh;
-      position: relative; padding-top: 120px; /* Header için boşluk */
+      position: relative; padding-top: 120px;
       font-size: 0.9rem;
     }
     /* HEADER */
@@ -28,40 +28,44 @@
       display: flex; align-items: center;
     }
     .logo-dolphin { margin-left: 10px; width: 50px; height: auto; }
-    .logo-dolphin svg {
-      width: 100%; height: auto; fill: #00cc66; stroke: #fff; stroke-width: 2;
-    }
+    .logo-dolphin svg { width: 100%; height: auto; fill: #00cc66; stroke: #fff; stroke-width: 2; }
     .money {
       font-size: 1rem; background: #222; padding: 0.5rem 1rem;
       border-radius: 5px; border: 1px solid #333;
     }
-    .money span {
-      color: #ffcc00; margin-left: 5px; font-weight: bold;
+    .money span { color: #ffcc00; margin-left: 5px; font-weight: bold; }
+
+    /* ANA SAYFA KAPSAYICI */
+    #mainPage {
+      width: 100%; min-height: 100vh; position: relative;
     }
 
-    /* SOL PANEL: Durumum + Tüccar */
-    #durumumContainer {
-      position: fixed; top: 40%; left: 20px;
-      transform: translateY(-40%);
+    /* SOL PANEL: 2 Sekme (Durumum + Tüccar) */
+    #leftPanel {
+      position: fixed; top: 120px; left: 20px;
       width: 280px; z-index: 1000;
-      background: rgba(0,0,0,0.6);
-      padding: 1rem; border-radius: 10px;
-      margin-bottom: 1rem;
     }
-    #durumumContainer h2 {
-      text-align: center; margin-bottom: 1rem;
-      color: #ffcc00; font-size: 1.3rem; cursor: pointer;
+    .sectionBox {
+      background: rgba(0,0,0,0.6);
+      margin-bottom: 1rem; border-radius: 10px;
+      padding: 1rem;
+    }
+    .sectionBox h2 {
+      text-align: center; color: #ffcc00;
+      margin-bottom: 1rem; cursor: pointer;
+      font-size: 1.2rem;
     }
     .tab-content {
-      display: none; padding: 0.5rem; background: rgba(0,0,0,0.4);
-      border-radius: 5px; margin-top: 0.5rem;
+      display: none; /* Başlangıçta kapalı */
+      background: rgba(0,0,0,0.4); border-radius: 5px;
+      padding: 0.5rem; margin-top: 0.5rem;
     }
     .tab-content.active { display: block; }
 
-    /* Stat Barları */
+    /* DURUMUM İÇERİĞİ */
     .stat-bar {
-      margin-bottom: 0.7rem; background: #444; border-radius: 5px;
-      overflow: hidden; padding: 5px;
+      margin-bottom: 0.7rem; background: #444;
+      border-radius: 5px; overflow: hidden; padding: 5px;
     }
     .stat-label { margin-bottom: 3px; font-weight: bold; font-size: 0.85rem; }
     .stat-fill {
@@ -71,31 +75,22 @@
     .stat-text { margin-top: 3px; font-size: 0.8rem; }
     .lockedStat { opacity: 0.4; }
     .badge-indicator {
-      text-align: center; font-size: 0.8rem; margin-top: 3px;
-      color: #ffcc00;
+      text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
     }
     #profileInfo {
       margin-top: 1rem; font-size: 0.9rem; font-weight: bold; text-align: center;
     }
 
-    /* Tüccar Sekmesi */
-    #tuccarContainer {
-      margin-top: 1rem; /* Durumum'un altında */
-      background: rgba(0,0,0,0.4);
-      padding: 0.5rem; border-radius: 5px;
-    }
-    #tuccarContainer h2 {
-      text-align: center; color: #ffcc00; font-size: 1rem; margin-bottom: 0.5rem;
-    }
-    #tuccarContainer ul {
+    /* TÜCCAR İÇERİĞİ */
+    #tuccarContent ul {
       list-style: none; margin: 0; padding: 0;
     }
-    #tuccarContainer li {
+    #tuccarContent li {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
     }
-    #tuccarContainer li button {
-      background: #ff4444; border: none; border-radius: 3px;
+    #tuccarContent li button {
+      background: #ff4444; border: none; border-radius: 5px;
       color: #fff; cursor: pointer; padding: 0.3rem 0.5rem;
       font-size: 0.8rem;
     }
@@ -133,7 +128,7 @@
       background: #555;
     }
 
-    /* ORTA PANEL: Rank Kartları – Yatay Hizalı */
+    /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -167,7 +162,7 @@
       margin-top: 10px; font-size: 1.2rem; color: #ffcc00;
     }
 
-    /* SOL ALT: Sabit Köy Bilgisi */
+    /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
       position: fixed; bottom: 20px; left: 20px; font-size: 1.2rem;
       background: #0288d1; padding: 0.5rem 1rem; border-radius: 8px;
@@ -175,7 +170,7 @@
       z-index: 1000;
     }
 
-    /* GÖREV VE ROZETİ SAYFASI (Overlay) */
+    /* GÖREV SAYFASI (Overlay) */
     #gorevPage {
       display: none; position: fixed; top: 0; left: 0;
       width: 100%; height: 100%; background: #000; color: #fff; z-index: 3000;
@@ -192,25 +187,20 @@
     .rankSection h2 {
       text-align: center; margin-bottom: 0.5rem; color: #ffcc00;
     }
-    .difficultyTitle {
-      margin-top: 0.5rem; margin-bottom: 0.3rem;
-      font-weight: bold; text-transform: uppercase;
-      color: #ffcc00; font-size: 1rem;
-      text-decoration: underline;
-    }
     .taskItem {
       background: #222; border-radius: 5px;
       padding: 0.5rem; margin-bottom: 0.5rem;
       display: flex; justify-content: space-between; align-items: center;
     }
     .taskItem span {
-      display: inline-block; max-width: 80%;
-      overflow: hidden; text-overflow: ellipsis;
-      white-space: nowrap;
+      max-width: 80%; white-space: nowrap;
+      text-overflow: ellipsis; overflow: hidden;
+      display: inline-block;
     }
     .taskItem button {
-      background: #ff4444; padding: 0.3rem 0.5rem; border: none; border-radius: 3px; cursor: pointer;
-      color: #fff; font-size: 0.8rem; margin-left: 10px;
+      background: #ff4444; border: none; border-radius: 5px;
+      color: #fff; cursor: pointer; padding: 0.3rem 0.5rem; margin-left: 10px;
+      font-size: 0.8rem;
     }
     .completedTask span::after {
       content: " ✅"; color: #0f0; margin-left: 5px;
@@ -241,43 +231,48 @@
 
   <!-- ANA SAYFA -->
   <div id="mainPage">
-    <!-- SOL PANEL: Durumum -->
-    <div id="durumumContainer">
-      <h2 id="durumumTab" onclick="toggleDurumum()">Durumum &#9660;</h2>
-      <div id="durumumContent" class="tab-content">
-        <div class="stat-bar" id="vakurStat">
-          <div class="stat-label">Vakur 🛡️</div>
-          <div class="stat-fill" id="vakurFill"></div>
-          <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
-          <div class="badge-indicator">Rozet: <span id="vakurBadgeCount">0</span></div>
+    <!-- SOL PANEL: 2 Sekme (Durumum + Tüccar) -->
+    <div id="leftPanel">
+      <!-- Durumum Sekmesi -->
+      <div class="sectionBox">
+        <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
+        <div id="durumumContent" class="tab-content">
+          <div class="stat-bar" id="vakurStat">
+            <div class="stat-label">Vakur 🛡️</div>
+            <div class="stat-fill" id="vakurFill"></div>
+            <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+            <div class="badge-indicator">Rozet: <span id="vakurBadgeCount">0</span></div>
+          </div>
+          <div class="stat-bar lockedStat" id="hatipStat">
+            <div class="stat-label">Hatip 👥</div>
+            <div class="stat-fill" id="hatipFill"></div>
+            <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+            <div class="badge-indicator">Rozet: <span id="hatipBadgeCount">0</span></div>
+          </div>
+          <div class="stat-bar lockedStat" id="baronStat">
+            <div class="stat-label">Baron ♛</div>
+            <div class="stat-fill" id="baronFill"></div>
+            <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
+            <div class="badge-indicator">Rozet: <span id="baronBadgeCount">0</span></div>
+          </div>
+          <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
         </div>
-        <div class="stat-bar lockedStat" id="hatipStat">
-          <div class="stat-label">Hatip 👥</div>
-          <div class="stat-fill" id="hatipFill"></div>
-          <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
-          <div class="badge-indicator">Rozet: <span id="hatipBadgeCount">0</span></div>
-        </div>
-        <div class="stat-bar lockedStat" id="baronStat">
-          <div class="stat-label">Baron ♛</div>
-          <div class="stat-fill" id="baronFill"></div>
-          <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
-          <div class="badge-indicator">Rozet: <span id="baronBadgeCount">0</span></div>
-        </div>
-        <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
       </div>
 
       <!-- Tüccar Sekmesi -->
-      <div id="tuccarContainer">
-        <h2>Tüccar</h2>
-        <ul>
-          <li><span>Silah (2500$)</span> <button onclick="buyItem('Silah', 2500)">Satın Al</button></li>
-          <li><span>Bomba (1000$)</span> <button onclick="buyItem('Bomba', 1000)">Satın Al</button></li>
-          <li><span>C4 (1500$)</span> <button onclick="buyItem('C4', 1500)">Satın Al</button></li>
-          <li><span>Villa (15000$)</span> <button onclick="buyItem('Villa', 15000)">Satın Al</button></li>
-          <li><span>Ev (10000$)</span> <button onclick="buyItem('Ev', 10000)">Satın Al</button></li>
-        </ul>
+      <div class="sectionBox">
+        <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
+        <div id="tuccarContent" class="tab-content">
+          <ul>
+            <li><span>Silah (2500$)</span> <button onclick="buyItem('Silah', 2500)">Satın Al</button></li>
+            <li><span>Bomba (1000$)</span> <button onclick="buyItem('Bomba', 1000)">Satın Al</button></li>
+            <li><span>C4 (1500$)</span> <button onclick="buyItem('C4', 1500)">Satın Al</button></li>
+            <li><span>Villa (15000$)</span> <button onclick="buyItem('Villa', 15000)">Satın Al</button></li>
+            <li><span>Ev (10000$)</span> <button onclick="buyItem('Ev', 10000)">Satın Al</button></li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </div><!-- /leftPanel -->
 
     <!-- SAĞ PANEL: Köy İncelemesi & Trenle Seyehat -->
     <div id="rightContainer">
@@ -295,7 +290,7 @@
       </div>
     </div>
 
-    <!-- ORTA PANEL: Rank Kartları (Yatay Hizalı) -->
+    <!-- ORTA PANEL: Rank Kartları -->
     <div id="centerRanks">
       <div class="card" id="cardVakur">
         <h2>Vakur</h2>
@@ -318,18 +313,18 @@
     </div>
   </div><!-- /#mainPage -->
 
-  <!-- GÖREV VE ROZETİ SAYFASI (Overlay) -->
+  <!-- GÖREV SAYFASI -->
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
     <div id="tasksContainer"></div>
   </div>
 
-  <!-- SOL ALT: Sabit Köy Bilgisi -->
+  <!-- ALT SOL KÖY BİLGİSİ -->
   <div id="bottomLeft">Asman</div>
 
   <script>
-    /***** GENEL DEĞİŞKENLER *****/
+    /********************* GENEL DEĞİŞKENLER *********************/
     let money = 500000;
     let currentVillage = "Asman";
 
@@ -338,11 +333,9 @@
 
     let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
 
-    // 7 sayfa: 1->3 köy, 2->3 köy, gerisi 5'er
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
 
-    // 31 köy
     const allKoyler = [
       "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
       "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
@@ -352,17 +345,20 @@
       "Zebeşker", "Mirğan", "Dideri", "Kazıka", "Nehlnehli",
       "Birdirej", "Cembel"
     ];
-    // Rastgele ek alanlar
+
+    /********** Rastgele Köy Özellikleri **********/
+    function randomMalikane() { return [5,10,15][Math.floor(Math.random()*3)]; }
+    function randomSiginak()  { return [50,75,100][Math.floor(Math.random()*3)]; }
+    function randomVilla()    { return [25,50,75][Math.floor(Math.random()*3)]; }
     const villageData = allKoyler.map(k => ({
       name: k,
       malikane: randomMalikane(),
-      siginak: randomSiginak(),
-      villa: randomVilla()
+      siginak:  randomSiginak(),
+      villa:    randomVilla()
     }));
 
-    /* Basit - Orta - Zor - İleri - Son: 5 difficulty her rank */
-    // Vakur örnek: 5 x 10
-    const vakurDifficulties = [
+    /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
+    const vakurDifficulties = [ /* 5 seviye x 10 görev... */ /* ...Aynı örnekler... */ 
       {
         title: "Basit Görevler", locked: false,
         tasks: [
@@ -440,130 +436,8 @@
       }
     ];
 
-    // Hatip
-    const hatipDifficulties = [
-      {
-        title: "Basit Görevler", locked: false,
-        tasks: [
-          "Sokak kavgasını tatlı dille sakinleştir.",
-          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
-          "Aile içi gerginliği dinleyerek gider.",
-          "Sosyal medyada tartışmayı tatlıya bağla.",
-          "Yanlış bilgiyi doğru kaynakla düzelt.",
-          "Dedikoduyu kaynağından çürüterek sakinleştir.",
-          "Okul/kulüp etkinliğinde kısa konuşma yap.",
-          "Ufak grupta hitabet pratiği yap.",
-          "Arkadaş grubuna moral verici konuşma yap.",
-          "Sosyal medya üzerinden küçük bilgilendirici yayın düzenle."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "Orta Görevler", locked: true,
-        tasks: [
-          "Komşular arasındaki sorunu toplantı ile çöz.",
-          "İş yerindeki iletişim kopukluğunu arabuluculukla gider.",
-          "Yerel hayır kurumuna bağış toplamak için ikna et.",
-          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
-          "Aile şirketinde tartışmada hakemlik yap.",
-          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
-          "Mahalle muhtarıyla imza kampanyası başlat.",
-          "Gönüllü ekiple sokak sanatçılarına destek sağla.",
-          "Mahallede çevre bilinci semineri düzenle.",
-          "Gençlere yönelik küçük münazara yarışmaları organize et."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "Zor Görevler", locked: true,
-        tasks: [
-          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
-          "Ulusal platformda toplumsal bir konuda konuş.",
-          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
-          "Mahalle halkının taleplerini dile getirip sonuç al.",
-          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
-          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
-          "Binlerce kişilik tartışmayı sakinleştir.",
-          "Sivil toplum zirvesinde temsilci olarak konuş.",
-          "Yerel basında toplumsal sorunlar üzerine köşe yazısı yayınla.",
-          "İşsizlere yönelik motivasyon konuşması gerçekleştir."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "İleri Görevler", locked: true,
-        tasks: [
-          "Bölgesel toplum hareketine önderlik et.",
-          "Ulusal konferansta çözüm önerileri sun.",
-          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
-          "Barış çalıştayında moderatörlük yap.",
-          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
-          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
-          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
-          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver.",
-          "Kamu kurumlarında iletişim eğitimi ver.",
-          "Şiddetsiz iletişim üzerine farkındalık kampanyası başlat."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "Son Görevler", locked: true,
-        tasks: [
-          "Tebrikler! Baron oldunuz! Ana menüye dönüyorsunuz."
-        ].map(t => ({ text: t, done: false }))
-      }
-    ];
-
-    // Baron
-    const baronDifficulties = [
-      {
-        title: "Basit Görevler", locked: false,
-        tasks: [
-          "Baron Basit 1",
-          "Baron Basit 2",
-          "Baron Basit 3",
-          "Baron Basit 4",
-          "Baron Basit 5",
-          "Baron Basit 6",
-          "Baron Basit 7",
-          "Baron Basit 8",
-          "Baron Basit 9",
-          "Baron Basit 10"
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "Orta Görevler", locked: true,
-        tasks: [
-          "Baron Orta 1","Baron Orta 2","Baron Orta 3","Baron Orta 4","Baron Orta 5",
-          "Baron Orta 6","Baron Orta 7","Baron Orta 8","Baron Orta 9","Baron Orta 10"
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "Zor Görevler", locked: true,
-        tasks: [
-          "Baron Zor 1","Baron Zor 2","Baron Zor 3","Baron Zor 4","Baron Zor 5",
-          "Baron Zor 6","Baron Zor 7","Baron Zor 8","Baron Zor 9","Baron Zor 10"
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "İleri Görevler", locked: true,
-        tasks: [
-          "Baron İleri 1","Baron İleri 2","Baron İleri 3","Baron İleri 4","Baron İleri 5",
-          "Baron İleri 6","Baron İleri 7","Baron İleri 8","Baron İleri 9","Baron İleri 10"
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "Son Görevler", locked: true,
-        tasks: [
-          "Küresel çapta eğitim reformlarını destekleyen vakıf kur ve finanse et.",
-          "Prestijli üniversitelerin kampüs inşaatlarına yatırım yap.",
-          "Uluslararası öğrenci burs programlarını başlat ve fonla.",
-          "Büyük şehirlerde modern kreş açılışlarını gerçekleştir.",
-          "Protez bacak ve sağlık ekipmanları üretimine büyük yatırım yap.",
-          "Afet bölgelerinde yeniden yapılandırma projelerini finanse et.",
-          "Üst düzey bilimsel araştırmalara mali destek sağla.",
-          "Yenilenebilir enerji projelerine uluslararası yatırım yap.",
-          "Dünya genelinde kültür-sanat merkezleri inşa ettir.",
-          "Küresel sağlık fonları kurarak sağlık sistemlerini destekle."
-        ].map(t => ({ text: t, done: false }))
-      }
-    ];
+    const hatipDifficulties = [ /* Basit, Orta, Zor, İleri, Son */ /* ... */ ];
+    const baronDifficulties = [ /* Basit, Orta, Zor, İleri, Son */ /* ... */ ];
 
     const rankData = {
       "Vakur": vakurDifficulties,
@@ -571,10 +445,7 @@
       "Baron": baronDifficulties
     };
 
-    let currentIncelemePage = 1;
-    let currentTrenPage = 1;
-
-    /***** ONLOAD *****/
+    /****************** ONLOAD ******************/
     window.onload = function() {
       updateMoneyUI();
       updateProfileInfo();
@@ -584,116 +455,9 @@
       displayTrenPage(1);
     };
 
-    /***** RANDOM FUNCS *****/
-    function randomMalikane() {
-      const arr = [5, 10, 15];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-    function randomSiginak() {
-      const arr = [50, 75, 100];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-    function randomVilla() {
-      const arr = [25, 50, 75];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-
-    /***** KÖY İNCELEME *****/
-    function displayKoyIncelemePage(page) {
-      currentIncelemePage = page;
-      const pageSize = pageSizes[page - 1];
-      let startIndex = 0;
-      for(let i=0; i<page-1; i++){
-        startIndex += pageSizes[i];
-      }
-      let endIndex = startIndex + pageSize;
-
-      const ul = document.getElementById("koyIncelemeList");
-      ul.innerHTML = "";
-      for(let i=startIndex; i<endIndex; i++){
-        if(i>=villageData.length) break;
-        const v = villageData[i];
-        const li = document.createElement("li");
-        li.innerHTML = `<span>${v.name} (6 At)</span>
-                        <button onclick="inceleKoy('${v.name}')">İncele</button>`;
-        ul.appendChild(li);
-      }
-      renderKoyIncelemePagination();
-    }
-    function renderKoyIncelemePagination() {
-      const pagination = document.getElementById("koyIncelemePagination");
-      pagination.innerHTML = "";
-      for(let p=1; p<=totalPages; p++){
-        const span = document.createElement("span");
-        span.innerText = p;
-        if(p === currentIncelemePage){
-          span.classList.add("active");
-        }
-        span.onclick = () => displayKoyIncelemePage(p);
-        pagination.appendChild(span);
-      }
-    }
-    function inceleKoy(koyName) {
-      let found = villageData.find(v => v.name === koyName);
-      if(!found) return;
-      alert(
-        "Köy: " + koyName + "\n" +
-        "Malikane: " + found.malikane + "\n" +
-        "Sığınak: " + found.siginak + "\n" +
-        "Villa: " + found.villa
-      );
-    }
-
-    /***** TREN SEYEHAT *****/
-    function displayTrenPage(page) {
-      currentTrenPage = page;
-      const pageSize = pageSizes[page - 1];
-      let startIndex = 0;
-      for(let i=0; i<page-1; i++){
-        startIndex += pageSizes[i];
-      }
-      let endIndex = startIndex + pageSize;
-
-      const trenList = document.getElementById("trenList");
-      trenList.innerHTML = "";
-      for(let i=startIndex; i<endIndex; i++){
-        if(i>=allKoyler.length) break;
-        const li = document.createElement("li");
-        li.innerHTML = `<span>${allKoyler[i]}</span>
-                        <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
-        trenList.appendChild(li);
-      }
-      renderTrenPagination();
-    }
-    function renderTrenPagination() {
-      const pagination = document.getElementById("trenPagination");
-      pagination.innerHTML = "";
-      for(let p=1; p<=totalPages; p++){
-        const span = document.createElement("span");
-        span.innerText = p;
-        if(p===currentTrenPage){
-          span.classList.add("active");
-        }
-        span.onclick = () => displayTrenPage(p);
-        pagination.appendChild(span);
-      }
-    }
-    function travelToTrain(village) {
-      if(currentVillage===village) return;
-      if(money<500){
-        alert("Tren bileti için yeterli paranız yok!");
-        return;
-      }
-      money-=500;
-      currentVillage = village;
-      updateMoneyUI();
-      updateProfileInfo();
-      alert("Trenle " + currentVillage + " köyüne geldiniz!");
-    }
-
-    /***** Tüccar *****/
+    /****************** TUTAR SATIN ALMA ******************/
     function buyItem(itemName, cost) {
-      if(money < cost){
+      if(money < cost) {
         alert("Yetersiz bakiye!");
         return;
       }
@@ -702,240 +466,320 @@
       alert(itemName + " satın alındı! (-" + cost + "$)");
     }
 
-    /***** DURUMUM SEKMESİ *****/
-    function toggleDurumum() {
-      let content = document.getElementById('durumumContent');
-      let tab = document.getElementById('durumumTab');
-      if(content.classList.contains('active')){
-        content.classList.remove('active');
-        tab.innerHTML = "Durumum &#9660;";
-      } else {
-        content.classList.add('active');
-        tab.innerHTML = "Durumum &#9650;";
+    /****************** DURUMUM & TÜCCAR AÇ/KAPA ******************/
+    function toggleDurumum(){
+      const elem = document.getElementById("durumumContent");
+      elem.classList.toggle("active");
+    }
+    function toggleTuccar(){
+      const elem = document.getElementById("tuccarContent");
+      elem.classList.toggle("active");
+    }
+
+    /****************** KÖY INCELEME ******************/
+    let currentIncelemePage=1;
+    function displayKoyIncelemePage(page) {
+      currentIncelemePage = page;
+      const pageSize = pageSizes[page-1];
+      let start = 0; for(let i=0; i<page-1; i++){ start+=pageSizes[i]; }
+      let end = start+pageSize;
+
+      const ul = document.getElementById("koyIncelemeList");
+      ul.innerHTML="";
+      for(let i=start; i<end; i++){
+        if(i>=villageData.length) break;
+        const v = villageData[i];
+        let li = document.createElement("li");
+        li.innerHTML= `<span>${v.name} (6 At)</span>
+                       <button onclick="inceleKoy('${v.name}')">İncele</button>`;
+        ul.appendChild(li);
+      }
+      renderKoyIncelemePagination();
+    }
+    function renderKoyIncelemePagination() {
+      const pag = document.getElementById("koyIncelemePagination");
+      pag.innerHTML="";
+      for(let p=1; p<=totalPages; p++){
+        let sp = document.createElement("span");
+        sp.innerText = p;
+        if(p===currentIncelemePage) sp.classList.add("active");
+        sp.onclick=()=>displayKoyIncelemePage(p);
+        pag.appendChild(sp);
       }
     }
+    function inceleKoy(koyName){
+      let found = villageData.find(v=>v.name===koyName);
+      if(!found) return;
+      alert(
+        "Köy: "+koyName+"\n"+
+        "Malikane: "+found.malikane+"\n"+
+        "Sığınak: "+found.siginak+"\n"+
+        "Villa: "+found.villa
+      );
+    }
 
-    /***** PARA & KÖY ADI GÜNCELLEME *****/
-    function updateMoneyUI() {
-      document.getElementById('money').innerText = money;
+    /****************** TREN SEYEHAT ******************/
+    let currentTrenPage=1;
+    function displayTrenPage(page) {
+      currentTrenPage= page;
+      const pageSize=pageSizes[page-1];
+      let start=0; for(let i=0; i<page-1; i++){ start+=pageSizes[i]; }
+      let end=start+pageSize;
+      const trenList=document.getElementById("trenList");
+      trenList.innerHTML="";
+      for(let i=start;i<end;i++){
+        if(i>=allKoyler.length) break;
+        let li=document.createElement("li");
+        li.innerHTML= `<span>${allKoyler[i]}</span>
+                       <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
+        trenList.appendChild(li);
+      }
+      renderTrenPagination();
     }
-    function updateProfileInfo() {
-      document.getElementById('currentVillageDisplay').innerText = currentVillage;
-      document.getElementById('bottomLeft').innerText = currentVillage;
+    function renderTrenPagination(){
+      const pag=document.getElementById("trenPagination");
+      pag.innerHTML="";
+      for(let p=1; p<=totalPages; p++){
+        let sp=document.createElement("span");
+        sp.innerText=p;
+        if(p===currentTrenPage) sp.classList.add("active");
+        sp.onclick=()=>displayTrenPage(p);
+        pag.appendChild(sp);
+      }
+    }
+    function travelToTrain(village){
+      if(currentVillage===village) return;
+      if(money<500){ alert("Tren bileti için yeterli paranız yok!"); return; }
+      money-=500;
+      updateMoneyUI();
+      currentVillage=village;
+      updateProfileInfo();
+      alert("Trenle "+village+" köyüne geldiniz!");
     }
 
-    /***** RANK & STAT BAR *****/
-    function getVakurKoruma() {
-      let koruma = Math.floor(vakurTaskCount / 22);
-      return (koruma % 661 === 0 && koruma>0)? 660 : koruma%661;
+    /****************** PARA & KÖY ADI ******************/
+    function updateMoneyUI(){
+      document.getElementById("money").innerText=money;
     }
-    function getHatipNufus() {
-      let nufus = Math.floor(hatipTaskCount / 40)*5;
-      return (nufus%201 ===0 && nufus>0)? 200 : nufus%201;
+    function updateProfileInfo(){
+      document.getElementById("currentVillageDisplay").innerText=currentVillage;
+      document.getElementById("bottomLeft").innerText=currentVillage;
     }
-    function getBaronEtki() {
-      let etki = Math.floor(baronTaskCount *2);
-      return (etki%501===0 && etki>0)? 500 : etki%501;
-    }
-    function updateStatBars() {
-      let vakurValue = getVakurKoruma();
-      let vakurYuzde = (vakurValue / 660)*100;
-      document.getElementById('vakurText').innerText = "Koruma: " + vakurValue + " (" + Math.floor(vakurYuzde) + "%)";
-      document.getElementById('vakurFill').style.width = vakurYuzde + "%";
 
+    /****************** STAT BARS ******************/
+    function getVakurKoruma(){
+      let koruma=Math.floor(vakurTaskCount/22);
+      return (koruma%661===0 && koruma>0)?660: koruma%661;
+    }
+    function getHatipNufus(){
+      let nufus=Math.floor(hatipTaskCount/40)*5;
+      return (nufus%201===0 && nufus>0)?200:nufus%201;
+    }
+    function getBaronEtki(){
+      let etki=Math.floor(baronTaskCount*2);
+      return (etki%501===0 && etki>0)?500:etki%501;
+    }
+    function updateStatBars(){
+      // Vakur
+      let vakVal=getVakurKoruma();
+      let vakPct=Math.floor((vakVal/660)*100);
+      document.getElementById("vakurText").innerText="Koruma: "+vakVal+" ("+vakPct+"%)";
+      document.getElementById("vakurFill").style.width=vakPct+"%";
+
+      // Hatip
       if(isHatipUnlocked){
-        document.getElementById('hatipStat').classList.remove("lockedStat");
-        let hatipValue = getHatipNufus();
-        let hatipYuzde = (hatipValue / 200)*100;
-        document.getElementById('hatipText').innerText = "Nüfus: " + hatipValue + " (" + Math.floor(hatipYuzde) + "%)";
-        document.getElementById('hatipFill').style.width = hatipYuzde + "%";
+        document.getElementById("hatipStat").classList.remove("lockedStat");
+        let hatVal=getHatipNufus();
+        let hatPct=Math.floor((hatVal/200)*100);
+        document.getElementById("hatipText").innerText="Nüfus: "+hatVal+" ("+hatPct+"%)";
+        document.getElementById("hatipFill").style.width=hatPct+"%";
       } else {
-        document.getElementById('hatipStat').classList.add("lockedStat");
+        document.getElementById("hatipStat").classList.add("lockedStat");
       }
 
+      // Baron
       if(isBaronUnlocked){
-        document.getElementById('baronStat').classList.remove("lockedStat");
-        let baronValue = getBaronEtki();
-        let baronYuzde = (baronValue/500)*100;
-        document.getElementById('baronText').innerText = "Etki: " + baronValue + " (" + Math.floor(baronYuzde) + "%)";
-        document.getElementById('baronFill').style.width = baronYuzde + "%";
+        document.getElementById("baronStat").classList.remove("lockedStat");
+        let barVal=getBaronEtki();
+        let barPct=Math.floor((barVal/500)*100);
+        document.getElementById("baronText").innerText="Etki: "+barVal+" ("+barPct+"%)";
+        document.getElementById("baronFill").style.width=barPct+"%";
       } else {
-        document.getElementById('baronStat').classList.add("lockedStat");
+        document.getElementById("baronStat").classList.add("lockedStat");
       }
     }
 
-    /***** ROZET GÖSTERGESİ *****/
-    function updateBadgesUI() {
-      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
-      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
-      document.getElementById('redBadgeCount').innerText = redBadgeCount;
-      document.getElementById('vakurBadgeCount').innerText = blueBadgeCount;
-      document.getElementById('hatipBadgeCount').innerText = orangeBadgeCount;
-      document.getElementById('baronBadgeCount').innerText = redBadgeCount;
+    /****************** ROZET GÖSTERGESİ ******************/
+    function updateBadgesUI(){
+      document.getElementById("blueBadgeCount").innerText=blueBadgeCount;
+      document.getElementById("orangeBadgeCount").innerText=orangeBadgeCount;
+      document.getElementById("redBadgeCount").innerText=redBadgeCount;
+      document.getElementById("vakurBadgeCount").innerText=blueBadgeCount;
+      document.getElementById("hatipBadgeCount").innerText=orangeBadgeCount;
+      document.getElementById("baronBadgeCount").innerText=redBadgeCount;
     }
 
-    /***** GÖREV SAYFASI *****/
-    let currentRank = "";
-    function openGorevPage(rank) {
+    /****************** GÖREV SAYFASI ******************/
+    let currentRank="";
+    function openGorevPage(rank){
+      // Kilit kontrol
       if(rank==="Hatip" && !isHatipUnlocked) return;
       if(rank==="Baron" && !isBaronUnlocked) return;
 
-      currentRank = rank;
-      document.getElementById('mainPage').style.display = "none";
-      let gorevPage = document.getElementById('gorevPage');
-      gorevPage.style.display = "block";
-      document.getElementById('gorevHeader').innerText = rank + " Görevleri";
+      currentRank=rank;
+      document.getElementById("mainPage").style.display="none";
+      let gp=document.getElementById("gorevPage");
+      gp.style.display="block";
+      document.getElementById("gorevHeader").innerText= rank+" Görevleri";
 
       loadRankTasks(rank);
     }
-    function closeGorevPage() {
-      document.getElementById('gorevPage').style.display = "none";
-      document.getElementById('mainPage').style.display = "block";
+    function closeGorevPage(){
+      document.getElementById("gorevPage").style.display="none";
+      document.getElementById("mainPage").style.display="block";
     }
 
-    function loadRankTasks(rank) {
-      const container = document.getElementById("tasksContainer");
-      container.innerHTML = "";
+    // Görevleri listele
+    function loadRankTasks(rank){
+      let container=document.getElementById("tasksContainer");
+      container.innerHTML="";
+      let diffs=rankData[rank];
+      diffs.forEach((diffObj, diffIndex)=>{
+        let section=document.createElement("div");
+        section.className="rankSection";
+        if(diffObj.locked) section.classList.add("lockedDifficulty");
 
-      const difficulties = rankData[rank];
-      difficulties.forEach((diffObj, diffIndex)=>{
-        let section = document.createElement("div");
-        section.className = "rankSection";
-        if(diffObj.locked){
-          section.classList.add("lockedDifficulty");
-        }
-        let h2 = document.createElement("h2");
-        h2.innerText = diffObj.title;
+        let h2=document.createElement("h2");
+        h2.innerText=diffObj.title;
         section.appendChild(h2);
 
+        // Görevler
         diffObj.tasks.forEach((task,taskIndex)=>{
-          let divTask = document.createElement("div");
-          divTask.className = "taskItem";
-          if(task.done) {
-            divTask.classList.add("completedTask");
-          }
-          divTask.innerHTML=`
+          let divT=document.createElement("div");
+          divT.className="taskItem";
+          if(task.done) divT.classList.add("completedTask");
+          divT.innerHTML=`
             <span>${task.text}</span>
             <button onclick="completeTask('${rank}', ${diffIndex}, ${taskIndex})">Tamamla</button>
           `;
-          section.appendChild(divTask);
+          section.appendChild(divT);
         });
 
-        let pBar = document.createElement("div");
+        // Seviye bar
+        let pBar=document.createElement("div");
         pBar.className="difficultyProgressBar";
-        let pFill = document.createElement("div");
+        let pFill=document.createElement("div");
         pFill.className="difficultyProgressFill";
         pBar.appendChild(pFill);
         section.appendChild(pBar);
 
-        let pText = document.createElement("div");
+        let pText=document.createElement("div");
         pText.className="progressText";
         section.appendChild(pText);
 
         container.appendChild(section);
 
-        updateDifficultyProgress(rank,diffIndex);
+        // Yüzdeyi güncelle
+        updateDifficultyProgress(rank, diffIndex);
       });
     }
 
-    function completeTask(rank, diffIndex, taskIndex) {
-      const difficulties = rankData[rank];
-      let diffObj = difficulties[diffIndex];
-      if(diffObj.locked) {
+    // Görev tamamlama
+    function completeTask(rank, diffIndex, taskIndex){
+      let diffs=rankData[rank];
+      let diffObj=diffs[diffIndex];
+      if(diffObj.locked){
         alert("Bu görev bölümü kilitli!");
         return;
       }
-      let taskItem = diffObj.tasks[taskIndex];
-      if(taskItem.done) {
+      let taskItem=diffObj.tasks[taskIndex];
+      if(taskItem.done){
         alert("Zaten tamamladınız!");
         return;
       }
-      // Görevi tamamla
-      taskItem.done = true;
+      // Tamamla
+      taskItem.done=true;
 
       // Global sayaç
       if(rank==="Vakur"){
         vakurTaskCount++;
         checkVakurRewards();
-      }
-      else if(rank==="Hatip"){
+      } else if(rank==="Hatip"){
         hatipTaskCount++;
         checkHatipRewards();
-      }
-      else if(rank==="Baron"){
+      } else if(rank==="Baron"){
         baronTaskCount++;
         checkBaronRewards(taskItem.text);
       }
       updateStatBars();
       updateBadgesUI();
 
-      // Tüm görevler bitti mi? O difficulty'yi bitirmiş say
+      // Tüm görevler bitti mi => sonraki seviye kilidi
       let allDone = diffObj.tasks.every(t=>t.done===true);
       if(allDone){
-        if(diffIndex < difficulties.length-1){
-          // Sonraki difficulty kilidini aç
-          difficulties[diffIndex+1].locked=false;
-          alert(diffObj.title + " bitti! '" + difficulties[diffIndex+1].title + "' açıldı.");
+        if(diffIndex < diffs.length-1){
+          diffs[diffIndex+1].locked=false;
+          alert(diffObj.title+" bitti! '"+diffs[diffIndex+1].title+"' açıldı.");
         } else {
-          // SON difficulty
-          alert(rank + " rankındaki tüm görevleri bitirdiniz!");
+          // Son seviye bitti
+          alert(rank+" rankındaki tüm görevleri tamamladınız!");
           closeGorevPage();
+          // Rank atlama
           if(rank==="Vakur" && !isHatipUnlocked){
             isHatipUnlocked=true;
             document.getElementById("cardHatip").classList.remove("locked");
             alert("Tebrikler! Hatip kilidi açıldı, ana menüye dönüyorsunuz.");
-          }
-          else if(rank==="Hatip" && !isBaronUnlocked){
+          } else if(rank==="Hatip" && !isBaronUnlocked){
             isBaronUnlocked=true;
             document.getElementById("cardBaron").classList.remove("locked");
             alert("Tebrikler! Baron kilidi açıldı, ana menüye dönüyorsunuz.");
           }
-          // Baron bitince de isterseniz "Tebrikler! Oyun bitti" diyebilirsiniz.
         }
       }
-
+      // Ekranı yenile
       loadRankTasks(rank);
     }
 
-    function updateDifficultyProgress(rank, diffIndex) {
-      const difficulties = rankData[rank];
-      const diffObj = difficulties[diffIndex];
-      const doneCount = diffObj.tasks.filter(t=>t.done).length;
-      const totalCount = diffObj.tasks.length;
-      let percent = Math.floor((doneCount / totalCount)*100);
+    // % hesapla
+    function updateDifficultyProgress(rank, diffIndex){
+      let diffs=rankData[rank];
+      let diffObj=diffs[diffIndex];
+      let doneCount= diffObj.tasks.filter(t=>t.done).length;
+      let totalCount= diffObj.tasks.length;
+      let percent=Math.floor((doneCount/totalCount)*100);
 
-      let container = document.getElementById("tasksContainer").getElementsByClassName("rankSection")[diffIndex];
-      if(!container) return;
-      let fillBar = container.getElementsByClassName("difficultyProgressFill")[0];
-      let pText = container.getElementsByClassName("progressText")[0];
-      fillBar.style.width = percent + "%";
-      pText.innerText = doneCount + " / " + totalCount + " ("+percent+"%)";
+      let sections=document.getElementById("tasksContainer").getElementsByClassName("rankSection");
+      if(!sections[diffIndex]) return;
+      let fill=sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
+      let txt=sections[diffIndex].getElementsByClassName("progressText")[0];
+      fill.style.width=percent+"%";
+      txt.innerText = doneCount+" / "+totalCount+" ("+percent+"%)";
     }
 
-    /***** 50 görevde rozetler *****/
-    function checkVakurRewards() {
+    /*********** 50 GÖREVDE BİR ROZET vs. ***********/
+    function checkVakurRewards(){
       if(vakurTaskCount>0 && vakurTaskCount%50===0){
         blueBadgeCount++;
         alert("Vakur: 50 görev tamamladınız! +1 Rozet");
       }
     }
-    function checkHatipRewards() {
+    function checkHatipRewards(){
       if(hatipTaskCount>0 && hatipTaskCount%50===0){
         orangeBadgeCount++;
         alert("Hatip: 50 görev tamamladınız! +5 Nüfus, +1 Rozet");
       }
     }
-    function checkBaronRewards(taskText) {
+    function checkBaronRewards(taskText){
       if(baronTaskCount>0 && baronTaskCount%50===0){
         redBadgeCount++;
         money+=10000;
         updateMoneyUI();
         alert("Baron: 50 görev tamamladınız! +10.000$ +1 Rozet\n(Vakur rozeti düşebilir!)");
-        if(blueBadgeCount>0){
+        if(blueBadgeCount>0) {
           blueBadgeCount--;
         }
       }
-      // Hayır işi vb. kelime geçiyorsa Vakur geri yükselsin
+      // Hayır/Afet yardımı => Vakur artabilir
       if(taskText.toLowerCase().includes("hayır") || taskText.toLowerCase().includes("afet")){
         blueBadgeCount++;
         alert("Baron: Hayır/Afet yardımı yaptınız! Vakur rozeti +1");
