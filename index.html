@@ -15,6 +15,31 @@
       color: #f1f1f1;
       overflow-x: hidden;
     }
+    /* Loading Overlay – Sayfa yüklendiğinde JavaScript ile otomatik kaldırılacak */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.5s;
+    }
+    .loading-overlay.hide { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #4caf50;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     /* Ana Menü */
     #mainMenu {
       min-height: 100vh;
@@ -203,11 +228,11 @@
       padding: 20px;
       background: var(--primary-color);
       border-radius: 15px;
-      box-shadow: 0 8px 30px var(--shadow-dark), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 30px var(--shadow-dark), inset 0 1px 1px rgba(255,255,255,0.1);
       max-width: 95vw;
       text-align: center;
     }
-    /* Okey oyunu içeriği */
+    /* Okey oyununa ait diğer stiller */
     #okeyGameContainer #gameCanvas {
       border: 3px solid #1a472a;
       background-color: var(--secondary-color);
@@ -223,7 +248,7 @@
       text-shadow: 1px 1px 3px var(--shadow-dark);
       font-weight: 500;
       padding: 10px 20px;
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0,0,0,0.2);
       border-radius: 30px;
       display: inline-block;
     }
@@ -252,7 +277,6 @@
       transform: translateY(-3px);
       box-shadow: 0 6px 10px var(--shadow-dark);
     }
-    /* Common Variables for Okey Game from CSS Variables */
     :root {
       --primary-color: #1b5e20;
       --secondary-color: #388e3c;
@@ -268,6 +292,11 @@
   </style>
 </head>
 <body>
+  <!-- Loading Overlay (ilk açılışta gösterilir, sayfa yüklendikten sonra kaldırılacak) -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
   <!-- ANA MENÜ (Sadece Mafia Oyunu seçeneği çıkıyor) -->
   <div id="mainMenu">
     <h1>Oyun Seçimi</h1>
@@ -343,7 +372,7 @@
     </div>
   </div>
 
-  <!-- 101 Okey OYUNU -->
+  <!-- 101 Okey Oyunu -->
   <div id="okeyGameContainer" class="game-container">
     <div class="game-container">
       <div id="status">Loading Okey101...</div>
@@ -363,7 +392,7 @@
     <button class="btn" onclick="showGame('mafia')">Ana Menüye Dön</button>
   </div>
 
-  <!-- SABİT BUTON GRUBU (Ortak ek butonlar, örn. Rozet vs.) -->
+  <!-- SABİT BUTON GRUBU (Ortak ek butonlar) -->
   <div class="fixed-btn-group">
     <button class="btn" onclick="toggleBadgesModal()">Rozetlerim</button>
     <button class="btn hidden" id="marketBtn" onclick="toggleMarketModal()">Market</button>
@@ -462,10 +491,13 @@
     </div>
   </div>
 
-  <!-- MAFA OYUNU JS KODLARI -->
   <script>
-    /* Ana Menü ve oyunlar arası geçiş fonksiyonları */
+    /* ------------------------
+       Ana Menü & Oyunlar Arası Geçiş Fonksiyonları
+    ------------------------ */
     function showGame(game) {
+      // Seçim yapıldığında loading-overlay'ı gizle
+      document.getElementById('loadingOverlay').classList.add('hide');
       if (game === 'mafia') {
         document.getElementById('mainMenu').style.display = 'none';
         document.getElementById('okeyGameContainer').style.display = 'none';
@@ -481,8 +513,10 @@
       document.getElementById('okeyGameContainer').style.display = 'none';
       document.getElementById('mainMenu').style.display = 'flex';
     }
-
-    /* Mafia Oyununa ait temel kodlar */
+      
+    /* ------------------------
+       Mafia Oyunu İçin Kodlar
+    ------------------------ */
     let currentRank = "Vakur";
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
@@ -647,3 +681,60 @@
       
     function updateMoneyUI() {
       document.getElementById('money').innerText = money;
+    }
+      
+    function updateBadgesUI() {
+      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
+      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
+      document.getElementById('redBadgeCount').innerText = redBadgeCount;
+    }
+      
+    function closeTaskContainer() {
+      document.getElementById('taskContainer').classList.remove('active');
+    }
+      
+    // Başlangıç güncellemeleri
+    updateStatBars();
+    updateProfileInfo();
+    updateMoneyUI();
+    updateBadgesUI();
+  </script>
+
+  <!-- 101 Okey Oyunu JS (İzolasyon içinde) -->
+  <script>
+    (function(){
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      const status = document.getElementById('status');
+      const drawButton = document.getElementById('drawButton');
+      const meldButton = document.getElementById('meldButton');
+      const undoButton = document.getElementById('undoButton');
+      const restartButton = document.getElementById('restartButton');
+      
+      canvas.width = 1000;
+      canvas.height = 700;
+      status.textContent = "Welcome to 101 Okey!";
+      
+      drawButton.addEventListener('click', () => { 
+          status.textContent = "Draw Tile clicked."; 
+      });
+      meldButton.addEventListener('click', () => { 
+          status.textContent = "Confirm Melds clicked."; 
+      });
+      undoButton.addEventListener('click', () => { 
+          status.textContent = "Undo Move clicked."; 
+      });
+      restartButton.addEventListener('click', () => { 
+          status.textContent = "New Game clicked."; 
+      });
+    })();
+  </script>
+
+  <script>
+    // Sayfa tamamen yüklendiğinde loading overlay'ı gizle
+    window.addEventListener('load', () => {
+      document.getElementById('loadingOverlay').classList.add('hide');
+    });
+  </script>
+</body>
+</html>
