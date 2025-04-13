@@ -11,10 +11,11 @@
       box-sizing: border-box;
     }
     body {
-      background: #888; /* Tamamen gri arka plan */
-      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #888; /* Gri arka plan */
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
-    /* Üst kısım (siyah header) */
+
+    /* Üst (Siyah) Header */
     header {
       background: #000;
       color: #fff;
@@ -39,6 +40,9 @@
       letter-spacing: 3px;
       margin-right: 15px;
     }
+    .logo-dolphin svg {
+      width: 50px; height: auto;
+    }
     .money {
       position: absolute;
       right: 20px;
@@ -50,62 +54,31 @@
       color: #ffcc00;
     }
 
-    /* Orta kısım container */
+    /* Sayfa içi ana kapsayıcı (padding-top: header boşluğu) */
     .container {
       width: 100%;
-      max-width: 600px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding-top: 100px; /* header boşluğu */
-      text-align: center;
-    }
-    .container h1 {
-      margin-bottom: 1rem;
-      color: #fff;
-    }
-
-    /* Butonlar (Durumum, Market, Kumar) */
-    .btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: center;
-      margin-top: 2rem;
-    }
-    .btn {
-      background: #444;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 0.8rem 1.5rem;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s;
-      min-width: 180px;
-    }
-    .btn:hover {
-      background: #666;
-    }
-    .btn.locked {
-      opacity: 0.5;
-      cursor: default;
-    }
-
-    /* Durumum Paneli (collapsible) */
-    .durumum-panel {
-      background: rgba(255,255,255,0.2);
-      margin: 1rem auto;
-      padding: 1rem;
-      border-radius: 5px;
-      width: 100%;
-      max-width: 480px;
+      padding-top: 100px; 
+      /* Sol hizalı görünüm için eklemeler: */
       text-align: left;
-      display: none; /* Başta gizli */
+      color: #fff; /* metin rengi beyaz / gri üstünde okuyabilmek için */
+      padding-left: 30px; 
+      padding-right: 30px;
+      padding-bottom: 50px;
     }
-    .durumum-panel.active {
-      display: block;
+
+    /* Sol tarafta stat barları */
+    #statBars {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      width: 280px;
+      z-index: 1000;
+      text-align: left; /* Soldan hizalama */
     }
     .stat-bar {
-      background: #666;
+      background: #555;
       margin-bottom: 1rem;
       padding: 5px;
       border-radius: 5px;
@@ -127,13 +100,158 @@
       font-size: 0.9rem;
       color: #fff;
     }
+    .lockedStat {
+      opacity: 0.5;
+    }
     .rozet-info {
-      background: #555;
+      background: #444;
       color: #fff;
-      margin-top: 5px;
-      padding: 5px;
+      margin-top: 3px;
+      padding: 4px;
       border-radius: 4px;
       font-size: 0.9rem;
+    }
+
+    /* Butonlar ÜST: Durumum / Market / Kumar */
+    .top-btn-group {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .top-btn-group .btn {
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .top-btn-group .btn:hover {
+      background: #444;
+    }
+    .btn.locked {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    /* Rütbe Kartları (sol hizalı) */
+    .rank-selection {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .card {
+      background: #444;
+      color: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      width: 180px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+    }
+    .card.locked {
+      opacity: 0.5;
+      pointer-events: none;
+      position: relative;
+    }
+    .card.locked::after {
+      content: "KİLİTLİ";
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-weight: bold;
+      color: #ff4444;
+    }
+    .card button {
+      background: #666;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 0.5rem 0.8rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+    }
+    .card button:hover {
+      background: #777;
+    }
+
+    /* Görev Alanı */
+    .task-container {
+      background: #444;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 600px;
+      display: none; /* Kapalı başlayacak */
+      position: relative;
+    }
+    .task-container.active {
+      display: block;
+    }
+    .task-container h3 {
+      margin-bottom: 0.5rem;
+      color: #ffcc00;
+      font-size: 1.1rem;
+    }
+    .close-task {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    #taskOptions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+    }
+    .task-option {
+      background: #555;
+      padding: 0.75rem;
+      border-radius: 5px;
+      cursor: default;
+    }
+    .task-option.active {
+      background: #ff4444;
+      color: #fff;
+      cursor: pointer;
+    }
+    .task-option.completed {
+      background: #00bfff;
+      color: #000;
+    }
+    .task-option.locked {
+      opacity: 0.6;
+    }
+    .progress-container {
+      background: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .progress-bar {
+      height: 20px;
+      width: 0%;
+      background: #00bfff;
+      transition: width 1s;
+    }
+    .progress-text {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      color: #fff;
     }
 
     /* Market Modal */
@@ -147,29 +265,26 @@
       justify-content: center;
       z-index: 2000;
     }
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.active {
+      display: flex;
+    }
     .modal {
       background: #333;
-      border-radius: 10px;
+      color: #fff;
+      border-radius: 8px;
       padding: 20px;
       width: 90%;
       max-width: 400px;
-      text-align: center;
       position: relative;
-      color: #fff;
     }
     .close-modal {
       position: absolute;
       top: 10px; right: 10px;
-      background: transparent;
-      border: none;
-      font-size: 1.3rem;
-      color: #fff;
-      cursor: pointer;
+      background: transparent; border: none;
+      font-size: 1.2rem; color: #fff; cursor: pointer;
     }
     .market-list {
-      text-align: left;
-      margin-top: 1rem;
+      margin-top: 1rem; 
     }
     .market-item {
       background: #444;
@@ -179,71 +294,106 @@
     }
 
     /* Kumar (Okey) Modal */
+    #kumarModal .modal {
+      text-align: left; /* Sol hizalı */
+    }
     .game-container {
-      background: #2a2a2a;
-      border-radius: 5px;
-      padding: 20px;
+      background: #222;
       margin-top: 1rem;
-      color: #fff;
+      padding: 1rem;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <!-- Üst Siyah Header -->
+  <!-- ÜST SİYAH HEADER -->
   <header>
     <div class="header-inner">
       <div class="logo-text">BLACK DOLPHINE</div>
+      <div class="logo-dolphin">
+        <svg viewBox="0 0 100 50">
+          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"
+                fill="#00cc66" stroke="#fff" stroke-width="2"/>
+        </svg>
+      </div>
       <div class="money">Dolar: <span id="money">500000</span></div>
     </div>
   </header>
 
-  <!-- Orta Container -->
+  <!-- SOL TARAFTA STAT BARLAR (Vakur/Hatip/Baron) -->
+  <div id="statBars">
+    <div class="stat-bar" id="vakurStat">
+      <div class="stat-label">Vakur 🛡️</div>
+      <div class="stat-fill" id="vakurFill"></div>
+      <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+      <div class="rozet-info" id="maviRozetInfo">Mavi Rozet: 0</div>
+    </div>
+    <div class="stat-bar lockedStat" id="hatipStat">
+      <div class="stat-label">Hatip 👥</div>
+      <div class="stat-fill" id="hatipFill"></div>
+      <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+      <div class="rozet-info" id="turuncuRozetInfo">Turuncu Rozet: 0</div>
+    </div>
+    <div class="stat-bar lockedStat" id="baronStat">
+      <div class="stat-label">Baron ♛</div>
+      <div class="stat-fill" id="baronFill"></div>
+      <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
+      <div class="rozet-info" id="kirmiziRozetInfo">Kırmızı Rozet: 0</div>
+    </div>
+  </div>
+
+  <!-- ANA İÇERİK KISMI -->
   <div class="container">
-    <!-- 1) "Durumum" Butonu + Collapsible Panel -->
-    <div class="btn-group">
-      <button class="btn" onclick="toggleDurumum()">Durumum</button>
+    <!-- Üstte buton grubu: Durumum, Market, Kumar -->
+    <div class="top-btn-group">
+      <button class="btn" onclick="toggleDurum()">Durumum</button>
       <button class="btn" id="marketBtn" onclick="openMarket()">Market</button>
       <button class="btn" onclick="openKumar()">Kumar</button>
     </div>
 
-    <!-- Durumum Panel (Vakut-Hatip-Baron stat) -->
-    <div class="durumum-panel" id="durumumPanel">
-      <!-- Vakur -->
-      <div class="stat-bar" id="vakurBar">
-        <div class="stat-label">Vakur 🛡️</div>
-        <div class="stat-fill" id="vakurFill"></div>
-        <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
-        <div class="rozet-info" id="rozetMavi">Mavi Rozet: 0</div>
+    <!-- (İsteğe bağlı) Rütbe Seçimi -->
+    <div class="rank-selection">
+      <div class="card" id="cardVakur">
+        <h4>Vakur</h4>
+        <p>Mavi Rozetli</p>
+        <button onclick="selectRank('Vakur')">Görevleri Gör</button>
       </div>
-      <!-- Hatip -->
-      <div class="stat-bar" id="hatipBar">
-        <div class="stat-label">Hatip 👥</div>
-        <div class="stat-fill" id="hatipFill"></div>
-        <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
-        <div class="rozet-info" id="rozetTuruncu">Turuncu Rozet: 0</div>
+      <div class="card locked" id="cardHatip">
+        <h4>Hatip</h4>
+        <p>Turuncu Rozetli</p>
+        <button onclick="selectRank('Hatip')">Görevleri Gör</button>
       </div>
-      <!-- Baron -->
-      <div class="stat-bar" id="baronBar">
-        <div class="stat-label">Baron ♛</div>
-        <div class="stat-fill" id="baronFill"></div>
-        <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
-        <div class="rozet-info" id="rozetKirmizi">Kırmızı Rozet: 0</div>
+      <div class="card locked" id="cardBaron">
+        <h4>Baron</h4>
+        <p>Kırmızı Rozetli</p>
+        <button onclick="selectRank('Baron')">Görevleri Gör</button>
       </div>
     </div>
-  </div>
+
+    <!-- Görev Alanı (açılıp kapanır) -->
+    <div class="task-container" id="taskContainer">
+      <button class="close-task" onclick="closeTaskContainer()">×</button>
+      <h3 id="rankTitle"></h3>
+      <div id="taskOptions"></div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+
+  </div><!-- /container -->
 
   <!-- MARKET Modal -->
   <div class="modal-overlay" id="marketModal">
     <div class="modal">
       <button class="close-modal" onclick="closeMarket()">×</button>
       <h2>Market</h2>
-      <p>(Sadece Baron açık)</p>
+      <p>(Sadece Baron olanlar erişebilir.)</p>
       <div class="market-list">
         <div class="market-item">Silah - 5000$</div>
         <div class="market-item">Zırh - 8000$</div>
         <div class="market-item">Zırhlı Araç - 15000$</div>
         <div class="market-item">Çelik Yelek - 3000$</div>
-        <div class="market-item">Silah (2) - 6000$</div>
         <div class="market-item">Tüfek - 7000$</div>
         <div class="market-item">Bomba - 10000$</div>
       </div>
@@ -256,60 +406,83 @@
       <button class="close-modal" onclick="closeKumar()">×</button>
       <h2>Kumar</h2>
       <div class="game-container">
-        <p>Şimdilik sadece Okey örneği gösteriliyor.</p>
-        <!-- İleride Batak, Tavla, Türk Pokeri eklenecek -->
+        <p>Şu an sadece Okey. (İleride Batak / Tavla / Türk Pokeri de eklenecek.)</p>
       </div>
     </div>
   </div>
 
   <script>
-    /*-----------------------------------------------------------
-      ÖRNEK: Basit Değişkenler
-    -----------------------------------------------------------*/
+    /***************************************************
+     * ÖRNEK DEĞİŞKENLER
+     ***************************************************/
     let money = 500000;
-    let vakurPercent = 0;
-    let hatipPercent = 0;
-    let baronPercent = 0;
-    let maviRozet = 0;
-    let turuncuRozet = 0;
-    let kirmiziRozet = 0;
+    let vakurProgress = 0;
+    let hatipProgress = 0;
+    let baronProgress = 0;
+    let rozetMavi = 0;
+    let rozetTuruncu = 0;
+    let rozetKirmizi = 0;
 
-    /* Market, sadece Baron ise açılacak */
-    let isBaron = false; // Örnek: false => Market kilitli, true => Market açık
-    // Denemek isterseniz console'da isBaron=true yapıp butonu tekrar deneyebilirsiniz.
+    let isHatipUnlocked = false;
+    let isBaronUnlocked = false;
+    let isBaron = false; // Market kilidi kontrolü (Baron olan => true)
 
-    // Sayfa yüklenince market butonunu güncelle
+    /* Görev sayacı örnekleri */
+    let vakurTaskCount = 0;
+    let hatipTaskCount = 0;
+    let baronTaskCount = 0;
+
     window.addEventListener('load', () => {
       updateMoneyUI();
-      updateStatsUI();
+      updateStats();
+      updateRozetUI();
       updateMarketBtn();
     });
 
-    /*-----------------------------------------------------------
-      1) Durumum Collapsible
-    -----------------------------------------------------------*/
-    function toggleDurumum() {
-      const panel = document.getElementById('durumumPanel');
-      panel.classList.toggle('active');
+    /***************************************************
+     * 1) Stat Güncelleme
+     ***************************************************/
+    function updateStats() {
+      // Vakur
+      document.getElementById('vakurFill').style.width = vakurProgress + "%";
+      document.getElementById('vakurText').textContent = "Koruma: " + vakurProgress + " (" + vakurProgress + "%)";
+      // Hatip
+      if(isHatipUnlocked) {
+        document.getElementById('hatipStat').classList.remove('lockedStat');
+      }
+      document.getElementById('hatipFill').style.width = hatipProgress + "%";
+      document.getElementById('hatipText').textContent = "Nüfus: " + hatipProgress + " (" + hatipProgress + "%)";
+      // Baron
+      if(isBaronUnlocked) {
+        document.getElementById('baronStat').classList.remove('lockedStat');
+        isBaron = true; // Örnek: eğer kilidi açtıysanız
+        updateMarketBtn();
+      }
+      document.getElementById('baronFill').style.width = baronProgress + "%";
+      document.getElementById('baronText').textContent = "Etki: " + baronProgress + " (" + baronProgress + "%)";
     }
-    function updateStatsUI() {
-      // Basit örnek: progress bar width
-      document.getElementById('vakurFill').style.width = vakurPercent + '%';
-      document.getElementById('vakurText').textContent = `Koruma: ${vakurPercent} (${vakurPercent}%)`;
-      document.getElementById('rozetMavi').textContent = `Mavi Rozet: ${maviRozet}`;
 
-      document.getElementById('hatipFill').style.width = hatipPercent + '%';
-      document.getElementById('hatipText').textContent = `Nüfus: ${hatipPercent} (${hatipPercent}%)`;
-      document.getElementById('rozetTuruncu').textContent = `Turuncu Rozet: ${turuncuRozet}`;
-
-      document.getElementById('baronFill').style.width = baronPercent + '%';
-      document.getElementById('baronText').textContent = `Etki: ${baronPercent} (${baronPercent}%)`;
-      document.getElementById('rozetKirmizi').textContent = `Kırmızı Rozet: ${kirmiziRozet}`;
+    function updateRozetUI() {
+      document.getElementById('maviRozetInfo').textContent = "Mavi Rozet: " + rozetMavi;
+      document.getElementById('turuncuRozetInfo').textContent = "Turuncu Rozet: " + rozetTuruncu;
+      document.getElementById('kirmiziRozetInfo').textContent = "Kırmızı Rozet: " + rozetKirmizi;
     }
 
-    /*-----------------------------------------------------------
-      2) Market
-    -----------------------------------------------------------*/
+    function updateMoneyUI() {
+      document.getElementById('money').textContent = money;
+    }
+
+    /***************************************************
+     * 2) Durum Butonu (Örnek: aç/kapa stat bar yok - 
+     *   isterseniz collapsible yaparsınız)
+     ***************************************************/
+    function toggleDurum() {
+      alert("Şu an Durum bilgisi: \nVakut: " + vakurProgress + "%\nHatip: " + hatipProgress + "%\nBaron: " + baronProgress + "%");
+    }
+
+    /***************************************************
+     * 3) Market (Baron kontrolü)
+     ***************************************************/
     function updateMarketBtn() {
       const btn = document.getElementById('marketBtn');
       if(!isBaron) {
@@ -320,7 +493,7 @@
     }
     function openMarket() {
       if(!isBaron) {
-        alert("Baron değilsiniz, Market kilitli!");
+        alert("Market kilitli, Baron değilsiniz!");
         return;
       }
       document.getElementById('marketModal').classList.add('active');
@@ -329,9 +502,9 @@
       document.getElementById('marketModal').classList.remove('active');
     }
 
-    /*-----------------------------------------------------------
-      3) Kumar (Okey)
-    -----------------------------------------------------------*/
+    /***************************************************
+     * 4) Kumar
+     ***************************************************/
     function openKumar() {
       document.getElementById('kumarModal').classList.add('active');
     }
@@ -339,11 +512,82 @@
       document.getElementById('kumarModal').classList.remove('active');
     }
 
-    /*-----------------------------------------------------------
-      4) Para UI
-    -----------------------------------------------------------*/
-    function updateMoneyUI() {
-      document.getElementById('money').textContent = money;
+    /***************************************************
+     * 5) Rütbe Kartları ve Görev Alanı
+     ***************************************************/
+    let currentRank = "Vakur";
+    function selectRank(rank) {
+      if(rank === "Hatip" && !isHatipUnlocked) return;
+      if(rank === "Baron" && !isBaronUnlocked) return;
+      currentRank = rank;
+      showNextTask();
+      document.getElementById('taskContainer').classList.add('active');
+    }
+    function closeTaskContainer() {
+      document.getElementById('taskContainer').classList.remove('active');
+    }
+    function showNextTask() {
+      document.getElementById('taskOptions').innerHTML = "";
+      let count, rankTitle;
+      if(currentRank === "Vakur") {
+        count = vakurTaskCount;
+        rankTitle = "Vakur Görevleri";
+      } else if(currentRank === "Hatip") {
+        count = hatipTaskCount;
+        rankTitle = "Hatip Görevleri";
+      } else {
+        count = baronTaskCount;
+        rankTitle = "Baron Görevleri";
+      }
+      document.getElementById('rankTitle').textContent = rankTitle + " (örnek)";
+
+      // Basit 8 görev simülasyonu
+      const totalTasks = 8;
+      for(let i=0; i< totalTasks; i++){
+        const div = document.createElement('div');
+        div.classList.add('task-option');
+        div.textContent = `Görev ${i+1}`;
+        if(i < count) {
+          div.classList.add('completed');
+        } else if(i === count) {
+          div.classList.add('active');
+          div.addEventListener('click', completeActiveTask);
+        } else {
+          div.classList.add('locked');
+        }
+        document.getElementById('taskOptions').appendChild(div);
+      }
+
+      const prog = (count / totalTasks) * 100;
+      document.getElementById('progressBar').style.width = prog + "%";
+      document.getElementById('progressText').textContent = Math.floor(prog) + "%";
+    }
+    function completeActiveTask() {
+      if(currentRank === "Vakur") {
+        vakurTaskCount++;
+        // 8'in sonuna ulaştıysa Hatip kilidi aç
+        if(vakurTaskCount >= 8 && !isHatipUnlocked) {
+          isHatipUnlocked = true;
+          document.getElementById('cardHatip').classList.remove('locked');
+        }
+        vakurProgress += 10; // Örnek
+        rozetMavi++;
+      } else if(currentRank === "Hatip") {
+        hatipTaskCount++;
+        if(hatipTaskCount >= 8 && !isBaronUnlocked) {
+          isBaronUnlocked = true;
+          document.getElementById('cardBaron').classList.remove('locked');
+        }
+        hatipProgress += 10;
+        rozetTuruncu++;
+      } else {
+        baronTaskCount++;
+        baronProgress += 10;
+        rozetKirmizi++;
+      }
+      updateStats();
+      updateRozetUI();
+      showNextTask();
     }
   </script>
 </body>
