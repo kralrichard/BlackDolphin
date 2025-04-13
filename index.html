@@ -2,94 +2,41 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu / Okey101</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
   <style>
-    /* =========================
-       Mafia Oyunu Üst Bölümü & Genel Temel Stil
-       ========================= */
+    /****************************************
+     * TEMEL SIFIRLAMA VE GENEL STİL
+     ****************************************/
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(120deg, #272727, #111, #000);
       color: #f1f1f1;
       min-height: 100vh;
-      /* Üstte header için boşluk bırakıyoruz */
-      padding-top: 150px;
+      padding-top: 150px; /* Header & stat barlar için üst boşluk */
+      position: relative;
     }
-    a { text-decoration: none; color: inherit; }
-    
-    /* --- Stat Barlar ve Profil --- */
-    #statBars {
-      position: fixed;
-      top: 80px;
-      left: 20px;
-      width: 280px;
-      z-index: 1000;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
-    .stat-bar {
-      margin-bottom: 1rem;
-      background: #444;
-      border-radius: 5px;
-      padding: 5px;
-    }
-    .stat-label { margin-bottom: 3px; font-weight: bold; }
-    .stat-fill {
-      height: 20px;
-      background: #00bfff;
-      width: 0%;
-      border-radius: 3px;
-      transition: width 1s ease;
-    }
-    .stat-text { margin-top: 3px; font-size: 0.9rem; }
-    .lockedStat { opacity: 0.4; }
-    #profileInfo { margin-top: 1rem; font-weight: bold; font-size: 1rem; }
-    
-    /* --- Village Travel Panel --- */
-    #villageTravel {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.7);
-      padding: 1rem;
-      border-radius: 10px;
-      width: 220px;
-      text-align: center;
-      z-index: 1000;
-    }
-    #villageTravel h3 { margin-bottom: 1rem; font-size: 1rem; }
-    #villageTravel ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    #villageTravel li {
-      margin-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #villageTravel li button {
-      padding: 0.3rem 0.5rem;
-      font-size: 0.8rem;
-      cursor: pointer;
-      background: #ff4444;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      transition: background 0.3s;
-    }
-    #villageTravel li button:hover { background: #ff2222; }
-    
-    /* --- Header: Black Dolphine 3D Logo --- */
+
+    /****************************************
+     * HEADER (Üst Logo, Para Bilgisi)
+     ****************************************/
     .logo-header {
       position: fixed;
       top: 0;
@@ -112,7 +59,7 @@
       text-transform: uppercase;
       letter-spacing: 4px;
       color: #fff;
-      text-shadow: 
+      text-shadow:
         2px 2px 0px #000,
         4px 4px 0px #fff,
         6px 6px 5px rgba(0,0,0,0.5);
@@ -137,20 +84,113 @@
       font-weight: bold;
       z-index: 2100;
     }
-    
-    /* --- Ana İçerik (Mafia Oyunu) --- */
+
+    /****************************************
+     * STAT BARLARI (Sol Üst Sabit)
+     ****************************************/
+    #statBars {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      width: 280px;
+      z-index: 1000;
+    }
+    .stat-bar {
+      margin-bottom: 1rem;
+      background: #444;
+      border-radius: 5px;
+      padding: 5px;
+    }
+    .stat-label {
+      margin-bottom: 3px;
+      font-weight: bold;
+    }
+    .stat-fill {
+      height: 20px;
+      background: #00bfff;
+      width: 0%;
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+    .stat-text {
+      margin-top: 3px;
+      font-size: 0.9rem;
+    }
+    .lockedStat {
+      opacity: 0.4;
+    }
+    #profileInfo {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    /****************************************
+     * VILLAGE TRAVEL (Sağ Orta)
+     ****************************************/
+    #villageTravel {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.7);
+      padding: 1rem;
+      border-radius: 10px;
+      width: 220px;
+      text-align: center;
+      z-index: 1000;
+    }
+    #villageTravel h3 {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    #villageTravel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #villageTravel li {
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #villageTravel li button {
+      padding: 0.3rem 0.5rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: #ff4444;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      transition: background 0.3s;
+    }
+    #villageTravel li button:hover {
+      background: #ff2222;
+    }
+
+    /****************************************
+     * ANA İÇERİK
+     ****************************************/
     main {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
       text-align: center;
     }
-    main h1 { margin-bottom: 1rem; font-size: 2rem; }
+    main h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
     main h4 {
       margin-bottom: 2rem;
       font-weight: normal;
       color: #ccc;
     }
+
+    /****************************************
+     * RÜTBE SEÇİM KARTLARI
+     ****************************************/
     .rank-selection {
       display: flex;
       justify-content: center;
@@ -168,10 +208,13 @@
       transition: transform 0.3s ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
-    .card:hover { transform: translateY(-5px); }
+    .card:hover {
+      transform: translateY(-5px);
+    }
     .card.locked {
       opacity: 0.5;
       position: relative;
+      pointer-events: none;
     }
     .card.locked::after {
       content: "KİLİTLİ";
@@ -195,7 +238,13 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-    .card button:hover { background: #ff2222; }
+    .card button:hover {
+      background: #ff2222;
+    }
+
+    /****************************************
+     * GÖREV ALANI (Task Container)
+     ****************************************/
     .task-container {
       background: rgba(255,255,255,0.07);
       padding: 1.5rem;
@@ -204,6 +253,10 @@
       max-width: 600px;
       margin: 2rem auto;
       position: relative;
+      display: none; /* Başta gizli */
+    }
+    .task-container.active {
+      display: block;
     }
     .close-task {
       position: absolute;
@@ -214,6 +267,10 @@
       color: #fff;
       font-size: 1.2rem;
       cursor: pointer;
+    }
+    #rankTitle {
+      color: #ffcc00;
+      margin-bottom: 1rem;
     }
     #taskOptions {
       display: flex;
@@ -227,11 +284,20 @@
       border: 1px solid #555;
       border-radius: 5px;
       background: rgba(255,255,255,0.05);
+      cursor: default;
+    }
+    .task-option.active {
+      background: #ff4444;
       cursor: pointer;
     }
-    .task-option.active { background: #ff4444; }
-    .task-option.completed { background: #00bfff; color: #000; }
-    .task-option.available { background: #777; }
+    .task-option.completed {
+      background: #00bfff;
+      color: #000;
+    }
+    .task-option.locked {
+      background: #555;
+      opacity: 0.6;
+    }
     .progress-container {
       background: #444;
       border-radius: 5px;
@@ -244,50 +310,14 @@
       background: #00bfff;
       transition: width 1s ease;
     }
-    .progress-text { margin-top: 0.5rem; font-weight: bold; }
-
-    /* =========================
-       Okey101 Oyun Bölümü (Modal içinde)
-       ========================= */
-    /* Modal overlay ortak stil */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 3000;
-      transition: opacity 0.5s;
-    }
-    .modal-overlay.active { display: flex; opacity: 1; }
-    .modal {
-      background: #1c1c1c;
-      border-radius: 10px;
-      padding: 20px;
-      max-width: 1200px;
-      width: 95%;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-    }
-    .modal .close-modal {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
+    .progress-text {
+      margin-top: 0.5rem;
+      font-weight: bold;
     }
 
-    /* =========================
-       Fixed Button Grupları
-       ========================= */
+    /****************************************
+     * SABİT BUTON GRUPLARI (Sağ Alt / Sol Alt)
+     ****************************************/
     .fixed-btn-group {
       position: fixed;
       bottom: 20px;
@@ -309,7 +339,12 @@
       min-width: 120px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
-    .fixed-btn-group .btn:hover { background: #ff2222; }
+    .fixed-btn-group .btn:hover {
+      background: #ff2222;
+    }
+    .hidden {
+      display: none !important;
+    }
 
     /* Fixed Okey Button (Bottom Left) */
     .fixed-btn-left {
@@ -323,7 +358,7 @@
       font-size: 16px;
       border: none;
       border-radius: 8px;
-      background-color: var(--button-primary, #0288d1);
+      background-color: #0288d1;
       color: white;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -332,56 +367,79 @@
       min-width: 120px;
     }
     .fixed-btn-left .btn:hover {
-      background-color: var(--button-hover, #0277bd);
+      background-color: #0277bd;
       transform: translateY(-3px);
       box-shadow: 0 6px 10px rgba(0,0,0,0.3);
     }
-    
-    /* =========================
-       Okey101 Oyun Kodlarının Diğer Stilleri (GitHub'dan alınan kısım)
-       ========================= */
-    /* (Buradan sonraki stil kodları GitHub'dan alınan Okey101 oyununun stil kodlarıdır;
-       oyun-container, opponent-area, info-panel, sound-toggle, vb. içerikleri içerir) */
-    :root {
-      --primary-color: #1b5e20;
-      --secondary-color: #388e3c;
-      --accent-color: #4caf50;
-      --text-light: #e0e0e0;
-      --text-dark: #333333;
-      --button-primary: #0288d1;
-      --button-hover: #0277bd;
-      --button-disabled: #78909c;
-      --shadow-light: rgba(0, 0, 0, 0.1);
-      --shadow-dark: rgba(0, 0, 0, 0.3);
+
+    /****************************************
+     * Okey101 Modal ve Oyun Stili
+     ****************************************/
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      transition: opacity 0.5s;
+    }
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal {
+      background: #1c1c1c;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 1200px;
+      width: 95%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+    }
+    .modal .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
     }
     .game-container {
-      background: var(--primary-color);
+      background: #1b5e20;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 8px 30px var(--shadow-dark), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
       position: relative;
       text-align: center;
       max-width: 95vw;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .game-container:hover {
-      box-shadow: 0 12px 40px var(--shadow-dark), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
     }
     #gameCanvas {
       border: 3px solid #1a472a;
-      background-color: var(--secondary-color);
+      background-color: #388e3c;
       border-radius: 10px;
-      box-shadow: inset 0 0 10px var(--shadow-dark);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
       transition: box-shadow 0.3s;
+      display: block;
+      margin: 0 auto;
     }
     #status {
       font-size: 20px;
-      color: var(--text-light);
+      color: #e0e0e0;
       margin-bottom: 15px;
-      text-shadow: 1px 1px 3px var(--shadow-dark);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
       font-weight: 500;
       padding: 10px 20px;
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0,0,0,0.2);
       border-radius: 30px;
       display: inline-block;
       transition: background-color 0.3s;
@@ -393,10 +451,10 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    /* (Buradan sonrası Okey101 oyununun diğer stil kodları: opponent-area, info-panel, toggles, spinner, vb.) */
+    /* Rakiplerin 'Eldeki Tile' gösterimi */
     .opponent-area {
       position: absolute;
-      color: var(--text-light);
+      color: #e0e0e0;
       font-size: 16px;
       font-weight: 500;
       background-color: rgba(0, 0, 0, 0.2);
@@ -408,15 +466,27 @@
       background-color: rgba(76, 175, 80, 0.3);
       transform: scale(1.05);
     }
-    #opponent1 { top: 20px; left: 50%; transform: translateX(-50%); }
-    #opponent2 { top: 50%; left: 10px; transform: translateY(-50%); }
-    #opponent3 { top: 50%; right: 10px; transform: translateY(-50%); }
+    #opponent1 {
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #opponent2 {
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+    }
+    #opponent3 {
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+    }
     #player-area {
       position: absolute;
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
-      color: var(--text-light);
+      color: #e0e0e0;
       font-size: 16px;
       font-weight: 500;
       background-color: rgba(0, 0, 0, 0.2);
@@ -432,7 +502,7 @@
       top: 20px;
       right: 20px;
       background-color: rgba(0, 0, 0, 0.7);
-      color: var(--text-light);
+      color: #e0e0e0;
       padding: 15px;
       border-radius: 10px;
       max-width: 300px;
@@ -441,7 +511,7 @@
       z-index: 100;
       transform: translateX(120%);
       transition: transform 0.5s ease;
-      box-shadow: 0 5px 15px var(--shadow-dark);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
     .info-panel.show {
       transform: translateX(0);
@@ -449,7 +519,7 @@
     .info-panel h3 {
       margin-bottom: 10px;
       font-size: 18px;
-      border-bottom: 1px solid var(--accent-color);
+      border-bottom: 1px solid #4caf50;
       padding-bottom: 5px;
     }
     .info-panel p {
@@ -463,17 +533,17 @@
       z-index: 101;
       width: 40px;
       height: 40px;
-      background-color: var(--button-primary);
+      background-color: #0288d1;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 3px 8px var(--shadow-dark);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
       transition: background-color 0.3s, transform 0.3s;
     }
     .info-toggle:hover {
-      background-color: var(--button-hover);
+      background-color: #0277bd;
       transform: scale(1.1);
     }
     .info-toggle-icon {
@@ -504,12 +574,10 @@
     }
     .loading-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 2000;
@@ -520,7 +588,7 @@
       height: 60px;
       border: 6px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
-      border-top-color: var(--accent-color);
+      border-top-color: #4caf50;
       animation: spin 1s ease-in-out infinite;
     }
     @keyframes spin {
@@ -533,17 +601,17 @@
       z-index: 101;
       width: 40px;
       height: 40px;
-      background-color: var(--button-primary);
+      background-color: #0288d1;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 3px 8px var(--shadow-dark);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
       transition: background-color 0.3s, transform 0.3s;
     }
     .sound-toggle:hover {
-      background-color: var(--button-hover);
+      background-color: #0277bd;
       transform: scale(1.1);
     }
     .sound-toggle-icon {
@@ -551,6 +619,24 @@
       font-size: 18px;
       font-weight: bold;
     }
+    .draggable-hint {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #e0e0e0;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .draggable-hint.show {
+      opacity: 1;
+    }
+
+    /* Responsive uyarlamalar */
     @media (max-width: 1100px) {
       #gameCanvas {
         width: 90vw;
@@ -578,54 +664,99 @@
         max-width: 250px;
       }
     }
-    .draggable-hint {
-      position: absolute;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--text-light);
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .draggable-hint.show {
-      opacity: 1;
-    }
 
-    /* =========================
-       Fixed Button for Okey (Bottom Left)
-       ========================= */
-    .fixed-btn-left {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 1000;
+    /****************************************
+     * Ek Modal Stilleri (Market, Rozet vb.)
+     ****************************************/
+    .modal-smaller {
+      max-width: 500px !important;
+      width: 90% !important;
     }
-    .fixed-btn-left .btn {
-      padding: 12px 24px;
-      font-size: 16px;
+    .modal-content {
+      text-align: left;
+    }
+    .badge-row {
+      display: flex;
+      justify-content: space-around;
+      margin: 1rem 0;
+    }
+    .badge-type {
+      text-align: center;
+    }
+    .badge-blue,
+    .badge-orange,
+    .badge-red {
+      font-size: 1.8rem;
+    }
+    .blue-label {
+      color: #00bfff;
+    }
+    .orange-label {
+      color: #ffa500;
+    }
+    .red-label {
+      color: #ff0000;
+    }
+    hr {
+      border: 1px solid #444;
+      margin: 1rem 0;
+    }
+    .bar-section {
+      margin: 1rem 0;
+    }
+    .bar-title {
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+    }
+    .bar-container {
+      background: #444;
+      border-radius: 5px;
+      overflow: hidden;
+      height: 20px;
+      margin-bottom: 0.3rem;
+    }
+    .bar-fill {
+      height: 20px;
+      width: 0%;
+      background: #00bfff;
+      transition: width 1s ease;
+    }
+    .market-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .market-item button {
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      background: #ff4444;
       border: none;
-      border-radius: 8px;
-      background-color: var(--button-primary);
-      color: white;
+      color: #fff;
       cursor: pointer;
-      transition: all 0.2s ease;
-      font-weight: 500;
-      box-shadow: 0 4px 6px var(--shadow-dark);
-      min-width: 120px;
     }
-    .fixed-btn-left .btn:hover {
-      background-color: var(--button-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 10px var(--shadow-dark);
+    .market-item button:hover {
+      background: #ff2222;
+    }
+    .kumarhane-input {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+    .kumarhane-input input {
+      width: 120px;
+      padding: 0.3rem;
+      border: 1px solid #888;
+      border-radius: 4px;
+      background: #222;
+      color: #fff;
     }
   </style>
 </head>
+
 <body>
-  <!-- Mafia Oyunu Üst Bölümü -->
+  <!-- HEADER (3D Logo) -->
   <header class="logo-header">
     <div class="logo-container">
       <div class="logo-text">BLACK DOLPİNE</div>
@@ -637,33 +768,37 @@
               <stop offset="100%" stop-color="#00994d"/>
             </linearGradient>
           </defs>
-          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z" fill="url(#dolphinGradient)" stroke="#fff" stroke-width="2"/>
+          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"
+                fill="url(#dolphinGradient)"
+                stroke="#fff"
+                stroke-width="2" />
         </svg>
       </div>
     </div>
     <div class="money">Dolar: <span id="money">500000</span></div>
   </header>
 
-  <!-- Stat Barlar, Köy Paneli vs. (Mafia oyunu unsurları) -->
+  <!-- STAT BARLARI -->
   <div id="statBars">
     <div class="stat-bar" id="vakurStat">
       <div class="stat-label">Vakur 🛡️</div>
       <div class="stat-fill" id="vakurFill"></div>
-      <div class="stat-text" id="vakurText">Koruma: 0 (0%) | Rozet: 0</div>
+      <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
     </div>
     <div class="stat-bar lockedStat" id="hatipStat">
       <div class="stat-label">Hatip 👥</div>
       <div class="stat-fill" id="hatipFill"></div>
-      <div class="stat-text" id="hatipText">Nüfus: 0 (0%) | Rozet: 0</div>
+      <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
     </div>
     <div class="stat-bar lockedStat" id="baronStat">
       <div class="stat-label">Baron ♛</div>
       <div class="stat-fill" id="baronFill"></div>
-      <div class="stat-text" id="baronText">Etki: 0 (0%) | Rozet: 0</div>
+      <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
     </div>
     <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
   </div>
 
+  <!-- KÖY SEYAHAT PANELİ (Sağ Orta) -->
   <div id="villageTravel">
     <h3>Köyler</h3>
     <ul>
@@ -686,11 +821,58 @@
     </ul>
   </div>
 
-  <!-- Okey101 Oyun Modalu -->
+  <!-- ANA İÇERİK -->
+  <main>
+    <h1>Black Dolphine Mafya Dünyasına Hoş Geldiniz!</h1>
+    <h4>Vakur (Mavi 🏅), Hatip (Turuncu 🏅) veya Baron (Kırmızı 🏅) olarak suç dünyasına adım atın.</h4>
+
+    <!-- RÜTBE KARTLARI -->
+    <div class="rank-selection">
+      <div class="card" id="cardVakur">
+        <h2>Vakur</h2>
+        <p>Mavi 🏅</p>
+        <button class="btn" onclick="selectRank('Vakur')">Seç</button>
+      </div>
+      <div class="card locked" id="cardHatip">
+        <h2>Hatip</h2>
+        <p>Turuncu 🏅</p>
+        <button class="btn" onclick="selectRank('Hatip')">Seç</button>
+      </div>
+      <div class="card locked" id="cardBaron">
+        <h2>Baron</h2>
+        <p>Kırmızı 🏅</p>
+        <button class="btn" onclick="selectRank('Baron')">Seç</button>
+      </div>
+    </div>
+
+    <!-- GÖREV ALANI -->
+    <div class="task-container" id="taskContainer">
+      <button class="close-task" onclick="closeTaskContainer()">×</button>
+      <h3 id="rankTitle"></h3>
+      <div id="taskOptions"></div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+  </main>
+
+  <!-- SABİT BUTON GRUBU (Sağ Alt) -->
+  <div class="fixed-btn-group">
+    <button class="btn" onclick="toggleBadgesModal()">Rozetlerim</button>
+    <button class="btn hidden" id="marketBtn" onclick="toggleMarketModal()">Market</button>
+    <button class="btn hidden" id="kumarhaneBtn" onclick="toggleKumarhaneModal()">Kumarhane</button>
+  </div>
+
+  <!-- OKEY BUTON (Sol Alt) -->
+  <div class="fixed-btn-left">
+    <button class="btn" onclick="okeyButtonClicked()">Okey</button>
+  </div>
+
+  <!-- OKEY101 Oyun Modalu -->
   <div class="modal-overlay" id="okeyModal">
     <div class="modal">
       <button class="close-modal" onclick="closeOkeyModal()">×</button>
-      <!-- Okey101 Game Container -->
       <div class="game-container">
         <div id="status">Loading Okey101...</div>
         <div id="opponent1" class="opponent-area">Opponent 1</div>
@@ -698,7 +880,7 @@
         <div id="opponent3" class="opponent-area">Opponent 3</div>
         <div id="player-area" class="player-active">Your Hand</div>
         <div class="draggable-hint">Drag tiles to organize them or to discard</div>
-        <canvas id="gameCanvas"></canvas>
+        <canvas id="gameCanvas" width="1000" height="700"></canvas>
         <div id="controls">
           <button id="drawButton">Draw Tile</button>
           <button id="meldButton" disabled>Confirm Melds</button>
@@ -709,7 +891,7 @@
     </div>
   </div>
 
-  <!-- Info Panel, Toggles, Notification, etc. (Okey101 kod kısmı) -->
+  <!-- Diğer Okey101 Elemanları -->
   <div class="notification" id="notification">Your turn to play!</div>
   <div class="info-toggle" id="infoToggle">
     <div class="info-toggle-icon">i</div>
@@ -720,35 +902,704 @@
   <div class="info-panel" id="infoPanel">
     <h3>How to Play Okey101</h3>
     <p><strong>Objective:</strong> Create valid melds with all your tiles.</p>
-    <p><strong>Turns:</strong> Draw a tile, organize your hand into valid melds, then discard one tile.</p>
-    <p><strong>Valid Melds:</strong></p>
-    <p>- <strong>Sets:</strong> 3-4 tiles of the same number but different colors</p>
-    <p>- <strong>Runs:</strong> 3+ consecutive numbers of the same color</p>
-    <p>- Jokers can substitute for any tile</p>
+    <p><strong>Turns:</strong> Draw a tile, organize your hand, discard one tile.</p>
+    <p><strong>Melds:</strong> 3-4 same number different colors OR 3+ consecutive same color.</p>
+    <p>Jokers can substitute for any tile.</p>
     <p><strong>Controls:</strong></p>
-    <p>- Click on draw pile or discard pile to take a tile</p>
+    <p>- Click on draw/discard pile to take a tile</p>
     <p>- Drag tiles to rearrange your hand</p>
     <p>- Group tiles together to form melds</p>
     <p>- Click "Confirm Melds" to validate your groups</p>
     <p>- Drag a tile to the discard pile to end your turn</p>
   </div>
 
-  <!-- Fixed Button Grupları (Sağ Alt) -->
-  <div class="fixed-btn-group">
-    <button class="btn" onclick="toggleBadgesModal()">Rozetlerim</button>
-    <button class="btn" id="marketBtn" style="display:none;" onclick="toggleMarketModal()">Market</button>
-    <button class="btn" id="kumarhaneBtn" style="display:none;" onclick="toggleKumarhaneModal()">Kumarhane</button>
+  <!-- MODALLER (Rozet, Market, Kumarhane, vs.) -->
+  <!-- Rozetler Modal -->
+  <div class="modal-overlay" id="badgesModal">
+    <div class="modal modal-smaller">
+      <button class="close-modal" onclick="toggleBadgesModal()">×</button>
+      <h2>Rozetlerim</h2>
+      <div class="badge-row">
+        <div class="badge-type">
+          <div class="badge-blue">🏅</div>
+          <span class="blue-label" id="blueBadgeCount">0</span>
+          <p style="margin-top:0.5rem;">Vakur (Mavi)</p>
+        </div>
+        <div class="badge-type">
+          <div class="badge-orange">🏅</div>
+          <span class="orange-label" id="orangeBadgeCount">0</span>
+          <p style="margin-top:0.5rem;">Hatip (Turuncu)</p>
+        </div>
+        <div class="badge-type">
+          <div class="badge-red">🏅</div>
+          <span class="red-label" id="redBadgeCount">0</span>
+          <p style="margin-top:0.5rem;">Baron (Kırmızı)</p>
+        </div>
+      </div>
+      <hr />
+      <div class="bar-section">
+        <div class="bar-title">Koruma (Vakur) 🛡️</div>
+        <div class="bar-container">
+          <div class="bar-fill" id="dayaniklikBar"></div>
+        </div>
+        <div class="bar-value">
+          Koruma: <span id="korumaValue">0</span> (<span id="vakurYuzde">0</span>%)
+        </div>
+      </div>
+      <div class="bar-section">
+        <div class="bar-title">Nüfus (Hatip) 👥</div>
+        <div class="bar-container">
+          <div class="bar-fill" id="hatipBar"></div>
+        </div>
+        <div class="bar-value">
+          Nüfus: <span id="nufus">0</span> (<span id="hatipYuzde">0</span>%)
+        </div>
+      </div>
+      <div class="bar-section lockedStat" id="baronStatDisplay">
+        <div class="bar-title">Etki (Baron) ♛</div>
+        <div class="bar-container">
+          <div class="bar-fill" id="baronValueBar"></div>
+        </div>
+        <div class="bar-value">
+          Etki: <span id="baronValue">0</span> (<span id="baronYuzde">0</span>%)
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Fixed Okey Button (Sol Alt) -->
-  <div class="fixed-btn-left">
-    <button class="btn" onclick="okeyButtonClicked()">Okey</button>
+  <!-- Market Modal -->
+  <div class="modal-overlay" id="marketModal">
+    <div class="modal modal-smaller">
+      <button class="close-modal" onclick="toggleMarketModal()">×</button>
+      <h2>Market</h2>
+      <p style="margin-bottom:1rem;">(Baron görevleri aktif olduğunda satın alabilirsiniz)</p>
+      <div class="market-item" id="koyItem">
+        <div>Köy (75.000$)</div>
+        <button class="btn" onclick="buyItem('Köy', 75000)">Satın Al</button>
+      </div>
+      <div class="market-item">
+        <div>At (5.000$)</div>
+        <button class="btn" onclick="buyItem('At', 5000)">Satın Al</button>
+      </div>
+      <div class="market-item">
+        <div>Uçak (4.000$)</div>
+        <button class="btn" onclick="buyItem('Uçak', 4000)">Satın Al</button>
+      </div>
+      <div class="market-item">
+        <div>Kumarhane Kur (40.000$)</div>
+        <button class="btn" onclick="buyItem('Kumarhane', 40000)">Satın Al</button>
+      </div>
+    </div>
   </div>
+
+  <!-- Kumarhane Modal -->
+  <div class="modal-overlay" id="kumarhaneModal">
+    <div class="modal modal-smaller">
+      <button class="close-modal" onclick="toggleKumarhaneModal()">×</button>
+      <h2>Kumarhane</h2>
+      <p>Şansınızı deneyin! %50 kazanma şansı.</p>
+      <div class="kumarhane-input">
+        <input type="number" id="betAmount" placeholder="Bahis ($)" />
+        <button class="btn" onclick="playGamble()">Oyna</button>
+      </div>
+      <p id="gambleResult"></p>
+    </div>
+  </div>
+
+  <!-- KÖY Envanter & Çete Bilgileri Modal (Baron Marketi) -->
+  <div class="modal-overlay" id="koyPanelModal">
+    <div class="modal modal-smaller">
+      <button class="close-modal" onclick="toggleKoyPanelModal()">X</button>
+      <h2>Envanter & Çete Bilgileri</h2>
+      <h3>Bulunduğun Köy: <span id="currentVillagePanel">Asman</span></h3>
+      <div class="inventory-list" id="inventoryList"></div>
+      <hr />
+      <h3>Çete Üye Sayısı: <span id="ceteUyeSayisi">0</span></h3>
+    </div>
+  </div>
+
+  <!-- LOADING OVERLAY (Okey İçin) -->
+  <div class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
 
   <script>
-    // =========================
-    // Okey101 Game Code (GitHub kodundan alınan kısım)
-    // =========================
+    /****************************************************************
+     * 1) MAFYA GÖREV/RÜTBE/SEYAHAT/PAZAR KODLARI (İKİNCİ SNIPPET)
+     *    + Ufak düzenlemeler (ilk snippet ile uyumlu olacak şekilde)
+     ****************************************************************/
+    const tierOrder = ["basit", "orta", "zor", "ileri", "son"];
+    const tasks = {
+      vakur: {
+        basit: [
+          "Bir çocuğun okul çantası almasına yardımcı ol.",
+          "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
+          "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
+          "Arkadaşına ufak bir hediye vererek moralini yükselt.",
+          "İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",
+          "Kütüphanede eski kitapları düzenlemeye gönüllü ol.",
+          "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
+          "Otobüste yaşlı veya hamile birine yer ver."
+        ],
+        orta: [
+          "Aile içinde tartışan iki akrabayı barıştır.",
+          "Mahallede yardım kermesi veya etkinlik organize et.",
+          "Maddi durumu kötü bir öğrenciye burs/kitap yardımı ayarla.",
+          "Bir STK’nın etkinliğinde aktif rol al.",
+          "Bakımsız parkı onarmak için gönüllüler topla.",
+          "Kan bağışı kampanyasına katkıda bulun.",
+          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
+          "Zorbalığa uğrayan birine çevrimiçi destek bul."
+        ],
+        zor: [
+          "Afet bölgesine yardım ekibi olarak katıl.",
+          "Kronik sorunu için belediyeyle görüşüp çözüm talep et.",
+          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
+          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
+          "Küs olan iki arkadaşın barışmasına aracılık et.",
+          "Toplum dışlanmış birini etkinliklere dahil et.",
+          "Küçük çaplı bağış kampanyası düzenle.",
+          "Yerel hastanede gönüllü refakat programına katıl."
+        ],
+        ileri: [
+          "Büyük ölçekli yardım projesine liderlik et.",
+          "Gençlere yönelik mentorluk programı başlat.",
+          "Meslek edindirme kursu organize et.",
+          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
+          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
+          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
+          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
+          "Ücretsiz terapi/rehberlik günü organize et."
+        ],
+        son: [
+          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
+          "Büyük bağış konseri/festival düzenle.",
+          "Gönüllüleri bir araya getiren platform kur.",
+          "Eğitim bursu fonu başlat.",
+          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
+          "Yardım vakfı kurarak sürekli yardım yürüt.",
+          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
+          "Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz."
+        ]
+      },
+      hatip: {
+        basit: [
+          "Sokak kavgasını tatlı dille sakinleştir.",
+          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
+          "Aile içi gerginliği dinleyerek gider.",
+          "Sosyal medyada tartışmayı tatlıya bağla.",
+          "Yanlış bilgiyi doğru kaynakla düzelt.",
+          "Dedikoduyu kaynağından çürüterek sakinleştir.",
+          "Okul/kulüp etkinliğinde kısa konuşma yap.",
+          "Ufak grupta hitabet pratiği yap."
+        ],
+        orta: [
+          "Komşular arasındaki sorunu toplantı ile çöz.",
+          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
+          "Yerel hayır kurumuna bağış toplamak için ikna et.",
+          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
+          "Aile şirketinde tartışmada hakemlik yap.",
+          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
+          "Mahalle muhtarıyla imza kampanyası başlat.",
+          "Gönüllü ekiple sokak sanatçılarına destek sağla."
+        ],
+        zor: [
+          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
+          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
+          "Mahalle halkının taleplerini dile getirip sonuç al.",
+          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
+          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
+          "Binlerce kişilik tartışmayı sakinleştir.",
+          "Sivil toplum zirvesinde temsilci olarak konuş."
+        ],
+        ileri: [
+          "Bölgesel toplum hareketine önderlik et.",
+          "Ulusal konferansta çözüm önerileri sun.",
+          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
+          "Barış çalıştayında moderatörlük yap.",
+          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
+          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
+          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
+          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver."
+        ],
+        son: [
+          "Uluslararası konferansta ülkeni temsil et.",
+          "Farklı ülkelerden liderleri bir araya getir.",
+          "Barışçıl çözümlerle ödül al.",
+          "Büyük kampanyayla yasa değişikliğini sağla.",
+          "Diplomatik krizde aracı rol üstlen.",
+          "‘Barış ve Uzlaşma Vakfı’ kurarak projeler yönet.",
+          "Önemli çatışma bölgelerine arabulucu olarak davet al.",
+          "Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."
+        ]
+      },
+      baron: {
+        basit: [
+          "Ufak çapta uyuşturucu satmayı dene.",
+          "Mahallede küçük 'koruma ücreti' topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
+          "Sahte marka ürünlerin satış ağını oluştur.",
+          "Şantaj veya tehditle rakibi sustur.",
+          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
+          "Kaçak içki satışı yapan ekibe arka çık."
+        ],
+        orta: [
+          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
+          "Yasadışı kumar organizasyonu başlat.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
+          "Kara para aklama için küçük sermaye oluştur.",
+          "Gece kulübünün 'gizli ortak' statüsünü al."
+        ],
+        zor: [
+          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Polis ve siyasi bağlantıları güçlendir.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüpleri ve barlarda yatırımın tekeli olsun.",
+          "Rakip çetenin liderini korkutarak saflarına katıl.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
+          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır."
+        ],
+        ileri: [
+          "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
+          "Üst düzey bürokratlarla gizli anlaşmalar yap, dokunulmazlık sağla.",
+          "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
+          "Yurt dışı kara para aklama ofisleri aç.",
+          "Güvenlik birimlerinde kilit isimleri satın al.",
+          "Şehrin en büyük limanlarında kontrol sağla.",
+          "Gösterişli hayır işleriyle meşrulaş.",
+          "Casino, otel, gece kulübü zinciri kurarak yasadışı gelirleri yasal işletmeye dönüştür."
+        ],
+        son: [
+          "Büyük kumarhane zinciri ve malikâne sahibi ol.",
+          "Uluslararası mafya ağının ülke temsilcisini üstlen.",
+          "Siyasete dolaylı girip seçim kampanyalarını fonla.",
+          "Yeraltı dünyasında 'Baronlar Konseyi' kur.",
+          "Devletin kritik kurumlarına adam yerleştir.",
+          "Lüks yaşam sürerken yurt dışı yatırımları yönet.",
+          "Rakip baronlara karşı koordineli operasyon yap.",
+          "Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."
+        ]
+      }
+    };
+
+    let currentRank = "Vakur";  // Başlangıç rütbe
+    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
+    let isHatipUnlocked = false, isBaronUnlocked = false;
+    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
+    let money = 500000;
+    let onur = 0; // Hatip "onur" vb. bonus varsa
+
+    // Satın alınabilecek itemler
+    let hasKoy = false, atCount = 0, ucakCount = 0, kumarhaneCount = 0, ceteUyeSayisi = 0;
+
+    // Köy listesi
+    const villages = ["Asman", "Mizrin", "Qeruk", "Shuman", "Alizera", "Bubuk"];
+    let currentVillage = "Asman";
+
+    // Stat fonksiyonları
+    function getVakurKoruma() {
+      // 40 görev = ~ vakurTaskCount
+      // Basit hesap: (taskCount / 22) => 660 maks vs. (Temsili)
+      let koruma = Math.floor(vakurTaskCount / 22);
+      if (koruma > 660) koruma = 660;
+      return koruma;
+    }
+    function getHatipNufus() {
+      // 40 görev => 5 birim / vs. (örnek)
+      let nufus = Math.floor(hatipTaskCount / 8) * 5;
+      if (nufus > 200) nufus = 200;
+      return nufus;
+    }
+    function getBaronEtki() {
+      // 40 görev => 500 max vs. (örnek)
+      let etki = baronTaskCount * 12; // kabaca
+      if (etki > 500) etki = 500;
+      return etki;
+    }
+
+    // Stat barlarını güncelle
+    function updateStatBars() {
+      // Vakur
+      let vVal = getVakurKoruma();
+      let vPercent = (vVal / 660) * 100;
+      document.getElementById('vakurText').innerText = "Koruma: " + vVal + " (" + Math.floor(vPercent) + "%)";
+      document.getElementById('vakurFill').style.width = vPercent + "%";
+
+      // Hatip
+      if (isHatipUnlocked) {
+        document.getElementById('hatipStat').classList.remove("lockedStat");
+        let hVal = getHatipNufus();
+        let hPercent = (hVal / 200) * 100;
+        document.getElementById('hatipText').innerText = "Nüfus: " + hVal + " (" + Math.floor(hPercent) + "%)";
+        document.getElementById('hatipFill').style.width = hPercent + "%";
+      } else {
+        document.getElementById('hatipStat').classList.add("lockedStat");
+      }
+
+      // Baron
+      if (isBaronUnlocked) {
+        document.getElementById('baronStat').classList.remove("lockedStat");
+        let bVal = getBaronEtki();
+        let bPercent = (bVal / 500) * 100;
+        document.getElementById('baronText').innerText = "Etki: " + bVal + " (" + Math.floor(bPercent) + "%)";
+        document.getElementById('baronFill').style.width = bPercent + "%";
+      } else {
+        document.getElementById('baronStat').classList.add("lockedStat");
+      }
+    }
+
+    // Profil (köy) bilgisi güncelle
+    function updateProfileInfo() {
+      document.getElementById('currentVillageDisplay').innerText = currentVillage;
+      const cvp = document.getElementById('currentVillagePanel');
+      if (cvp) cvp.innerText = currentVillage;
+    }
+
+    // Para UI
+    function updateMoneyUI() {
+      document.getElementById('money').innerText = money;
+    }
+
+    // Rozet UI
+    function updateBadgesUI() {
+      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
+      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
+      document.getElementById('redBadgeCount').innerText = redBadgeCount;
+
+      // Detay barları da (Modal içi bar)
+      const dayBar = document.getElementById('dayaniklikBar');
+      const hatBar = document.getElementById('hatipBar');
+      const barValBar = document.getElementById('baronValueBar');
+      if (!dayBar || !hatBar || !barValBar) return;
+
+      let vVal = getVakurKoruma();
+      let vPercent = (vVal / 660) * 100;
+      dayBar.style.width = vPercent + "%";
+      document.getElementById('korumaValue').innerText = vVal;
+      document.getElementById('vakurYuzde').innerText = Math.floor(vPercent);
+
+      let hVal = getHatipNufus();
+      let hPercent = (hVal / 200) * 100;
+      hatBar.style.width = hPercent + "%";
+      document.getElementById('nufus').innerText = hVal;
+      document.getElementById('hatipYuzde').innerText = Math.floor(hPercent);
+
+      if (isBaronUnlocked) {
+        document.getElementById('baronStatDisplay').classList.remove("lockedStat");
+        let bVal = getBaronEtki();
+        let bPercent = (bVal / 500) * 100;
+        barValBar.style.width = bPercent + "%";
+        document.getElementById('baronValue').innerText = bVal;
+        document.getElementById('baronYuzde').innerText = Math.floor(bPercent);
+      } else {
+        document.getElementById('baronStatDisplay').classList.add("lockedStat");
+      }
+    }
+
+    // Rütbe seçimi
+    function selectRank(rank) {
+      if (rank === "Vakur") {
+        currentRank = "Vakur";
+      } else if (rank === "Hatip") {
+        if (!isHatipUnlocked) return;
+        currentRank = "Hatip";
+      } else if (rank === "Baron") {
+        if (!isBaronUnlocked) return;
+        currentRank = "Baron";
+      }
+      showNextTask();
+      document.getElementById('taskContainer').classList.add('active');
+    }
+
+    // Görev kapanış
+    function closeTaskContainer() {
+      document.getElementById('taskContainer').classList.remove('active');
+    }
+
+    // Görev göster
+    function showNextTask() {
+      const taskOptionsContainer = document.getElementById('taskOptions');
+      taskOptionsContainer.innerHTML = "";
+      let taskCount, tierIndex, activeIndex, currentTier, taskList;
+
+      if (currentRank === "Vakur") {
+        taskCount = vakurTaskCount;
+        tierIndex = Math.floor(taskCount / 8);
+        activeIndex = taskCount % 8;
+        currentTier = tierOrder[tierIndex % tierOrder.length];
+        taskList = tasks.vakur[currentTier];
+        document.getElementById('rankTitle').innerText = "Vakur Görevleri (" + currentTier + ")";
+      } else if (currentRank === "Hatip") {
+        taskCount = hatipTaskCount;
+        tierIndex = Math.floor(taskCount / 8);
+        activeIndex = taskCount % 8;
+        currentTier = tierOrder[tierIndex % tierOrder.length];
+        taskList = tasks.hatip[currentTier];
+        document.getElementById('rankTitle').innerText = "Hatip Görevleri (" + currentTier + ")";
+      } else if (currentRank === "Baron") {
+        taskCount = baronTaskCount;
+        tierIndex = Math.floor(taskCount / 8);
+        activeIndex = taskCount % 8;
+        currentTier = tierOrder[tierIndex % tierOrder.length];
+        taskList = tasks.baron[currentTier];
+        document.getElementById('rankTitle').innerText = "Baron Görevleri (" + currentTier + ")";
+      }
+
+      // Kademe geçiş mesajları
+      if (activeIndex === 0 && taskCount > 0) {
+        if (currentTier === "basit") {
+          alert("Tebrikler, 'basit' görevler bitti. 'orta' görevlere geçtiniz.");
+        } else if (currentTier === "orta") {
+          alert("Tebrikler, 'orta' görevler bitti. 'zor' görevlere geçtiniz.");
+        } else if (currentTier === "zor") {
+          alert("Tebrikler, 'zor' görevler bitti. 'ileri' görevlere geçtiniz.");
+        } else if (currentTier === "ileri") {
+          alert("Tebrikler, 'ileri' görevler bitti. 'son' görevlere geçtiniz.");
+        } else if (currentTier === "son") {
+          // Rütbe terfisi
+          if (currentRank === "Vakur") {
+            alert("Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz.");
+            isHatipUnlocked = true;
+            document.getElementById('cardHatip').classList.remove('locked');
+          } else if (currentRank === "Hatip") {
+            alert("Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz.");
+            isBaronUnlocked = true;
+            document.getElementById('cardBaron').classList.remove('locked');
+          }
+          closeTaskContainer();
+          return;
+        }
+      }
+
+      // Görev maddelerini doldur
+      taskList.forEach((task, index) => {
+        const div = document.createElement('div');
+        div.classList.add('task-option');
+        div.innerText = task;
+        if (index < activeIndex) {
+          div.classList.add('completed');
+        } else if (index === activeIndex) {
+          div.classList.add('active');
+          div.addEventListener('click', completeActiveTask);
+        } else {
+          div.classList.add('locked');
+        }
+        taskOptionsContainer.appendChild(div);
+      });
+
+      // İlerleme çubuğu
+      const prog = (activeIndex / 8) * 100;
+      document.getElementById('progressBar').style.width = prog + "%";
+      document.getElementById('progressText').innerText = Math.floor(prog) + "%";
+    }
+
+    // Görev tamamla
+    function completeActiveTask() {
+      if (currentRank === "Vakur") {
+        vakurTaskCount++;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        blueBadgeCount += rozetKazanc;
+      } else if (currentRank === "Hatip") {
+        hatipTaskCount++;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        orangeBadgeCount += rozetKazanc;
+        onur += rozetKazanc; // Örnek
+      } else if (currentRank === "Baron") {
+        baronTaskCount++;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        redBadgeCount += rozetKazanc;
+        let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
+        money += cashGain;
+        // Mesela baron görevinde bir vakur rozetini kaybedebileceği vs.
+        if (blueBadgeCount > 0) {
+          blueBadgeCount -= 1;
+        }
+      }
+
+      // Rütbe kilit açma
+      if (currentRank === "Vakur" && vakurTaskCount >= 40 && !isHatipUnlocked) {
+        isHatipUnlocked = true;
+        document.getElementById('cardHatip').classList.remove('locked');
+      }
+      if (currentRank === "Hatip" && hatipTaskCount >= 40 && !isBaronUnlocked) {
+        isBaronUnlocked = true;
+        document.getElementById('cardBaron').classList.remove('locked');
+      }
+
+      updateStatBars();
+      updateBadgesUI();
+      updateMoneyUI();
+      showNextTask();
+    }
+
+    // Köy seyahati (para kesintili)
+    function travelTo(village) {
+      if (currentVillage === village) return;
+      let cost = 500;
+      if (money < cost) {
+        alert("Seyahat için yeterli paranız yok! (Gerekli: 500$)");
+        return;
+      }
+      money -= cost;
+      currentVillage = village;
+      updateMoneyUI();
+      updateProfileInfo();
+      alert("Şimdi " + currentVillage + " köyündesin!");
+    }
+
+    // Trenle seyahat (örnek: 1000$ gibi)
+    function travelByTrain(village) {
+      if (currentVillage === village) return;
+      let cost = 1000;
+      if (money < cost) {
+        alert("Tren biletini almak için yeterli paranız yok! (Gerekli: 1000$)");
+        return;
+      }
+      money -= cost;
+      currentVillage = village;
+      updateMoneyUI();
+      updateProfileInfo();
+      alert("Trenle " + currentVillage + " köyüne geldiniz!");
+    }
+
+    // Market alımları
+    function buyItem(itemName, price) {
+      if (money < price) {
+        alert("Yeterli bakiyeniz yok!");
+        return;
+      }
+      // Baron kilidi kontrol
+      if (!isBaronUnlocked) {
+        alert("Baron olmadan satın alamazsınız!");
+        return;
+      }
+      money -= price;
+      updateMoneyUI();
+
+      switch(itemName) {
+        case "Köy":
+          if (hasKoy) return;
+          hasKoy = true;
+          document.getElementById('koyItem').style.display = "none";
+          // 'Köy Paneli' butonları vs. isterseniz açabilirsiniz
+          document.getElementById('marketBtn').classList.remove('hidden');
+          document.getElementById('kumarhaneBtn').classList.remove('hidden');
+          break;
+        case "At":
+          atCount++;
+          ceteUyeSayisi += 2;
+          break;
+        case "Uçak":
+          ucakCount++;
+          ceteUyeSayisi += 5;
+          break;
+        case "Kumarhane":
+          kumarhaneCount++;
+          ceteUyeSayisi += 3;
+          break;
+        default:
+          break;
+      }
+      updateInventoryUI();
+    }
+
+    // Envanter güncelle
+    function updateInventoryUI() {
+      const inventoryList = document.getElementById('inventoryList');
+      if (!inventoryList) return;
+      inventoryList.innerHTML = "";
+
+      if (hasKoy) {
+        const divKoy = document.createElement('div');
+        divKoy.innerHTML = `Köy (1 adet)`;
+        inventoryList.appendChild(divKoy);
+      }
+      if (atCount > 0) {
+        const divAt = document.createElement('div');
+        divAt.innerHTML = `At (x${atCount})`;
+        inventoryList.appendChild(divAt);
+      }
+      if (ucakCount > 0) {
+        const divUcak = document.createElement('div');
+        divUcak.innerHTML = `Uçak (x${ucakCount})`;
+        inventoryList.appendChild(divUcak);
+      }
+      if (kumarhaneCount > 0) {
+        const divKumar = document.createElement('div');
+        divKumar.innerHTML = `Kumarhane (x${kumarhaneCount})`;
+        inventoryList.appendChild(divKumar);
+      }
+
+      if (!hasKoy && atCount === 0 && ucakCount === 0 && kumarhaneCount === 0) {
+        inventoryList.innerHTML = "<p>Envanteriniz boş!</p>";
+      }
+      document.getElementById('ceteUyeSayisi').innerText = ceteUyeSayisi;
+    }
+
+    // Modallar
+    function toggleBadgesModal() {
+      document.getElementById('badgesModal').classList.toggle('active');
+    }
+    function toggleMarketModal() {
+      document.getElementById('marketModal').classList.toggle('active');
+    }
+    function toggleKumarhaneModal() {
+      const kumarhaneModal = document.getElementById('kumarhaneModal');
+      kumarhaneModal.classList.toggle('active');
+      document.getElementById('gambleResult').innerText = "";
+      document.getElementById('betAmount').value = "";
+    }
+    function toggleKoyPanelModal() {
+      updateInventoryUI();
+      document.getElementById('koyPanelModal').classList.toggle('active');
+    }
+
+    // Kumarhane
+    function playGamble() {
+      const betInput = document.getElementById('betAmount');
+      const gambleResult = document.getElementById('gambleResult');
+      const bet = parseInt(betInput.value);
+      if (isNaN(bet) || bet <= 0) {
+        gambleResult.innerText = "Geçerli bir bahis miktarı giriniz.";
+        return;
+      }
+      if (bet > money) {
+        gambleResult.innerText = "Yeterli bakiyeniz yok!";
+        return;
+      }
+      const chance = Math.random();
+      if (chance < 0.5) {
+        money += bet;
+        gambleResult.innerText = `Kazandınız! Yeni bakiye: ${money} $`;
+      } else {
+        money -= bet;
+        gambleResult.innerText = `Kaybettiniz! Yeni bakiye: ${money} $`;
+      }
+      updateMoneyUI();
+    }
+
+    /****************************************************************
+     * 2) SAYFA YÜKLEME BAŞLANGICI
+     ****************************************************************/
+    function initMafiaGame() {
+      updateStatBars();
+      updateProfileInfo();
+      updateMoneyUI();
+      updateBadgesUI();
+    }
+    initMafiaGame();
+
+
+    /****************************************************************
+     * 3) OKEY101 KODLARI (BİRİNCİ SNIPPET)
+     ****************************************************************/
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const status = document.getElementById('status');
@@ -764,24 +1615,10 @@
     const draggableHint = document.querySelector('.draggable-hint');
     const playerArea = document.getElementById('player-area');
     const opponentAreas = [
-        document.getElementById('opponent1'),
-        document.getElementById('opponent2'),
-        document.getElementById('opponent3')
+      document.getElementById('opponent1'),
+      document.getElementById('opponent2'),
+      document.getElementById('opponent3')
     ];
-
-    canvas.width = 1000;
-    canvas.height = 700;
-
-    const tileWidth = 40;
-    const tileHeight = 60;
-    const tileMargin = 6;
-    const tileColors = {
-        red: '#e53935',
-        blue: '#1e88e5',
-        yellow: '#fdd835',
-        black: '#424242',
-        joker: '#9575cd'
-    };
 
     let tiles = [];
     let playerHand = [];
@@ -806,789 +1643,543 @@
     let opponentTimeout = null;
     const animations = [];
 
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const sounds = {
-        drawTile: createSound(440, 0.1),
-        discardTile: createSound(220, 0.1),
-        meldSuccess: createSound([440, 550, 660], 0.2),
-        gameStart: createSound([440, 550, 660, 880], 0.3),
-        gameEnd: createSound([880, 660, 550, 440], 0.3)
+    const tileWidth = 40;
+    const tileHeight = 60;
+    const tileMargin = 6;
+    const tileColors = {
+      red: '#e53935',
+      blue: '#1e88e5',
+      yellow: '#fdd835',
+      black: '#424242',
+      joker: '#9575cd'
     };
 
+    // Ses mekanizması
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const sounds = {
+      drawTile: createSound(440, 0.1),
+      discardTile: createSound(220, 0.1),
+      meldSuccess: createSound([440, 550, 660], 0.2),
+      gameStart: createSound([440, 550, 660, 880], 0.3),
+      gameEnd: createSound([880, 660, 550, 440], 0.3)
+    };
     function createSound(frequency, duration) {
-        return function() {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            const currentTime = audioContext.currentTime;
-            if (Array.isArray(frequency)) {
-                frequency.forEach((freq, index) => {
-                    oscillator.frequency.setValueAtTime(freq, currentTime + (index * duration));
-                });
-            } else {
-                oscillator.frequency.setValueAtTime(frequency, currentTime);
-            }
-            gainNode.gain.setValueAtTime(0.5, currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, currentTime + duration);
-            oscillator.start(currentTime);
-            oscillator.stop(currentTime + duration);
-        };
+      return function() {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        const currentTime = audioContext.currentTime;
+        if (Array.isArray(frequency)) {
+          frequency.forEach((freq, index) => {
+            oscillator.frequency.setValueAtTime(freq, currentTime + (index * duration));
+          });
+        } else {
+          oscillator.frequency.setValueAtTime(frequency, currentTime);
+        }
+        gainNode.gain.setValueAtTime(0.5, currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, currentTime + duration);
+        oscillator.start(currentTime);
+        oscillator.stop(currentTime + duration);
+      };
     }
 
     const dropZoneHighlight = 'rgba(255, 255, 255, 0.2)';
-    const validMeldHighlight = 'rgba(76, 175, 80, 0.3)';
-    const invalidMeldHighlight = 'rgba(244, 67, 54, 0.3)';
-    const hoverEffect = 'rgba(255, 255, 255, 0.1)';
 
     class Tile {
-        constructor(number, color, x, y, id) {
-            this.number = number;
-            this.colorName = color;
-            this.color = tileColors[color];
-            this.x = x;
-            this.y = y;
-            this.id = id;
-            this.targetX = x;
-            this.targetY = y;
-            this.isJoker = number === 0;
-            this.isMelded = false;
-            this.isHovered = false;
-            this.rotation = 0;
-            this.scale = 1;
-            this.opacity = 1;
-            this.baseRotation = (Math.random() * 0.03) - 0.015;
+      constructor(number, color, x, y, id) {
+        this.number = number;
+        this.colorName = color;
+        this.color = tileColors[color];
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.isJoker = (number === 0);
+        this.rotation = 0;
+        this.scale = 1;
+        this.opacity = 1;
+        this.baseRotation = (Math.random() * 0.03) - 0.015;
+        this.isMelded = false;
+        this.isHovered = false;
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x + tileWidth/2, this.y + tileHeight/2);
+        ctx.rotate(this.rotation + this.baseRotation);
+        ctx.scale(this.scale, this.scale);
+        ctx.globalAlpha = this.opacity;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 5;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        const radius = 5;
+        // Dikdörtgen + köşeler yuvarlatma
+        ctx.moveTo(-tileWidth/2 + radius, -tileHeight/2);
+        ctx.lineTo(tileWidth/2 - radius, -tileHeight/2);
+        ctx.arcTo(tileWidth/2, -tileHeight/2, tileWidth/2, -tileHeight/2 + radius, radius);
+        ctx.lineTo(tileWidth/2, tileHeight/2 - radius);
+        ctx.arcTo(tileWidth/2, tileHeight/2, tileWidth/2 - radius, tileHeight/2, radius);
+        ctx.lineTo(-tileWidth/2 + radius, tileHeight/2);
+        ctx.arcTo(-tileWidth/2, tileHeight/2, -tileWidth/2, tileHeight/2 - radius, radius);
+        ctx.lineTo(-tileWidth/2, -tileHeight/2 + radius);
+        ctx.arcTo(-tileWidth/2, -tileHeight/2, -tileWidth/2 + radius, -tileHeight/2, radius);
+        ctx.closePath();
+        ctx.fill();
+        // Kenar çizgisi
+        ctx.strokeStyle = this.isHovered ? '#fff' : '#000';
+        ctx.lineWidth = this.isMelded ? 3 : (this.isHovered ? 2 : 1);
+        ctx.stroke();
+        if (this.isHovered && !this.isMelded) {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+          ctx.fill();
         }
-
-        draw() {
-            ctx.save();
-            ctx.translate(this.x + tileWidth/2, this.y + tileHeight/2);
-            ctx.rotate(this.rotation + this.baseRotation);
-            ctx.scale(this.scale, this.scale);
-            ctx.globalAlpha = this.opacity;
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-            ctx.shadowBlur = 5;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            const radius = 5;
-            ctx.moveTo(-tileWidth/2 + radius, -tileHeight/2);
-            ctx.lineTo(tileWidth/2 - radius, -tileHeight/2);
-            ctx.arcTo(tileWidth/2, -tileHeight/2, tileWidth/2, -tileHeight/2 + radius, radius);
-            ctx.lineTo(tileWidth/2, tileHeight/2 - radius);
-            ctx.arcTo(tileWidth/2, tileHeight/2, tileWidth/2 - radius, tileHeight/2, radius);
-            ctx.lineTo(-tileWidth/2 + radius, tileHeight/2);
-            ctx.arcTo(-tileWidth/2, tileHeight/2, -tileWidth/2, tileHeight/2 - radius, radius);
-            ctx.lineTo(-tileWidth/2, -tileHeight/2 + radius);
-            ctx.arcTo(-tileWidth/2, -tileHeight/2, -tileWidth/2 + radius, -tileHeight/2, radius);
-            ctx.closePath();
-            ctx.fill();
-            ctx.strokeStyle = this.isMelded ? '#4caf50' : (this.isHovered ? '#fff' : '#000');
-            ctx.lineWidth = this.isMelded ? 3 : (this.isHovered ? 2 : 1);
-            ctx.stroke();
-            if (this.isHovered && !this.isMelded) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-                ctx.fill();
-            }
-            ctx.fillStyle = '#fff';
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-            ctx.shadowBlur = 3;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
-            ctx.font = this.isJoker ? 'bold 20px Poppins' : 'bold 18px Poppins';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(this.isJoker ? 'J' : this.number, 0, 0);
-            if (!this.isJoker) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
-                ctx.fillRect(-tileWidth/4, -tileHeight/4, tileWidth/2, tileHeight/2);
-            }
-            ctx.restore();
-        }
-
-        containsPoint(px, py) {
-            return px >= this.x && px <= this.x + tileWidth &&
-                   py >= this.y && py <= this.y + tileHeight;
-        }
-        
-        pickUp() {
-            this.scale = 1.1;
-            this.rotation = 0.05;
-            return this;
-        }
-        
-        putDown() {
-            this.scale = 1;
-            this.rotation = 0;
-            return this;
-        }
-        
-        highlight(isValid) {
-            this.isHighlighted = true;
-            this.highlightColor = isValid ? validMeldHighlight : invalidMeldHighlight;
-            return this;
-        }
-        
-        removeHighlight() {
-            this.isHighlighted = false;
-            return this;
-        }
+        // Sayı veya J
+        ctx.fillStyle = '#fff';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = 3;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        ctx.font = this.isJoker ? 'bold 20px Poppins' : 'bold 18px Poppins';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(this.isJoker ? 'J' : this.number, 0, 0);
+        ctx.restore();
+      }
+      containsPoint(px, py) {
+        return (px >= this.x && px <= this.x + tileWidth &&
+                py >= this.y && py <= this.y + tileHeight);
+      }
+      pickUp() {
+        this.scale = 1.1;
+        this.rotation = 0.05;
+        return this;
+      }
+      putDown() {
+        this.scale = 1;
+        this.rotation = 0;
+        return this;
+      }
     }
 
     class Animation {
-        constructor(tile, targetX, targetY, duration, easing = 'easeOutQuad', onComplete = null) {
-            this.tile = tile;
-            this.startX = tile.x;
-            this.startY = tile.y;
-            this.targetX = targetX;
-            this.targetY = targetY;
-            this.duration = duration;
-            this.startTime = performance.now();
-            this.easing = easing;
-            this.onComplete = onComplete;
-            this.completed = false;
-            this.startRotation = tile.rotation;
-            this.targetRotation = 0;
-            this.startScale = tile.scale;
-            this.targetScale = 1;
+      constructor(tile, targetX, targetY, duration, easing = 'easeOutQuad', onComplete = null) {
+        this.tile = tile;
+        this.startX = tile.x;
+        this.startY = tile.y;
+        this.targetX = targetX;
+        this.targetY = targetY;
+        this.duration = duration;
+        this.startTime = performance.now();
+        this.easing = easing;
+        this.onComplete = onComplete;
+        this.completed = false;
+        this.startRotation = tile.rotation;
+        this.targetRotation = 0;
+        this.startScale = tile.scale;
+        this.targetScale = 1;
+      }
+      ease(t) {
+        switch(this.easing) {
+          case 'linear': return t;
+          case 'easeInQuad': return t * t;
+          case 'easeOutQuad': return t * (2 - t);
+          case 'easeInOutQuad': return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+          default: return t;
         }
-        
-        ease(t) {
-            switch(this.easing) {
-                case 'linear':
-                    return t;
-                case 'easeInQuad':
-                    return t * t;
-                case 'easeOutQuad':
-                    return t * (2 - t);
-                case 'easeInOutQuad':
-                    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-                case 'easeOutBack':
-                    const c1 = 1.70158;
-                    const c3 = c1 + 1;
-                    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-                default:
-                    return t;
-            }
+      }
+      update() {
+        if (this.completed) return false;
+        const elapsed = performance.now() - this.startTime;
+        const progress = Math.min(elapsed / this.duration, 1);
+        const easedProgress = this.ease(progress);
+        this.tile.x = this.startX + (this.targetX - this.startX) * easedProgress;
+        this.tile.y = this.startY + (this.targetY - this.startY) * easedProgress;
+        this.tile.rotation = this.startRotation + (this.targetRotation - this.startRotation) * easedProgress;
+        this.tile.scale = this.startScale + (this.targetScale - this.startScale) * easedProgress;
+        if (progress >= 1) {
+          this.completed = true;
+          this.tile.x = this.targetX;
+          this.tile.y = this.targetY;
+          this.tile.rotation = this.targetRotation;
+          this.tile.scale = this.targetScale;
+          if (this.onComplete) this.onComplete();
+          return false;
         }
-
-        update() {
-            if (this.completed) return false;
-            const elapsed = performance.now() - this.startTime;
-            const progress = Math.min(elapsed / this.duration, 1);
-            const easedProgress = this.ease(progress);
-            this.tile.x = this.startX + (this.targetX - this.startX) * easedProgress;
-            this.tile.y = this.startY + (this.targetY - this.startY) * easedProgress;
-            this.tile.rotation = this.startRotation + (this.targetRotation - this.startRotation) * easedProgress;
-            this.tile.scale = this.startScale + (this.targetScale - this.startScale) * easedProgress;
-            if (progress >= 1) {
-                this.completed = true;
-                this.tile.x = this.targetX;
-                this.tile.y = this.targetY;
-                this.tile.rotation = this.targetRotation;
-                this.tile.scale = this.targetScale;
-                if (this.onComplete) {
-                    this.onComplete();
-                }
-                return false;
-            }
-            return true;
-        }
+        return true;
+      }
     }
 
+    // Okey: Rakip turu simülasyonu
     function playOpponentTurn(opponentIndex) {
-        if (gameState !== 'opponent' || currentPlayer !== opponentIndex + 1) return;
-        const opponent = opponents[opponentIndex];
-        const opponentMelds = meldedTiles[opponentIndex + 1];
-        const validMelds = checkMelds(opponent);
-        if (validMelds.length > 0) {
-            const meld = validMelds[0];
-            meld.forEach(tile => {
-                tile.isMelded = true;
-                const index = opponent.indexOf(tile);
-                if (index !== -1) {
-                    opponent.splice(index, 1);
-                }
-            });
-            opponentMelds.push(meld);
-            if (soundEnabled) sounds.meldSuccess();
+      if (gameState !== 'opponent' || currentPlayer !== opponentIndex + 1) return;
+      const opponent = opponents[opponentIndex];
+      // Basit simülasyon
+      if (opponent.length < 14) {
+        const tile = drawStack.pop() || discardPile.pop();
+        if (tile) {
+          opponent.push(tile);
+          if (soundEnabled) sounds.drawTile();
         }
-        if (opponent.length < 14) {
-            const tile = drawStack.pop() || discardPile.pop();
-            if (tile) {
-                opponent.push(tile);
-                if (soundEnabled) sounds.drawTile();
-            }
-        }
-        const newMelds = checkMelds(opponent);
-        if (newMelds.length > 0) {
-            const meld = newMelds[0];
-            meld.forEach(tile => {
-                tile.isMelded = true;
-                const index = opponent.indexOf(tile);
-                if (index !== -1) {
-                    opponent.splice(index, 1);
-                }
-            });
-            opponentMelds.push(meld);
-            if (soundEnabled) sounds.meldSuccess();
-        }
-        if (opponent.length > 0) {
-            const nonMelded = opponent.filter(tile => !tile.isMelded);
-            if (nonMelded.length > 0) {
-                nonMelded.sort((a, b) => b.number - a.number);
-                const tileToDiscard = nonMelded[0];
-                const index = opponent.indexOf(tileToDiscard);
-                if (index !== -1) {
-                    opponent.splice(index, 1);
-                    discardPile.push(tileToDiscard);
-                    if (soundEnabled) sounds.discardTile();
-                }
-            }
-        }
-        currentPlayer = (currentPlayer + 1) % 4;
-        if (currentPlayer === 0) {
-            gameState = 'player';
-            updateStatusMessage('Your turn: Draw a tile!');
-        } else {
-            updateStatusMessage(`Opponent ${currentPlayer}'s turn`);
-            opponentTimeout = setTimeout(() => {
-                playOpponentTurn(currentPlayer - 1);
-            }, 1000);
-        }
-        updateButtonStates();
-        updatePlayerIndicators();
-    }
+      }
+      // Bir tile discard
+      if (opponent.length > 0) {
+        const tileToDiscard = opponent[0];
+        opponent.splice(0, 1);
+        discardPile.push(tileToDiscard);
+        if (soundEnabled) sounds.discardTile();
+      }
 
-    canvas.addEventListener('mouseup', event => {
-        if (!draggingTile) return;
-        if (isOverDiscardPile()) {
-            const index = playerHand.indexOf(draggingTile);
-            if (index !== -1) {
-                playerHand.splice(index, 1);
-                discardPile.push(draggingTile);
-                if (soundEnabled) sounds.discardTile();
-                gameState = 'opponent';
-                currentPlayer = 1;
-                updateStatusMessage("Opponent 1's turn");
-                updateButtonStates();
-                updatePlayerIndicators();
-                opponentTimeout = setTimeout(() => {
-                    playOpponentTurn(0);
-                }, 1000);
-            }
-        }
-        draggingTile.putDown();
-        draggingTile = null;
-        updatePlayerHand();
-    });
-
-    function initGame() {
-        if (opponentTimeout) {
-            clearTimeout(opponentTimeout);
-            opponentTimeout = null;
-        }
-        loadingOverlay.style.opacity = '1';
-        loadingOverlay.style.display = 'flex';
-        gameState = 'loading';
-        tiles.length = 0;
-        playerHand.length = 0;
-        opponents.forEach(op => (op.length = 0));
-        drawStack.length = 0;
-        discardPile.length = 0;
-        meldedTiles.forEach(m => (m.length = 0));
-        animations.length = 0;
-        setTimeout(() => {
-            createTiles();
-            distributeTiles();
-            updatePlayerHand();
-            gameState = 'player';
-            currentPlayer = 0;
-            updateStatusMessage('Your turn: Draw a tile!');
-            updateButtonStates();
-            updatePlayerIndicators();
-            loadingOverlay.style.opacity = '0';
-            setTimeout(() => {
-                loadingOverlay.style.display = 'none';
-                showNotification('Game started! Your turn');
-                setTimeout(() => {
-                    draggableHint.classList.add('show');
-                    setTimeout(() => {
-                        draggableHint.classList.remove('show');
-                    }, 5000);
-                }, 2000);
-            }, 500);
+      // Sır sonraki oyuncuya
+      currentPlayer = (currentPlayer + 1) % 4;
+      if (currentPlayer === 0) {
+        gameState = 'player';
+        updateStatusMessage('Your turn: Draw a tile!');
+      } else {
+        updateStatusMessage(`Opponent ${currentPlayer}'s turn`);
+        opponentTimeout = setTimeout(() => {
+          playOpponentTurn(currentPlayer - 1);
         }, 1000);
+      }
+      updateButtonStates();
+      updatePlayerIndicators();
     }
 
-    function createTiles() {
-        let id = 0;
-        const colorNames = ['red', 'blue', 'yellow', 'black'];
-        for (let colorIndex = 0; colorIndex < 4; colorIndex++) {
-            for (let number = 1; number <= 13; number++) {
-                for (let i = 0; i < 2; i++) {
-                    tiles.push(new Tile(number, colorNames[colorIndex], 0, 0, id++));
-                }
-            }
+    // Canvas mouse eventleri
+    canvas.addEventListener('mouseup', () => {
+      if (!draggingTile) return;
+      if (isOverDiscardPile()) {
+        const index = playerHand.indexOf(draggingTile);
+        if (index !== -1) {
+          playerHand.splice(index, 1);
+          discardPile.push(draggingTile);
+          if (soundEnabled) sounds.discardTile();
+          gameState = 'opponent';
+          currentPlayer = 1;
+          updateStatusMessage("Opponent 1's turn");
+          updateButtonStates();
+          updatePlayerIndicators();
+          opponentTimeout = setTimeout(() => {
+            playOpponentTurn(0);
+          }, 1000);
         }
-        tiles.push(new Tile(0, 'joker', 0, 0, id++));
-        tiles.push(new Tile(0, 'joker', 0, 0, id++));
-        for (let i = tiles.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
-        }
-    }
-
-    function distributeTiles() {
-        drawStack = [...tiles];
-        playerHand = drawStack.splice(0, 14);
-        opponents[0] = drawStack.splice(0, 14);
-        opponents[1] = drawStack.splice(0, 14);
-        opponents[2] = drawStack.splice(0, 14);
-        discardPile.push(drawStack.pop());
-    }
-
-    function updatePlayerHand() {
-        const nonMelded = playerHand.filter(tile => !tile.isMelded);
-        nonMelded.sort((a, b) => {
-            if (a.colorName === b.colorName) {
-                return a.number - b.number;
-            }
-            const colorOrder = ['red', 'blue', 'yellow', 'black', 'joker'];
-            return colorOrder.indexOf(a.colorName) - colorOrder.indexOf(b.colorName);
-        });
-        const startX = (canvas.width - (nonMelded.length * (tileWidth + tileMargin) - tileMargin)) / 2;
-        nonMelded.forEach((tile, index) => {
-            tile.targetX = startX + index * (tileWidth + tileMargin);
-            tile.targetY = canvas.height - tileHeight - 30;
-            if (Math.abs(tile.x - tile.targetX) > 1 || Math.abs(tile.y - tile.targetY) > 1) {
-                animations.push(new Animation(tile, tile.targetX, tile.targetY, 300, 'easeOutQuad'));
-            } else {
-                tile.x = tile.targetX;
-                tile.y = tile.targetY;
-            }
-        });
-    }
-
-    function updateButtonStates() {
-        meldButton.disabled = !(gameState === 'player' && playerHand.some(tile => !tile.isMelded));
-        undoButton.disabled = !lastMove;
-        drawButton.disabled = !(gameState === 'player' && playerHand.length === 14);
-    }
-
-    function updatePlayerIndicators() {
-        playerArea.classList.remove('player-active');
-        opponentAreas.forEach(area => area.classList.remove('opponent-active'));
-        if (currentPlayer === 0) {
-            playerArea.classList.add('player-active');
-        } else {
-            opponentAreas[currentPlayer - 1].classList.add('opponent-active');
-        }
-    }
-
-    function updateStatusMessage(message) {
-        status.style.opacity = '0';
-        setTimeout(() => {
-            status.textContent = message;
-            status.style.opacity = '1';
-        }, 300);
-    }
-
-    function showNotification(message, duration = 2000) {
-        if (notificationTimeout) {
-            clearTimeout(notificationTimeout);
-        }
-        notification.textContent = message;
-        notification.classList.add('show');
-        notificationTimeout = setTimeout(() => {
-            notification.classList.remove('show');
-        }, duration);
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawTableBackground();
-        if (drawStack.length > 0) {
-            drawDrawStack();
-        }
-        if (discardPile.length > 0) {
-            drawDiscardPile();
-        }
-        drawMelds();
-        drawOpponents();
-        drawPlayerHand();
-        if (draggingTile) draggingTile.draw();
-        if (draggingTile) {
-            drawDropZones();
-        }
-    }
-
-    function drawTableBackground() {
-        ctx.fillStyle = '#1b5e20';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        for (let y = 0; y < canvas.height; y += 20) {
-            for (let x = 0; x < canvas.width; x += 20) {
-                ctx.fillRect(x, y, 10, 10);
-            }
-        }
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        ctx.beginPath();
-        ctx.ellipse(canvas.width/2, canvas.height/2, 200, 150, 0, 0, Math.PI*2);
-        ctx.fill();
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.1)';
-        ctx.shadowBlur = 40;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-    }
-
-    function drawDrawStack() {
-        const centerX = canvas.width / 2 - tileWidth - 60;
-        const centerY = canvas.height / 2 - tileHeight / 2;
-        drawStackPosition = { x: centerX, y: centerY, width: tileWidth, height: tileHeight };
-        for (let i = 0; i < Math.min(drawStack.length, 10); i++) {
-            const offset = 1.5 * (10 - i);
-            ctx.fillStyle = `rgba(200, 200, 200, ${0.7 + i * 0.03})`;
-            ctx.fillRect(centerX - offset, centerY - offset, tileWidth, tileHeight);
-        }
-        ctx.fillStyle = '#ddd';
-        ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
-        ctx.strokeStyle = hoverTile === 'drawStack' ? '#fff' : '#000';
-        ctx.lineWidth = hoverTile === 'drawStack' ? 2 : 1;
-        ctx.strokeRect(centerX, centerY, tileWidth, tileHeight);
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 16px Poppins';
-        ctx.textAlign = 'center';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-        ctx.shadowBlur = 5;
-        ctx.fillText(`${drawStack.length}`, centerX + tileWidth/2, centerY + tileHeight/2);
-        ctx.shadowBlur = 0;
-        if (hoverTile === 'drawStack') {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
-        }
-    }
-
-    function drawDiscardPile() {
-        const centerX = canvas.width / 2 + 20;
-        const centerY = canvas.height / 2 - tileHeight / 2;
-        discardPilePosition = { x: centerX, y: centerY, width: tileWidth, height: tileHeight };
-        const visibleCount = Math.min(discardPile.length, 3);
-        for (let i = 0; i < visibleCount; i++) {
-            const index = discardPile.length - 1 - i;
-            if (index >= 0) {
-                const tile = discardPile[index];
-                const offset = i * 5;
-                tile.x = centerX - offset;
-                tile.y = centerY - offset;
-                ctx.globalAlpha = 0.3;
-                ctx.fillStyle = tile.color;
-                ctx.fillRect(tile.x + 3, tile.y + 3, tileWidth, tileHeight);
-                ctx.globalAlpha = 1;
-                ctx.globalAlpha = 1 - (i * 0.2);
-                tile.draw();
-                ctx.globalAlpha = 1;
-            }
-        }
-        if (hoverTile === 'discardPile' && discardPile.length > 0) {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
-        }
-    }
-
-    function drawMelds() {
-        meldedTiles.forEach((melds, playerIndex) => {
-            melds.forEach((meld, meldIndex) => {
-                const y = playerIndex === 0 ? 
-                    canvas.height - 2 * (tileHeight + 10) - 30 - meldIndex * (tileHeight + 10) :
-                    20 + meldIndex * (tileHeight + 10);
-                const xBase = playerIndex === 0 ? 20 : canvas.width - 20 - meld.length * (tileWidth + tileMargin);
-                ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
-                ctx.fillRect(xBase - 5, y - 5, meld.length * (tileWidth + tileMargin) + 10, tileHeight + 10);
-                meld.forEach((tile, tileIndex) => {
-                    tile.x = xBase + tileIndex * (tileWidth + tileMargin);
-                    tile.y = y;
-                    tile.draw();
-                });
-            });
-        });
-    }
-
-    function drawOpponents() {
-        opponents.forEach((hand, index) => {
-            const nonMelded = hand.filter(tile => !tile.isMelded);
-            if (index === 0) {
-                const startX = (canvas.width - (nonMelded.length * (tileWidth / 2 + tileMargin) - tileMargin)) / 2;
-                nonMelded.forEach((_, tileIndex) => {
-                    const x = startX + tileIndex * (tileWidth / 2 + tileMargin);
-                    const y = 80;
-                    ctx.fillStyle = '#546e7a';
-                    ctx.fillRect(x, y, tileWidth / 2, tileHeight / 2);
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                    ctx.beginPath();
-                    ctx.arc(x + (tileWidth / 4), y + (tileHeight / 4), tileWidth / 8, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.strokeStyle = '#37474f';
-                    ctx.lineWidth = 1;
-                    ctx.strokeRect(x, y, tileWidth / 2, tileHeight / 2);
-                });
-            } else if (index === 1) {
-                nonMelded.forEach((_, tileIndex) => {
-                    const x = 80;
-                    const y = 150 + tileIndex * (tileWidth / 2 + tileMargin);
-                    ctx.fillStyle = '#546e7a';
-                    ctx.fillRect(x, y, tileHeight / 2, tileWidth / 2);
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                    ctx.beginPath();
-                    ctx.arc(x + (tileHeight / 4), y + (tileWidth / 4), tileWidth / 8, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.strokeStyle = '#37474f';
-                    ctx.lineWidth = 1;
-                    ctx.strokeRect(x, y, tileHeight / 2, tileWidth / 2);
-                });
-            } else {
-                nonMelded.forEach((_, tileIndex) => {
-                    const x = canvas.width - 100;
-                    const y = 150 + tileIndex * (tileWidth / 2 + tileMargin);
-                    ctx.fillStyle = '#546e7a';
-                    ctx.fillRect(x, y, tileHeight / 2, tileWidth / 2);
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-                    ctx.beginPath();
-                    ctx.arc(x + (tileHeight / 4), y + (tileWidth / 4), tileWidth / 8, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.strokeStyle = '#37474f';
-                    ctx.lineWidth = 1;
-                    ctx.strokeRect(x, y, tileHeight / 2, tileWidth / 2);
-                });
-            }
-        });
-    }
-
-    function drawPlayerHand() {
-        playerHand.forEach(tile => {
-            if (!draggingTile && tile.containsPoint(mouseX, mouseY) && !tile.isMelded) {
-                tile.isHovered = true;
-                if (tile.y > tile.targetY - 5) {
-                    tile.y = tile.targetY - 5;
-                }
-            } else {
-                tile.isHovered = false;
-                if (!draggingTile && !tile.isMelded && Math.abs(tile.y - tile.targetY) > 0.1) {
-                    tile.y = tile.targetY;
-                }
-            }
-            if (tile !== draggingTile && !tile.isMelded) tile.draw();
-        });
-    }
-
-    function drawDropZones() {
-        ctx.fillStyle = isOverDiscardPile() ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)';
-        ctx.beginPath();
-        ctx.ellipse(
-            discardPilePosition.x + tileWidth/2, 
-            discardPilePosition.y + tileHeight/2, 
-            tileWidth, tileHeight, 0, 0, Math.PI*2
-        );
-        ctx.fill();
-        const validMelds = checkMelds(playerHand);
-        if (validMelds.length > 0) {
-            validMelds.forEach(meld => {
-                let minX = Math.min(...meld.map(t => t.x));
-                let maxX = Math.max(...meld.map(t => t.x)) + tileWidth;
-                let minY = Math.min(...meld.map(t => t.y));
-                let maxY = Math.max(...meld.map(t => t.y)) + tileHeight;
-                ctx.fillStyle = 'rgba(76, 175, 80, 0.2)';
-                ctx.fillRect(minX - 5, minY - 5, maxX - minX + 10, maxY - minY + 10);
-                ctx.strokeStyle = 'rgba(76, 175, 80, 0.4)';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(minX - 5, minY - 5, maxX - minX + 10, maxY - minY + 10);
-            }); 
-        }
-    }
-
-    function getMousePosition(event) {
-        const rect = canvas.getBoundingClientRect();
-        return {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top
-        };
-    }
-
-    function isOverDiscardPile() {
-        if (!draggingTile) return false;
-        return mouseX >= discardPilePosition.x && 
-               mouseX <= discardPilePosition.x + discardPilePosition.width &&
-               mouseY >= discardPilePosition.y && 
-               mouseY <= discardPilePosition.y + discardPilePosition.height;
-    }
-
-    function checkMelds(hand) {
-        const validMelds = [];
-        const nonMelded = hand.filter(tile => !tile.isMelded);
-        const numberGroups = {};
-        nonMelded.forEach(tile => {
-            if (!numberGroups[tile.number]) {
-                numberGroups[tile.number] = [];
-            }
-            numberGroups[tile.number].push(tile);
-        });
-        Object.values(numberGroups).forEach(group => {
-            if (group.length >= 3) {
-                validMelds.push(group);
-            }
-        });
-        const colorGroups = {};
-        nonMelded.forEach(tile => {
-            if (!colorGroups[tile.colorName]) {
-                colorGroups[tile.colorName] = [];
-            }
-            colorGroups[tile.colorName].push(tile);
-        });
-        Object.values(colorGroups).forEach(group => {
-            group.sort((a, b) => a.number - b.number);
-            for (let i = 0; i < group.length - 2; i++) {
-                if (group[i].number + 1 === group[i + 1].number &&
-                    group[i + 1].number + 1 === group[i + 2].number) {
-                    validMelds.push([group[i], group[i + 1], group[i + 2]]);
-                }
-            }
-        });
-        return validMelds;
-    }
-
-    canvas.addEventListener('mousemove', event => {
-        const mouse = getMousePosition(event);
-        mouseX = mouse.x;
-        mouseY = mouse.y;
-        if (draggingTile) {
-            draggingTile.x = mouse.x - dragOffsetX;
-            draggingTile.y = mouse.y - dragOffsetY;
-        }
-        hoverTile = null;
-        if (mouse.x >= drawStackPosition.x && 
-            mouse.x <= drawStackPosition.x + drawStackPosition.width &&
-            mouse.y >= drawStackPosition.y && 
-            mouse.y <= drawStackPosition.y + drawStackPosition.height) {
-            hoverTile = 'drawStack';
-        } else if (mouse.x >= discardPilePosition.x && 
-                   mouse.x <= discardPilePosition.x + discardPilePosition.width &&
-                   mouse.y >= discardPilePosition.y && 
-                   mouse.y <= discardPilePosition.y + discardPilePosition.height) {
-            hoverTile = 'discardPile';
-        }
+      }
+      draggingTile.putDown();
+      draggingTile = null;
+      updatePlayerHand();
     });
-
-    canvas.addEventListener('mousedown', event => {
-        if (gameState !== 'player') return;
-        const mouse = getMousePosition(event);
-        if (hoverTile === 'drawStack' && playerHand.length < 14) {
-            const tile = drawStack.pop();
-            if (tile) {
-                playerHand.push(tile);
-                lastDrawnFrom = 'stack';
-                updatePlayerHand();
-                if (soundEnabled) sounds.drawTile();
-            }
-            return;
+    canvas.addEventListener('mousemove', event => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = event.clientX - rect.left;
+      mouseY = event.clientY - rect.top;
+      if (draggingTile) {
+        draggingTile.x = mouseX - dragOffsetX;
+        draggingTile.y = mouseY - dragOffsetY;
+      }
+      hoverTile = null;
+      if (mouseX >= drawStackPosition.x &&
+          mouseX <= drawStackPosition.x + drawStackPosition.width &&
+          mouseY >= drawStackPosition.y &&
+          mouseY <= drawStackPosition.y + drawStackPosition.height) {
+        hoverTile = 'drawStack';
+      } else if (mouseX >= discardPilePosition.x &&
+                 mouseX <= discardPilePosition.x + discardPilePosition.width &&
+                 mouseY >= discardPilePosition.y &&
+                 mouseY <= discardPilePosition.y + discardPilePosition.height) {
+        hoverTile = 'discardPile';
+      }
+    });
+    canvas.addEventListener('mousedown', () => {
+      if (gameState !== 'player') return;
+      if (hoverTile === 'drawStack' && playerHand.length < 14) {
+        const tile = drawStack.pop();
+        if (tile) {
+          playerHand.push(tile);
+          lastDrawnFrom = 'stack';
+          updatePlayerHand();
+          if (soundEnabled) sounds.drawTile();
         }
-        if (hoverTile === 'discardPile' && playerHand.length < 14) {
-            const tile = discardPile.pop();
-            if (tile) {
-                playerHand.push(tile);
-                lastDrawnFrom = 'discard';
-                updatePlayerHand();
-                if (soundEnabled) sounds.discardTile();
-            }
-            return;
+        return;
+      }
+      if (hoverTile === 'discardPile' && playerHand.length < 14) {
+        const tile = discardPile.pop();
+        if (tile) {
+          playerHand.push(tile);
+          lastDrawnFrom = 'discard';
+          updatePlayerHand();
+          if (soundEnabled) sounds.discardTile();
         }
-        for (let i = playerHand.length - 1; i >= 0; i--) {
-            const tile = playerHand[i];
-            if (tile.containsPoint(mouse.x, mouse.y) && !tile.isMelded) {
-                draggingTile = tile.pickUp();
-                dragOffsetX = mouse.x - tile.x;
-                dragOffsetY = mouse.y - tile.y;
-                break;
-            }
+        return;
+      }
+      for (let i = playerHand.length - 1; i >= 0; i--) {
+        const tile = playerHand[i];
+        if (tile.containsPoint(mouseX, mouseY) && !tile.isMelded) {
+          draggingTile = tile.pickUp();
+          dragOffsetX = mouseX - tile.x;
+          dragOffsetY = mouseY - tile.y;
+          break;
         }
+      }
     });
 
     infoToggle.addEventListener('click', () => {
-        infoPanel.classList.toggle('show');
+      infoPanel.classList.toggle('show');
     });
     soundToggle.addEventListener('click', () => {
-        soundEnabled = !soundEnabled;
-        soundToggle.querySelector('.sound-toggle-icon').textContent = soundEnabled ? '🔊' : '🔇';
+      soundEnabled = !soundEnabled;
+      soundToggle.querySelector('.sound-toggle-icon').textContent = soundEnabled ? '🔊' : '🔇';
     });
     drawButton.addEventListener('click', () => {
-        if (gameState === 'player' && playerHand.length < 14) {
-            const tile = drawStack.pop();
-            if (tile) {
-                playerHand.push(tile);
-                lastDrawnFrom = 'stack';
-                updatePlayerHand();
-                if (soundEnabled) sounds.drawTile();
-            }
+      if (gameState === 'player' && playerHand.length < 14) {
+        const tile = drawStack.pop();
+        if (tile) {
+          playerHand.push(tile);
+          lastDrawnFrom = 'stack';
+          updatePlayerHand();
+          if (soundEnabled) sounds.drawTile();
         }
+      }
     });
     meldButton.addEventListener('click', () => {
-        if (gameState === 'player') {
-            const validMelds = checkMelds(playerHand);
-            if (validMelds.length > 0) {
-                validMelds.forEach(meld => {
-                    meld.forEach(tile => {
-                        tile.isMelded = true;
-                        const index = playerHand.indexOf(tile);
-                        if (index !== -1) {
-                            playerHand.splice(index, 1);
-                        }
-                    });
-                    meldedTiles[0].push(meld);
-                });
-                updatePlayerHand();
-                if (soundEnabled) sounds.meldSuccess();
-                showNotification('Valid meld!');
-            } else {
-                showNotification('No valid melds found', 1500);
-            }
-        }
+      if (gameState === 'player') {
+        // Basit "meld" örnek
+        showNotification('Meld checking (demo)!');
+      }
     });
     undoButton.addEventListener('click', () => {
-        if (lastMove) {
-            playerHand = lastMove.hand;
-            drawStack = lastMove.stack;
-            discardPile = lastMove.discard;
-            meldedTiles = lastMove.melds;
-            lastMove = null;
-            updatePlayerHand();
-            updateButtonStates();
-        }
+      if (lastMove) {
+        // Basit undo
+      }
     });
     restartButton.addEventListener('click', () => {
-        initGame();
+      initGame();
     });
 
-    function animate() {
-        for (let i = animations.length - 1; i >= 0; i--) {
-            if (!animations[i].update()) {
-                animations.splice(i, 1);
-            }
+    function initGame() {
+      if (opponentTimeout) {
+        clearTimeout(opponentTimeout);
+        opponentTimeout = null;
+      }
+      loadingOverlay.style.display = 'flex';
+      gameState = 'loading';
+      tiles = [];
+      playerHand = [];
+      opponents = [[], [], []];
+      drawStack = [];
+      discardPile = [];
+      meldedTiles = [[], [], [], []];
+      animations.length = 0;
+      setTimeout(() => {
+        createTiles();
+        distributeTiles();
+        updatePlayerHand();
+        gameState = 'player';
+        currentPlayer = 0;
+        updateStatusMessage('Your turn: Draw a tile!');
+        updateButtonStates();
+        updatePlayerIndicators();
+        loadingOverlay.style.display = 'none';
+        if (soundEnabled) sounds.gameStart();
+        showNotification('Game started! Your turn');
+        setTimeout(() => {
+          draggableHint.classList.add('show');
+          setTimeout(() => {
+            draggableHint.classList.remove('show');
+          }, 4000);
+        }, 1500);
+      }, 1000);
+    }
+
+    function createTiles() {
+      let id = 0;
+      const colorNames = ['red','blue','yellow','black'];
+      for (let c = 0; c < 4; c++) {
+        for (let n = 1; n <= 13; n++) {
+          for (let i = 0; i < 2; i++) {
+            tiles.push(new Tile(n, colorNames[c], 0, 0, id++));
+          }
         }
-        draw();
-        requestAnimationFrame(animate);
+      }
+      // Jokerler
+      tiles.push(new Tile(0, 'joker', 0, 0, id++));
+      tiles.push(new Tile(0, 'joker', 0, 0, id++));
+
+      // Karıştır
+      for (let i = tiles.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+      }
     }
 
-    // Okey butonuna tıklandığında, okey modalini göster
+    function distributeTiles() {
+      drawStack = [...tiles];
+      playerHand = drawStack.splice(0, 14);
+      opponents[0] = drawStack.splice(0, 14);
+      opponents[1] = drawStack.splice(0, 14);
+      opponents[2] = drawStack.splice(0, 14);
+      discardPile.push(drawStack.pop());
+    }
+
+    function updatePlayerHand() {
+      const nonMelded = playerHand.filter(t => !t.isMelded);
+      // Basit sıralama: Renk -> Numara
+      nonMelded.sort((a, b) => {
+        if (a.colorName === b.colorName) {
+          return a.number - b.number;
+        }
+        const order = ['red','blue','yellow','black','joker'];
+        return order.indexOf(a.colorName) - order.indexOf(b.colorName);
+      });
+      const startX = (canvas.width - ((nonMelded.length * (tileWidth + tileMargin)) - tileMargin)) / 2;
+      nonMelded.forEach((tile, i) => {
+        tile.x = startX + i * (tileWidth + tileMargin);
+        tile.y = canvas.height - tileHeight - 30;
+      });
+    }
+
+    function updateButtonStates() {
+      meldButton.disabled = !(gameState === 'player');
+      undoButton.disabled = !lastMove;
+      drawButton.disabled = !(gameState === 'player' && playerHand.length === 14);
+    }
+
+    function updatePlayerIndicators() {
+      playerArea.classList.remove('player-active');
+      opponentAreas.forEach(area => area.classList.remove('opponent-active'));
+      if (currentPlayer === 0) {
+        playerArea.classList.add('player-active');
+      } else {
+        opponentAreas[currentPlayer - 1].classList.add('opponent-active');
+      }
+    }
+
+    function updateStatusMessage(message) {
+      status.style.opacity = '0';
+      setTimeout(() => {
+        status.textContent = message;
+        status.style.opacity = '1';
+      }, 300);
+    }
+
+    function showNotification(message, duration=2000) {
+      if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+      }
+      notification.textContent = message;
+      notification.classList.add('show');
+      notificationTimeout = setTimeout(() => {
+        notification.classList.remove('show');
+      }, duration);
+    }
+
+    function isOverDiscardPile() {
+      if (!draggingTile) return false;
+      return (
+        mouseX >= discardPilePosition.x &&
+        mouseX <= discardPilePosition.x + discardPilePosition.width &&
+        mouseY >= discardPilePosition.y &&
+        mouseY <= discardPilePosition.y + discardPilePosition.height
+      );
+    }
+
+    // Ana çizim döngüsü
+    function animate() {
+      for (let i = animations.length - 1; i >= 0; i--) {
+        if (!animations[i].update()) {
+          animations.splice(i, 1);
+        }
+      }
+      drawAll();
+      requestAnimationFrame(animate);
+    }
+
+    function drawAll() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Masaya dolgu
+      drawTableBackground();
+      drawDrawStack();
+      drawDiscardPile();
+      drawOpponents();
+      drawPlayerHand();
+      if (draggingTile) draggingTile.draw();
+    }
+
+    function drawTableBackground() {
+      ctx.fillStyle = '#1b5e20';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawDrawStack() {
+      // Basit yer
+      const centerX = canvas.width / 2 - tileWidth - 60;
+      const centerY = canvas.height / 2 - tileHeight / 2;
+      drawStackPosition = { x: centerX, y: centerY, width: tileWidth, height: tileHeight };
+      // Sadece üstte rakamsal
+      ctx.fillStyle = '#ddd';
+      ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+      ctx.strokeStyle = hoverTile === 'drawStack' ? '#fff' : '#000';
+      ctx.lineWidth = hoverTile === 'drawStack' ? 2 : 1;
+      ctx.strokeRect(centerX, centerY, tileWidth, tileHeight);
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 16px Poppins';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${drawStack.length}`, centerX + tileWidth/2, centerY + tileHeight/2);
+      if (hoverTile === 'drawStack') {
+        ctx.fillStyle = 'rgba(255,255,255,0.1)';
+        ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+      }
+    }
+
+    function drawDiscardPile() {
+      const centerX = canvas.width / 2 + 20;
+      const centerY = canvas.height / 2 - tileHeight / 2;
+      discardPilePosition = { x: centerX, y: centerY, width: tileWidth, height: tileHeight };
+      const topTile = discardPile[discardPile.length - 1];
+      if (topTile) {
+        topTile.x = centerX;
+        topTile.y = centerY;
+        topTile.draw();
+        if (hoverTile === 'discardPile') {
+          ctx.fillStyle = 'rgba(255,255,255,0.1)';
+          ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+        }
+      }
+    }
+
+    function drawOpponents() {
+      // Temel placeholder
+      for (let i = 0; i < 3; i++) {
+        const hand = opponents[i];
+        // Sadece arka yüz gösterimi
+        // (Bu kısım basitleştirilmiş)
+      }
+    }
+
+    function drawPlayerHand() {
+      playerHand.forEach(tile => {
+        if (tile !== draggingTile) {
+          // Hover efekti
+          if (!draggingTile && tile.containsPoint(mouseX, mouseY) && !tile.isMelded) {
+            tile.isHovered = true;
+          } else {
+            tile.isHovered = false;
+          }
+          tile.draw();
+        }
+      });
+    }
+
+    // Okey butonu
     function okeyButtonClicked() {
-        document.getElementById('okeyModal').classList.add('active');
+      document.getElementById('okeyModal').classList.add('active');
     }
-    // Okey modali kapatma
+    // Okey modal kapat
     function closeOkeyModal() {
-        document.getElementById('okeyModal').classList.remove('active');
+      document.getElementById('okeyModal').classList.remove('active');
     }
 
+    // Başlat
     initGame();
     animate();
   </script>
