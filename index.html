@@ -2,77 +2,23 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Oyun Seçimi</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* Ortak Sıfırlama */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* TEMEL SIFIRLAMA VE STİL */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #121212;
+      background: linear-gradient(120deg, #272727 0%, #111 50%, #000 100%);
       color: #f1f1f1;
-      overflow-x: hidden;
-    }
-    /* Loading Overlay – Sayfa yüklendiğinde JavaScript ile otomatik kaldırılacak */
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      transition: opacity 0.5s;
-    }
-    .loading-overlay.hide { opacity: 0; pointer-events: none; }
-    .spinner {
-      width: 60px;
-      height: 60px;
-      border: 6px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: #4caf50;
-      animation: spin 1s ease-in-out infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Ana Menü */
-    #mainMenu {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      background: linear-gradient(135deg, #1a237e, #0d47a1);
+      position: relative;
+      padding-top: 120px; /* Üst stat alanı için boşluk */
     }
-    #mainMenu h1 { font-size: 2.5rem; }
-    #mainMenu button {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 8px;
-      background: #ff4444;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    #mainMenu button:hover { background: #cc0000; }
-
-    /* Oyun Container’ları */
-    .game-container { display: none; position: relative; }
-
-    /* Mafia Oyunu Stilleri */
-    #mafiaGameContainer {
-      padding-top: 120px; /* Stat barları alanı */
-      min-height: 100vh;
-      background: #121212;
-    }
-    /* Stat Barları ve Profil (Sol Üst) */
+    /* STAT BARLARI ve PROFİL (Sol Üst) */
     #statBars {
       position: fixed;
       top: 20px;
@@ -87,17 +33,57 @@
       overflow: hidden;
       padding: 5px;
     }
-    .stat-label { margin-bottom: 3px; font-weight: bold; font-size: 0.9rem; }
+    .stat-label {
+      margin-bottom: 3px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
     .stat-fill {
       height: 20px;
       background: #00bfff;
       width: 0%;
       transition: width 1s ease;
     }
-    .stat-text { margin-top: 3px; font-size: 0.9rem; }
+    .stat-text {
+      margin-top: 3px;
+      font-size: 0.9rem;
+    }
     .lockedStat { opacity: 0.4; }
-    #profileInfo { margin-top: 1rem; font-size: 0.9rem; font-weight: bold; }
-    /* Village Travel Panel (Sağ Orta) */
+    #profileInfo {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    /* HEADER */
+    header {
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      color: #ff4444;
+      text-transform: uppercase;
+    }
+    .money {
+      font-size: 1rem;
+      background: #222;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      border: 1px solid #333;
+    }
+    .money span { color: #ffcc00; margin-left: 5px; font-weight: bold; }
+    /* VILLAGE TRAVEL PANEL (Sağ Orta) */
     #villageTravel {
       position: fixed;
       right: 20px;
@@ -106,47 +92,105 @@
       background: rgba(0,0,0,0.7);
       padding: 1rem;
       border-radius: 10px;
-      width: 200px;
       z-index: 1000;
+      width: 200px;
     }
-    #villageTravel h3 { margin-bottom: 1rem; text-align: center; }
-    #villageTravel ul { list-style: none; }
+    #villageTravel h3 { margin-bottom: 1rem; font-size: 1rem; text-align: center; }
+    #villageTravel ul { list-style: none; padding: 0; margin: 0; }
     #villageTravel li {
+      margin-bottom: 0.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.5rem;
     }
-    #villageTravel button {
-      padding: 5px 10px;
+    #villageTravel li button {
+      padding: 0.3rem 0.5rem;
       font-size: 0.8rem;
-      border: none;
-      border-radius: 5px;
-      background: #ff4444;
-      color: #fff;
       cursor: pointer;
-      transition: background 0.3s;
     }
-    #villageTravel button:hover { background: #cc0000; }
-    /* Rütbe Kartları */
+    /* MAIN İÇERİK */
+    main { max-width: 1200px; margin: 0 auto; padding: 2rem; text-align: center; }
+    h1, h2, h3, h4, p { margin-bottom: 1rem; }
+    /* GÖREV ALANI */
+    .task-container {
+      background: rgba(255,255,255,0.07);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: none;
+      margin-top: 2rem;
+      position: relative;
+    }
+    .task-container.active { display: block; }
+    .task-container h3 { color: #ffcc00; margin-bottom: 1rem; }
+    /* Kapatma Butonu (Görev alanı sağ üst) */
+    .close-task {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    /* Görev Seçenekleri Listesi */
+    #taskOptions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .task-option {
+      padding: 0.75rem;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.05);
+      text-align: left;
+      cursor: default;
+    }
+    .task-option.active {
+      background: #ff4444;
+      cursor: pointer;
+    }
+    .task-option.completed { background: #00bfff; color: #000; }
+    .task-option.locked { background: #555; opacity: 0.6; }
+    /* İlerleme Çubuğu (Görev alanının altında) */
+    .progress-container {
+      width: 100%;
+      background: #444;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .progress-bar {
+      height: 20px;
+      width: 0%;
+      background: #00bfff;
+      transition: width 1s ease;
+    }
+    .progress-text { margin-top: 0.5rem; font-weight: bold; }
+    /* RÜTBE KARTLARI */
     .rank-selection {
       display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin: 20px 0;
+      gap: 2rem;
+      margin: 2rem 0;
       flex-wrap: wrap;
+      justify-content: center;
     }
     .card {
       background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(4px);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      padding: 20px;
       width: 250px;
-      transition: transform 0.3s;
-      cursor: pointer;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
     .card:hover { transform: translateY(-5px); }
-    .card h2 { color: #ffcc00; margin-bottom: 10px; }
+    .card h2 { margin-bottom: 1rem; color: #ffcc00; }
     .locked {
       opacity: 0.4;
       pointer-events: none;
@@ -159,247 +203,152 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: rgba(0,0,0,0.8);
-      padding: 5px 10px;
+      padding: 0.5rem 1rem;
       border-radius: 5px;
       font-weight: bold;
       color: #ff4444;
     }
-    /* Görev Alanı */
-    .task-container {
-      background: rgba(255,255,255,0.07);
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
+    /* SABİT BUTON GRUBU */
+    .fixed-btn-group {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+    .fixed-btn-group .btn { min-width: 130px; }
+    .hidden { display: none !important; }
+    /* MODAL (Eski Kod Uyumu) */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #1c1c1c;
       border-radius: 10px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
       position: relative;
     }
-    .task-container h3 { color: #ffcc00; margin-bottom: 10px; }
-    .close-task {
+    .close-modal {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 1rem; right: 1rem;
       background: transparent;
       border: none;
       color: #fff;
       font-size: 1.2rem;
       cursor: pointer;
     }
-    #taskOptions { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-    .task-option {
-      padding: 10px;
-      border: 1px solid #555;
-      border-radius: 5px;
-      background: rgba(255,255,255,0.05);
-      text-align: left;
-      cursor: default;
+    .badge-row { display: flex; justify-content: space-around; margin: 1rem 0; }
+    .badge-type { text-align: center; }
+    .badge-type span {
+      display: block; margin-top: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
     }
-    .task-option.active { background: #ff4444; cursor: pointer; }
-    .task-option.completed { background: #00bfff; color: #000; }
-    .task-option.locked { background: #555; opacity: 0.6; }
-    .progress-container {
-      width: 100%;
-      background: #444;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-top: 5px;
-    }
-    .progress-bar {
-      height: 20px;
-      width: 0%;
-      background: #00bfff;
-      transition: width 1s ease;
-    }
-    .progress-text { margin-top: 5px; font-weight: bold; }
-    /* Ek Butonlar */
-    #mafiaMenu button { margin-top: 10px; }
-    .fixed-btn-group {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .fixed-btn-group .btn { min-width: 130px; }
-
-    /* 101 Okey Oyunu Stilleri */
-    #okeyGameContainer {
-      display: none; /* Başlangıçta gizli */
-      padding: 20px;
-      background: var(--primary-color);
-      border-radius: 15px;
-      box-shadow: 0 8px 30px var(--shadow-dark), inset 0 1px 1px rgba(255,255,255,0.1);
-      max-width: 95vw;
-      text-align: center;
-    }
-    /* Okey oyununa ait diğer stiller */
-    #okeyGameContainer #gameCanvas {
-      border: 3px solid #1a472a;
-      background-color: var(--secondary-color);
-      border-radius: 10px;
-      box-shadow: inset 0 0 10px var(--shadow-dark);
-      margin: 20px auto;
-      display: block;
-    }
-    #okeyGameContainer #status {
-      font-size: 20px;
-      color: var(--text-light);
-      margin-bottom: 15px;
-      text-shadow: 1px 1px 3px var(--shadow-dark);
-      font-weight: 500;
-      padding: 10px 20px;
-      background-color: rgba(0,0,0,0.2);
-      border-radius: 30px;
-      display: inline-block;
-    }
-    #okeyGameContainer #controls {
-      margin-top: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    #okeyGameContainer #controls button {
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background-color: var(--button-primary);
-      color: white;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-weight: 500;
-      box-shadow: 0 4px 6px var(--shadow-dark);
-      min-width: 120px;
-    }
-    #okeyGameContainer #controls button:hover {
-      background-color: var(--button-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 10px var(--shadow-dark);
-    }
-    :root {
-      --primary-color: #1b5e20;
-      --secondary-color: #388e3c;
-      --accent-color: #4caf50;
-      --text-light: #e0e0e0;
-      --text-dark: #333333;
-      --button-primary: #0288d1;
-      --button-hover: #0277bd;
-      --button-disabled: #78909c;
-      --shadow-light: rgba(0, 0, 0, 0.1);
-      --shadow-dark: rgba(0, 0, 0, 0.3);
-    }
+    .badge-blue, .badge-orange, .badge-red { font-size: 1.8rem; }
+    .blue-label { color: #00bfff; }
+    .orange-label { color: #ffa500; }
+    .red-label { color: #ff0000; }
+    hr { border: 1px solid #444; margin: 1rem 0; }
   </style>
 </head>
 <body>
-  <!-- Loading Overlay (ilk açılışta gösterilir, sayfa yüklendikten sonra kaldırılacak) -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner"></div>
+  <!-- STAT BARLARI ve Profil -->
+  <div id="statBars">
+    <div class="stat-bar" id="vakurStat">
+      <div class="stat-label">Vakur 🛡️</div>
+      <div class="stat-fill" id="vakurFill"></div>
+      <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+    </div>
+    <div class="stat-bar lockedStat" id="hatipStat">
+      <div class="stat-label">Hatip 👥</div>
+      <div class="stat-fill" id="hatipFill"></div>
+      <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+    </div>
+    <div class="stat-bar lockedStat" id="baronStat">
+      <div class="stat-label">Baron ♛</div>
+      <div class="stat-fill" id="baronFill"></div>
+      <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
+    </div>
+    <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
   </div>
 
-  <!-- ANA MENÜ (Sadece Mafia Oyunu seçeneği çıkıyor) -->
-  <div id="mainMenu">
-    <h1>Oyun Seçimi</h1>
-    <button onclick="showGame('mafia')">Mafia Oyunu</button>
+  <!-- VILLAGE TRAVEL PANEL (Sağ Orta) -->
+  <div id="villageTravel">
+    <h3>Köyler</h3>
+    <ul>
+      <li><span>Asman</span><button onclick="travelTo('Asman')">Seyahat Et</button></li>
+      <li><span>Mizrin</span><button onclick="travelTo('Mizrin')">Seyahat Et</button></li>
+      <li><span>Qeruk</span><button onclick="travelTo('Qeruk')">Seyahat Et</button></li>
+      <li><span>Shuman</span><button onclick="travelTo('Shuman')">Seyahat Et</button></li>
+      <li><span>Alizera</span><button onclick="travelTo('Alizera')">Seyahat Et</button></li>
+      <li><span>Bubuk</span><button onclick="travelTo('Bubuk')">Seyahat Et</button></li>
+    </ul>
   </div>
 
-  <!-- MAFIA OYUNU -->
-  <div id="mafiaGameContainer" class="game-container">
-    <!-- Stat Barları ve Profil -->
-    <div id="statBars">
-      <div class="stat-bar" id="vakurStat">
-        <div class="stat-label">Vakur 🛡️</div>
-        <div class="stat-fill" id="vakurFill"></div>
-        <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
-      </div>
-      <div class="stat-bar lockedStat" id="hatipStat">
-        <div class="stat-label">Hatip 👥</div>
-        <div class="stat-fill" id="hatipFill"></div>
-        <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
-      </div>
-      <div class="stat-bar lockedStat" id="baronStat">
-        <div class="stat-label">Baron ♛</div>
-        <div class="stat-fill" id="baronFill"></div>
-        <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
-      </div>
-      <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
-    </div>
-    <!-- Village Travel Panel -->
-    <div id="villageTravel">
-      <h3>Köyler</h3>
-      <ul>
-        <li><span>Asman</span><button onclick="travelTo('Asman')">Seyahat Et</button></li>
-        <li><span>Mizrin</span><button onclick="travelTo('Mizrin')">Seyahat Et</button></li>
-        <li><span>Qeruk</span><button onclick="travelTo('Qeruk')">Seyahat Et</button></li>
-        <li><span>Shuman</span><button onclick="travelTo('Shuman')">Seyahat Et</button></li>
-        <li><span>Alizera</span><button onclick="travelTo('Alizera')">Seyahat Et</button></li>
-        <li><span>Bubuk</span><button onclick="travelTo('Bubuk')">Seyahat Et</button></li>
-      </ul>
-    </div>
-    <!-- Mafia Oyun Menüsü -->
-    <div id="mafiaMenu">
-      <div class="rank-selection">
-        <div class="card" id="cardVakur">
-          <h2>Vakur</h2>
-          <p>Mavi 🏅</p>
-          <button class="btn" onclick="selectRank('Vakur')">Seç</button>
-        </div>
-        <div class="card locked" id="cardHatip">
-          <h2>Hatip</h2>
-          <p>Turuncu 🏅</p>
-          <button class="btn" onclick="selectRank('Hatip')">Seç</button>
-        </div>
-        <div class="card locked" id="cardBaron">
-          <h2>Baron</h2>
-          <p>Kırmızı 🏅</p>
-          <button class="btn" onclick="selectRank('Baron')">Seç</button>
-        </div>
-      </div>
-      <!-- Ek olarak Okey101 butonu -->
-      <button class="btn" onclick="showGame('okey')">Okey101 Oyna</button>
-      <!-- Görev Alanı -->
-      <div class="task-container" id="taskContainer">
-        <button class="close-task" onclick="closeTaskContainer()">X</button>
-        <h3 id="rankTitle"></h3>
-        <div id="taskOptions"></div>
-        <div class="progress-container">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="progress-text" id="progressText">0%</div>
-      </div>
-      <br>
-      <button class="btn" onclick="showMainMenu()">Ana Menüye Dön</button>
-    </div>
-  </div>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Black Dolphine</div>
+    <div class="money">Dolar: <span id="money">500000</span></div>
+  </header>
 
-  <!-- 101 Okey Oyunu -->
-  <div id="okeyGameContainer" class="game-container">
-    <div class="game-container">
-      <div id="status">Loading Okey101...</div>
-      <div id="opponent1" class="opponent-area">Opponent 1</div>
-      <div id="opponent2" class="opponent-area">Opponent 2</div>
-      <div id="opponent3" class="opponent-area">Opponent 3</div>
-      <div id="player-area" class="player-active">Your Hand</div>
-      <div class="draggable-hint">Drag tiles to organize them or to discard</div>
-      <canvas id="gameCanvas"></canvas>
-      <div id="controls">
-        <button id="drawButton">Draw Tile</button>
-        <button id="meldButton" disabled>Confirm Melds</button>
-        <button id="undoButton" disabled>Undo Move</button>
-        <button id="restartButton">New Game</button>
+  <!-- MAIN İÇERİK -->
+  <main>
+    <h1>Black Dolphine Mafya Dünyasına Hoş Geldiniz!</h1>
+    <h4>Vakur (Mavi 🏅), Hatip (Turuncu 🏅) veya Baron (Kırmızı 🏅) olarak suç dünyasına adım atın.</h4>
+    <!-- RÜTBE KARTLARI -->
+    <div class="rank-selection">
+      <div class="card" id="cardVakur">
+        <h2>Vakur</h2>
+        <p>Mavi 🏅</p>
+        <button class="btn" onclick="selectRank('Vakur')">Seç</button>
+      </div>
+      <div class="card locked" id="cardHatip">
+        <h2>Hatip</h2>
+        <p>Turuncu 🏅</p>
+        <button class="btn" onclick="selectRank('Hatip')">Seç</button>
+      </div>
+      <div class="card locked" id="cardBaron">
+        <h2>Baron</h2>
+        <p>Kırmızı 🏅</p>
+        <button class="btn" onclick="selectRank('Baron')">Seç</button>
       </div>
     </div>
-    <button class="btn" onclick="showGame('mafia')">Ana Menüye Dön</button>
-  </div>
+    <!-- GÖREV ALANI -->
+    <div class="task-container" id="taskContainer">
+      <button class="close-task" onclick="closeTaskContainer()">X</button>
+      <h3 id="rankTitle"></h3>
+      <div id="taskOptions"></div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+  </main>
 
-  <!-- SABİT BUTON GRUBU (Ortak ek butonlar) -->
+  <!-- SABİT BUTON GRUBU -->
   <div class="fixed-btn-group">
     <button class="btn" onclick="toggleBadgesModal()">Rozetlerim</button>
     <button class="btn hidden" id="marketBtn" onclick="toggleMarketModal()">Market</button>
     <button class="btn hidden" id="kumarhaneBtn" onclick="toggleKumarhaneModal()">Kumarhane</button>
   </div>
 
-  <!-- MODALLER (Mafia: Envanter vs.) -->
+  <!-- MODALLER -->
+  <!-- Köy (Envanter & Çete Bilgileri) Modal -->
   <div class="modal-overlay" id="koyModal">
     <div class="modal">
       <button class="close-modal" onclick="toggleKoyPanelModal()">X</button>
@@ -410,6 +359,7 @@
       <h3>Çete Üye Sayısı: <span id="ceteUyeSayisi">0</span></h3>
     </div>
   </div>
+  <!-- Rozetler Modal -->
   <div class="modal-overlay" id="badgesModal">
     <div class="modal">
       <button class="close-modal" onclick="toggleBadgesModal()">X</button>
@@ -418,17 +368,17 @@
         <div class="badge-type">
           <div class="badge-blue">🏅</div>
           <span class="blue-label" id="blueBadgeCount">0</span>
-          <p>Vakur (Mavi)</p>
+          <p style="margin-top:0.5rem;">Vakur (Mavi)</p>
         </div>
         <div class="badge-type">
           <div class="badge-orange">🏅</div>
           <span class="orange-label" id="orangeBadgeCount">0</span>
-          <p>Hatip (Turuncu)</p>
+          <p style="margin-top:0.5rem;">Hatip (Turuncu)</p>
         </div>
         <div class="badge-type">
           <div class="badge-red">🏅</div>
           <span class="red-label" id="redBadgeCount">0</span>
-          <p>Baron (Kırmızı)</p>
+          <p style="margin-top:0.5rem;">Baron (Kırmızı)</p>
         </div>
       </div>
       <hr />
@@ -455,11 +405,12 @@
       </div>
     </div>
   </div>
+  <!-- Market Modal -->
   <div class="modal-overlay" id="marketModal">
     <div class="modal">
       <button class="close-modal" onclick="toggleMarketModal()">X</button>
       <h2>Market</h2>
-      <p>Baron görevleri aktif olduğunda satın alabilirsiniz:</p>
+      <p style="margin-bottom:1rem;">Baron görevleri aktif olduğunda satın alabilirsiniz:</p>
       <div class="market-item" id="koyItem">
         <div>Köy (75.000$)</div>
         <button class="btn" onclick="buyItem('Köy', 75000)">Satın Al</button>
@@ -478,6 +429,7 @@
       </div>
     </div>
   </div>
+  <!-- Kumarhane Modal -->
   <div class="modal-overlay" id="kumarhaneModal">
     <div class="modal">
       <button class="close-modal" onclick="toggleKumarhaneModal()">X</button>
@@ -493,36 +445,9 @@
 
   <script>
     /* ------------------------
-       Ana Menü & Oyunlar Arası Geçiş Fonksiyonları
+       1. GÖREV DİZİLERİ: Her rütbe için 5 kademede (her biri 8 görev – toplam 40)
+       Görevler cyclic olarak tekrarlanır.
     ------------------------ */
-    function showGame(game) {
-      // Seçim yapıldığında loading-overlay'ı gizle
-      document.getElementById('loadingOverlay').classList.add('hide');
-      if (game === 'mafia') {
-        document.getElementById('mainMenu').style.display = 'none';
-        document.getElementById('okeyGameContainer').style.display = 'none';
-        document.getElementById('mafiaGameContainer').style.display = 'block';
-      } else if (game === 'okey') {
-        document.getElementById('mafiaGameContainer').style.display = 'none';
-        document.getElementById('mainMenu').style.display = 'none';
-        document.getElementById('okeyGameContainer').style.display = 'block';
-      }
-    }
-    function showMainMenu() {
-      document.getElementById('mafiaGameContainer').style.display = 'none';
-      document.getElementById('okeyGameContainer').style.display = 'none';
-      document.getElementById('mainMenu').style.display = 'flex';
-    }
-      
-    /* ------------------------
-       Mafia Oyunu İçin Kodlar
-    ------------------------ */
-    let currentRank = "Vakur";
-    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
-    let isHatipUnlocked = false, isBaronUnlocked = false;
-    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
-    let money = 500000;
-    let onur = 0;
     const tierOrder = ["basit", "orta", "zor", "ileri", "son"];
     const tasks = {
       vakur: {
@@ -533,34 +458,260 @@
           "Arkadaşına ufak bir hediye vererek moralini yükselt.",
           "İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",
           "Kütüphanede eski kitapları düzenlemeye gönüllü ol.",
-          "Bir hayır kurumuna ufak bağış yap veya yardım topla.",
+          "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
           "Otobüste yaşlı veya hamile birine yer ver."
         ],
-        orta: ["Orta Görev 1", "Orta Görev 2", "Orta Görev 3", "Orta Görev 4", "Orta Görev 5", "Orta Görev 6", "Orta Görev 7", "Orta Görev 8"],
-        zor: ["Zor Görev 1", "Zor Görev 2", "Zor Görev 3", "Zor Görev 4", "Zor Görev 5", "Zor Görev 6", "Zor Görev 7", "Zor Görev 8"],
-        ileri: ["İleri Görev 1", "İleri Görev 2", "İleri Görev 3", "İleri Görev 4", "İleri Görev 5", "İleri Görev 6", "İleri Görev 7", "İleri Görev 8"],
-        son: ["Son Görev 1", "Son Görev 2", "Son Görev 3", "Son Görev 4", "Son Görev 5", "Son Görev 6", "Son Görev 7", "Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz."]
+        orta: [
+          "Aile içinde tartışan iki akrabayı barıştır.",
+          "Mahallede yardım kermesi veya etkinlik organize et.",
+          "Maddi durumu kötü bir öğrenciye burs/kitap yardımı ayarla.",
+          "Bir STK’nın etkinliğinde aktif rol al.",
+          "Bakımsız parkı onarmak için gönüllüler topla.",
+          "Kan bağışı kampanyasına katkıda bulun.",
+          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
+          "Zorbalığa uğrayan birine çevrimiçi destek bul."
+        ],
+        zor: [
+          "Afet bölgesine yardım ekibi olarak katıl.",
+          "Kronik sorunu için belediyeyle görüşüp çözüm talep et.",
+          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
+          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
+          "Küs olan iki arkadaşın barışmasına aracılık et.",
+          "Toplum dışlanmış birini etkinliklere dahil et.",
+          "Küçük çaplı bağış kampanyası düzenle.",
+          "Yerel hastanede gönüllü refakat programına katıl."
+        ],
+        ileri: [
+          "Büyük ölçekli yardım projesine liderlik et.",
+          "Gençlere yönelik mentorluk programı başlat.",
+          "Meslek edindirme kursu organize et.",
+          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
+          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
+          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
+          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
+          "Ücretsiz terapi/rehberlik günü organize et."
+        ],
+        son: [
+          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
+          "Büyük bağış konseri/festival düzenle.",
+          "Gönüllüleri bir araya getiren platform kur.",
+          "Eğitim bursu fonu başlat.",
+          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
+          "Yardım vakfı kurarak sürekli yardım yürüt.",
+          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
+          "Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz."
+        ]
       },
       hatip: {
-        basit: ["Hatip Basit 1", "Hatip Basit 2", "Hatip Basit 3", "Hatip Basit 4", "Hatip Basit 5", "Hatip Basit 6", "Hatip Basit 7", "Hatip Basit 8"],
-        orta: ["Hatip Orta 1", "Hatip Orta 2", "Hatip Orta 3", "Hatip Orta 4", "Hatip Orta 5", "Hatip Orta 6", "Hatip Orta 7", "Hatip Orta 8"],
-        zor: ["Hatip Zor 1", "Hatip Zor 2", "Hatip Zor 3", "Hatip Zor 4", "Hatip Zor 5", "Hatip Zor 6", "Hatip Zor 7", "Hatip Zor 8"],
-        ileri: ["Hatip İleri 1", "Hatip İleri 2", "Hatip İleri 3", "Hatip İleri 4", "Hatip İleri 5", "Hatip İleri 6", "Hatip İleri 7", "Hatip İleri 8"],
-        son: ["Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."]
+        basit: [
+          "Sokak kavgasını tatlı dille sakinleştir.",
+          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
+          "Aile içi gerginliği dinleyerek gider.",
+          "Sosyal medyada tartışmayı tatlıya bağla.",
+          "Yanlış bilgiyi doğru kaynakla düzelt.",
+          "Dedikoduyu kaynağından çürüterek sakinleştir.",
+          "Okul/kulüp etkinliğinde kısa konuşma yap.",
+          "Ufak grupta hitabet pratiği yap."
+        ],
+        orta: [
+          "Komşular arasındaki sorunu toplantı ile çöz.",
+          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
+          "Yerel hayır kurumuna bağış toplamak için ikna et.",
+          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
+          "Aile şirketinde tartışmada hakemlik yap.",
+          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
+          "Mahalle muhtarıyla imza kampanyası başlat.",
+          "Gönüllü ekiple sokak sanatçılarına destek sağla."
+        ],
+        zor: [
+          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
+          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
+          "Mahalle halkının taleplerini dile getirip sonuç al.",
+          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
+          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
+          "Binlerce kişilik tartışmayı sakinleştir.",
+          "Sivil toplum zirvesinde temsilci olarak konuş."
+        ],
+        ileri: [
+          "Bölgesel toplum hareketine önderlik et.",
+          "Ulusal konferansta çözüm önerileri sun.",
+          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
+          "Barış çalıştayında moderatörlük yap.",
+          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
+          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
+          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
+          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver."
+        ],
+        son: [
+          "Uluslararası konferansta ülkeni temsil et.",
+          "Farklı ülkelerden liderleri bir araya getir.",
+          "Barışçıl çözümlerle ödül al.",
+          "Büyük kampanyayla yasa değişikliğini sağla.",
+          "Diplomatik krizde aracı rol üstlen.",
+          "‘Barış ve Uzlaşma Vakfı’ kurarak projeler yönet.",
+          "Önemli çatışma bölgelerine arabulucu olarak davet al.",
+          "Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."
+        ]
       },
       baron: {
-        basit: ["Baron Basit 1", "Baron Basit 2", "Baron Basit 3", "Baron Basit 4", "Baron Basit 5", "Baron Basit 6", "Baron Basit 7", "Baron Basit 8"],
-        orta: ["Baron Orta 1", "Baron Orta 2", "Baron Orta 3", "Baron Orta 4", "Baron Orta 5", "Baron Orta 6", "Baron Orta 7", "Baron Orta 8"],
-        zor: ["Baron Zor 1", "Baron Zor 2", "Baron Zor 3", "Baron Zor 4", "Baron Zor 5", "Baron Zor 6", "Baron Zor 7", "Baron Zor 8"],
-        ileri: ["Baron İleri 1", "Baron İleri 2", "Baron İleri 3", "Baron İleri 4", "Baron İleri 5", "Baron İleri 6", "Baron İleri 7", "Baron İleri 8"],
-        son: ["Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."]
+        basit: [
+          "Ufak çapta uyuşturucu satmayı dene.",
+          "Mahallede küçük 'koruma ücreti' topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
+          "Sahte marka ürünlerin satış ağını oluştur.",
+          "Şantaj veya tehditle rakibi sustur.",
+          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
+          "Kaçak içki satışı yapan ekibe arka çık."
+        ],
+        orta: [
+          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
+          "Yasadışı kumar organizasyonu başlat.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
+          "Kara para aklama için küçük sermaye oluştur.",
+          "Gece kulübünün 'gizli ortak' statüsünü al."
+        ],
+        zor: [
+          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Polis ve siyasi bağlantıları güçlendir.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüpleri ve barlarda yatırımın tekeli olsun.",
+          "Rakip çetenin liderini korkutarak saflarına katıl.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
+          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır."
+        ],
+        ileri: [
+          "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
+          "Üst düzey bürokratlarla gizli anlaşmalar yap, dokunulmazlık sağla.",
+          "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
+          "Yurt dışı kara para aklama ofisleri aç.",
+          "Güvenlik birimlerinde kilit isimleri satın al.",
+          "Şehrin en büyük limanlarında kontrol sağla.",
+          "Gösterişli hayır işleriyle meşrulaş.",
+          "Casino, otel, gece kulübü zinciri kurarak yasadışı gelirleri yasal işletmeye dönüştür."
+        ],
+        son: [
+          "Büyük kumarhane zinciri ve malikâne sahibi ol.",
+          "Uluslararası mafya ağının ülke temsilcisini üstlen.",
+          "Siyasete dolaylı girip seçim kampanyalarını fonla.",
+          "Yeraltı dünyasında 'Baronlar Konseyi' kur.",
+          "Devletin kritik kurumlarına adam yerleştir.",
+          "Lüks yaşam sürerken yurt dışı yatırımları yönet.",
+          "Rakip baronlara karşı koordineli operasyon yap.",
+          "Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz."
+        ]
       }
     };
-      
-    function showMafiaTask() {
-      const container = document.getElementById('taskOptions');
-      container.innerHTML = "";
+
+    /* ------------------------
+       2. GLOBAL DEĞİŞKENLER & RÜTBE KİLİT DURUMLARI
+       ------------------------ */
+    let currentRank = "Vakur";  // Başlangıçta yalnızca Vakur aktif
+    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
+    let isHatipUnlocked = false, isBaronUnlocked = false;
+    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
+    let money = 500000;
+    let onur = 0; // Hatip onur değeri
+
+    // Stat hesapları:
+    function getVakurKoruma() {
+      let koruma = Math.floor(vakurTaskCount / 22);
+      return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
+    }
+    function getHatipNufus() {
+      let nufus = Math.floor(hatipTaskCount / 40) * 5;
+      return (nufus % 201 === 0 && nufus > 0) ? 200 : nufus % 201;
+    }
+    function getBaronEtki() {
+      let etki = Math.floor(baronTaskCount * 2);
+      return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
+    }
+
+    // Village Travel: 6 köy, ilk başta "Asman"
+    const villages = ["Asman", "Mizrin", "Qeruk", "Shuman", "Alizera", "Bubuk"];
+    let currentVillage = "Asman";
+
+    /* ------------------------
+       3. FONKSİYONLAR
+       ------------------------ */
+
+    // Stat Barlarını Güncelle
+    function updateStatBars() {
+      // Vakur Barı
+      let vakurValue = getVakurKoruma();
+      let vakurYuzde = (vakurValue / 660) * 100;
+      document.getElementById('vakurText').innerText = "Koruma: " + vakurValue + " (" + Math.floor(vakurYuzde) + "%)";
+      document.getElementById('vakurFill').style.width = vakurYuzde + "%";
+      // Hatip Barı
+      if (isHatipUnlocked) {
+        document.getElementById('hatipStat').classList.remove("lockedStat");
+        let hatipValue = getHatipNufus();
+        let hatipYuzde = (hatipValue / 200) * 100;
+        document.getElementById('hatipText').innerText = "Nüfus: " + hatipValue + " (" + Math.floor(hatipYuzde) + "%)";
+        document.getElementById('hatipFill').style.width = hatipYuzde + "%";
+      } else {
+        document.getElementById('hatipStat').classList.add("lockedStat");
+      }
+      // Baron Barı
+      if (isBaronUnlocked) {
+        document.getElementById('baronStat').classList.remove("lockedStat");
+        let baronValue = getBaronEtki();
+        let baronYuzde = (baronValue / 500) * 100;
+        document.getElementById('baronText').innerText = "Etki: " + baronValue + " (" + Math.floor(baronYuzde) + "%)";
+        document.getElementById('baronFill').style.width = baronYuzde + "%";
+      } else {
+        document.getElementById('baronStat').classList.add("lockedStat");
+      }
+    }
+
+    // Profil bilgisini güncelle (Köy bilgisi)
+    function updateProfileInfo() {
+      document.getElementById('currentVillageDisplay').innerText = currentVillage;
+    }
+
+    // Para UI güncelleme
+    function updateMoneyUI() {
+      document.getElementById('money').innerText = money;
+    }
+
+    // Rozet UI güncelleme
+    function updateBadgesUI() {
+      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
+      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
+      document.getElementById('redBadgeCount').innerText = redBadgeCount;
+    }
+
+    // Rütbe seçimi
+    function selectRank(rank) {
+      if (rank === "Vakur") {
+        currentRank = "Vakur";
+      } else if (rank === "Hatip") {
+        if (!isHatipUnlocked) return;
+        currentRank = "Hatip";
+      } else if (rank === "Baron") {
+        if (!isBaronUnlocked) return;
+        currentRank = "Baron";
+      }
+      showNextTask();
+      document.getElementById('taskContainer').classList.add('active');
+    }
+
+    // Görev alanını kapatma (Ana menüye dönüş)
+    function closeTaskContainer() {
+      document.getElementById('taskContainer').classList.remove('active');
+    }
+
+    // Görev listesini gösterme – Her rütbe için 5 kademede (her kademe 8 görev)
+    function showNextTask() {
+      const taskOptionsContainer = document.getElementById('taskOptions');
+      taskOptionsContainer.innerHTML = "";
       let taskCount, tierIndex, activeIndex, currentTier, taskList;
+      
       if (currentRank === "Vakur") {
         taskCount = vakurTaskCount;
         tierIndex = Math.floor(taskCount / 8);
@@ -584,6 +735,7 @@
         document.getElementById('rankTitle').innerText = "Baron Görevleri (" + currentTier + ")";
       }
       
+      // Eğer aktif index sıfırlanmış ve (yani önceki kademe tamamlanmışsa) mesaj verilsin:
       if (activeIndex === 0 && taskCount > 0) {
         if (currentTier === "basit") {
           alert("Tebrikler, basit görevleri bitti. Orta görevlere geçtiniz.");
@@ -594,6 +746,7 @@
         } else if (currentTier === "ileri") {
           alert("Tebrikler, ileri görevleri bitti. Son görevlere geçtiniz.");
         } else if (currentTier === "son") {
+          // Rütbe terfisi: Eğer Vakur ise Hatip, eğer Hatip ise Baron.
           if (currentRank === "Vakur") {
             alert("Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz.");
             isHatipUnlocked = true;
@@ -603,11 +756,13 @@
             isBaronUnlocked = true;
             document.getElementById('cardBaron').classList.remove('locked');
           }
+          // Görev alanı kapatılarak ana menüye (rütbe kartlarına) dönülür.
           closeTaskContainer();
           return;
         }
       }
       
+      // Görev seçeneklerini listele:
       taskList.forEach((task, index) => {
         const div = document.createElement('div');
         div.classList.add('task-option');
@@ -616,38 +771,44 @@
           div.classList.add('completed');
         } else if (index === activeIndex) {
           div.classList.add('active');
-          div.addEventListener('click', mafiaTaskComplete);
+          div.addEventListener('click', completeActiveTask);
         } else {
           div.classList.add('locked');
         }
-        container.appendChild(div);
+        taskOptionsContainer.appendChild(div);
       });
       
+      // İlerleme çubuğunu güncelle (aktif görev konumuna göre; 0-100 arası)
       const prog = (activeIndex / 8) * 100;
       document.getElementById('progressBar').style.width = prog + "%";
       document.getElementById('progressText').innerText = Math.floor(prog) + "%";
     }
-      
-    function mafiaTaskComplete() {
+
+    // Aktif görevin tamamlanması
+    function completeActiveTask() {
       if (currentRank === "Vakur") {
         vakurTaskCount++;
-        let rozet = Math.floor(Math.random() * 3) + 1;
-        blueBadgeCount += rozet;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        blueBadgeCount += rozetKazanc;
       } else if (currentRank === "Hatip") {
         hatipTaskCount++;
-        let rozet = Math.floor(Math.random() * 3) + 1;
-        orangeBadgeCount += rozet;
-        onur += rozet;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        orangeBadgeCount += rozetKazanc;
+        onur += rozetKazanc;
       } else if (currentRank === "Baron") {
         baronTaskCount++;
-        let rozet = Math.floor(Math.random() * 3) + 1;
-        redBadgeCount += rozet;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        redBadgeCount += rozetKazanc;
         let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
         money += cashGain;
-        if (blueBadgeCount > 0) blueBadgeCount--;
+        if (blueBadgeCount > 0) {
+          blueBadgeCount -= 1;
+        }
       }
       
+      // Rütbe terfisi: Vakur 40 görev tamamlandığında Hatip; Hatip 40 görev tamamlandığında Baron.
       if (currentRank === "Vakur" && vakurTaskCount >= 40 && !isHatipUnlocked) {
+        // Burada "son" kademenin tamamlanması sağlanmalıdır (mesaj verildiği anda)
         isHatipUnlocked = true;
         document.getElementById('cardHatip').classList.remove('locked');
       }
@@ -659,9 +820,10 @@
       updateStatBars();
       updateBadgesUI();
       updateMoneyUI();
-      showMafiaTask();
+      showNextTask();
     }
-      
+
+    // Seyahat fonksiyonu – her seyehat 500 dolar
     function travelTo(village) {
       if (currentVillage === village) return;
       if (money < 500) {
@@ -674,67 +836,107 @@
       updateProfileInfo();
       alert("Şimdi " + currentVillage + " köyündesin!");
     }
-      
-    function updateProfileInfo() {
-      document.getElementById('currentVillageDisplay').innerText = currentVillage;
+
+    // MARKET & ENVANTER İşlemleri
+    let hasKoy = false, atCount = 0, ucakCount = 0, kumarhaneCount = 0, ceteUyeSayisi = 0;
+    function buyItem(itemName, price) {
+      if (money < price) return;
+      if (!isBaronUnlocked) return;
+      money -= price;
+      updateMoneyUI();
+      switch(itemName) {
+        case "Köy":
+          if (hasKoy) return;
+          hasKoy = true;
+          document.getElementById('koyItem').style.display = "none";
+          document.getElementById('koyPanelTrigger').style.display = "flex";
+          break;
+        case "At":
+          atCount++; ceteUyeSayisi += 2; break;
+        case "Uçak":
+          ucakCount++; ceteUyeSayisi += 5; break;
+        case "Kumarhane":
+          kumarhaneCount++; ceteUyeSayisi += 3; break;
+        default: break;
+      }
+      updateInventoryUI();
     }
-      
-    function updateMoneyUI() {
-      document.getElementById('money').innerText = money;
+    function updateInventoryUI() {
+      const inventoryList = document.getElementById('inventoryList');
+      inventoryList.innerHTML = "";
+      if (hasKoy) {
+        const divKoy = document.createElement('div');
+        divKoy.innerHTML = `<img src="https://via.placeholder.com/32?text=K%C3%B6y" alt="Köy" /> Köy (1 adet)`;
+        inventoryList.appendChild(divKoy);
+      }
+      if (atCount > 0) {
+        const divAt = document.createElement('div');
+        divAt.innerHTML = `<img src="https://via.placeholder.com/32?text=%F0%9F%90%8E" alt="At" /> At (x${atCount})`;
+        inventoryList.appendChild(divAt);
+      }
+      if (ucakCount > 0) {
+        const divUcak = document.createElement('div');
+        divUcak.innerHTML = `<img src="https://via.placeholder.com/32?text=%E2%9C%88%EF%B8%8F" alt="Uçak" /> Uçak (x${ucakCount})`;
+        inventoryList.appendChild(divUcak);
+      }
+      if (kumarhaneCount > 0) {
+        const divKumar = document.createElement('div');
+        divKumar.innerHTML = `<img src="https://via.placeholder.com/32?text=%24" alt="Kumarhane" /> Kumarhane (x${kumarhaneCount})`;
+        inventoryList.appendChild(divKumar);
+      }
+      if (!hasKoy && atCount === 0 && ucakCount === 0 && kumarhaneCount === 0) {
+        inventoryList.innerHTML = "<p>Envanteriniz boş!</p>";
+      }
+      document.getElementById('ceteUyeSayisi').innerText = ceteUyeSayisi;
     }
-      
-    function updateBadgesUI() {
-      document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
-      document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
-      document.getElementById('redBadgeCount').innerText = redBadgeCount;
+    
+    // MODAL İşlemleri
+    function toggleKoyPanelModal() {
+      updateInventoryUI();
+      document.getElementById('koyModal').classList.toggle('active');
     }
-      
-    function closeTaskContainer() {
-      document.getElementById('taskContainer').classList.remove('active');
+    function toggleBadgesModal() {
+      document.getElementById('badgesModal').classList.toggle('active');
     }
-      
-    // Başlangıç güncellemeleri
+    function toggleMarketModal() {
+      document.getElementById('marketModal').classList.toggle('active');
+    }
+    function toggleKumarhaneModal() {
+      const kumarhaneModal = document.getElementById('kumarhaneModal');
+      kumarhaneModal.classList.toggle('active');
+      document.getElementById('gambleResult').innerText = "";
+      document.getElementById('betAmount').value = "";
+    }
+    function playGamble() {
+      const betInput = document.getElementById('betAmount');
+      const gambleResult = document.getElementById('gambleResult');
+      const bet = parseInt(betInput.value);
+      if (isNaN(bet) || bet <= 0) {
+        gambleResult.innerText = "Geçerli bir bahis miktarı giriniz.";
+        return;
+      }
+      if (bet > money) {
+        gambleResult.innerText = "Yeterli bakiyeniz yok!";
+        return;
+      }
+      const chance = Math.random();
+      if (chance < 0.5) {
+        money += bet;
+        gambleResult.innerText = `Kazandınız! Yeni bakiye: ${money} $`;
+      } else {
+        money -= bet;
+        gambleResult.innerText = `Kaybettiniz! Yeni bakiye: ${money} $`;
+      }
+      updateMoneyUI();
+    }
+    
+    /* ------------------------
+       4. Sayfa Yüklendiğinde: Stat, Profil vs. Güncelleme
+    ------------------------ */
     updateStatBars();
     updateProfileInfo();
     updateMoneyUI();
     updateBadgesUI();
-  </script>
-
-  <!-- 101 Okey Oyunu JS (İzolasyon içinde) -->
-  <script>
-    (function(){
-      const canvas = document.getElementById('gameCanvas');
-      const ctx = canvas.getContext('2d');
-      const status = document.getElementById('status');
-      const drawButton = document.getElementById('drawButton');
-      const meldButton = document.getElementById('meldButton');
-      const undoButton = document.getElementById('undoButton');
-      const restartButton = document.getElementById('restartButton');
-      
-      canvas.width = 1000;
-      canvas.height = 700;
-      status.textContent = "Welcome to 101 Okey!";
-      
-      drawButton.addEventListener('click', () => { 
-          status.textContent = "Draw Tile clicked."; 
-      });
-      meldButton.addEventListener('click', () => { 
-          status.textContent = "Confirm Melds clicked."; 
-      });
-      undoButton.addEventListener('click', () => { 
-          status.textContent = "Undo Move clicked."; 
-      });
-      restartButton.addEventListener('click', () => { 
-          status.textContent = "New Game clicked."; 
-      });
-    })();
-  </script>
-
-  <script>
-    // Sayfa tamamen yüklendiğinde loading overlay'ı gizle
-    window.addEventListener('load', () => {
-      document.getElementById('loadingOverlay').classList.add('hide');
-    });
   </script>
 </body>
 </html>
