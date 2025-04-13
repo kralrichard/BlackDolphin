@@ -5,91 +5,113 @@
   <title>Black Dolphine - Mafia Oyunu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Temel Sıfırlama */
+    /* Temel sıfırlama */
     * {
       margin: 0; padding: 0;
       box-sizing: border-box;
     }
-
-    /* Sayfa yapısı: Ortadaki kısım açık yeşil, kenarlar beyaz */
     body {
-      background: #fff; /* Kenarlar beyaz */
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #888; /* Tamamen gri arka plan */
+      font-family: "Segoe UI", Tahoma, sans-serif;
     }
-    .page-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: #a5e8a8; /* Ortadaki esas kısım: Açık yeşil */
-      min-height: 100vh;
-      position: relative;
-      padding-top: 160px; /* Header için boşluk */
-    }
-
-    /* Üst Header (Sadece siyah alanda logo + para) */
+    /* Üst kısım (siyah header) */
     header {
-      background: #000; /* Sadece logo ve para için siyah */
+      background: #000;
       color: #fff;
-      position: fixed;
-      top: 0; left: 0;
       width: 100%;
       padding: 20px 0;
       text-align: center;
-      z-index: 2000;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 1000;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
-    .logo-container {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    .header-inner {
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      position: relative;
     }
     .logo-text {
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 3px;
-      color: #fff;
-      text-shadow:
-        2px 2px 0px #000,
-        4px 4px 0px #fff,
-        5px 5px 5px rgba(0,0,0,0.5);
-    }
-    .logo-dolphin {
-      margin-left: 20px;
-    }
-    .logo-dolphin svg {
-      width: 70px;
-      height: auto;
+      margin-right: 15px;
     }
     .money {
       position: absolute;
-      top: 20px;
       right: 20px;
-      font-size: 1.2rem;
       background: #222;
-      padding: 10px 15px;
+      padding: 8px 12px;
       border-radius: 5px;
       border: 1px solid #333;
-      color: #ffcc00;
       font-weight: bold;
+      color: #ffcc00;
     }
 
-    /* Stat Barlar (Sol Üst) */
-    #statBars {
-      position: fixed;
-      top: 80px;
-      left: 20px;
-      width: 280px;
-      z-index: 1000;
+    /* Orta kısım container */
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 100px; /* header boşluğu */
+      text-align: center;
+    }
+    .container h1 {
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    /* Butonlar (Durumum, Market, Kumar) */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .btn {
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+      min-width: 180px;
+    }
+    .btn:hover {
+      background: #666;
+    }
+    .btn.locked {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    /* Durumum Paneli (collapsible) */
+    .durumum-panel {
+      background: rgba(255,255,255,0.2);
+      margin: 1rem auto;
+      padding: 1rem;
+      border-radius: 5px;
+      width: 100%;
+      max-width: 480px;
+      text-align: left;
+      display: none; /* Başta gizli */
+    }
+    .durumum-panel.active {
+      display: block;
     }
     .stat-bar {
+      background: #666;
       margin-bottom: 1rem;
-      background: #444;
-      border-radius: 5px;
       padding: 5px;
+      border-radius: 5px;
     }
     .stat-label {
-      margin-bottom: 3px;
-      font-weight: bold;
+      font-weight: bold; 
       color: #fff;
     }
     .stat-fill {
@@ -97,684 +119,232 @@
       background: #00bfff;
       width: 0%;
       border-radius: 3px;
-      transition: width 1s ease;
+      margin-top: 3px;
+      transition: width 1s;
     }
     .stat-text {
       margin-top: 3px;
       font-size: 0.9rem;
       color: #fff;
     }
-    .lockedStat {
-      opacity: 0.4;
-    }
-
-    /* Rozet Bilgisi (Stat barların altına eklenecek) */
     .rozet-info {
-      font-size: 0.9rem;
-      color: #111;
-      background: rgba(255,255,255,0.6);
-      border-radius: 4px;
-      padding: 4px 8px;
-      margin-bottom: 4px;
-    }
-
-    /* Köy Seyahat Paneli (Sağ Orta) - Tasarım aynı, sadece renk uyumu */
-    #villageTravel {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.85);
-      padding: 1rem;
-      border-radius: 10px;
-      width: 220px;
-      text-align: center;
-      z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-    #villageTravel h3 {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: #000;
-    }
-    #villageTravel ul {
-      list-style: none; padding: 0; margin: 0;
-    }
-    #villageTravel li {
-      margin-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #000;
-    }
-    #villageTravel li button {
-      padding: 0.3rem 0.6rem;
-      font-size: 0.8rem;
-      cursor: pointer;
-      background: #ff4444;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      transition: background 0.3s;
-    }
-    #villageTravel li button:hover {
-      background: #ff2222;
-    }
-    hr {
-      margin: 1rem 0;
-      border: none;
-      border-top: 1px solid #aaa;
-    }
-
-    /* Rütbe Kartları */
-    .rank-selection {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 2rem;
-      margin-bottom: 1rem;
-    }
-    .card {
-      background: rgba(255,255,255,0.7);
-      border: 1px solid rgba(0,0,0,0.2);
-      border-radius: 10px;
-      padding: 1rem;
-      width: 200px;
-      text-align: center;
-      transition: transform 0.3s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card h2 {
-      margin-bottom: 0.5rem;
-      font-size: 1.2rem;
-      color: #222;
-    }
-    .card.locked {
-      opacity: 0.5;
-      pointer-events: none;
-      position: relative;
-    }
-    .card.locked::after {
-      content: "KİLİTLİ";
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.8);
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      color: #ff4444;
-      font-weight: bold;
-    }
-    .card button {
-      margin-top: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: #ff4444;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .card button:hover {
-      background: #ff2222;
-    }
-
-    /* Görev Alanı */
-    .task-container {
-      background: rgba(255,255,255,0.7);
-      padding: 1rem;
-      border: 1px solid rgba(0,0,0,0.2);
-      border-radius: 10px;
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-      position: relative;
-      display: none;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-    .task-container.active {
-      display: block;
-    }
-    .close-task {
-      position: absolute;
-      top: 5px; right: 5px;
-      background: transparent;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-    #rankTitle {
-      color: #000;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-    #taskOptions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      text-align: left;
-      margin-top: 0.5rem;
-    }
-    .task-option {
-      padding: 0.75rem;
-      border: 1px solid #444;
-      border-radius: 5px;
-      background: rgba(255,255,255,0.8);
-      cursor: default;
-    }
-    .task-option.active {
-      background: #ff4444;
-      color: #fff;
-      cursor: pointer;
-    }
-    .task-option.completed {
-      background: #00bfff;
-      color: #000;
-    }
-    .task-option.locked {
       background: #555;
-      color: #ccc;
-      opacity: 0.7;
-    }
-    .progress-container {
-      background: #444;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-top: 0.5rem;
-    }
-    .progress-bar {
-      height: 20px;
-      width: 0%;
-      background: #00bfff;
-      transition: width 1s ease;
-    }
-    .progress-text {
-      margin-top: 0.5rem;
-      font-weight: bold;
-      color: #111;
-    }
-
-    /* Sabit Buton Grupları (Sağ Alt / vb.) */
-    .fixed-btn-group {
-      position: fixed;
-      bottom: 20px; right: 20px;
-      display: flex; flex-direction: column;
-      gap: 0.5rem; align-items: flex-end;
-      z-index: 1000;
-    }
-    .fixed-btn-group .btn {
-      padding: 0.6rem 1.2rem;
-      background: #ff4444;
-      border: none;
-      border-radius: 5px;
       color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
-      min-width: 120px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }
-    .fixed-btn-group .btn:hover {
-      background: #ff2222;
-    }
-    .hidden { display: none !important; }
-
-    /* Sol Altta Köy İsmi + Okey Butonu */
-    .fixed-btn-left {
-      position: fixed; bottom: 20px; left: 20px;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .fixed-btn-left .btn {
-      padding: 10px 20px;
-      background: #0288d1;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.3);
-      min-width: 120px;
-      font-weight: 500;
-    }
-    .fixed-btn-left .btn:hover {
-      background: #0277bd;
-    }
-    .left-village-info {
-      background: #fff;
-      color: #000;
-      padding: 6px 12px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-weight: bold;
+      margin-top: 5px;
+      padding: 5px;
+      border-radius: 4px;
+      font-size: 0.9rem;
     }
 
-    /* Okey101 Modal (sadece iskelet, alt kısım) - Örn. user isteği: "how to play" paneli kaldırıldı */
+    /* Market Modal */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.8);
       display: none;
-      align-items: center; justify-content: center;
-      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
     }
     .modal-overlay.active { display: flex; }
     .modal {
-      background: #1c1c1c;
+      background: #333;
       border-radius: 10px;
       padding: 20px;
-      max-width: 1200px;
       width: 90%;
+      max-width: 400px;
       text-align: center;
       position: relative;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+      color: #fff;
     }
     .close-modal {
-      position: absolute; top: 10px; right: 10px;
-      background: transparent; border: none;
-      color: #fff; font-size: 1.5rem; cursor: pointer;
+      position: absolute;
+      top: 10px; right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 1.3rem;
+      color: #fff;
+      cursor: pointer;
     }
-    .game-container {
-      background: #2a7229;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.1);
+    .market-list {
+      text-align: left;
+      margin-top: 1rem;
+    }
+    .market-item {
+      background: #444;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 5px;
     }
 
-    /* vs. (Okey canvas, vs. isteğe göre) */
+    /* Kumar (Okey) Modal */
+    .game-container {
+      background: #2a2a2a;
+      border-radius: 5px;
+      padding: 20px;
+      margin-top: 1rem;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
-  <!-- Header (Siyah) -->
+  <!-- Üst Siyah Header -->
   <header>
-    <div class="logo-container">
+    <div class="header-inner">
       <div class="logo-text">BLACK DOLPHINE</div>
-      <div class="logo-dolphin">
-        <svg viewBox="0 0 100 50">
-          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"
-                fill="#00cc66" stroke="#fff" stroke-width="2"/>
-        </svg>
-      </div>
+      <div class="money">Dolar: <span id="money">500000</span></div>
     </div>
-    <div class="money">Dolar: <span id="money">500000</span></div>
   </header>
 
-  <div class="page-container"><!-- Açık yeşil kısım -->
+  <!-- Orta Container -->
+  <div class="container">
+    <!-- 1) "Durumum" Butonu + Collapsible Panel -->
+    <div class="btn-group">
+      <button class="btn" onclick="toggleDurumum()">Durumum</button>
+      <button class="btn" id="marketBtn" onclick="openMarket()">Market</button>
+      <button class="btn" onclick="openKumar()">Kumar</button>
+    </div>
 
-    <!-- Stat barlar (Sol Üst) -->
-    <div id="statBars">
-      <div class="stat-bar" id="vakurStat">
+    <!-- Durumum Panel (Vakut-Hatip-Baron stat) -->
+    <div class="durumum-panel" id="durumumPanel">
+      <!-- Vakur -->
+      <div class="stat-bar" id="vakurBar">
         <div class="stat-label">Vakur 🛡️</div>
         <div class="stat-fill" id="vakurFill"></div>
         <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+        <div class="rozet-info" id="rozetMavi">Mavi Rozet: 0</div>
       </div>
-      <!-- Rozet Bilgisi -->
-      <div class="rozet-info" id="vakurRozet">Mavi Rozet: 0</div>
-
-      <div class="stat-bar lockedStat" id="hatipStat">
+      <!-- Hatip -->
+      <div class="stat-bar" id="hatipBar">
         <div class="stat-label">Hatip 👥</div>
         <div class="stat-fill" id="hatipFill"></div>
         <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+        <div class="rozet-info" id="rozetTuruncu">Turuncu Rozet: 0</div>
       </div>
-      <!-- Rozet Bilgisi -->
-      <div class="rozet-info" id="hatipRozet">Turuncu Rozet: 0</div>
-
-      <div class="stat-bar lockedStat" id="baronStat">
+      <!-- Baron -->
+      <div class="stat-bar" id="baronBar">
         <div class="stat-label">Baron ♛</div>
         <div class="stat-fill" id="baronFill"></div>
         <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
-      </div>
-      <!-- Rozet Bilgisi -->
-      <div class="rozet-info" id="baronRozet">Kırmızı Rozet: 0</div>
-    </div>
-
-    <!-- Köy Paneli (Sağ Orta) -->
-    <div id="villageTravel">
-      <h3>Köyler</h3>
-      <ul>
-        <li>
-          <span>Asman</span>
-          <button onclick="viewVillage('Asman')">İncele</button>
-        </li>
-        <li>
-          <span>Mizrin</span>
-          <button onclick="viewVillage('Mizrin')">İncele</button>
-        </li>
-        <li>
-          <span>Qeruk</span>
-          <button onclick="viewVillage('Qeruk')">İncele</button>
-        </li>
-        <li>
-          <span>Shuman</span>
-          <button onclick="viewVillage('Shuman')">İncele</button>
-        </li>
-        <li>
-          <span>Alizera</span>
-          <button onclick="viewVillage('Alizera')">İncele</button>
-        </li>
-        <li>
-          <span>Bubuk</span>
-          <button onclick="viewVillage('Bubuk')">İncele</button>
-        </li>
-      </ul>
-      <hr/>
-      <h3>Tren ile Seyahat</h3>
-      <ul>
-        <li>
-          <span>Asman</span>
-          <button onclick="travelByTrain('Asman')">🚆 Seyahat Et</button>
-        </li>
-        <li>
-          <span>Mizrin</span>
-          <button onclick="travelByTrain('Mizrin')">🚆 Seyahat Et</button>
-        </li>
-        <li>
-          <span>Qeruk</span>
-          <button onclick="travelByTrain('Qeruk')">🚆 Seyahat Et</button>
-        </li>
-        <li>
-          <span>Shuman</span>
-          <button onclick="travelByTrain('Shuman')">🚆 Seyahat Et</button>
-        </li>
-        <li>
-          <span>Alizera</span>
-          <button onclick="travelByTrain('Alizera')">🚆 Seyahat Et</button>
-        </li>
-        <li>
-          <span>Bubuk</span>
-          <button onclick="travelByTrain('Bubuk')">🚆 Seyahat Et</button>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Rütbe Kartları (Yukarı çekildi, alttaki boş yazılar silindi) -->
-    <div class="rank-selection">
-      <div class="card" id="cardVakur">
-        <h2>Vakur</h2>
-        <p>Mavi Rozetli</p>
-        <button onclick="selectRank('Vakur')">Görevleri Gör</button>
-      </div>
-      <div class="card locked" id="cardHatip">
-        <h2>Hatip</h2>
-        <p>Turuncu Rozetli</p>
-        <button onclick="selectRank('Hatip')">Görevleri Gör</button>
-      </div>
-      <div class="card locked" id="cardBaron">
-        <h2>Baron</h2>
-        <p>Kırmızı Rozetli</p>
-        <button onclick="selectRank('Baron')">Görevleri Gör</button>
+        <div class="rozet-info" id="rozetKirmizi">Kırmızı Rozet: 0</div>
       </div>
     </div>
-
-    <!-- Görev Alanı -->
-    <div class="task-container" id="taskContainer">
-      <button class="close-task" onclick="closeTaskContainer()">×</button>
-      <h3 id="rankTitle"></h3>
-      <div id="taskOptions"></div>
-      <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-      <div class="progress-text" id="progressText">0%</div>
-    </div>
-
-  </div><!-- .page-container (açık yeşil) bitti -->
-
-  <!-- Okey Butonu (Sol Alt) + Köy İsmi -->
-  <div class="fixed-btn-left">
-    <div class="left-village-info" id="leftVillageName">Köy: Asman</div>
-    <button class="btn" onclick="okeyButtonClicked()">Okey</button>
   </div>
 
-  <!-- Sabit Buton Grubu (Sağ Alt) -->
-  <div class="fixed-btn-group">
-    <!-- Örnek Market, Kumarhane butonları -->
-    <button class="btn hidden" id="marketBtn">Market</button>
-    <button class="btn hidden" id="kumarhaneBtn">Kumarhane</button>
-  </div>
-
-  <!-- Okey Modal -->
-  <div class="modal-overlay" id="okeyModal">
+  <!-- MARKET Modal -->
+  <div class="modal-overlay" id="marketModal">
     <div class="modal">
-      <button class="close-modal" onclick="closeOkeyModal()">×</button>
+      <button class="close-modal" onclick="closeMarket()">×</button>
+      <h2>Market</h2>
+      <p>(Sadece Baron açık)</p>
+      <div class="market-list">
+        <div class="market-item">Silah - 5000$</div>
+        <div class="market-item">Zırh - 8000$</div>
+        <div class="market-item">Zırhlı Araç - 15000$</div>
+        <div class="market-item">Çelik Yelek - 3000$</div>
+        <div class="market-item">Silah (2) - 6000$</div>
+        <div class="market-item">Tüfek - 7000$</div>
+        <div class="market-item">Bomba - 10000$</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KUMAR (Okey) Modal -->
+  <div class="modal-overlay" id="kumarModal">
+    <div class="modal">
+      <button class="close-modal" onclick="closeKumar()">×</button>
+      <h2>Kumar</h2>
       <div class="game-container">
-        <p style="color:#fff; margin-bottom:1rem;">OKEY101 DEMO ALANI</p>
-        <!-- Canvas vb. -->
+        <p>Şimdilik sadece Okey örneği gösteriliyor.</p>
+        <!-- İleride Batak, Tavla, Türk Pokeri eklenecek -->
       </div>
     </div>
   </div>
 
   <script>
-    /*****************************************************
-      1) RÜTBE / GÖREV / STAT / SEYAHAT / VS. KODLARI
-    *****************************************************/
-    const tierOrder = ["basit","orta","zor","ileri","son"];
-    const tasks = {
-      vakur: {
-        basit: ["Vakur BASIT Görev 1","Vakur BASIT Görev 2","...","...","...","...","...","8.görev"],
-        orta: ["Vakur ORTA Görev 1","...","...","...","...","...","...","8.görev"],
-        zor: ["Vakur ZOR Görev 1","...","(toplam 8)","...","...","...","...","8.görev"],
-        ileri: ["Vakur İLERI Görev 1","...","...","...","...","...","...","8.görev"],
-        son: ["Vakur SON Görev 1","...","...","...","...","...","...","Bitti!"]
-      },
-      hatip: {
-        basit: ["Hatip BASIT Görev 1","...","...","...","...","...","...","8.görev"],
-        orta: ["Hatip ORTA Görev 1","...","...","...","...","...","...","8.görev"],
-        zor: ["Hatip ZOR Görev 1","...","...","...","...","...","...","8.görev"],
-        ileri: ["Hatip İLERI Görev 1","...","...","...","...","...","...","8.görev"],
-        son: ["Hatip SON Görev 1","...","...","...","...","...","...","Bitti!"]
-      },
-      baron: {
-        basit: ["Baron BASIT Görev 1","...","...","...","...","...","...","8.görev"],
-        orta: ["Baron ORTA Görev 1","...","...","...","...","...","...","8.görev"],
-        zor: ["Baron ZOR Görev 1","...","...","...","...","...","...","8.görev"],
-        ileri: ["Baron İLERI Görev 1","...","...","...","...","...","...","8.görev"],
-        son: ["Baron SON Görev 1","...","...","...","...","...","...","Bitti!"]
-      }
-    };
-
-    let currentRank = "Vakur";
-    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
-    let isHatipUnlocked = false, isBaronUnlocked = false;
-    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
+    /*-----------------------------------------------------------
+      ÖRNEK: Basit Değişkenler
+    -----------------------------------------------------------*/
     let money = 500000;
-    let currentVillage = "Asman";
+    let vakurPercent = 0;
+    let hatipPercent = 0;
+    let baronPercent = 0;
+    let maviRozet = 0;
+    let turuncuRozet = 0;
+    let kirmiziRozet = 0;
 
-    /* Her 40 görevde 1 rozet artıyor ifadesi:
-       Örnek olarak, vakurTaskCount her 40'ta bir => blueBadgeCount++ vs. 
-       Biz her "son" kademede 8 görev bitince rozet verilebilir, vs. 
-       Örnek kodda basit gösterim var. 
-    */
+    /* Market, sadece Baron ise açılacak */
+    let isBaron = false; // Örnek: false => Market kilitli, true => Market açık
+    // Denemek isterseniz console'da isBaron=true yapıp butonu tekrar deneyebilirsiniz.
 
-    // Stat Hesap
-    function getVakurKoruma() {
-      let val = Math.floor(vakurTaskCount * 2); // Örnek
-      if (val > 100) val = 100; // %100'ü geçmesin
-      return val;
-    }
-    function getHatipNufus() {
-      let val = Math.floor(hatipTaskCount * 2);
-      if (val > 100) val = 100;
-      return val;
-    }
-    function getBaronEtki() {
-      let val = Math.floor(baronTaskCount * 2);
-      if (val > 100) val = 100;
-      return val;
-    }
+    // Sayfa yüklenince market butonunu güncelle
+    window.addEventListener('load', () => {
+      updateMoneyUI();
+      updateStatsUI();
+      updateMarketBtn();
+    });
 
-    function updateStatBars() {
-      // Vakur
-      const vVal = getVakurKoruma();
-      document.getElementById('vakurText').innerText = `Koruma: ${vVal} (${vVal}%)`;
-      document.getElementById('vakurFill').style.width = vVal + "%";
-      // Hatip
-      if(isHatipUnlocked) {
-        document.getElementById('hatipStat').classList.remove('lockedStat');
-        const hVal = getHatipNufus();
-        document.getElementById('hatipText').innerText = `Nüfus: ${hVal} (${hVal}%)`;
-        document.getElementById('hatipFill').style.width = hVal + "%";
-      }
-      // Baron
-      if(isBaronUnlocked) {
-        document.getElementById('baronStat').classList.remove('lockedStat');
-        const bVal = getBaronEtki();
-        document.getElementById('baronText').innerText = `Etki: ${bVal} (${bVal}%)`;
-        document.getElementById('baronFill').style.width = bVal + "%";
-      }
+    /*-----------------------------------------------------------
+      1) Durumum Collapsible
+    -----------------------------------------------------------*/
+    function toggleDurumum() {
+      const panel = document.getElementById('durumumPanel');
+      panel.classList.toggle('active');
+    }
+    function updateStatsUI() {
+      // Basit örnek: progress bar width
+      document.getElementById('vakurFill').style.width = vakurPercent + '%';
+      document.getElementById('vakurText').textContent = `Koruma: ${vakurPercent} (${vakurPercent}%)`;
+      document.getElementById('rozetMavi').textContent = `Mavi Rozet: ${maviRozet}`;
+
+      document.getElementById('hatipFill').style.width = hatipPercent + '%';
+      document.getElementById('hatipText').textContent = `Nüfus: ${hatipPercent} (${hatipPercent}%)`;
+      document.getElementById('rozetTuruncu').textContent = `Turuncu Rozet: ${turuncuRozet}`;
+
+      document.getElementById('baronFill').style.width = baronPercent + '%';
+      document.getElementById('baronText').textContent = `Etki: ${baronPercent} (${baronPercent}%)`;
+      document.getElementById('rozetKirmizi').textContent = `Kırmızı Rozet: ${kirmiziRozet}`;
     }
 
-    function updateRozetInfo() {
-      document.getElementById('vakurRozet').innerText = "Mavi Rozet: " + blueBadgeCount;
-      document.getElementById('hatipRozet').innerText = "Turuncu Rozet: " + orangeBadgeCount;
-      document.getElementById('baronRozet').innerText = "Kırmızı Rozet: " + redBadgeCount;
-    }
-
-    function updateMoneyUI() {
-      document.getElementById('money').innerText = money;
-    }
-    function updateVillageName() {
-      document.getElementById('leftVillageName').innerText = "Köy: " + currentVillage;
-    }
-
-    function selectRank(rank) {
-      if(rank === "Hatip" && !isHatipUnlocked) return;
-      if(rank === "Baron" && !isBaronUnlocked) return;
-      currentRank = rank;
-      showNextTask();
-      document.getElementById('taskContainer').classList.add('active');
-    }
-
-    function closeTaskContainer() {
-      document.getElementById('taskContainer').classList.remove('active');
-    }
-
-    function showNextTask() {
-      const taskOptionsContainer = document.getElementById('taskOptions');
-      taskOptionsContainer.innerHTML = "";
-      let taskCount, rankTasks;
-      if(currentRank === "Vakur") {
-        taskCount = vakurTaskCount;
-        rankTasks = tasks.vakur;
-      } else if(currentRank === "Hatip") {
-        taskCount = hatipTaskCount;
-        rankTasks = tasks.hatip;
+    /*-----------------------------------------------------------
+      2) Market
+    -----------------------------------------------------------*/
+    function updateMarketBtn() {
+      const btn = document.getElementById('marketBtn');
+      if(!isBaron) {
+        btn.classList.add('locked');
       } else {
-        taskCount = baronTaskCount;
-        rankTasks = tasks.baron;
+        btn.classList.remove('locked');
       }
-
-      // Kaçıncı tier: her 8 görev bir tier
-      let tierIndex = Math.floor(taskCount / 8);
-      let activeIndex = taskCount % 8;
-      const tierName = tierOrder[tierIndex] || "son";
-      const missionList = rankTasks[tierName];
-
-      document.getElementById('rankTitle').innerText = `${currentRank} Görevleri (${tierName})`;
-
-      // Görev listesi
-      missionList.forEach((gorev, i) => {
-        const div = document.createElement('div');
-        div.classList.add('task-option');
-        div.innerText = gorev;
-        if(i < activeIndex) {
-          div.classList.add('completed');
-        } else if(i === activeIndex) {
-          div.classList.add('active');
-          div.addEventListener('click', completeActiveTask);
-        } else {
-          div.classList.add('locked');
-        }
-        taskOptionsContainer.appendChild(div);
-      });
-
-      // Progress
-      let progress = (activeIndex / 8) * 100;
-      // Eğer bu tier bitti (activeIndex == 8) ve belki son tierse => %100
-      if(activeIndex >= 8) {
-        progress = 100;
-      }
-      document.getElementById('progressBar').style.width = progress + "%";
-      document.getElementById('progressText').innerText = Math.floor(progress) + "%";
     }
-
-    function completeActiveTask() {
-      // Basit mantık: 1 görev artar, 40 görevde 1 rozet
-      if(currentRank === "Vakur") {
-        vakurTaskCount++;
-        // Örnek: 40 göreve ulaşınca Mavi Rozet 1 artar
-        if(vakurTaskCount % 40 === 0) {
-          blueBadgeCount++;
-        }
-      } else if(currentRank === "Hatip") {
-        hatipTaskCount++;
-        if(hatipTaskCount % 40 === 0) {
-          orangeBadgeCount++;
-        }
-      } else if(currentRank === "Baron") {
-        baronTaskCount++;
-        if(baronTaskCount % 40 === 0) {
-          redBadgeCount++;
-        }
-      }
-      // Rütbe kilit açma
-      if(vakurTaskCount >= 40 && !isHatipUnlocked) {
-        isHatipUnlocked = true;
-        document.getElementById('cardHatip').classList.remove('locked');
-      }
-      if(hatipTaskCount >= 40 && !isBaronUnlocked) {
-        isBaronUnlocked = true;
-        document.getElementById('cardBaron').classList.remove('locked');
-      }
-
-      updateStatBars();
-      updateRozetInfo();
-      showNextTask();
-    }
-
-    // Trenle seyahat
-    function travelByTrain(vil) {
-      if(currentVillage === vil) return;
-      const cost = 1000;
-      if(money < cost) {
-        alert("Yeterli paranız yok! (1000$)");
+    function openMarket() {
+      if(!isBaron) {
+        alert("Baron değilsiniz, Market kilitli!");
         return;
       }
-      money -= cost;
-      currentVillage = vil;
-      updateMoneyUI();
-      updateVillageName();
-      alert("Trenle " + currentVillage + " köyüne gittiniz!");
+      document.getElementById('marketModal').classList.add('active');
+    }
+    function closeMarket() {
+      document.getElementById('marketModal').classList.remove('active');
     }
 
-    // İncele
-    function viewVillage(vil) {
-      alert(
-        "Köy: " + vil + "\n" +
-        "• 6 At\n" +
-        "• 6 At Çiftliği\n" +
-        "• 10 Malikâne\n" +
-        "• 4 Kumar Masası (Türk Pokeri, Batak, Okey, Tavla)"
-      );
+    /*-----------------------------------------------------------
+      3) Kumar (Okey)
+    -----------------------------------------------------------*/
+    function openKumar() {
+      document.getElementById('kumarModal').classList.add('active');
+    }
+    function closeKumar() {
+      document.getElementById('kumarModal').classList.remove('active');
     }
 
-    function okeyButtonClicked() {
-      document.getElementById('okeyModal').classList.add('active');
+    /*-----------------------------------------------------------
+      4) Para UI
+    -----------------------------------------------------------*/
+    function updateMoneyUI() {
+      document.getElementById('money').textContent = money;
     }
-    function closeOkeyModal() {
-      document.getElementById('okeyModal').classList.remove('active');
-    }
-
-    // Sayfa Yüklenince
-    (function init() {
-      updateStatBars();
-      updateRozetInfo();
-      updateMoneyUI();
-      updateVillageName();
-    })();
   </script>
 </body>
 </html>
