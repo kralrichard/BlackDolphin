@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* Temel Sıfırlama ve Genel Stil */
+    /* TEMEL SIFIRLAMA VE STİL */
     * {
       margin: 0;
       padding: 0;
@@ -64,7 +64,7 @@
       text-align: center;
       margin-bottom: 1rem;
     }
-    /* GENEL BUTON STİLİ */
+    /* BUTON STİLİ */
     .btn {
       background: #ff4444;
       color: #fff;
@@ -140,18 +140,39 @@
       color: #ffcc00;
       margin-bottom: 1rem;
     }
-    .task-desc {
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-      color: #ffffff;
+    /* Görev Seçenekleri Listesi */
+    #taskOptions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
-    /* İLERLEME ÇUBUĞU */
+    .task-option {
+      padding: 0.75rem;
+      border: 1px solid #555;
+      border-radius: 5px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.05);
+      cursor: default;
+    }
+    .task-option.active {
+      background: #ff4444;
+      cursor: pointer;
+    }
+    .task-option.completed {
+      background: #00bfff;
+      color: #000;
+    }
+    .task-option.locked {
+      background: #555;
+      opacity: 0.6;
+    }
+    /* İlerleme Çubuğu */
     .progress-container {
       width: 100%;
       background: #444;
       border-radius: 5px;
       overflow: hidden;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
     }
     .progress-bar {
       height: 20px;
@@ -163,7 +184,7 @@
       margin-top: 0.5rem;
       font-weight: bold;
     }
-    /* SABİT BUTON GRUBU (sağ alt) */
+    /* SABİT BUTON GRUBU */
     .fixed-btn-group {
       position: fixed;
       bottom: 2rem;
@@ -180,7 +201,7 @@
     .hidden {
       display: none !important;
     }
-    /* MODAL ve Diğer Stiller (Eski dosyadaki gibi) */
+    /* MODAL ve diğer stiller: Eski dosyadaki gibi */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -349,8 +370,8 @@
     <!-- GÖREV ALANI -->
     <div class="task-container" id="taskContainer">
       <h3 id="rankTitle"></h3>
-      <div class="task-desc" id="taskDescription"></div>
-      <button class="btn" id="completeTaskBtn" onclick="completeTask()">Görevi Tamamla</button>
+      <!-- Görev seçenekleri listesi (her kademe için 8 seçenek) -->
+      <div id="taskOptions"></div>
       <!-- İlerleme Çubuğu -->
       <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
@@ -366,7 +387,7 @@
     <button class="btn hidden" id="kumarhaneBtn" onclick="toggleKumarhaneModal()">Kumarhane</button>
   </div>
 
-  <!-- KÖY PANELİ ve MODALLER (Eski koddaki gibi) -->
+  <!-- MODALLER (Köy, Rozet, Market, Kumarhane) -->
   <div class="side-panel" id="koyPanelTrigger">
     <img src="https://via.placeholder.com/64?text=K%C3%B6y" alt="Köy" onclick="toggleKoyPanelModal()" />
     <p>Köyün</p>
@@ -471,97 +492,97 @@
           "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
           "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
           "Arkadaşına ufak bir hediye vererek moralini yükselt.",
-          "İşsiz bir tanıdığına, CV hazırlama konusunda destek ol.",
+          "İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",
           "Kütüphanede eski kitapları düzenlemeye gönüllü ol.",
           "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
           "Otobüste yaşlı veya hamile birine yer ver."
         ],
         orta: [
-          "Aile içinde uzun süredir tartışma yaşayan iki akrabayı barıştırmaya çalış.",
-          "Mahallende düzenlenecek bir yardım kermesi veya etkinlik organize et.",
-          "Maddi durumu kötü olan bir öğrenciye burs/kitap yardımı ayarla.",
+          "Aile içinde tartışan iki akrabayı barıştır.",
+          "Mahallede yardım kermesi veya etkinlik organize et.",
+          "Maddi durumu kötü bir öğrenciye burs/kitap yardımı ayarla.",
           "Bir STK’nın etkinliğinde aktif rol al.",
-          "Mahalledeki bakımsız bir parkı onarmak için gönüllüler topla.",
-          "Kan bağışı kampanyası düzenlenmesine katkıda bulun.",
-          "Bir arkadaşının moral bozukluğuna profesyonel yardım almasına aracılık et.",
-          "İnternet üzerinden zorbalığa uğrayan birine çevrimiçi destek bul."
+          "Bakımsız parkı onarmak için gönüllüler topla.",
+          "Kan bağışı kampanyasına katkıda bulun.",
+          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
+          "Zorbalığa uğrayan birine çevrimiçi destek bul."
         ],
         zor: [
-          "Afet bölgesine gönüllü yardım ekibi olarak katıl ve yardım faaliyetlerinde bulun.",
-          "Mahalledeki kronik sorun için belediye yetkilileriyle görüşüp çözüm talep et.",
-          "Zor durumdaki bir aileye iş veya barınma imkânı bulmalarına yardımcı ol.",
-          "Hayvan barınağında kapsamlı bakım ve temizlik gönüllülüğü yap.",
-          "Uzun süredir küs olan iki arkadaşın barışmasına aracılık et.",
-          "Toplumda dışlanan bir kişiyi etkinliklere dahil edip kaynaştır.",
-          "Kendi imkânlarınla küçük çaplı bir bağış kampanyası düzenle.",
-          "Yerel hastanede gönüllü refakat/destek programına katıl."
+          "Afet bölgesine yardım ekibi olarak katıl.",
+          "Kronik sorunu için belediyeyle görüşüp çözüm talep et.",
+          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
+          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
+          "Küs olan iki arkadaşın barışmasına aracılık et.",
+          "Toplum dışlanmış birini etkinliklere dahil et.",
+          "Küçük çaplı bağış kampanyası düzenle.",
+          "Yerel hastanede gönüllü refakat programına katıl."
         ],
         ileri: [
-          "Büyük ölçekli bir yardım projesine liderlik et.",
-          "Gençlere yönelik bir mentorluk programı başlat.",
-          "Toplum merkezinde meslek edindirme kursu organize et.",
-          "Şehrindeki toplumsal soruna belediye ve STK ortaklığıyla çözüm üret.",
-          "Büyük bir gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
-          "Okullarda 'empati ve yardımseverlik' konulu seminer vermeye yardımcı ol.",
-          "Bölgesel bir sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
+          "Büyük ölçekli yardım projesine liderlik et.",
+          "Gençlere yönelik mentorluk programı başlat.",
+          "Meslek edindirme kursu organize et.",
+          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
+          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
+          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
+          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
           "Ücretsiz terapi/rehberlik günü organize et."
         ],
         son: [
-          "Ulusal çapta bir sosyal sorumluluk projesi yürüt.",
-          "Büyük çaplı bir bağış konseri/festivali düzenle.",
-          "Farklı il/ilçelerdeki gönüllüleri bir araya getiren platform kur.",
-          "Uzun vadeli 'eğitim bursu' fonu başlat.",
-          "Aile içi şiddet görenlere koruma ve rehabilitasyon hizmetleri oluştur.",
-          "Bir 'yardım vakfı' kurarak sürekli yardım faaliyetleri yürüt.",
-          "Uluslararası STK’lerle iş birliği yaparak yurt dışına da yardım taşı.",
-          "Yerel yönetimden veya resmi kurumlardan 'Onur Ödülü' alacak kadar tanın."
+          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
+          "Büyük bağış konseri/festival düzenle.",
+          "Gönüllüleri bir araya getiren platform kur.",
+          "Eğitim bursu fonu başlat.",
+          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
+          "Yardım vakfı kurarak sürekli yardım yürüt.",
+          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
+          "Onur Ödülü alacak kadar tanın."
         ]
       },
       hatip: {
         basit: [
-          "Bir sokak kavgasını tatlı dille sakinleştir.",
-          "Arkadaşlar arasındaki ufak tartışmayı yapıcı sözlerle çöz.",
-          "Aile içindeki gerginliği dinleyerek gider.",
-          "Sosyal medyada çıkan tartışmayı tatlıya bağla.",
+          "Sokak kavgasını tatlı dille sakinleştir.",
+          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
+          "Aile içi gerginliği dinleyerek gider.",
+          "Sosyal medyada tartışmayı tatlıya bağla.",
           "Yanlış bilgiyi doğru kaynakla düzelt.",
           "Dedikoduyu kaynağından çürüterek sakinleştir.",
-          "Okul veya kulüp etkinliğinde kısa konuşma yap.",
+          "Okul/kulüp etkinliğinde kısa konuşma yap.",
           "Ufak grupta hitabet pratiği yap."
         ],
         orta: [
-          "Komşular arasındaki uzun süreli sorunu toplantı ile çöz.",
-          "İş yerinde iletişim kopukluğunu arabuluculuk yaparak gider.",
-          "Yerel bir hayır kurumuna bağış toplamak için ikna et.",
-          "Küçük bir öğrenci grubuna hitabet eğitimi düzenle.",
+          "Komşular arasındaki sorunu toplantı ile çöz.",
+          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
+          "Yerel hayır kurumuna bağış toplamak için ikna et.",
+          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
           "Aile şirketinde tartışmada hakemlik yap.",
-          "Bir sivil toplum girişiminde gönüllü konuşmacı ol.",
-          "Mahalle muhtarıyla görüşüp imza kampanyası başlat.",
+          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
+          "Mahalle muhtarıyla imza kampanyası başlat.",
           "Gönüllü ekiple sokak sanatçılarına destek sağla."
         ],
         zor: [
           "İki rakip grubu bir araya getirip barış görüşmesi yap.",
-          "Ulusal bir platformda toplumsal bir konuda konuş.",
-          "Büyük bir iş anlaşmazlığında arabulucu rol üstlen.",
+          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
           "Mahalle halkının taleplerini dile getirip sonuç al.",
-          "Üniversitedeki protestoyu uzlaşma yoluyla sonlandır.",
+          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
           "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
-          "Binlerce kişinin katıldığı tartışmayı ılımlı üslupla sakinleştir.",
-          "Bir sivil toplum zirvesinde temsilci olarak konuş."
+          "Binlerce kişilik tartışmayı sakinleştir.",
+          "Sivil toplum zirvesinde temsilci olarak konuş."
         ],
         ileri: [
-          "Bölgesel bir toplum hareketine önderlik et.",
-          "Ulusal bir konferansta çözüm önerileri sun.",
-          "Yerel siyasetçiler ve STK’ler arası diyaloğu güçlendir.",
+          "Bölgesel toplum hareketine önderlik et.",
+          "Ulusal konferansta çözüm önerileri sun.",
+          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
           "Barış çalıştayında moderatörlük yap.",
           "Kurumsal şirkette üst düzey müzakerelerde bulun.",
           "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
-          "Şehrin ileri gelenleriyle büyük bir kampanya düzenle.",
+          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
           "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver."
         ],
         son: [
           "Uluslararası konferansta ülkeni temsil et.",
           "Farklı ülkelerden liderleri bir araya getir.",
-          "Barışçıl çözümlerle resmî makamlardan ödül al.",
+          "Barışçıl çözümlerle ödül al.",
           "Büyük çaplı kampanyayla yasa değişikliğini sağla.",
           "Diplomatik krizde aracı rol üstlen.",
           "‘Barış ve Uzlaşma Vakfı’ kurarak projeler yönet.",
@@ -572,53 +593,53 @@
       baron: {
         basit: [
           "Ufak çapta uyuşturucu satmayı dene.",
-          "Mahallede küçük bir 'koruma ücreti' topla.",
-          "Kafe/mekânlardan ufak haraç isteme girişimi yap.",
-          "Sokak satıcıları arasında rekabeti kendi lehine çevir.",
+          "Mahallede küçük 'koruma ücreti' topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
           "Sahte marka ürünlerin satış ağını oluştur.",
-          "Basit şantaj veya tehdit ile rakibi sustur.",
+          "Şantaj veya tehditle rakibi sustur.",
           "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
           "Kaçak içki satışı yapan ekibe arka çık."
         ],
         orta: [
           "Esnaftan düzenli 'koruma parası' toplamaya başla.",
-          "Yerel polis/memurlarla rüşvet bağlantısı kur.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
           "Yasadışı kumar organizasyonu başlat.",
-          "Rakip çeteyle gerginliği lehine çözüme kavuştur.",
-          "Silah ya da uyuşturucu sevkiyatına lojistik destek ver.",
-          "Yasa dışı bahis oynatan mekanlarla anlaş.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
           "Kara para aklama için küçük sermaye oluştur.",
           "Gece kulübünün 'gizli ortak' statüsünü al."
         ],
         zor: [
           "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
-          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Rakip baronun iş anlaşmasına sız ve bilgileri çal.",
           "Polis ve siyasi bağlantıları güçlendir.",
-          "Silah ticaretinde büyük kazanç sağlayacak sevkiyat organize et.",
-          "Gece kulüpleri ve barlarda yatırımın tekeli ol.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüpleri ve barlarda yatırımın tekeli olsun.",
           "Rakip çetenin liderini korkutarak saflarına katıl.",
-          "Beyaz yakalı iş çevrelerinde kara para aklamayı genişlet.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
           "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır."
         ],
         ileri: [
           "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
-          "Üst düzey bürokratlarla gizli anlaşmalar yaparak dokunulmazlık sağla.",
+          "Üst düzey bürokratlarla gizli anlaşmalar yap, dokunulmazlık sağla.",
           "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
-          "Yurt dışında kara para aklama ofisleri aç.",
+          "Yurt dışı kara para aklama ofisleri aç.",
           "Güvenlik birimlerinde kilit isimleri satın al.",
           "Şehrin en büyük limanlarında kontrol sağla.",
-          "Gösterişli hayır işleri başlatarak meşrulaş.",
+          "Gösterişli hayır işleriyle meşrulaş.",
           "Casino, otel, gece kulübü zinciri kurarak yasadışı gelirleri yasal işletmeye dönüştür."
         ],
         son: [
-          "Büyük bir kumarhane zinciri ve malikâne sahibi ol.",
-          "Uluslararası mafya ağının ülke temsilciliğini üstlen.",
-          "Siyasete dolaylı olarak girip seçim kampanyalarını fonla.",
+          "Büyük kumarhane zinciri ve malikâne sahibi ol.",
+          "Uluslararası mafya ağının ülke temsilcisini üstlen.",
+          "Siyasete dolaylı girip seçim kampanyalarını fonla.",
           "Yeraltı dünyasında 'Baronlar Konseyi' kur.",
-          "Devletin kritik kurumlarına adamlarını yerleştir.",
-          "Lüks bir hayat sürerken yurt dışı yatırımları yönet.",
+          "Devletin kritik kurumlarına adam yerleştir.",
+          "Lüks yaşam sürerken yurt dışı yatırımları yönet.",
           "Rakip baronlara karşı koordineli operasyon yap.",
-          "Global ölçekte korku ve saygı uyandıran bir isim ol."
+          "Global ölçekte korku ve saygı uyandıran isim ol."
         ]
       }
     };
@@ -626,7 +647,7 @@
     // ----------------------------------------------------
     // 2. GLOBAL DEĞİŞKENLER ve RÜTBE KİLİT DURUMLARI
     // ----------------------------------------------------
-    let currentRank = "Vakur";  // Oyun başlangıcında sadece Vakur aktif
+    let currentRank = "Vakur";  // Başlangıçta yalnızca Vakur aktif
     let vakurTaskCount = 0;
     let hatipTaskCount = 0;
     let baronTaskCount = 0;
@@ -653,8 +674,7 @@
     // ----------------------------------------------------
     const taskContainer = document.getElementById('taskContainer');
     const rankTitle = document.getElementById('rankTitle');
-    const taskDescription = document.getElementById('taskDescription');
-    const completeTaskBtn = document.getElementById('completeTaskBtn');
+    const taskOptionsContainer = document.getElementById('taskOptions');
     const progressBar = document.getElementById('progressBar');
     const progressText = document.getElementById('progressText');
 
@@ -664,73 +684,129 @@
     function selectRank(rank) {
       if (rank === "Vakur") {
         currentRank = "Vakur";
-        showNextTask();
       } else if (rank === "Hatip") {
         if (!isHatipUnlocked) {
-          alert("Önce Vakur görevlerini tamamlayın!");
           return;
         }
         currentRank = "Hatip";
-        showNextTask();
       } else if (rank === "Baron") {
         if (!isBaronUnlocked) {
-          alert("Önce Hatip görevlerini tamamlayın!");
           return;
         }
         currentRank = "Baron";
-        showNextTask();
       }
+      showNextTask();
       taskContainer.classList.add('active');
     }
 
     // ----------------------------------------------------
-    // GÖREV GÖSTERME: Her rol için kademeli (her kademede 8 görev)
+    // GÖREV GÖSTERME: Her rol için kademeli (her kademede 8 seçenek)
     // ----------------------------------------------------
     function showNextTask() {
-      let currentTier, taskIndex, taskCount;
+      let taskCount, tierIndex, activeIndex, currentTier, taskList;
+      taskOptionsContainer.innerHTML = ""; // Eski seçenekleri temizle
+      
       if (currentRank === "Vakur") {
         taskCount = vakurTaskCount;
-        let tierIndex = Math.floor(taskCount / 8);
+        tierIndex = Math.floor(taskCount / 8);
         if (tierIndex >= tierOrder.length) {
-          rankTitle.innerText = "Vakur Görevleri";
-          taskDescription.innerText = "Tüm Vakur görevlerini tamamladınız!";
+          rankTitle.innerText = "Vakur Görevleri - Tümü tamamlandı";
           updateProgressBar(100);
           return;
         }
+        activeIndex = taskCount % 8;
         currentTier = tierOrder[tierIndex];
-        taskIndex = taskCount % 8;
-        rankTitle.innerText = "Vakur Görevi (" + currentTier + " - Mavi 🏅)";
-        taskDescription.innerText = tasks.vakur[currentTier][taskIndex];
+        taskList = tasks.vakur[currentTier];
+        rankTitle.innerText = "Vakur Görevleri (" + currentTier + " - Mavi 🏅)";
         updateProgressBar((vakurTaskCount / 40) * 100);
       } else if (currentRank === "Hatip") {
         taskCount = hatipTaskCount;
-        let tierIndex = Math.floor(taskCount / 8);
+        tierIndex = Math.floor(taskCount / 8);
         if (tierIndex >= tierOrder.length) {
-          rankTitle.innerText = "Hatip Görevleri";
-          taskDescription.innerText = "Tüm Hatip görevlerini tamamladınız!";
+          rankTitle.innerText = "Hatip Görevleri - Tümü tamamlandı";
           updateProgressBar(100);
           return;
         }
+        activeIndex = taskCount % 8;
         currentTier = tierOrder[tierIndex];
-        taskIndex = taskCount % 8;
-        rankTitle.innerText = "Hatip Görevi (" + currentTier + " - Turuncu 🏅)";
-        taskDescription.innerText = tasks.hatip[currentTier][taskIndex];
+        taskList = tasks.hatip[currentTier];
+        rankTitle.innerText = "Hatip Görevleri (" + currentTier + " - Turuncu 🏅)";
         updateProgressBar((hatipTaskCount / 40) * 100);
       } else if (currentRank === "Baron") {
         taskCount = baronTaskCount;
-        let tierIndex = Math.floor(taskCount / 8);
+        tierIndex = Math.floor(taskCount / 8);
         if (tierIndex >= tierOrder.length) {
-          rankTitle.innerText = "Baron Görevleri";
-          taskDescription.innerText = "Tüm Baron görevlerini tamamladınız!";
+          rankTitle.innerText = "Baron Görevleri - Tümü tamamlandı";
           updateProgressBar(100);
           return;
         }
+        activeIndex = taskCount % 8;
         currentTier = tierOrder[tierIndex];
-        taskIndex = taskCount % 8;
-        rankTitle.innerText = "Baron Görevi (" + currentTier + " - Kırmızı 🏅)";
-        taskDescription.innerText = tasks.baron[currentTier][taskIndex];
+        taskList = tasks.baron[currentTier];
+        rankTitle.innerText = "Baron Görevleri (" + currentTier + " - Kırmızı 🏅)";
         updateProgressBar((baronTaskCount / 40) * 100);
       }
+
+      // Tüm 8 seçenek listeleniyor: tamamlanan, aktif ve kilitli
+      taskList.forEach((task, index) => {
+        const div = document.createElement('div');
+        div.classList.add('task-option');
+        div.innerText = task;
+        if (index < activeIndex) {
+          // Tamamlandı
+          div.classList.add('completed');
+        } else if (index === activeIndex) {
+          // Aktif, tıklanabilir
+          div.classList.add('active');
+          div.addEventListener('click', completeActiveTask);
+        } else {
+          // Henüz kilitli
+          div.classList.add('locked');
+        }
+        taskOptionsContainer.appendChild(div);
+      });
+    }
+
+    // ----------------------------------------------------
+    // Aktif Görevi Tamamlama: Sadece aktif seçeneğe tıklama ile gerçekleşir.
+    // ----------------------------------------------------
+    function completeActiveTask() {
+      // Her rol için ödüllendirme işlemleri (örnek: Vakur için mavi rozet, güç artışı)
+      if (currentRank === "Vakur") {
+        vakurTaskCount++;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        blueBadgeCount += rozetKazanc;
+        dayaniklilik += rozetKazanc;
+        // Vakur 40 görev tamamlandığında Hatip kilidi açılır
+        if (vakurTaskCount === 40) {
+          isHatipUnlocked = true;
+          document.getElementById('cardHatip').classList.remove('locked');
+        }
+      } else if (currentRank === "Hatip") {
+        hatipTaskCount++;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        orangeBadgeCount += rozetKazanc;
+        nufus += rozetKazanc;
+        onur += rozetKazanc;
+        if (hatipTaskCount === 40) {
+          isBaronUnlocked = true;
+          document.getElementById('cardBaron').classList.remove('locked');
+        }
+      } else if (currentRank === "Baron") {
+        baronTaskCount++;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        redBadgeCount += rozetKazanc;
+        let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
+        money += cashGain;
+        if(blueBadgeCount > 0) {
+          blueBadgeCount -= 1;
+          dayaniklilik = Math.max(dayaniklilik - 1, 0);
+        }
+      }
+      updateBadgesUI();
+      updateMoneyUI();
+      // Sonuç olarak listede aktif görev tamamlandı, tekrar render ediliyor.
+      showNextTask();
     }
 
     // ----------------------------------------------------
@@ -742,74 +818,6 @@
     }
 
     // ----------------------------------------------------
-    // GÖREV TAMAMLAMA ve UNLOCK
-    // ----------------------------------------------------
-    function completeTask() {
-      if (currentRank === "Vakur") {
-        if (vakurTaskCount < 40) {
-          // Ödül (örnek: rastgele 1-3 rozet, güç artışı vb.)
-          let rozetKazanc = Math.floor(Math.random() * 3) + 1;
-          blueBadgeCount += rozetKazanc;
-          dayaniklilik += rozetKazanc;
-          alert(`Vakur görevini tamamladınız! +${rozetKazanc} Mavi Rozet`);
-          vakurTaskCount++;
-          // Görev sayısı 40'a ulaştığında Hatip kilidini aç
-          if(vakurTaskCount === 40){
-            isHatipUnlocked = true;
-            document.getElementById('cardHatip').classList.remove('locked');
-            alert("Tebrikler! Vakur görevlerini tamamladınız. Artık Hatip rütbesi açıldı.");
-          }
-        } else {
-          alert("Tüm Vakur görevlerini tamamladınız!");
-          return;
-        }
-      } else if (currentRank === "Hatip") {
-        if (hatipTaskCount < 40) {
-          let rozetKazanc = Math.floor(Math.random() * 3) + 1;
-          orangeBadgeCount += rozetKazanc;
-          nufus += rozetKazanc;
-          onur += rozetKazanc;
-          alert(`Hatip görevini tamamladınız! +${rozetKazanc} Turuncu Rozet, +${rozetKazanc} Onur`);
-          hatipTaskCount++;
-          if(hatipTaskCount === 40){
-            isBaronUnlocked = true;
-            document.getElementById('cardBaron').classList.remove('locked');
-            alert("Tebrikler! Hatip görevlerini tamamladınız. Artık Baron rütbesi açıldı.");
-          }
-        } else {
-          alert("Tüm Hatip görevlerini tamamladınız!");
-          return;
-        }
-      } else if (currentRank === "Baron") {
-        if (baronTaskCount < 40) {
-          let rozetKazanc = Math.floor(Math.random() * 3) + 1;
-          redBadgeCount += rozetKazanc;
-          let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
-          money += cashGain;
-          if(blueBadgeCount > 0){
-            blueBadgeCount -= 1;
-            dayaniklilik = Math.max(dayaniklilik - 1, 0);
-            alert(`Baron görevini tamamladınız! +${rozetKazanc} Kırmızı Rozet, +${cashGain} $, (Mavi Rozet -1)`);
-          } else {
-            alert(`Baron görevini tamamladınız! +${rozetKazanc} Kırmızı Rozet, +${cashGain} $`);
-          }
-          baronTaskCount++;
-        } else {
-          alert("Tüm Baron görevlerini tamamladınız!");
-          return;
-        }
-      }
-      updateBadgesUI();
-      updateMoneyUI();
-      showNextTask();
-    }
-
-    // ----------------------------------------------------
-    // ÖDÜL ve PARA ÜRETİMİ Fonksiyonları (Örnek)
-    // ----------------------------------------------------
-    // (getRandomRozet ve getRandomMoney fonksiyonları yukarıda görev tamamlama içinde entegre edildi)
-
-    // ----------------------------------------------------
     // ARAYÜZ GÜNCELLEME Fonksiyonları
     // ----------------------------------------------------
     function updateBadgesUI() {
@@ -818,11 +826,11 @@
       document.getElementById('redBadgeCount').innerText = redBadgeCount;
       document.getElementById('dayaniklikValue').innerText = dayaniklilik;
       let dBarWidth = dayaniklilik * 10;
-      if(dBarWidth > 300) dBarWidth = 300;
+      if (dBarWidth > 300) dBarWidth = 300;
       document.getElementById('dayaniklikBar').style.width = dBarWidth + "px";
       document.getElementById('onurValue').innerText = onur;
       let oBarWidth = onur * 10;
-      if(oBarWidth > 300) oBarWidth = 300;
+      if (oBarWidth > 300) oBarWidth = 300;
       document.getElementById('onurBar').style.width = oBarWidth + "px";
       document.getElementById('nufus').innerText = nufus;
     }
@@ -831,45 +839,35 @@
     }
 
     // ----------------------------------------------------
-    // MARKET & ENVANTER İşlemleri (Eski koddan)
+    // MARKET & ENVANTER İşlemleri (Eski kodun mantığı)
     // ----------------------------------------------------
     function buyItem(itemName, price) {
-      if(money < price) {
-        alert("Yeterli paranız yok!");
+      if (money < price) {
         return;
       }
-      // Baron rütbesi kontrolü: sadece Hatip tamamlandığında (Baron açıldığında)
       if (!isBaronUnlocked) {
-        alert("Satın almak için Baron seviyesine erişmelisiniz!");
         return;
       }
       money -= price;
       updateMoneyUI();
       switch(itemName) {
         case "Köy":
-          if(hasKoy) {
-            alert("Zaten bir köyünüz var!");
-            return;
-          }
+          if (hasKoy) return;
           hasKoy = true;
-          alert("Köy satın alındı!");
           document.getElementById('koyItem').style.display = "none";
           document.getElementById('koyPanelTrigger').style.display = "flex";
           break;
         case "At":
           atCount++;
           ceteUyeSayisi += 2;
-          alert("At satın alındı (+2 çete üyesi)!");
           break;
         case "Uçak":
           ucakCount++;
           ceteUyeSayisi += 5;
-          alert("Uçak satın alındı (+5 çete üyesi)!");
           break;
         case "Kumarhane":
           kumarhaneCount++;
           ceteUyeSayisi += 3;
-          alert("Kumarhane kuruldu (+3 çete üyesi)!");
           break;
         default:
           break;
@@ -879,34 +877,34 @@
     function updateInventoryUI() {
       const inventoryList = document.getElementById('inventoryList');
       inventoryList.innerHTML = "";
-      if(hasKoy) {
+      if (hasKoy) {
         const divKoy = document.createElement('div');
         divKoy.innerHTML = `<img src="https://via.placeholder.com/32?text=K%C3%B6y" alt="Köy" /> Köy (1 adet)`;
         inventoryList.appendChild(divKoy);
       }
-      if(atCount > 0) {
+      if (atCount > 0) {
         const divAt = document.createElement('div');
         divAt.innerHTML = `<img src="https://via.placeholder.com/32?text=%F0%9F%90%8E" alt="At" /> At (x${atCount})`;
         inventoryList.appendChild(divAt);
       }
-      if(ucakCount > 0) {
+      if (ucakCount > 0) {
         const divUcak = document.createElement('div');
         divUcak.innerHTML = `<img src="https://via.placeholder.com/32?text=%E2%9C%88%EF%B8%8F" alt="Uçak" /> Uçak (x${ucakCount})`;
         inventoryList.appendChild(divUcak);
       }
-      if(kumarhaneCount > 0) {
+      if (kumarhaneCount > 0) {
         const divKumar = document.createElement('div');
         divKumar.innerHTML = `<img src="https://via.placeholder.com/32?text=%24" alt="Kumarhane" /> Kumarhane (x${kumarhaneCount})`;
         inventoryList.appendChild(divKumar);
       }
-      if(!hasKoy && atCount === 0 && ucakCount === 0 && kumarhaneCount === 0) {
+      if (!hasKoy && atCount === 0 && ucakCount === 0 && kumarhaneCount === 0) {
         inventoryList.innerHTML = "<p>Envanteriniz boş!</p>";
       }
       document.getElementById('ceteUyeSayisi').innerText = ceteUyeSayisi;
     }
 
     // ----------------------------------------------------
-    // MODAL İşlemleri (Eski koddan)
+    // MODAL İşlemleri
     // ----------------------------------------------------
     function toggleKoyPanelModal() {
       updateInventoryUI();
@@ -928,16 +926,16 @@
       const betInput = document.getElementById('betAmount');
       const gambleResult = document.getElementById('gambleResult');
       const bet = parseInt(betInput.value);
-      if(isNaN(bet) || bet <= 0) {
+      if (isNaN(bet) || bet <= 0) {
         gambleResult.innerText = "Geçerli bir bahis miktarı giriniz.";
         return;
       }
-      if(bet > money) {
+      if (bet > money) {
         gambleResult.innerText = "Yeterli bakiyeniz yok!";
         return;
       }
       const chance = Math.random();
-      if(chance < 0.5) {
+      if (chance < 0.5) {
         money += bet;
         gambleResult.innerText = `Kazandınız! Yeni bakiye: ${money} $`;
       } else {
