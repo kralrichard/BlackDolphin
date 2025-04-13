@@ -15,7 +15,7 @@
       color: #f1f1f1;
       min-height: 100vh;
       position: relative;
-      padding-top: 120px; /* Üst stat alanı için boşluk */
+      padding-top: 120px; /* Stat bar alanı için boşluk */
     }
     /* STAT BARLARI ve PROFİL (Sol Üst) */
     #statBars {
@@ -137,10 +137,11 @@
     }
     .task-container.active { display: block; }
     .task-container h3 { color: #ffcc00; margin-bottom: 1rem; }
-    /* Kapatma Butonu (Görev alanı sağ üst) */
+    /* Kapatma Butonu (Görev alanı, sağ üst) */
     .close-task {
       position: absolute;
-      top: 5px; right: 5px;
+      top: 5px;
+      right: 5px;
       background: transparent;
       border: none;
       color: #fff;
@@ -395,7 +396,6 @@
         </div>
       </div>
       <hr />
-      <!-- İstatistikler -->
       <div class="bar-section">
         <div class="bar-title">Koruma (Vakur) 🛡️</div>
         <div class="bar-container">
@@ -456,11 +456,10 @@
       <p id="gambleResult"></p>
     </div>
   </div>
-
   <script>
     /* ------------------------
-       1. GÖREV DİZİLERİ ve Teyrarlı Görevler
-       Her rütbe için 5 kademede (her biri 8 görev; toplam 40) görevler cyclic çalışır.
+       1. GÖREV DİZİLERİ: Her rütbe için 5 kademede (her biri 8 görev – toplam 40)
+       Görevler cyclic olarak tekrarlanır.
     ------------------------ */
     const tierOrder = ["basit", "orta", "zor", "ileri", "son"];
     const tasks = {
@@ -624,8 +623,8 @@
 
     /* ------------------------
        2. GLOBAL DEĞİŞKENLER & RÜTBE KİLİT DURUMLARI
-       ------------------------ */
-    let currentRank = "Vakur";  // Başlangıçta yalnızca Vakur aktif
+    ------------------------ */
+    let currentRank = "Vakur";  // Başlangıçta sadece Vakur aktif
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
     let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
@@ -652,8 +651,7 @@
 
     /* ------------------------
        3. FONKSİYONLAR
-       ------------------------ */
-
+    ------------------------ */
     // Stat Barlarını Güncelle
     function updateStatBars() {
       // Vakur Barı
@@ -683,7 +681,7 @@
       }
     }
 
-    // Profil bilgisini güncelle (Köy bilgisi)
+    // Profil (köy) bilgisini güncelle
     function updateProfileInfo() {
       document.getElementById('currentVillageDisplay').innerText = currentVillage;
     }
@@ -715,7 +713,7 @@
       document.getElementById('taskContainer').classList.add('active');
     }
 
-    // Görev alanını kapatma (ana menüye dönüş için)
+    // Görev alanını kapatma (ana menüye dönüş)
     function closeTaskContainer() {
       document.getElementById('taskContainer').classList.remove('active');
     }
@@ -749,7 +747,7 @@
         document.getElementById('rankTitle').innerText = "Baron Görevleri (" + currentTier + ")";
       }
       
-      // Eğer aktif index 0 (yeni kademeye geçmişse) ve görev sayısı 0'dan büyükse, seviye tamamlandı mesajı gösterilsin.
+      // Eğer aktif index 0 (yeni kademeye geçiş) ve görevler 0'dan büyükse, mesaj gösterilsin.
       if (activeIndex === 0 && taskCount > 0) {
         if (currentTier === "basit") {
           alert("Tebrikler, basit görevleri bitti. Orta göreve geçtiniz.");
@@ -761,13 +759,12 @@
           alert("Tebrikler, ileri görevleri bitti. Son göreve geçtiniz.");
         } else if (currentTier === "son") {
           alert("Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz.");
-          // Görev alanını kapat, ana menüye dön
-          document.getElementById('taskContainer').classList.remove('active');
+          closeTaskContainer();
           return;
         }
       }
       
-      // Görev seçeneklerini listele:
+      // Görev seçeneklerini oluştur:
       taskList.forEach((task, index) => {
         const div = document.createElement('div');
         div.classList.add('task-option');
@@ -783,7 +780,7 @@
         taskOptionsContainer.appendChild(div);
       });
       
-      // İlerleme çubuğu güncelleme (aktif görevin konumuna göre, %8'e göre)
+      // İlerleme çubuğunu güncelle (aktif görevin pozisyonuna göre)
       const prog = (activeIndex / 8) * 100;
       document.getElementById('progressBar').style.width = prog + "%";
       document.getElementById('progressText').innerText = Math.floor(prog) + "%";
@@ -811,7 +808,7 @@
         }
       }
       
-      // Rütbe geçişleri: Vakur 40 görev tamamlanınca Hatip; Hatip 40 görev tamamlanınca Baron.
+      // Rütbe terfisi: Vakur 40 görev tamamlandığında Hatip; Hatip 40 görev tamamlandığında Baron kilidi açılır.
       if (currentRank === "Vakur" && vakurTaskCount >= 40 && !isHatipUnlocked) {
         isHatipUnlocked = true;
         document.getElementById('cardHatip').classList.remove('locked');
@@ -827,7 +824,7 @@
       showNextTask();
     }
 
-    // Seyahat fonksiyonu – her seyehat 500 dolar
+    // Seyahat işlemi – her seyehat 500 dolar.
     function travelTo(village) {
       if (currentVillage === village) return;
       if (money < 500) {
@@ -841,7 +838,7 @@
       alert("Şimdi " + currentVillage + " köyündesin!");
     }
 
-    // MARKET & ENVANTER İşlemleri
+    // MARKET ve ENVANTER İşlemleri
     let hasKoy = false, atCount = 0, ucakCount = 0, kumarhaneCount = 0, ceteUyeSayisi = 0;
     function buyItem(itemName, price) {
       if (money < price) return;
@@ -935,8 +932,8 @@
     }
 
     /* ------------------------
-       4. Sayfa Yüklendiğinde: Stat, Profil vb. Güncelle
-       ------------------------ */
+       4. Sayfa Yüklendiğinde: Stat, Profil, Para vb. Güncelle
+    ------------------------ */
     updateStatBars();
     updateProfileInfo();
     updateMoneyUI();
