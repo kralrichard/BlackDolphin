@@ -92,6 +92,11 @@
       z-index: 1000;
     }
     #villageTravel h3 { margin-bottom: 1rem; font-size: 1rem; }
+    #villageTravel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
     #villageTravel li {
       margin-bottom: 0.5rem;
       display: flex;
@@ -145,7 +150,6 @@
     .card:hover { transform: translateY(-5px); }
     .card.locked {
       opacity: 0.5;
-      pointer-events: none;
       position: relative;
     }
     .card.locked::after {
@@ -304,13 +308,23 @@
   <!-- Village Travel Paneli -->
   <div id="villageTravel">
     <h3>Köyler</h3>
-    <ul style="list-style: none; padding: 0; margin: 0;">
+    <ul>
       <li><span>Asman</span><button onclick="travelTo('Asman')">Seyahat Et</button></li>
       <li><span>Mizrin</span><button onclick="travelTo('Mizrin')">Seyahat Et</button></li>
       <li><span>Qeruk</span><button onclick="travelTo('Qeruk')">Seyahat Et</button></li>
       <li><span>Shuman</span><button onclick="travelTo('Shuman')">Seyahat Et</button></li>
       <li><span>Alizera</span><button onclick="travelTo('Alizera')">Seyahat Et</button></li>
       <li><span>Bubuk</span><button onclick="travelTo('Bubuk')">Seyahat Et</button></li>
+    </ul>
+    <hr style="margin: 1rem 0; border: 1px solid #555;">
+    <h3>Tren ile Seyahat</h3>
+    <ul>
+      <li><span>Asman</span><button onclick="travelByTrain('Asman')">🚆 Seyahat Et</button></li>
+      <li><span>Mizrin</span><button onclick="travelByTrain('Mizrin')">🚆 Seyahat Et</button></li>
+      <li><span>Qeruk</span><button onclick="travelByTrain('Qeruk')">🚆 Seyahat Et</button></li>
+      <li><span>Shuman</span><button onclick="travelByTrain('Shuman')">🚆 Seyahat Et</button></li>
+      <li><span>Alizera</span><button onclick="travelByTrain('Alizera')">🚆 Seyahat Et</button></li>
+      <li><span>Bubuk</span><button onclick="travelByTrain('Bubuk')">🚆 Seyahat Et</button></li>
     </ul>
   </div>
   
@@ -425,10 +439,7 @@
   </div>
   
   <script>
-    /* --- JavaScript İşlevleri ---
-       Görevler, rütbe seçimleri, seyahat, rozet hesaplama vs. önceki sürümle aynı işlevselliğe sahip.
-    */
-    
+    /* --- Görev Dizileri --- */
     const tierOrder = ["basit", "orta", "zor", "ileri", "son"];
     const tasks = {
       vakur: {
@@ -460,6 +471,7 @@
       baron: { /* Görev dizileri benzer */ }
     };
     
+    /* --- Global Değişkenler --- */
     let currentRank = "Vakur";
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
@@ -483,6 +495,7 @@
     const villages = ["Asman", "Mizrin", "Qeruk", "Shuman", "Alizera", "Bubuk"];
     let currentVillage = "Asman";
     
+    /* --- UI Güncelleme Fonksiyonları --- */
     function updateStatBars() {
       let vakurValue = getVakurKoruma();
       let vakurYuzde = (vakurValue / 660) * 100;
@@ -507,7 +520,6 @@
         document.getElementById('baronStat').classList.add("lockedStat");
       }
     }
-    
     function updateProfileInfo() {
       document.getElementById('currentVillageDisplay').innerText = currentVillage;
     }
@@ -520,24 +532,25 @@
       document.getElementById('redBadgeCount').innerText = redBadgeCount;
     }
     
+    /* --- Rütbe Seçimi --- */
     function selectRank(rank) {
-      if (rank === "Vakur") {
-        currentRank = "Vakur";
-      } else if (rank === "Hatip") {
-        if (!isHatipUnlocked) return;
-        currentRank = "Hatip";
-      } else if (rank === "Baron") {
-        if (!isBaronUnlocked) return;
-        currentRank = "Baron";
+      if (rank === "Hatip" && !isHatipUnlocked) {
+        alert("Bu rütbe henüz kilitli!");
+        return;
       }
+      if (rank === "Baron" && !isBaronUnlocked) {
+        alert("Bu rütbe henüz kilitli!");
+        return;
+      }
+      currentRank = rank;
       showNextTask();
       document.getElementById('taskContainer').style.display = "block";
     }
-    
     function closeTaskContainer() {
       document.getElementById('taskContainer').style.display = "none";
     }
     
+    /* --- Görev Listesi ve Tamamlama --- */
     function showNextTask() {
       const taskOptionsContainer = document.getElementById('taskOptions');
       taskOptionsContainer.innerHTML = "";
@@ -629,3 +642,99 @@
       updateBadgesUI();
       updateMoneyUI();
       showNextTask();
+    }
+    
+    function completeFreeTask() {
+      if (currentRank === "Vakur") {
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        blueBadgeCount += rozetKazanc;
+        alert("Görevi tekrar tamamladınız, " + rozetKazanc + " rozet kazandınız!");
+      } else if (currentRank === "Hatip") {
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        orangeBadgeCount += rozetKazanc;
+        onur += rozetKazanc;
+        alert("Görevi tekrar tamamladınız, " + rozetKazanc + " rozet kazandınız!");
+      } else if (currentRank === "Baron") {
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        redBadgeCount += rozetKazanc;
+        let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
+        money += cashGain;
+        if (blueBadgeCount > 0) { blueBadgeCount -= 1; }
+        alert("Görevi tekrar tamamladınız, " + rozetKazanc + " rozet kazandınız ve " + cashGain + " $ nakit eklediniz!");
+      }
+      updateStatBars();
+      updateBadgesUI();
+      updateMoneyUI();
+    }
+    
+    /* --- Seyahat Fonksiyonları --- */
+    function travelTo(village) {
+      if (currentVillage === village) return;
+      if (money < 500) {
+        alert("Seyahat için yeterli paranız yok!");
+        return;
+      }
+      money -= 500;
+      currentVillage = village;
+      updateMoneyUI();
+      updateProfileInfo();
+      alert("Şimdi " + currentVillage + " köyündesin!");
+    }
+    
+    function travelByTrain(village) {
+      if (currentVillage === village) return;
+      if (money < 300) {
+        alert("Tren seyahati için yeterli paranız yok!");
+        return;
+      }
+      money -= 300;
+      currentVillage = village;
+      updateMoneyUI();
+      updateProfileInfo();
+      alert("Tren ile " + currentVillage + " köyüne seyahat ettiniz!");
+    }
+    
+    /* --- Modal Fonksiyonları --- */
+    function toggleBadgesModal() {
+      document.getElementById('badgesModal').classList.toggle('active');
+    }
+    function toggleMarketModal() {
+      document.getElementById('marketModal').classList.toggle('active');
+    }
+    function toggleKumarhaneModal() {
+      const modal = document.getElementById('kumarhaneModal');
+      modal.classList.toggle('active');
+      document.getElementById('gambleResult').innerText = "";
+      document.getElementById('betAmount').value = "";
+    }
+    
+    function playGamble() {
+      const betInput = document.getElementById('betAmount');
+      const gambleResult = document.getElementById('gambleResult');
+      const bet = parseInt(betInput.value);
+      if (isNaN(bet) || bet <= 0) {
+        gambleResult.innerText = "Geçerli bir bahis miktarı giriniz.";
+        return;
+      }
+      if (bet > money) {
+        gambleResult.innerText = "Yeterli bakiyeniz yok!";
+        return;
+      }
+      const chance = Math.random();
+      if (chance < 0.5) {
+        money += bet;
+        gambleResult.innerText = `Kazandınız! Yeni bakiye: ${money} $`;
+      } else {
+        money -= bet;
+        gambleResult.innerText = `Kaybettiniz! Yeni bakiye: ${money} $`;
+      }
+      updateMoneyUI();
+    }
+    
+    updateStatBars();
+    updateProfileInfo();
+    updateMoneyUI();
+    updateBadgesUI();
+  </script>
+</body>
+</html>
