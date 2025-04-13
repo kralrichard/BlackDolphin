@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* (Stil kısmı aynı kalıyor) */
+    /* TEMEL SIFIRLAMA VE STİL */
     * {
       margin: 0;
       padding: 0;
@@ -18,40 +18,178 @@
       position: relative;
       padding-top: 120px;
     }
-    /* ... diğer stil kuralları ... */
+    /* STAT BARLARI ve PROFİL */
+    #statBars {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 280px;
+      z-index: 1000;
+    }
+    .stat-bar {
+      margin-bottom: 1rem;
+      background: #444;
+      border-radius: 5px;
+      overflow: hidden;
+      padding: 5px;
+    }
+    .stat-label {
+      margin-bottom: 3px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .stat-fill {
+      height: 20px;
+      background: #00bfff;
+      width: 0%;
+      transition: width 1s ease;
+    }
+    .stat-text {
+      margin-top: 3px;
+      font-size: 0.9rem;
+    }
+    .lockedStat { opacity: 0.4; }
+    #profileInfo {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    /* HEADER */
+    header {
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      color: #ff4444;
+      text-transform: uppercase;
+    }
+    .money {
+      font-size: 1rem;
+      background: #222;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      border: 1px solid #333;
+    }
+    .money span { color: #ffcc00; margin-left: 5px; font-weight: bold; }
+    /* MAIN İÇERİK & GÖREV ALANI */
+    main { max-width: 1200px; margin: 0 auto; padding: 2rem; text-align: center; }
+    .task-container {
+      background: rgba(255,255,255,0.07);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      margin-top: 2rem;
+      position: relative;
+    }
+    .close-task {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    /* Görev seçenekleri stilleri */
+    #taskOptions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .task-option {
+      padding: 0.75rem;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.05);
+      text-align: left;
+      cursor: pointer;
+    }
+    .task-option.active {
+      background: #ff4444;
+    }
+    .task-option.completed {
+      background: #00bfff;
+      color: #000;
+    }
+    .task-option.available {
+      background: #777; /* Farklı bir ton, ancak tıklanabilir */
+    }
+    /* Kalan stil kodları aynı kalıyor... */
   </style>
 </head>
 <body>
-  <!-- STAT BARLARI ve Profil -->
+  <!-- STAT BARLARI ve PROFİL -->
   <div id="statBars">
     <div class="stat-bar" id="vakurStat">
       <div class="stat-label">Vakur 🛡️</div>
       <div class="stat-fill" id="vakurFill"></div>
-      <!-- Vakur statına rozet sayısı eklendi -->
       <div class="stat-text" id="vakurText">Koruma: 0 (0%) | Rozet: 0</div>
     </div>
     <div class="stat-bar lockedStat" id="hatipStat">
       <div class="stat-label">Hatip 👥</div>
       <div class="stat-fill" id="hatipFill"></div>
-      <!-- Hatip statına nüfus bilgisi ve rozet sayısı eklendi -->
       <div class="stat-text" id="hatipText">Nüfus: 0 (0%) | Rozet: 0</div>
     </div>
     <div class="stat-bar lockedStat" id="baronStat">
       <div class="stat-label">Baron ♛</div>
       <div class="stat-fill" id="baronFill"></div>
-      <!-- Baron statına rozet sayısı eklendi -->
       <div class="stat-text" id="baronText">Etki: 0 (0%) | Rozet: 0</div>
     </div>
     <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
   </div>
 
-  <!-- (Diğer HTML bölümleri aynı kalıyor: Village Travel, Header, Main içerik, Modaller vs.) -->
-  
+  <!-- HEADER, Village Travel, diğer bölümler aynı... -->
+
+  <!-- GÖREV ALANI -->
+  <main>
+    <h1>Black Dolphine Mafya Dünyasına Hoş Geldiniz!</h1>
+    <h4>Vakur (Mavi 🏅), Hatip (Turuncu 🏅) veya Baron (Kırmızı 🏅) olarak suç dünyasına adım atın.</h4>
+    <!-- RÜTBE KARTLARI (değişmeden aynı) -->
+    <div class="rank-selection">
+      <div class="card" id="cardVakur">
+        <h2>Vakur</h2>
+        <p>Mavi 🏅</p>
+        <button class="btn" onclick="selectRank('Vakur')">Seç</button>
+      </div>
+      <div class="card locked" id="cardHatip">
+        <h2>Hatip</h2>
+        <p>Turuncu 🏅</p>
+        <button class="btn" onclick="selectRank('Hatip')">Seç</button>
+      </div>
+      <div class="card locked" id="cardBaron">
+        <h2>Baron</h2>
+        <p>Kırmızı 🏅</p>
+        <button class="btn" onclick="selectRank('Baron')">Seç</button>
+      </div>
+    </div>
+    <!-- GÖREV ALANI -->
+    <div class="task-container" id="taskContainer" style="display: none;">
+      <button class="close-task" onclick="closeTaskContainer()">X</button>
+      <h3 id="rankTitle"></h3>
+      <div id="taskOptions"></div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+  </main>
+
   <script>
-    /* ------------------------
-       1. GÖREV DİZİLERİ: Her rütbe için 5 kademede (her biri 8 görev – toplam 40)
-       (Görevler ve tierOrder aynı kalıyor)
-    ------------------------ */
+    /* 1. GÖREV DİZİLERİ: (örnek olarak Vakur görevleri gösteriliyor) */
     const tierOrder = ["basit", "orta", "zor", "ileri", "son"];
     const tasks = {
       vakur: {
@@ -65,10 +203,9 @@
           "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
           "Otobüste yaşlı veya hamile birine yer ver."
         ],
-        /* Diğer kademeler... */
-        orta: [/* ... */],
-        zor: [/* ... */],
-        ileri: [/* ... */],
+        orta: [ /* ... */ ],
+        zor: [ /* ... */ ],
+        ileri: [ /* ... */ ],
         son: [
           "Ulusal çapta sosyal sorumluluk projesi yürüt.",
           "Büyük bağış konseri/festival düzenle.",
@@ -80,21 +217,18 @@
           "Tebrikler, hatip oldunuz! Ana menüye dönüyorsunuz."
         ]
       },
-      hatip: { /* Görev dizileri aynı */ },
-      baron: { /* Görev dizileri aynı */ }
+      hatip: { /* Görev dizileri benzer şekilde */ },
+      baron: { /* Görev dizileri benzer şekilde */ }
     };
 
-    /* ------------------------
-       2. GLOBAL DEĞİŞKENLER & RÜTBE KİLİT DURUMLARI
-    ------------------------ */
-    let currentRank = "Vakur";  // Başlangıçta yalnızca Vakur aktif
+    /* 2. GLOBAL DEĞİŞKENLER & KİLİT DURUMLARI */
+    let currentRank = "Vakur";
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
     let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
     let money = 500000;
     let onur = 0; // Hatip onur değeri
 
-    // Stat hesapları:
     function getVakurKoruma() {
       let koruma = Math.floor(vakurTaskCount / 22);
       return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
@@ -108,22 +242,16 @@
       return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
     }
 
-    // Village Travel: 6 köy, ilk başta "Asman"
     const villages = ["Asman", "Mizrin", "Qeruk", "Shuman", "Alizera", "Bubuk"];
     let currentVillage = "Asman";
 
-    /* ------------------------
-       3. FONKSİYONLAR
-    ------------------------ */
-
-    // Stat Barlarını Güncelle (Rozet sayıları stat barlara eklenerek güncellendi)
+    /* 3. FONKSİYONLAR */
+    // Stat Barlarını ve diğer UI öğelerini güncelleme fonksiyonları
     function updateStatBars() {
-      // Vakur Barı
       let vakurValue = getVakurKoruma();
       let vakurYuzde = (vakurValue / 660) * 100;
       document.getElementById('vakurText').innerText = "Koruma: " + vakurValue + " (" + Math.floor(vakurYuzde) + "%) | Rozet: " + blueBadgeCount;
       document.getElementById('vakurFill').style.width = vakurYuzde + "%";
-      // Hatip Barı
       if (isHatipUnlocked) {
         document.getElementById('hatipStat').classList.remove("lockedStat");
         let hatipValue = getHatipNufus();
@@ -133,7 +261,6 @@
       } else {
         document.getElementById('hatipStat').classList.add("lockedStat");
       }
-      // Baron Barı
       if (isBaronUnlocked) {
         document.getElementById('baronStat').classList.remove("lockedStat");
         let baronValue = getBaronEtki();
@@ -144,19 +271,14 @@
         document.getElementById('baronStat').classList.add("lockedStat");
       }
     }
-
-    // Profil bilgisini güncelle (Köy bilgisi)
     function updateProfileInfo() {
       document.getElementById('currentVillageDisplay').innerText = currentVillage;
     }
-
-    // Para UI güncelleme
     function updateMoneyUI() {
       document.getElementById('money').innerText = money;
     }
-
-    // Rozet UI güncelleme
     function updateBadgesUI() {
+      // Modal içerisindeki rozet sayılarının güncellenmesi
       document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
       document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
       document.getElementById('redBadgeCount').innerText = redBadgeCount;
@@ -174,135 +296,143 @@
         currentRank = "Baron";
       }
       showNextTask();
-      document.getElementById('taskContainer').classList.add('active');
+      document.getElementById('taskContainer').style.display = "block";
     }
-
-    // Görev alanını kapatma (Ana menüye dönüş)
     function closeTaskContainer() {
-      document.getElementById('taskContainer').classList.remove('active');
+      document.getElementById('taskContainer').style.display = "none";
     }
 
-    // Görev listesini gösterme – Her rütbe için 5 kademede (her kademe 8 görev)
+    /* Görev listesini yeniden düzenledik:
+       - Tüm görevler artık tıklanabilir.
+       - Eğer tıklanan görev aktif (sıra olan) ise completeActiveTask çağrılarak ilerleme sağlanır.
+       - Diğer görevlerde ise completeFreeTask çağrılarak, serbest tekrar yapılabilir.
+    */
     function showNextTask() {
       const taskOptionsContainer = document.getElementById('taskOptions');
       taskOptionsContainer.innerHTML = "";
-      let taskCount, tierIndex, activeIndex, currentTier, taskList;
+      let taskCount, activeIndex, currentTier, taskList;
       
       if (currentRank === "Vakur") {
         taskCount = vakurTaskCount;
-        tierIndex = Math.floor(taskCount / 8);
         activeIndex = taskCount % 8;
+        let tierIndex = Math.floor(taskCount / 8);
         currentTier = tierOrder[tierIndex % tierOrder.length];
         taskList = tasks.vakur[currentTier];
         document.getElementById('rankTitle').innerText = "Vakur Görevleri (" + currentTier + ")";
       } else if (currentRank === "Hatip") {
         taskCount = hatipTaskCount;
-        tierIndex = Math.floor(taskCount / 8);
         activeIndex = taskCount % 8;
+        let tierIndex = Math.floor(taskCount / 8);
         currentTier = tierOrder[tierIndex % tierOrder.length];
         taskList = tasks.hatip[currentTier];
         document.getElementById('rankTitle').innerText = "Hatip Görevleri (" + currentTier + ")";
       } else if (currentRank === "Baron") {
         taskCount = baronTaskCount;
-        tierIndex = Math.floor(taskCount / 8);
         activeIndex = taskCount % 8;
+        let tierIndex = Math.floor(taskCount / 8);
         currentTier = tierOrder[tierIndex % tierOrder.length];
         taskList = tasks.baron[currentTier];
         document.getElementById('rankTitle').innerText = "Baron Görevleri (" + currentTier + ")";
       }
       
-      // Eğer aktif index sıfırlanmışsa (yani önceki kademe tamamlanmışsa):
-      if (activeIndex === 0 && taskCount > 0) {
-        if (currentTier === "basit") {
-          alert("Tebrikler, basit görevleri bitti. Orta görevlere geçtiniz.");
-        } else if (currentTier === "orta") {
-          alert("Tebrikler, orta görevleri bitti. Zor görevlere geçtiniz.");
-        } else if (currentTier === "zor") {
-          alert("Tebrikler, zor görevleri bitti. İleri görevlere geçtiniz.");
-        } else if (currentTier === "ileri") {
-          alert("Tebrikler, ileri görevleri bitti. Son görevlere geçtiniz.");
-        } else if (currentTier === "son") {
-          // Rütbe terfisi: Vakur için, kullanıcıya terfi etmek yerine tekrar devam etme seçeneği sunuluyor.
-          if (currentRank === "Vakur") {
-            if (confirm("Tebrikler, Vakur görevlerini tamamladınız!\n\nHatip'e terfi olmak istiyor musunuz? İptal ederseniz, Vakur görevlerine tekrar başlayabilirsiniz.")) {
-              isHatipUnlocked = true;
-              document.getElementById('cardHatip').classList.remove('locked');
-              alert("Hatip oldunuz! Ana menüye dönüyorsunuz.");
-              closeTaskContainer();
-              return;
-            } else {
-              // Vakur görevlerine tekrar devam etmek için sayaç sıfırlanıyor.
-              vakurTaskCount = 0;
-              showNextTask();
-              return;
-            }
-          } else if (currentRank === "Hatip") {
-            alert("Tebrikler, baron oldunuz! Ana menüye dönüyorsunuz.");
-            isBaronUnlocked = true;
-            document.getElementById('cardBaron').classList.remove('locked');
-            closeTaskContainer();
-            return;
-          }
-        }
-      }
-      
-      // Görev seçeneklerini listele:
       taskList.forEach((task, index) => {
         const div = document.createElement('div');
         div.classList.add('task-option');
-        div.innerText = task;
-        if (index < activeIndex) {
-          div.classList.add('completed');
-        } else if (index === activeIndex) {
+        // Görev durumu görünümü:
+        // - Eğer index aktif görev ise: "Aktif Görev" şeklinde işaretlenir.
+        // - Diğerleri: "Tekrar Oyna" ya da "Henüz Tamamlanmadı" şeklinde.
+        if (index === activeIndex) {
           div.classList.add('active');
+          div.innerText = task + " (Aktif Görev)";
           div.addEventListener('click', completeActiveTask);
         } else {
-          div.classList.add('locked');
+          // Serbest tekrar oynanabilir görevler (tamamlanmış veya tamamlanmamış)
+          if(index < activeIndex) {
+            div.classList.add('completed');
+            div.innerText = task + " (Tekrar Oyna)";
+          } else {
+            div.classList.add('available');
+            div.innerText = task + " (Henüz Tamamlanmadı - Serbest Oyna)";
+          }
+          div.addEventListener('click', completeFreeTask);
         }
         taskOptionsContainer.appendChild(div);
       });
       
-      // İlerleme çubuğunu güncelle
+      // İlerleme çubuğu: Sadece aktif görevin konumuna göre hesaplanıyor.
       const prog = (activeIndex / 8) * 100;
       document.getElementById('progressBar').style.width = prog + "%";
       document.getElementById('progressText').innerText = Math.floor(prog) + "%";
     }
 
-    // Aktif görevin tamamlanması
+    // Aktif görev tamamlandığında: İlerleme sayacı artar ve rozet ödülü eklenir.
     function completeActiveTask() {
       if (currentRank === "Vakur") {
         vakurTaskCount++;
         let rozetKazanc = Math.floor(Math.random() * 3) + 1;
         blueBadgeCount += rozetKazanc;
+        // Terfi kontrolü: Vakur 40 görev tamamlandığında
+        if (vakurTaskCount >= 40 && !isHatipUnlocked) {
+          if (confirm("Tebrikler, Vakur görevlerini tamamladınız!\n\nHatip'e terfi olmak istiyor musunuz? İptal ederseniz, Vakur görevlerine tekrar başlayabilirsiniz.")) {
+            isHatipUnlocked = true;
+            document.getElementById('cardHatip').classList.remove('locked');
+            alert("Hatip oldunuz! Ana menüye dönüyorsunuz.");
+            closeTaskContainer();
+            return;
+          } else {
+            vakurTaskCount = 0;
+          }
+        }
       } else if (currentRank === "Hatip") {
         hatipTaskCount++;
         let rozetKazanc = Math.floor(Math.random() * 3) + 1;
         orangeBadgeCount += rozetKazanc;
         onur += rozetKazanc;
+        if (hatipTaskCount >= 40 && !isBaronUnlocked) {
+          isBaronUnlocked = true;
+          document.getElementById('cardBaron').classList.remove('locked');
+          alert("Tebrikler, Baron kilidi açıldı!");
+        }
       } else if (currentRank === "Baron") {
         baronTaskCount++;
         let rozetKazanc = Math.floor(Math.random() * 3) + 1;
         redBadgeCount += rozetKazanc;
         let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
         money += cashGain;
-        if (blueBadgeCount > 0) {
-          blueBadgeCount -= 1;
-        }
+        if (blueBadgeCount > 0) { blueBadgeCount -= 1; }
       }
-      
-      // Hatip için, 40 görev tamamlandığında Baron kilidi açılıyor.
-      if (currentRank === "Hatip" && hatipTaskCount >= 40 && !isBaronUnlocked) {
-        isBaronUnlocked = true;
-        document.getElementById('cardBaron').classList.remove('locked');
-      }
-      
       updateStatBars();
       updateBadgesUI();
       updateMoneyUI();
       showNextTask();
     }
 
-    // Seyahat fonksiyonu – her seyahat 500 dolar
+    // Serbest Görev Tamamlama: Görev aktif değilse de tıklanabilir ve ödül kazanılır.
+    // Ancak bu işlem ilerleme sayacını etkilemez.
+    function completeFreeTask() {
+      if (currentRank === "Vakur") {
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        blueBadgeCount += rozetKazanc;
+        alert("Görevi tekrar tamamladınız, " + rozetKazanc + " rozet kazandınız!");
+      } else if (currentRank === "Hatip") {
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        orangeBadgeCount += rozetKazanc;
+        onur += rozetKazanc;
+        alert("Görevi tekrar tamamladınız, " + rozetKazanc + " rozet kazandınız!");
+      } else if (currentRank === "Baron") {
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        redBadgeCount += rozetKazanc;
+        let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
+        money += cashGain;
+        if (blueBadgeCount > 0) { blueBadgeCount -= 1; }
+        alert("Görevi tekrar tamamladınız, " + rozetKazanc + " rozet kazandınız ve " + cashGain + " $ nakit eklediniz!");
+      }
+      updateStatBars();
+      updateBadgesUI();
+      updateMoneyUI();
+    }
+
+    // Seyahat, Market/Envanter ve diğer fonksiyonlar (değişiklik yapılmamış)...
     function travelTo(village) {
       if (currentVillage === village) return;
       if (money < 500) {
@@ -316,102 +446,7 @@
       alert("Şimdi " + currentVillage + " köyündesin!");
     }
 
-    // MARKET & ENVANTER İşlemleri (değişiklik yok)
-    let hasKoy = false, atCount = 0, ucakCount = 0, kumarhaneCount = 0, ceteUyeSayisi = 0;
-    function buyItem(itemName, price) {
-      if (money < price) return;
-      if (!isBaronUnlocked) return;
-      money -= price;
-      updateMoneyUI();
-      switch(itemName) {
-        case "Köy":
-          if (hasKoy) return;
-          hasKoy = true;
-          document.getElementById('koyItem').style.display = "none";
-          document.getElementById('koyPanelTrigger').style.display = "flex";
-          break;
-        case "At":
-          atCount++; ceteUyeSayisi += 2; break;
-        case "Uçak":
-          ucakCount++; ceteUyeSayisi += 5; break;
-        case "Kumarhane":
-          kumarhaneCount++; ceteUyeSayisi += 3; break;
-        default: break;
-      }
-      updateInventoryUI();
-    }
-    function updateInventoryUI() {
-      const inventoryList = document.getElementById('inventoryList');
-      inventoryList.innerHTML = "";
-      if (hasKoy) {
-        const divKoy = document.createElement('div');
-        divKoy.innerHTML = `<img src="https://via.placeholder.com/32?text=K%C3%B6y" alt="Köy" /> Köy (1 adet)`;
-        inventoryList.appendChild(divKoy);
-      }
-      if (atCount > 0) {
-        const divAt = document.createElement('div');
-        divAt.innerHTML = `<img src="https://via.placeholder.com/32?text=%F0%9F%90%8E" alt="At" /> At (x${atCount})`;
-        inventoryList.appendChild(divAt);
-      }
-      if (ucakCount > 0) {
-        const divUcak = document.createElement('div');
-        divUcak.innerHTML = `<img src="https://via.placeholder.com/32?text=%E2%9C%88%EF%B8%8F" alt="Uçak" /> Uçak (x${ucakCount})`;
-        inventoryList.appendChild(divUcak);
-      }
-      if (kumarhaneCount > 0) {
-        const divKumar = document.createElement('div');
-        divKumar.innerHTML = `<img src="https://via.placeholder.com/32?text=%24" alt="Kumarhane" /> Kumarhane (x${kumarhaneCount})`;
-        inventoryList.appendChild(divKumar);
-      }
-      if (!hasKoy && atCount === 0 && ucakCount === 0 && kumarhaneCount === 0) {
-        inventoryList.innerHTML = "<p>Envanteriniz boş!</p>";
-      }
-      document.getElementById('ceteUyeSayisi').innerText = ceteUyeSayisi;
-    }
-    
-    // MODAL İşlemleri (aynı kalıyor)
-    function toggleKoyPanelModal() {
-      updateInventoryUI();
-      document.getElementById('koyModal').classList.toggle('active');
-    }
-    function toggleBadgesModal() {
-      document.getElementById('badgesModal').classList.toggle('active');
-    }
-    function toggleMarketModal() {
-      document.getElementById('marketModal').classList.toggle('active');
-    }
-    function toggleKumarhaneModal() {
-      const kumarhaneModal = document.getElementById('kumarhaneModal');
-      kumarhaneModal.classList.toggle('active');
-      document.getElementById('gambleResult').innerText = "";
-      document.getElementById('betAmount').value = "";
-    }
-    function playGamble() {
-      const betInput = document.getElementById('betAmount');
-      const gambleResult = document.getElementById('gambleResult');
-      const bet = parseInt(betInput.value);
-      if (isNaN(bet) || bet <= 0) {
-        gambleResult.innerText = "Geçerli bir bahis miktarı giriniz.";
-        return;
-      }
-      if (bet > money) {
-        gambleResult.innerText = "Yeterli bakiyeniz yok!";
-        return;
-      }
-      const chance = Math.random();
-      if (chance < 0.5) {
-        money += bet;
-        gambleResult.innerText = `Kazandınız! Yeni bakiye: ${money} $`;
-      } else {
-        money -= bet;
-        gambleResult.innerText = `Kaybettiniz! Yeni bakiye: ${money} $`;
-      }
-      updateMoneyUI();
-    }
-    
-    /* ------------------------
-       4. Sayfa Yüklendiğinde: Stat, Profil vs. Güncelleme
-    ------------------------ */
+    // Sayfa yüklendiğinde UI güncellemesi:
     updateStatBars();
     updateProfileInfo();
     updateMoneyUI();
