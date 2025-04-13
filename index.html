@@ -844,3 +844,753 @@
     class Tile {
         constructor(number, color, x, y, id) {
             this.number = number;
+            this.colorName = color;
+            this.color = tileColors[color];
+            this.x = x;
+            this.y = y;
+            this.id = id;
+            this.targetX = x;
+            this.targetY = y;
+            this.isJoker = number === 0;
+            this.isMelded = false;
+            this.isHovered = false;
+            this.rotation = 0;
+            this.scale = 1;
+            this.opacity = 1;
+            this.baseRotation = (Math.random() * 0.03) - 0.015;
+        }
+
+        draw() {
+            ctx.save();
+            ctx.translate(this.x + tileWidth/2, this.y + tileHeight/2);
+            ctx.rotate(this.rotation + this.baseRotation);
+            ctx.scale(this.scale, this.scale);
+            ctx.globalAlpha = this.opacity;
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            const radius = 5;
+            ctx.moveTo(-tileWidth/2 + radius, -tileHeight/2);
+            ctx.lineTo(tileWidth/2 - radius, -tileHeight/2);
+            ctx.arcTo(tileWidth/2, -tileHeight/2, tileWidth/2, -tileHeight/2 + radius, radius);
+            ctx.lineTo(tileWidth/2, tileHeight/2 - radius);
+            ctx.arcTo(tileWidth/2, tileHeight/2, tileWidth/2 - radius, tileHeight/2, radius);
+            ctx.lineTo(-tileWidth/2 + radius, tileHeight/2);
+            ctx.arcTo(-tileWidth/2, tileHeight/2, -tileWidth/2, tileHeight/2 - radius, radius);
+            ctx.lineTo(-tileWidth/2, -tileHeight/2 + radius);
+            ctx.arcTo(-tileWidth/2, -tileHeight/2, -tileWidth/2 + radius, -tileHeight/2, radius);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = this.isMelded ? '#4caf50' : (this.isHovered ? '#fff' : '#000');
+            ctx.lineWidth = this.isMelded ? 3 : (this.isHovered ? 2 : 1);
+            ctx.stroke();
+            if (this.isHovered && !this.isMelded) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.fill();
+            }
+            ctx.fillStyle = '#fff';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetX = 1;
+            ctx.shadowOffsetY = 1;
+            ctx.font = this.isJoker ? 'bold 20px Poppins' : 'bold 18px Poppins';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(this.isJoker ? 'J' : this.number, 0, 0);
+            if (!this.isJoker) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
+                ctx.fillRect(-tileWidth/4, -tileHeight/4, tileWidth/2, tileHeight/2);
+            }
+            ctx.restore();
+        }
+
+        containsPoint(px, py) {
+            return px >= this.x && px <= this.x + tileWidth &&
+                   py >= this.y && py <= this.y + tileHeight;
+        }
+        
+        pickUp() {
+            this.scale = 1.1;
+            this.rotation = 0.05;
+            return this;
+        }
+        
+        putDown() {
+            this.scale = 1;
+            this.rotation = 0;
+            return this;
+        }
+        
+        highlight(isValid) {
+            this.isHighlighted = true;
+            this.highlightColor = isValid ? validMeldHighlight : invalidMeldHighlight;
+            return this;
+        }
+        
+        removeHighlight() {
+            this.isHighlighted = false;
+            return this;
+        }
+    }
+
+    class Animation {
+        constructor(tile, targetX, targetY, duration, easing = 'easeOutQuad', onComplete = null) {
+            this.tile = tile;
+            this.startX = tile.x;
+            this.startY = tile.y;
+            this.targetX = targetX;
+            this.targetY = targetY;
+            this.duration = duration;
+            this.startTime = performance.now();
+            this.easing = easing;
+            this.onComplete = onComplete;
+            this.completed = false;
+            this.startRotation = tile.rotation;
+            this.targetRotation = 0;
+            this.startScale = tile.scale;
+            this.targetScale = 1;
+        }
+        
+        ease(t) {
+            switch(this.easing) {
+                case 'linear':
+                    return t;
+                case 'easeInQuad':
+                    return t * t;
+                case 'easeOutQuad':
+                    return t * (2 - t);
+                case 'easeInOutQuad':
+                    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+                case 'easeOutBack':
+                    const c1 = 1.70158;
+                    const c3 = c1 + 1;
+                    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+                default:
+                    return t;
+            }
+        }
+
+        update() {
+            if (this.completed) return false;
+            const elapsed = performance.now() - this.startTime;
+            const progress = Math.min(elapsed / this.duration, 1);
+            const easedProgress = this.ease(progress);
+            this.tile.x = this.startX + (this.targetX - this.startX) * easedProgress;
+            this.tile.y = this.startY + (this.targetY - this.startY) * easedProgress;
+            this.tile.rotation = this.startRotation + (this.targetRotation - this.startRotation) * easedProgress;
+            this.tile.scale = this.startScale + (this.targetScale - this.startScale) * easedProgress;
+            if (progress >= 1) {
+                this.completed = true;
+                this.tile.x = this.targetX;
+                this.tile.y = this.targetY;
+                this.tile.rotation = this.targetRotation;
+                this.tile.scale = this.targetScale;
+                if (this.onComplete) {
+                    this.onComplete();
+                }
+                return false;
+            }
+            return true;
+        }
+    }
+
+    function playOpponentTurn(opponentIndex) {
+        if (gameState !== 'opponent' || currentPlayer !== opponentIndex + 1) return;
+        const opponent = opponents[opponentIndex];
+        const opponentMelds = meldedTiles[opponentIndex + 1];
+        const validMelds = checkMelds(opponent);
+        if (validMelds.length > 0) {
+            const meld = validMelds[0];
+            meld.forEach(tile => {
+                tile.isMelded = true;
+                const index = opponent.indexOf(tile);
+                if (index !== -1) {
+                    opponent.splice(index, 1);
+                }
+            });
+            opponentMelds.push(meld);
+            if (soundEnabled) sounds.meldSuccess();
+        }
+        if (opponent.length < 14) {
+            const tile = drawStack.pop() || discardPile.pop();
+            if (tile) {
+                opponent.push(tile);
+                if (soundEnabled) sounds.drawTile();
+            }
+        }
+        const newMelds = checkMelds(opponent);
+        if (newMelds.length > 0) {
+            const meld = newMelds[0];
+            meld.forEach(tile => {
+                tile.isMelded = true;
+                const index = opponent.indexOf(tile);
+                if (index !== -1) {
+                    opponent.splice(index, 1);
+                }
+            });
+            opponentMelds.push(meld);
+            if (soundEnabled) sounds.meldSuccess();
+        }
+        if (opponent.length > 0) {
+            const nonMelded = opponent.filter(tile => !tile.isMelded);
+            if (nonMelded.length > 0) {
+                nonMelded.sort((a, b) => b.number - a.number);
+                const tileToDiscard = nonMelded[0];
+                const index = opponent.indexOf(tileToDiscard);
+                if (index !== -1) {
+                    opponent.splice(index, 1);
+                    discardPile.push(tileToDiscard);
+                    if (soundEnabled) sounds.discardTile();
+                }
+            }
+        }
+        currentPlayer = (currentPlayer + 1) % 4;
+        if (currentPlayer === 0) {
+            gameState = 'player';
+            updateStatusMessage('Your turn: Draw a tile!');
+        } else {
+            updateStatusMessage(`Opponent ${currentPlayer}'s turn`);
+            opponentTimeout = setTimeout(() => {
+                playOpponentTurn(currentPlayer - 1);
+            }, 1000);
+        }
+        updateButtonStates();
+        updatePlayerIndicators();
+    }
+
+    canvas.addEventListener('mouseup', event => {
+        if (!draggingTile) return;
+        if (isOverDiscardPile()) {
+            const index = playerHand.indexOf(draggingTile);
+            if (index !== -1) {
+                playerHand.splice(index, 1);
+                discardPile.push(draggingTile);
+                if (soundEnabled) sounds.discardTile();
+                gameState = 'opponent';
+                currentPlayer = 1;
+                updateStatusMessage("Opponent 1's turn");
+                updateButtonStates();
+                updatePlayerIndicators();
+                opponentTimeout = setTimeout(() => {
+                    playOpponentTurn(0);
+                }, 1000);
+            }
+        }
+        draggingTile.putDown();
+        draggingTile = null;
+        updatePlayerHand();
+    });
+
+    function initGame() {
+        if (opponentTimeout) {
+            clearTimeout(opponentTimeout);
+            opponentTimeout = null;
+        }
+        loadingOverlay.style.opacity = '1';
+        loadingOverlay.style.display = 'flex';
+        gameState = 'loading';
+        tiles.length = 0;
+        playerHand.length = 0;
+        opponents.forEach(op => (op.length = 0));
+        drawStack.length = 0;
+        discardPile.length = 0;
+        meldedTiles.forEach(m => (m.length = 0));
+        animations.length = 0;
+        setTimeout(() => {
+            createTiles();
+            distributeTiles();
+            updatePlayerHand();
+            gameState = 'player';
+            currentPlayer = 0;
+            updateStatusMessage('Your turn: Draw a tile!');
+            updateButtonStates();
+            updatePlayerIndicators();
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                showNotification('Game started! Your turn');
+                setTimeout(() => {
+                    draggableHint.classList.add('show');
+                    setTimeout(() => {
+                        draggableHint.classList.remove('show');
+                    }, 5000);
+                }, 2000);
+            }, 500);
+        }, 1000);
+    }
+
+    function createTiles() {
+        let id = 0;
+        const colorNames = ['red', 'blue', 'yellow', 'black'];
+        for (let colorIndex = 0; colorIndex < 4; colorIndex++) {
+            for (let number = 1; number <= 13; number++) {
+                for (let i = 0; i < 2; i++) {
+                    tiles.push(new Tile(number, colorNames[colorIndex], 0, 0, id++));
+                }
+            }
+        }
+        tiles.push(new Tile(0, 'joker', 0, 0, id++));
+        tiles.push(new Tile(0, 'joker', 0, 0, id++));
+        for (let i = tiles.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+        }
+    }
+
+    function distributeTiles() {
+        drawStack = [...tiles];
+        playerHand = drawStack.splice(0, 14);
+        opponents[0] = drawStack.splice(0, 14);
+        opponents[1] = drawStack.splice(0, 14);
+        opponents[2] = drawStack.splice(0, 14);
+        discardPile.push(drawStack.pop());
+    }
+
+    function updatePlayerHand() {
+        const nonMelded = playerHand.filter(tile => !tile.isMelded);
+        nonMelded.sort((a, b) => {
+            if (a.colorName === b.colorName) {
+                return a.number - b.number;
+            }
+            const colorOrder = ['red', 'blue', 'yellow', 'black', 'joker'];
+            return colorOrder.indexOf(a.colorName) - colorOrder.indexOf(b.colorName);
+        });
+        const startX = (canvas.width - (nonMelded.length * (tileWidth + tileMargin) - tileMargin)) / 2;
+        nonMelded.forEach((tile, index) => {
+            tile.targetX = startX + index * (tileWidth + tileMargin);
+            tile.targetY = canvas.height - tileHeight - 30;
+            if (Math.abs(tile.x - tile.targetX) > 1 || Math.abs(tile.y - tile.targetY) > 1) {
+                animations.push(new Animation(tile, tile.targetX, tile.targetY, 300, 'easeOutQuad'));
+            } else {
+                tile.x = tile.targetX;
+                tile.y = tile.targetY;
+            }
+        });
+    }
+
+    function updateButtonStates() {
+        meldButton.disabled = !(gameState === 'player' && playerHand.some(tile => !tile.isMelded));
+        undoButton.disabled = !lastMove;
+        drawButton.disabled = !(gameState === 'player' && playerHand.length === 14);
+    }
+
+    function updatePlayerIndicators() {
+        playerArea.classList.remove('player-active');
+        opponentAreas.forEach(area => area.classList.remove('opponent-active'));
+        if (currentPlayer === 0) {
+            playerArea.classList.add('player-active');
+        } else {
+            opponentAreas[currentPlayer - 1].classList.add('opponent-active');
+        }
+    }
+
+    function updateStatusMessage(message) {
+        status.style.opacity = '0';
+        setTimeout(() => {
+            status.textContent = message;
+            status.style.opacity = '1';
+        }, 300);
+    }
+
+    function showNotification(message, duration = 2000) {
+        if (notificationTimeout) {
+            clearTimeout(notificationTimeout);
+        }
+        notification.textContent = message;
+        notification.classList.add('show');
+        notificationTimeout = setTimeout(() => {
+            notification.classList.remove('show');
+        }, duration);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawTableBackground();
+        if (drawStack.length > 0) {
+            drawDrawStack();
+        }
+        if (discardPile.length > 0) {
+            drawDiscardPile();
+        }
+        drawMelds();
+        drawOpponents();
+        drawPlayerHand();
+        if (draggingTile) draggingTile.draw();
+        if (draggingTile) {
+            drawDropZones();
+        }
+    }
+
+    function drawTableBackground() {
+        ctx.fillStyle = '#1b5e20';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        for (let y = 0; y < canvas.height; y += 20) {
+            for (let x = 0; x < canvas.width; x += 20) {
+                ctx.fillRect(x, y, 10, 10);
+            }
+        }
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.beginPath();
+        ctx.ellipse(canvas.width/2, canvas.height/2, 200, 150, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.1)';
+        ctx.shadowBlur = 40;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    }
+
+    function drawDrawStack() {
+        const centerX = canvas.width / 2 - tileWidth - 60;
+        const centerY = canvas.height / 2 - tileHeight / 2;
+        drawStackPosition = { x: centerX, y: centerY, width: tileWidth, height: tileHeight };
+        for (let i = 0; i < Math.min(drawStack.length, 10); i++) {
+            const offset = 1.5 * (10 - i);
+            ctx.fillStyle = `rgba(200, 200, 200, ${0.7 + i * 0.03})`;
+            ctx.fillRect(centerX - offset, centerY - offset, tileWidth, tileHeight);
+        }
+        ctx.fillStyle = '#ddd';
+        ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+        ctx.strokeStyle = hoverTile === 'drawStack' ? '#fff' : '#000';
+        ctx.lineWidth = hoverTile === 'drawStack' ? 2 : 1;
+        ctx.strokeRect(centerX, centerY, tileWidth, tileHeight);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 16px Poppins';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 5;
+        ctx.fillText(`${drawStack.length}`, centerX + tileWidth/2, centerY + tileHeight/2);
+        ctx.shadowBlur = 0;
+        if (hoverTile === 'drawStack') {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+        }
+    }
+
+    function drawDiscardPile() {
+        const centerX = canvas.width / 2 + 20;
+        const centerY = canvas.height / 2 - tileHeight / 2;
+        discardPilePosition = { x: centerX, y: centerY, width: tileWidth, height: tileHeight };
+        const visibleCount = Math.min(discardPile.length, 3);
+        for (let i = 0; i < visibleCount; i++) {
+            const index = discardPile.length - 1 - i;
+            if (index >= 0) {
+                const tile = discardPile[index];
+                const offset = i * 5;
+                tile.x = centerX - offset;
+                tile.y = centerY - offset;
+                ctx.globalAlpha = 0.3;
+                ctx.fillStyle = tile.color;
+                ctx.fillRect(tile.x + 3, tile.y + 3, tileWidth, tileHeight);
+                ctx.globalAlpha = 1;
+                ctx.globalAlpha = 1 - (i * 0.2);
+                tile.draw();
+                ctx.globalAlpha = 1;
+            }
+        }
+        if (hoverTile === 'discardPile' && discardPile.length > 0) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(centerX, centerY, tileWidth, tileHeight);
+        }
+    }
+
+    function drawMelds() {
+        meldedTiles.forEach((melds, playerIndex) => {
+            melds.forEach((meld, meldIndex) => {
+                const y = playerIndex === 0 ? 
+                    canvas.height - 2 * (tileHeight + 10) - 30 - meldIndex * (tileHeight + 10) :
+                    20 + meldIndex * (tileHeight + 10);
+                const xBase = playerIndex === 0 ? 20 : canvas.width - 20 - meld.length * (tileWidth + tileMargin);
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+                ctx.fillRect(xBase - 5, y - 5, meld.length * (tileWidth + tileMargin) + 10, tileHeight + 10);
+                meld.forEach((tile, tileIndex) => {
+                    tile.x = xBase + tileIndex * (tileWidth + tileMargin);
+                    tile.y = y;
+                    tile.draw();
+                });
+            });
+        });
+    }
+
+    function drawOpponents() {
+        opponents.forEach((hand, index) => {
+            const nonMelded = hand.filter(tile => !tile.isMelded);
+            if (index === 0) {
+                const startX = (canvas.width - (nonMelded.length * (tileWidth / 2 + tileMargin) - tileMargin)) / 2;
+                nonMelded.forEach((_, tileIndex) => {
+                    const x = startX + tileIndex * (tileWidth / 2 + tileMargin);
+                    const y = 80;
+                    ctx.fillStyle = '#546e7a';
+                    ctx.fillRect(x, y, tileWidth / 2, tileHeight / 2);
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                    ctx.beginPath();
+                    ctx.arc(x + (tileWidth / 4), y + (tileHeight / 4), tileWidth / 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#37474f';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, tileWidth / 2, tileHeight / 2);
+                });
+            } else if (index === 1) {
+                nonMelded.forEach((_, tileIndex) => {
+                    const x = 80;
+                    const y = 150 + tileIndex * (tileWidth / 2 + tileMargin);
+                    ctx.fillStyle = '#546e7a';
+                    ctx.fillRect(x, y, tileHeight / 2, tileWidth / 2);
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                    ctx.beginPath();
+                    ctx.arc(x + (tileHeight / 4), y + (tileWidth / 4), tileWidth / 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#37474f';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, tileHeight / 2, tileWidth / 2);
+                });
+            } else {
+                nonMelded.forEach((_, tileIndex) => {
+                    const x = canvas.width - 100;
+                    const y = 150 + tileIndex * (tileWidth / 2 + tileMargin);
+                    ctx.fillStyle = '#546e7a';
+                    ctx.fillRect(x, y, tileHeight / 2, tileWidth / 2);
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                    ctx.beginPath();
+                    ctx.arc(x + (tileHeight / 4), y + (tileWidth / 4), tileWidth / 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#37474f';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, tileHeight / 2, tileWidth / 2);
+                });
+            }
+        });
+    }
+
+    function drawPlayerHand() {
+        playerHand.forEach(tile => {
+            if (!draggingTile && tile.containsPoint(mouseX, mouseY) && !tile.isMelded) {
+                tile.isHovered = true;
+                if (tile.y > tile.targetY - 5) {
+                    tile.y = tile.targetY - 5;
+                }
+            } else {
+                tile.isHovered = false;
+                if (!draggingTile && !tile.isMelded && Math.abs(tile.y - tile.targetY) > 0.1) {
+                    tile.y = tile.targetY;
+                }
+            }
+            if (tile !== draggingTile && !tile.isMelded) tile.draw();
+        });
+    }
+
+    function drawDropZones() {
+        ctx.fillStyle = isOverDiscardPile() ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)';
+        ctx.beginPath();
+        ctx.ellipse(
+            discardPilePosition.x + tileWidth/2, 
+            discardPilePosition.y + tileHeight/2, 
+            tileWidth, tileHeight, 0, 0, Math.PI*2
+        );
+        ctx.fill();
+        const validMelds = checkMelds(playerHand);
+        if (validMelds.length > 0) {
+            validMelds.forEach(meld => {
+                let minX = Math.min(...meld.map(t => t.x));
+                let maxX = Math.max(...meld.map(t => t.x)) + tileWidth;
+                let minY = Math.min(...meld.map(t => t.y));
+                let maxY = Math.max(...meld.map(t => t.y)) + tileHeight;
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.2)';
+                ctx.fillRect(minX - 5, minY - 5, maxX - minX + 10, maxY - minY + 10);
+                ctx.strokeStyle = 'rgba(76, 175, 80, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(minX - 5, minY - 5, maxX - minX + 10, maxY - minY + 10);
+            }); 
+        }
+    }
+
+    function getMousePosition(event) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
+    }
+
+    function isOverDiscardPile() {
+        if (!draggingTile) return false;
+        return mouseX >= discardPilePosition.x && 
+               mouseX <= discardPilePosition.x + discardPilePosition.width &&
+               mouseY >= discardPilePosition.y && 
+               mouseY <= discardPilePosition.y + discardPilePosition.height;
+    }
+
+    function checkMelds(hand) {
+        const validMelds = [];
+        const nonMelded = hand.filter(tile => !tile.isMelded);
+        const numberGroups = {};
+        nonMelded.forEach(tile => {
+            if (!numberGroups[tile.number]) {
+                numberGroups[tile.number] = [];
+            }
+            numberGroups[tile.number].push(tile);
+        });
+        Object.values(numberGroups).forEach(group => {
+            if (group.length >= 3) {
+                validMelds.push(group);
+            }
+        });
+        const colorGroups = {};
+        nonMelded.forEach(tile => {
+            if (!colorGroups[tile.colorName]) {
+                colorGroups[tile.colorName] = [];
+            }
+            colorGroups[tile.colorName].push(tile);
+        });
+        Object.values(colorGroups).forEach(group => {
+            group.sort((a, b) => a.number - b.number);
+            for (let i = 0; i < group.length - 2; i++) {
+                if (group[i].number + 1 === group[i + 1].number &&
+                    group[i + 1].number + 1 === group[i + 2].number) {
+                    validMelds.push([group[i], group[i + 1], group[i + 2]]);
+                }
+            }
+        });
+        return validMelds;
+    }
+
+    canvas.addEventListener('mousemove', event => {
+        const mouse = getMousePosition(event);
+        mouseX = mouse.x;
+        mouseY = mouse.y;
+        if (draggingTile) {
+            draggingTile.x = mouse.x - dragOffsetX;
+            draggingTile.y = mouse.y - dragOffsetY;
+        }
+        hoverTile = null;
+        if (mouse.x >= drawStackPosition.x && 
+            mouse.x <= drawStackPosition.x + drawStackPosition.width &&
+            mouse.y >= drawStackPosition.y && 
+            mouse.y <= drawStackPosition.y + drawStackPosition.height) {
+            hoverTile = 'drawStack';
+        } else if (mouse.x >= discardPilePosition.x && 
+                   mouse.x <= discardPilePosition.x + discardPilePosition.width &&
+                   mouse.y >= discardPilePosition.y && 
+                   mouse.y <= discardPilePosition.y + discardPilePosition.height) {
+            hoverTile = 'discardPile';
+        }
+    });
+
+    canvas.addEventListener('mousedown', event => {
+        if (gameState !== 'player') return;
+        const mouse = getMousePosition(event);
+        if (hoverTile === 'drawStack' && playerHand.length < 14) {
+            const tile = drawStack.pop();
+            if (tile) {
+                playerHand.push(tile);
+                lastDrawnFrom = 'stack';
+                updatePlayerHand();
+                if (soundEnabled) sounds.drawTile();
+            }
+            return;
+        }
+        if (hoverTile === 'discardPile' && playerHand.length < 14) {
+            const tile = discardPile.pop();
+            if (tile) {
+                playerHand.push(tile);
+                lastDrawnFrom = 'discard';
+                updatePlayerHand();
+                if (soundEnabled) sounds.discardTile();
+            }
+            return;
+        }
+        for (let i = playerHand.length - 1; i >= 0; i--) {
+            const tile = playerHand[i];
+            if (tile.containsPoint(mouse.x, mouse.y) && !tile.isMelded) {
+                draggingTile = tile.pickUp();
+                dragOffsetX = mouse.x - tile.x;
+                dragOffsetY = mouse.y - tile.y;
+                break;
+            }
+        }
+    });
+
+    infoToggle.addEventListener('click', () => {
+        infoPanel.classList.toggle('show');
+    });
+    soundToggle.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        soundToggle.querySelector('.sound-toggle-icon').textContent = soundEnabled ? '🔊' : '🔇';
+    });
+    drawButton.addEventListener('click', () => {
+        if (gameState === 'player' && playerHand.length < 14) {
+            const tile = drawStack.pop();
+            if (tile) {
+                playerHand.push(tile);
+                lastDrawnFrom = 'stack';
+                updatePlayerHand();
+                if (soundEnabled) sounds.drawTile();
+            }
+        }
+    });
+    meldButton.addEventListener('click', () => {
+        if (gameState === 'player') {
+            const validMelds = checkMelds(playerHand);
+            if (validMelds.length > 0) {
+                validMelds.forEach(meld => {
+                    meld.forEach(tile => {
+                        tile.isMelded = true;
+                        const index = playerHand.indexOf(tile);
+                        if (index !== -1) {
+                            playerHand.splice(index, 1);
+                        }
+                    });
+                    meldedTiles[0].push(meld);
+                });
+                updatePlayerHand();
+                if (soundEnabled) sounds.meldSuccess();
+                showNotification('Valid meld!');
+            } else {
+                showNotification('No valid melds found', 1500);
+            }
+        }
+    });
+    undoButton.addEventListener('click', () => {
+        if (lastMove) {
+            playerHand = lastMove.hand;
+            drawStack = lastMove.stack;
+            discardPile = lastMove.discard;
+            meldedTiles = lastMove.melds;
+            lastMove = null;
+            updatePlayerHand();
+            updateButtonStates();
+        }
+    });
+    restartButton.addEventListener('click', () => {
+        initGame();
+    });
+
+    function animate() {
+        for (let i = animations.length - 1; i >= 0; i--) {
+            if (!animations[i].update()) {
+                animations.splice(i, 1);
+            }
+        }
+        draw();
+        requestAnimationFrame(animate);
+    }
+
+    // Okey butonuna tıklandığında, okey modalini göster
+    function okeyButtonClicked() {
+        document.getElementById('okeyModal').classList.add('active');
+    }
+    // Okey modali kapatma
+    function closeOkeyModal() {
+        document.getElementById('okeyModal').classList.remove('active');
+    }
+
+    initGame();
+    animate();
+  </script>
+</body>
+</html>
