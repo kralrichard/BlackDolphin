@@ -15,9 +15,38 @@
       background: linear-gradient(120deg, #272727 0%, #111 50%, #000 100%);
       color: #f1f1f1;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
       position: relative;
+      padding-top: 100px; /* Stat barların yer kaplaması için */
+    }
+    /* STAT BARLARI (sol üst sabit) */
+    #statBars {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 250px;
+      z-index: 1000;
+    }
+    .stat-bar {
+      margin-bottom: 1rem;
+      background: #444;
+      border-radius: 5px;
+      overflow: hidden;
+      padding: 5px;
+    }
+    .stat-label {
+      margin-bottom: 3px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .stat-fill {
+      height: 20px;
+      background: #00bfff;
+      width: 0%;
+      transition: width 1s ease; /* Yavaş dolma animasyonu */
+    }
+    .stat-text {
+      margin-top: 3px;
+      font-size: 0.9rem;
     }
     /* HEADER */
     header {
@@ -52,16 +81,12 @@
     }
     /* MAIN İÇERİK */
     main {
-      flex: 1;
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      text-align: center;
     }
     h1, h2, h3, h4, p {
-      text-align: center;
       margin-bottom: 1rem;
     }
     /* BUTON STİLİ */
@@ -123,15 +148,12 @@
     }
     /* GÖREV ALANI */
     .task-container {
-      margin-top: 2rem;
-      text-align: center;
-      max-width: 600px;
       background: rgba(255,255,255,0.07);
       padding: 1.5rem;
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.2);
       display: none;
-      position: relative;
+      margin-top: 2rem;
     }
     .task-container.active {
       display: block;
@@ -151,8 +173,8 @@
       border: 1px solid #555;
       border-radius: 5px;
       background: rgba(255,255,255,0.05);
-      cursor: default;
       text-align: left;
+      cursor: default;
     }
     .task-option.active {
       background: #ff4444;
@@ -166,24 +188,6 @@
       background: #555;
       opacity: 0.6;
     }
-    /* İlerleme Çubuğu */
-    .progress-container {
-      width: 100%;
-      background: #444;
-      border-radius: 5px;
-      overflow: hidden;
-      margin: 1rem 0;
-    }
-    .progress-bar {
-      height: 20px;
-      width: 0%;
-      background: #00bfff;
-      transition: width 0.3s ease;
-    }
-    .progress-text {
-      margin-top: 0.5rem;
-      font-weight: bold;
-    }
     /* SABİT BUTON GRUBU */
     .fixed-btn-group {
       position: fixed;
@@ -196,12 +200,11 @@
     }
     .fixed-btn-group .btn {
       min-width: 130px;
-      text-align: center;
     }
     .hidden {
       display: none !important;
     }
-    /* MODAL ve diğer stiller (eski kodla uyumlu) */
+    /* MODAL ve diğer stiller (eski dosyayla uyumlu) */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -260,47 +263,23 @@
       border: 1px solid #444;
       margin: 1rem 0;
     }
-    /* Vakur İstatistikleri: Dayanıklılık ve Koruma (🛡️) */
-    .bar-section {
-      margin-bottom: 1.5rem;
-    }
-    .bar-title {
-      margin-bottom: 0.5rem;
-      color: #ffcc00;
-      font-weight: bold;
-    }
-    .bar-container {
-      width: 80%;
-      margin: 0 auto;
-      height: 20px;
-      background: #444;
-      border-radius: 5px;
-      overflow: hidden;
-      position: relative;
-      margin-bottom: 0.5rem;
-    }
-    .bar-fill {
-      height: 100%;
-      transition: width 0.3s ease;
-    }
-    .bar-value {
-      color: #fff;
-      font-weight: bold;
-    }
-    .dayaniklik-bar {
-      background: #00bfff;
-    }
-    /* Hatip İstatistikleri: Onur ve Nüfus (👥) */
-    .onur-bar {
-      background: #ffa500;
-    }
-    .nufus-value {
-      color: #fff;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
+  <!-- STAT BARLARI: Sol üst sabit -->
+  <div id="statBars">
+    <div class="stat-bar" id="vakurStat">
+      <div class="stat-label">Vakur 🛡️</div>
+      <div class="stat-fill" id="vakurFill"></div>
+      <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+    </div>
+    <div class="stat-bar" id="hatipStat">
+      <div class="stat-label">Hatip 👥</div>
+      <div class="stat-fill" id="hatipFill"></div>
+      <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+    </div>
+  </div>
+
   <!-- HEADER -->
   <header>
     <div class="logo">Black Dolphine</div>
@@ -329,14 +308,11 @@
         <button class="btn" onclick="selectRank('Baron')">Seç</button>
       </div>
     </div>
+
     <!-- GÖREV ALANI -->
     <div class="task-container" id="taskContainer">
       <h3 id="rankTitle"></h3>
       <div id="taskOptions"></div>
-      <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-      <div class="progress-text" id="progressText">0%</div>
     </div>
   </main>
 
@@ -347,7 +323,7 @@
     <button class="btn hidden" id="kumarhaneBtn" onclick="toggleKumarhaneModal()">Kumarhane</button>
   </div>
 
-  <!-- MODALLER: Köy, Rozetler, Market, Kumarhane -->
+  <!-- MODALLER (Köy, Rozetler, Market, Kumarhane) -->
   <div class="side-panel" id="koyPanelTrigger">
     <img src="https://via.placeholder.com/64?text=K%C3%B6y" alt="Köy" onclick="toggleKoyPanelModal()" />
     <p>Köyün</p>
@@ -383,29 +359,21 @@
         </div>
       </div>
       <hr />
-      <!-- Vakur İstatistikleri -->
+      <!-- İstatistikler; Vakur için "Dayanıklılık" yerine "Koruma" bilgisi -->
       <div class="bar-section">
-        <div class="bar-title">Dayanıklılık (Vakur)</div>
+        <div class="bar-title">Koruma Puanı (Vakur) 🛡️</div>
         <div class="bar-container">
           <div class="bar-fill dayaniklik-bar" id="dayaniklikBar"></div>
         </div>
-        <div class="bar-value">Güç: <span id="dayaniklikValue">0</span></div>
-      </div>
-      <div class="bar-section">
-        <div class="bar-title">Koruma Puanı (Vakur) 🛡️</div>
-        <div class="bar-value">Koruma: <span id="korumaValue">0</span></div>
+        <div class="bar-value">Koruma: <span id="korumaValue">0</span> (<span id="vakurYuzde">0</span>%)</div>
       </div>
       <!-- Hatip İstatistikleri -->
       <div class="bar-section">
-        <div class="bar-title">Onur (Hatip)</div>
+        <div class="bar-title">Nüfus (Hatip) 👥</div>
         <div class="bar-container">
           <div class="bar-fill onur-bar" id="onurBar"></div>
         </div>
-        <div class="bar-value">Onur: <span id="onurValue">0</span></div>
-      </div>
-      <div class="bar-section">
-        <div class="bar-title">Nüfus (Hatip) 👥</div>
-        <div class="bar-value">Nüfus: <span id="nufus">0</span></div>
+        <div class="bar-value">Nüfus: <span id="nufus">0</span> (<span id="hatipYuzde">0</span>%)</div>
       </div>
     </div>
   </div>
@@ -447,10 +415,9 @@
 
   <script>
     // ----------------------------------------------------
-    // 1. GÖREV DİZİLERİ: Her rol için 5 kademeli (her biri 8 görev – toplam 40)
+    // 1. GÖREV DİZİLERİ: Her rol için 5 kademeli (her biri 8 görev – toplam 40, fakat görevler sürekli tekrarlanacak)
     // ----------------------------------------------------
     const tierOrder = ["basit", "orta", "zor", "ileri", "son"];
-
     const tasks = {
       vakur: {
         basit: [
@@ -613,7 +580,7 @@
     // ----------------------------------------------------
     // 2. GLOBAL DEĞİŞKENLER ve RÜTBE KİLİT DURUMLARI
     // ----------------------------------------------------
-    let currentRank = "Vakur"; // Başlangıçta yalnızca Vakur aktif
+    let currentRank = "Vakur";  // Başlangıçta yalnızca Vakur aktif
     let vakurTaskCount = 0;
     let hatipTaskCount = 0;
     let baronTaskCount = 0;
@@ -624,19 +591,13 @@
     let orangeBadgeCount = 0;
     let redBadgeCount = 0;
     let money = 500000;
-    let dayaniklilik = 0;
-    let onur = 0;
-
-    // Yeni değişkenler:
-    let korumaPuani = 0;   // Vakur için; her 22 görevde 1 artacak.
-    let nufus = 0;         // Hatip için; her 40 görevde 5 artacak.
-
-    // Market ve envanter değişkenleri
-    let hasKoy = false;
-    let atCount = 0;
-    let ucakCount = 0;
-    let kumarhaneCount = 0;
-    let ceteUyeSayisi = 0;
+    let onur = 0;  // Hatip onur değeri
+    // Yeni stat değişkenleri:
+    // Vakur için: her 22 görevde 1 koruma puanı, maksimum 660 (siklik olarak tekrarlanacak)
+    // Hesap: vakurKoruma = floor(vakurTaskCount / 22)
+    // Eğer vakurKoruma mod 660 == 0 ve vakurTaskCount > 0, o anki cycle %100 kabul edilir.
+    // Hatip için: her 40 görevde 5 nüfus, maksimum 200 (cycle)
+    // Hesap: hatipNufus = floor(hatipTaskCount / 40) * 5
 
     // ----------------------------------------------------
     // 3. HTML ELEMANLARI
@@ -644,8 +605,35 @@
     const taskContainer = document.getElementById('taskContainer');
     const rankTitle = document.getElementById('rankTitle');
     const taskOptionsContainer = document.getElementById('taskOptions');
-    const progressBar = document.getElementById('progressBar');
-    const progressText = document.getElementById('progressText');
+
+    // ----------------------------------------------------
+    // Stat Barlarını Güncelleme (sol üst sabit)
+    // ----------------------------------------------------
+    function updateStatBars() {
+      // Vakur koruma puanı hesaplama:
+      let vakurKoruma = Math.floor(vakurTaskCount / 22);
+      // Cycle hesapla: Eğer vakurKoruma > 0, o anki cycle değeri = vakurKoruma mod 660;
+      // Ancak sıfır oluyorsa, cycle sonuna ulaşılmış demektir; o an için %100 göster.
+      let vakurDisplay = vakurKoruma % 660;
+      let vakurYuzde = (vakurDisplay / 660) * 100;
+      if (vakurKoruma > 0 && vakurDisplay === 0) {
+        vakurDisplay = 660;
+        vakurYuzde = 100;
+      }
+      document.getElementById('vakurText').innerText = "Koruma: " + vakurDisplay + " (" + Math.floor(vakurYuzde) + "%)";
+      document.getElementById('vakurFill').style.width = vakurYuzde + "%";
+
+      // Hatip nüfusu hesaplama:
+      let hatipNufus = Math.floor(hatipTaskCount / 40) * 5;
+      let hatipDisplay = hatipNufus % 200;
+      let hatipYuzde = (hatipDisplay / 200) * 100;
+      if (hatipNufus > 0 && hatipDisplay === 0) {
+        hatipDisplay = 200;
+        hatipYuzde = 100;
+      }
+      document.getElementById('hatipText').innerText = "Nüfus: " + hatipDisplay + " (" + Math.floor(hatipYuzde) + "%)";
+      document.getElementById('hatipFill').style.width = hatipYuzde + "%";
+    }
 
     // ----------------------------------------------------
     // RÜTBE SEÇİMİ: Sadece kilidi açılmış rütbeler seçilebilir.
@@ -674,42 +662,25 @@
       if (currentRank === "Vakur") {
         taskCount = vakurTaskCount;
         tierIndex = Math.floor(taskCount / 8);
-        if (tierIndex >= tierOrder.length) {
-          rankTitle.innerText = "Vakur Görevleri - Tümü tamamlandı";
-          updateProgressBar(100);
-          return;
-        }
+        // Görevler sınırsız; cycle olarak tekrarlanıyor.
         activeIndex = taskCount % 8;
-        currentTier = tierOrder[tierIndex];
+        currentTier = tierOrder[tierIndex % tierOrder.length]; // DÖNGÜSEL
         taskList = tasks.vakur[currentTier];
         rankTitle.innerText = "Vakur Görevleri (" + currentTier + " - Mavi 🏅)";
-        updateProgressBar((vakurTaskCount / 40) * 100);
       } else if (currentRank === "Hatip") {
         taskCount = hatipTaskCount;
         tierIndex = Math.floor(taskCount / 8);
-        if (tierIndex >= tierOrder.length) {
-          rankTitle.innerText = "Hatip Görevleri - Tümü tamamlandı";
-          updateProgressBar(100);
-          return;
-        }
         activeIndex = taskCount % 8;
-        currentTier = tierOrder[tierIndex];
+        currentTier = tierOrder[tierIndex % tierOrder.length];
         taskList = tasks.hatip[currentTier];
         rankTitle.innerText = "Hatip Görevleri (" + currentTier + " - Turuncu 🏅)";
-        updateProgressBar((hatipTaskCount / 40) * 100);
       } else if (currentRank === "Baron") {
         taskCount = baronTaskCount;
         tierIndex = Math.floor(taskCount / 8);
-        if (tierIndex >= tierOrder.length) {
-          rankTitle.innerText = "Baron Görevleri - Tümü tamamlandı";
-          updateProgressBar(100);
-          return;
-        }
         activeIndex = taskCount % 8;
-        currentTier = tierOrder[tierIndex];
+        currentTier = tierOrder[tierIndex % tierOrder.length];
         taskList = tasks.baron[currentTier];
         rankTitle.innerText = "Baron Görevleri (" + currentTier + " - Kırmızı 🏅)";
-        updateProgressBar((baronTaskCount / 40) * 100);
       }
 
       // Tüm 8 seçenek listelenir: tamamlanmış olanlar, aktif olan ve kilitli kalanlar.
@@ -730,58 +701,39 @@
     }
 
     // ----------------------------------------------------
-    // Aktif Görev Tamamlama: Sadece aktif seçeneğe tıklanınca.
+    // Aktif Görevin Tamamlanması: Sadece aktif seçeneğe tıklanınca.
     // ----------------------------------------------------
     function completeActiveTask() {
       if (currentRank === "Vakur") {
         vakurTaskCount++;
-        const rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
         blueBadgeCount += rozetKazanc;
-        dayaniklilik += rozetKazanc;
-        if (vakurTaskCount % 22 === 0) {
-          korumaPuani++;  // Her 22 Vakur görevinde 1 koruma puanı
-        }
+        // Her 22 görevde 1 koruma puanı ekle (kümülatif, ancak gösterim cycle şeklinde)
       } else if (currentRank === "Hatip") {
         hatipTaskCount++;
-        const rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
         orangeBadgeCount += rozetKazanc;
         onur += rozetKazanc;
-        if (hatipTaskCount % 40 === 0) {
-          nufus += 5;  // Her 40 Hatip görevinde 5 nüfus eklenir.
-        }
+        // Her 40 görevde 5 nüfus eklenecek (cycle şeklinde)
       } else if (currentRank === "Baron") {
         baronTaskCount++;
-        const rozetKazanc = Math.floor(Math.random() * 3) + 1;
+        let rozetKazanc = Math.floor(Math.random() * 3) + 1;
         redBadgeCount += rozetKazanc;
-        const cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
+        let cashGain = Math.floor(Math.random() * (800 - 300 + 1)) + 300;
         money += cashGain;
         if (blueBadgeCount > 0) {
           blueBadgeCount -= 1;
-          dayaniklilik = Math.max(dayaniklilik - 1, 0);
         }
       }
+      updateStatBars();
       updateBadgesUI();
       updateMoneyUI();
       showNextTask();
-      
-      // Eğer Vakur görevleri tamamlanırsa Hatip kilidi açılır.
-      if (currentRank === "Vakur" && vakurTaskCount === 40) {
-        isHatipUnlocked = true;
-        document.getElementById('cardHatip').classList.remove('locked');
-      }
-      // Eğer Hatip görevleri tamamlanırsa Baron kilidi açılır.
-      if (currentRank === "Hatip" && hatipTaskCount === 40) {
-        isBaronUnlocked = true;
-        document.getElementById('cardBaron').classList.remove('locked');
-      }
-    }
 
-    // ----------------------------------------------------
-    // İlerleme Çubuğu Güncelleme
-    // ----------------------------------------------------
-    function updateProgressBar(percentage) {
-      progressBar.style.width = percentage + "%";
-      progressText.innerText = Math.floor(percentage) + "%";
+      // Eğer Vakur görevleri belirli sayılara ulaşırsa (burada sınırsız olsa da cycle gösterim var)
+      // Aynı şekilde Hatip ve Baron görevlerinde de sürekli artış oluyor.
+      // Rütbe kilitleri değişmeden, görevler sürekli devam ediyor.
+      // Ancak; isterseniz ek mantık ekleyebilirsiniz.
     }
 
     // ----------------------------------------------------
@@ -791,20 +743,34 @@
       document.getElementById('blueBadgeCount').innerText = blueBadgeCount;
       document.getElementById('orangeBadgeCount').innerText = orangeBadgeCount;
       document.getElementById('redBadgeCount').innerText = redBadgeCount;
-      document.getElementById('dayaniklikValue').innerText = dayaniklilik;
-      let dBarWidth = dayaniklilik * 10;
-      if (dBarWidth > 300) dBarWidth = 300;
-      document.getElementById('dayaniklikBar').style.width = dBarWidth + "px";
-      document.getElementById('korumaValue').innerText = korumaPuani;
-      document.getElementById('onurValue').innerText = onur;
-      document.getElementById('nufus').innerText = nufus;
+      // Vakur istatistiklerini (koruma) Rozetler modali içinde
+      let vakurKoruma = Math.floor(vakurTaskCount / 22);
+      let vakurDisplay = vakurKoruma % 660;
+      let vakurYuzde = (vakurDisplay / 660) * 100;
+      if (vakurKoruma > 0 && vakurDisplay === 0) {
+        vakurDisplay = 660;
+        vakurYuzde = 100;
+      }
+      document.getElementById('korumaValue').innerText = vakurDisplay;
+      document.getElementById('vakurYuzde').innerText = Math.floor(vakurYuzde);
+      
+      // Hatip istatistikleri (nüfus)
+      let hatipNufus = Math.floor(hatipTaskCount / 40) * 5;
+      let hatipDisplay = hatipNufus % 200;
+      let hatipYuzde = (hatipDisplay / 200) * 100;
+      if (hatipNufus > 0 && hatipDisplay === 0) {
+        hatipDisplay = 200;
+        hatipYuzde = 100;
+      }
+      document.getElementById('nufus').innerText = hatipDisplay;
+      document.getElementById('hatipYuzde').innerText = Math.floor(hatipYuzde);
     }
     function updateMoneyUI() {
       document.getElementById('money').innerText = money;
     }
 
     // ----------------------------------------------------
-    // MARKET & ENVANTER İşlemleri (Eski kodun mantığı)
+    // MARKET & ENVANTER İşlemleri (Eski mantık)
     // ----------------------------------------------------
     function buyItem(itemName, price) {
       if (money < price) return;
