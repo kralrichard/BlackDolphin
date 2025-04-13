@@ -19,6 +19,7 @@
       padding-top: 120px; /* Header için boşluk */
       font-size: 0.9rem;
     }
+
     /* HEADER */
     header {
       background: rgba(0,0,0,0.85);
@@ -131,7 +132,7 @@
       text-align: center;
     }
 
-    /* SAĞ PANEL: İki kutucuk (Köy İncelemesi & Trenle Seyahat) */
+    /* SAĞ PANEL: İki Kutucuk (Köy İncelemesi & Trenle Seyehat) */
     #rightContainer {
       position: fixed;
       right: 20px;
@@ -139,7 +140,6 @@
       width: 280px;
       z-index: 1000;
     }
-    /* Köy İncelemesi Kutusu */
     #koyIncelemeBox, #trenSeyahatBox {
       background: rgba(0,0,0,0.7);
       padding: 1rem;
@@ -173,11 +173,13 @@
       font-size: 0.8rem;
       cursor: pointer;
     }
-    /* Trenle Seyahat için sayfalama */
+    /* Sayfalama */
+    #koyIncelemePagination,
     #trenPagination {
       text-align: center;
       margin-top: 0.5rem;
     }
+    #koyIncelemePagination span,
     #trenPagination span {
       display: inline-block;
       padding: 0.3rem 0.6rem;
@@ -187,6 +189,7 @@
       cursor: pointer;
       color: #ffcc00;
     }
+    #koyIncelemePagination span.active,
     #trenPagination span.active {
       background: #555;
     }
@@ -333,17 +336,18 @@
       </div>
     </div>
 
-    <!-- SAĞ PANEL: İki kutucuk (Köy İncelemesi & Trenle Seyahat) -->
+    <!-- SAĞ PANEL: Köy İncelemesi & Trenle Seyehat -->
     <div id="rightContainer">
       <!-- Köy İncelemesi Kutusu -->
       <div id="koyIncelemeBox">
         <h3>Köy İncelemesi</h3>
         <ul id="koyIncelemeList"></ul>
+        <div id="koyIncelemePagination"></div>
       </div>
-      <!-- Trenle Seyahat Kutusu (Sayfalama) -->
+      <!-- Trenle Seyahat Kutusu -->
       <div id="trenSeyahatBox">
-        <h3>Trenle Seyahat</h3>
-        <ul class="trenList" id="trenList"></ul>
+        <h3>Trenle Seyehat</h3>
+        <ul id="trenList"></ul>
         <div id="trenPagination"></div>
       </div>
     </div>
@@ -391,79 +395,51 @@
     let isHatipUnlocked = false, isBaronUnlocked = false;
     let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
 
-    /************** KÖY LİSTELERİ **************/
-    const baseKoyler = ["Asman", "Mizrin", "Qeruk"];
-    const trenKoyler = [
-      "Twılveser", "Ashma", "Ogean", "Karuk", "Tilkarut",
-      "Midep", "Ömerk", "Tilal", "Olik", "Mıshecerk",
-      "Mızelb", "Kergü", "Bozdepe", "Cinnık", "Mızrin",
-      "Bostancı", "Masucark", "Kırıkan", "Kuzluk", "Qeremsal",
-      "Medırbaz", "Hecuk", "Zebeşker", "Mirğan", "Dideri",
-      "Kazıka", "Nehlnehli", "Birdirej", "Cembel", "Sipinar",
-      "Kuremusa"
+    /************** TÜM KÖYLER (31 Adet) **************/
+    const allKoyler = [
+      "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
+      "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
+      "Tilal", "Olik", "Mıshecerk", "Mızelb", "Kergü",
+      "Bozdepe", "Cinnık", "Mızrin", "Bostancı", "Masucark",
+      "Kırıkan", "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk",
+      "Zebeşker", "Mirğan", "Dideri", "Kazıka", "Nehlnehli",
+      "Birdirej"
     ];
-    // Tek bir dizide toplayalım (örnek: aynı isimli köy varsa çoklu görünebilir, isterseniz filtreleyebilirsiniz)
-    const allKoyler = [...baseKoyler, ...trenKoyler];
+    // Not: 31. eleman "Cembel", "Sipinar" veya "Kuremusa" vs. ekleyebilirsiniz. Ama 31 tane olsun yeter.
+    // Ekleyelim ki tam 31 olsun:
+    allKoyler.push("Cembel");
 
-    /*
-      Trenle Seyahat için özel sayfa boyutları:
-      1. sayfa: 3 köy,
-      2. sayfa: 3 köy,
-      geri kalan sayfalarda 5'er köy:
-      toplam 7 sayfa: 3,3,5,5,5,5,5
-    */
+    /**************
+     * SAYFALAMA DAĞILIMI
+     * 1. sayfa: 3 köy
+     * 2. sayfa: 3 köy
+     * kalan sayfalar: 5'er köy
+     * => Toplam 7 sayfa: 3, 3, 5, 5, 5, 5, 5 (toplam 31)
+     **************/
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
+
+    // İki ayrı liste (inceleme & tren) de aynı köy dizisini kullanacak ama farklı UL elementlerine yazacağız:
+    let currentIncelemePage = 1;
     let currentTrenPage = 1;
 
     /************** SAYFA YÜKLENDİĞİNDE **************/
     window.onload = function() {
       updateMoneyUI();
       updateProfileInfo();
-      initKoyInceleme();     // Tüm köyleri listele (inceleme)
       updateStatBars();
       updateBadgesUI();
-      displayTrenPage(currentTrenPage); // Tren sayfalama
+
+      // Başlangıçta iki listeyi de birinci sayfa göster
+      displayKoyIncelemePage(1);
+      displayTrenPage(1);
     };
 
-    /************** MALİKANE & SIĞINAK **************/
-    function randomMalikane() {
-      // Kullanıcı isteği: [10, 15]
-      const arr = [10, 15];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-    function randomSiginak() {
-      // Kullanıcı isteği: [50, 75, 100]
-      const arr = [50, 75, 100];
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
+    /************** KÖY İNCELEME (Sadece 6 At bilgisi) **************/
+    function displayKoyIncelemePage(page) {
+      currentIncelemePage = page;
 
-    /************** KÖY İNCELEME LİSTESİ **************/
-    function initKoyInceleme() {
-      const ul = document.getElementById("koyIncelemeList");
-      ul.innerHTML = "";
-      allKoyler.forEach(koy => {
-        const li = document.createElement("li");
-        li.innerHTML = `<span>${koy}</span> <button onclick="inceleKoy('${koy}')">İncele</button>`;
-        ul.appendChild(li);
-      });
-    }
-    function inceleKoy(koy) {
-      // Rastgele Malikane ve Sığınak sayılarını göster
-      const mal = randomMalikane();
-      const sig = randomSiginak();
-      alert(
-        "Köy Adı: " + koy + "\n" +
-        "Malikane: " + mal + "\n" +
-        "Sığınak: " + sig
-      );
-    }
-
-    /************** TRENLE SEYAHAT (Sayfalama) **************/
-    function displayTrenPage(page) {
-      currentTrenPage = page;
-
-      // 1) Bu sayfanın kapasitesi
+      // 1) Bu sayfa kaç köy gösterecek?
       const pageSize = pageSizes[page - 1];
 
       // 2) startIndex hesapla
@@ -473,33 +449,78 @@
       }
       let endIndex = startIndex + pageSize;
 
-      // 3) Listedeki köyleri oluşturalım
-      const trenList = document.getElementById('trenList');
+      const ul = document.getElementById("koyIncelemeList");
+      ul.innerHTML = "";
+
+      for(let i = startIndex; i < endIndex; i++){
+        if(i >= allKoyler.length) break;
+        const li = document.createElement("li");
+        // Her köy için "6 At" bilgisi
+        li.innerHTML = `<span>${allKoyler[i]} (6 At)</span>
+                        <button onclick="inceleKoy('${allKoyler[i]}')">İncele</button>`;
+        ul.appendChild(li);
+      }
+
+      renderKoyIncelemePagination();
+    }
+    function renderKoyIncelemePagination() {
+      const pagination = document.getElementById("koyIncelemePagination");
+      pagination.innerHTML = "";
+
+      for(let p = 1; p <= totalPages; p++){
+        const span = document.createElement("span");
+        span.innerText = p;
+        if(p === currentIncelemePage){
+          span.classList.add("active");
+        }
+        span.onclick = () => displayKoyIncelemePage(p);
+        pagination.appendChild(span);
+      }
+    }
+    function inceleKoy(koy) {
+      alert("Köy incelemesi: " + koy + "\nBurada sadece 6 At var.");
+    }
+
+    /************** TRENLE SEYEHAT **************/
+    function displayTrenPage(page) {
+      currentTrenPage = page;
+
+      const pageSize = pageSizes[page - 1];
+
+      let startIndex = 0;
+      for(let i = 0; i < page - 1; i++){
+        startIndex += pageSizes[i];
+      }
+      let endIndex = startIndex + pageSize;
+
+      const trenList = document.getElementById("trenList");
       trenList.innerHTML = "";
-      for (let i = startIndex; i < endIndex; i++) {
-        if (i >= trenKoyler.length) break;
-        const li = document.createElement('li');
-        li.innerHTML = `<span>${trenKoyler[i]}</span> <button onclick="travelToTrain('${trenKoyler[i]}')">Seyahat Et</button>`;
+
+      for(let i = startIndex; i < endIndex; i++){
+        if(i >= allKoyler.length) break;
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${allKoyler[i]}</span>
+                        <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
         trenList.appendChild(li);
       }
 
-      // 4) Sayfalama butonlarını güncelle
       renderTrenPagination();
     }
     function renderTrenPagination() {
-      const pagination = document.getElementById('trenPagination');
+      const pagination = document.getElementById("trenPagination");
       pagination.innerHTML = "";
-      for (let p = 1; p <= totalPages; p++) {
-        const span = document.createElement('span');
+
+      for(let p = 1; p <= totalPages; p++){
+        const span = document.createElement("span");
         span.innerText = p;
         if (p === currentTrenPage) {
-          span.classList.add('active');
+          span.classList.add("active");
         }
         span.onclick = () => displayTrenPage(p);
         pagination.appendChild(span);
       }
     }
-    // Trenle seyahat et
+
     function travelToTrain(village) {
       if (currentVillage === village) return;
       if (money < 500) {
@@ -526,7 +547,7 @@
       }
     }
 
-    /************** PARAYI VE KÖY ADINI GÜNCELLEME **************/
+    /************** PARA & KÖY ADI GÜNCELLEME **************/
     function updateMoneyUI() {
       document.getElementById('money').innerText = money;
     }
