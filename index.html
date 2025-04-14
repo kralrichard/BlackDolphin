@@ -34,13 +34,13 @@
       border-radius: 5px; border: 1px solid #333;
     }
     .money span { color: #ffcc00; margin-left: 5px; font-weight: bold; }
-
+    
     /* ANA SAYFA KAPSAYICI */
     #mainPage {
       width: 100%; min-height: 100vh; position: relative;
     }
-
-    /* SOL PANEL: 2 Sekme (Durumum + Tüccar) */
+    
+    /* SOL PANEL: Durumum & Tüccar */
     #leftPanel {
       position: fixed; top: 120px; left: 20px;
       width: 280px; z-index: 1000;
@@ -56,12 +56,12 @@
       font-size: 1.2rem;
     }
     .tab-content {
-      display: none; /* Başlangıçta kapalı */
+      display: none;
       background: rgba(0,0,0,0.4); border-radius: 5px;
       padding: 0.5rem; margin-top: 0.5rem;
     }
     .tab-content.active { display: block; }
-
+    
     /* DURUMUM İÇERİĞİ */
     .stat-bar {
       margin-bottom: 0.7rem; background: #444;
@@ -74,15 +74,12 @@
     }
     .stat-text { margin-top: 3px; font-size: 0.8rem; }
     .lockedStat { opacity: 0.4; }
-    /* Badge göstergesi */
     .badge-indicator {
       text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
     }
-
+    
     /* TÜCCAR İÇERİĞİ */
-    #tuccarContent ul {
-      list-style: none; margin: 0; padding: 0;
-    }
+    #tuccarContent ul { list-style: none; margin: 0; padding: 0; }
     #tuccarContent li {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 0.5rem;
@@ -92,7 +89,7 @@
       color: #fff; cursor: pointer; padding: 0.3rem 0.5rem;
       font-size: 0.8rem;
     }
-
+    
     /* SAĞ PANEL: Köy İncelemesi & Trenle Seyehat */
     #rightContainer {
       position: fixed; right: 20px; top: 140px; width: 280px; z-index: 1000;
@@ -125,7 +122,7 @@
     #koyIncelemePagination span.active, #trenPagination span.active {
       background: #555;
     }
-
+    
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute; top: 50%; left: 50%;
@@ -155,7 +152,7 @@
       background: rgba(0,0,0,0.8); padding: 0.5rem 1rem; border-radius: 5px;
       font-weight: bold; color: #ff4444;
     }
-
+    
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
       position: fixed; bottom: 20px; left: 20px; font-size: 1.2rem;
@@ -163,7 +160,7 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       z-index: 1000;
     }
-
+    
     /* GÖREV SAYFASI (Overlay) */
     #gorevPage {
       display: none; position: fixed; top: 0; left: 0;
@@ -222,7 +219,7 @@
     </div>
     <div class="money"><span id="money">$500000</span></div>
   </header>
-
+  
   <!-- ANA SAYFA -->
   <div id="mainPage">
     <!-- SOL PANEL: Durumum & Tüccar -->
@@ -261,7 +258,7 @@
           <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
         </div>
       </div>
-
+      
       <!-- Tüccar Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
@@ -276,7 +273,7 @@
         </div>
       </div>
     </div><!-- /#leftPanel -->
-
+    
     <!-- SAĞ PANEL: Köy İncelemesi & Trenle Seyehat -->
     <div id="rightContainer">
       <div id="koyIncelemeBox">
@@ -290,7 +287,7 @@
         <div id="trenPagination"></div>
       </div>
     </div>
-
+    
     <!-- ORTA PANEL: Rank Kartları -->
     <div id="centerRanks">
       <div class="card" id="cardVakur">
@@ -307,28 +304,28 @@
       </div>
     </div>
   </div><!-- /#mainPage -->
-
+  
   <!-- GÖREV SAYFASI (Overlay) -->
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
     <div id="tasksContainer"></div>
   </div>
-
+  
   <!-- ALT SOL KÖY BİLGİSİ -->
   <div id="bottomLeft">Asman</div>
-
+  
   <script>
     /********************* GENEL DEĞİŞKENLER *********************/
     let money = 500000;
     let currentVillage = "Asman";
-
+  
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
-
+  
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
-
+  
     const allKoyler = [
       "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
       "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
@@ -338,7 +335,7 @@
       "Zebeşker", "Mirğan", "Dideri", "Kazıka", "Nehlnehli",
       "Birdirej", "Cembel"
     ];
-
+  
     /********** Rastgele Köy Özellikleri **********/
     function randomMalikane() { return [5,10,15][Math.floor(Math.random()*3)]; }
     function randomSiginak()  { return [50,75,100][Math.floor(Math.random()*3)]; }
@@ -349,7 +346,7 @@
       siginak:  randomSiginak(),
       villa:    randomVilla()
     }));
-
+  
     /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
     const vakurDifficulties = [
       {
@@ -428,7 +425,7 @@
         ].concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
-
+  
     const hatipDifficulties = [
       {
         title: "Basit Görevler", locked: false,
@@ -502,12 +499,11 @@
           "Barış temalı etkinlikler düzenle.",
           "Toplumu huzura kavuşturan projeler geliştir.",
           "Mafya aileleri arasında dayanışmayı sağla.",
-          "Etkinliklerle sosyal dengeyi koru.",
-          { text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }
-        ].map(t => typeof t === "string" ? { text: t, done: false } : t)
+          "Etkinliklerle sosyal dengeyi koru."
+        ].concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
-
+  
     const baronDifficulties = [
       {
         title: "Basit Görevler", locked: false,
@@ -566,18 +562,17 @@
           "Eski Husumetleri Gidererek Yeni İttifaklar Kur",
           "Ani Gerilimlerde Soğukkanlı Müdahale Et",
           "Kapsamlı İttifak Çalışmaları Yürüt",
-          "Sürekli Barış Süreçlerini Organize Et",
-          { text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done:false, hidden:true }
-        ].map(t => typeof t === "string" ? { text: t, done: false } : t)
+          "Sürekli Barış Süreçlerini Organize Et"
+        ].concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done:false, hidden:true }])
       }
     ];
-
+  
     const rankData = {
       "Vakur": vakurDifficulties,
       "Hatip": hatipDifficulties,
       "Baron": baronDifficulties
     };
-
+  
     /****************** ONLOAD ******************/
     window.onload = function() {
       updateMoneyUI();
@@ -586,7 +581,7 @@
       displayKoyIncelemePage(1);
       displayTrenPage(1);
     };
-
+  
     /****************** TUTAR SATIN ALMA ******************/
     function buyItem(itemName, cost) {
       if(money < cost) {
@@ -603,7 +598,7 @@
       updateMoneyUI();
       alert(itemName + " satın alındı! (-" + cost + "$)");
     }
-
+  
     /****************** DURUMUM & TÜCCAR AÇ/KAPA ******************/
     function toggleDurumum(){
       const elem = document.getElementById("durumumContent");
@@ -613,7 +608,7 @@
       const elem = document.getElementById("tuccarContent");
       elem.classList.toggle("active");
     }
-
+  
     /****************** KÖY INCELEME ******************/
     let currentIncelemePage = 1;
     function displayKoyIncelemePage(page) {
@@ -657,7 +652,7 @@
         "Villa: " + found.villa
       );
     }
-
+  
     /****************** TREN SEYEHAT ******************/
     let currentTrenPage = 1;
     function displayTrenPage(page) {
@@ -705,7 +700,7 @@
       updateProfileInfo();
       alert("Trenle " + village + " köyüne geldiniz!");
     }
-
+  
     /****************** PARA & KÖY ADI ******************/
     function updateMoneyUI(){
       document.getElementById("money").innerText = "$" + money;
@@ -714,7 +709,7 @@
       document.getElementById("currentVillageDisplay").innerText = currentVillage;
       document.getElementById("bottomLeft").innerText = currentVillage;
     }
-
+  
     /****************** STAT BAR’LARI ******************/
     function getVakurKoruma(){
       let koruma = Math.floor(vakurTaskCount / 22);
@@ -733,7 +728,7 @@
       let vakPct = Math.floor((vakVal / 660) * 100);
       document.getElementById("vakurText").innerText = "Koruma: " + vakVal + " (" + vakPct + "%)";
       document.getElementById("vakurFill").style.width = vakPct + "%";
-
+  
       if(isHatipUnlocked){
         document.getElementById("hatipStat").classList.remove("lockedStat");
         let hatVal = getHatipNufus();
@@ -743,7 +738,7 @@
       } else {
         document.getElementById("hatipStat").classList.add("lockedStat");
       }
-
+  
       if(isBaronUnlocked){
         document.getElementById("baronStat").classList.remove("lockedStat");
         let barVal = getBaronEtki();
@@ -754,13 +749,13 @@
         document.getElementById("baronStat").classList.add("lockedStat");
       }
     }
-
+  
     /****************** GÖREV SAYFASI ******************/
     let currentRank = "";
     function openGorevPage(rank){
       if(rank === "Hatip" && !isHatipUnlocked) return;
       if(rank === "Baron" && !isBaronUnlocked) return;
-
+  
       currentRank = rank;
       document.getElementById("mainPage").style.display = "none";
       let gp = document.getElementById("gorevPage");
@@ -780,11 +775,11 @@
         let section = document.createElement("div");
         section.className = "rankSection";
         if(diffObj.locked) section.classList.add("lockedDifficulty");
-
+  
         let h2 = document.createElement("h2");
         h2.innerText = diffObj.title;
         section.appendChild(h2);
-
+  
         diffObj.tasks.forEach((task, taskIndex) => {
           let divT = document.createElement("div");
           divT.className = "taskItem";
@@ -796,23 +791,23 @@
           `;
           section.appendChild(divT);
         });
-
+  
         let pBar = document.createElement("div");
         pBar.className = "difficultyProgressBar";
         let pFill = document.createElement("div");
         pFill.className = "difficultyProgressFill";
         pBar.appendChild(pFill);
         section.appendChild(pBar);
-
+  
         let pText = document.createElement("div");
         pText.className = "progressText";
         section.appendChild(pText);
-
+  
         container.appendChild(section);
         updateDifficultyProgress(rank, diffIndex);
       });
     }
-    // Gizli görevleri kontrol ederken, hidden görevleri hariç tutuyoruz.
+    // Gizli (hidden) görevler hariç tamamlanan görevleri kontrol ediyoruz.
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -826,7 +821,7 @@
         return;
       }
       taskItem.done = true;
-
+  
       if(rank === "Vakur"){
         vakurTaskCount++;
       } else if(rank === "Hatip"){
@@ -835,8 +830,8 @@
         baronTaskCount++;
       }
       updateStatBars();
-
-      // Sadece hidden olmayan görevleri tamamlanmış sayıyoruz.
+  
+      // Sadece gizli olmayan görevleri kontrol ediyoruz.
       let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
@@ -864,7 +859,7 @@
       let doneCount = diffObj.tasks.filter(t => !t.hidden && t.done).length;
       let totalCount = diffObj.tasks.filter(t => !t.hidden).length;
       let percent = Math.floor((doneCount / totalCount) * 100);
-
+  
       let sections = document.getElementById("tasksContainer").getElementsByClassName("rankSection");
       if(!sections[diffIndex]) return;
       let fill = sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
