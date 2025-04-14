@@ -411,7 +411,7 @@
       },
       {
         title: "Son Görevler", locked: true,
-        tasks: [
+        tasks: ([
           "Ulusal çapta sosyal sorumluluk projesi yürüt.",
           "Büyük bağış konseri/festival düzenle.",
           "Gönüllüleri bir araya getiren platform kur.",
@@ -422,7 +422,8 @@
           "Yurt çapında geri dönüşüm projesi başlat.",
           "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
           "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
-        ].concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
+        ]).map(t => ({ text: t, done: false }))
+        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
   
@@ -489,7 +490,7 @@
       },
       {
         title: "Son Görevler", locked: true,
-        tasks: [
+        tasks: ([
           "Yerel topluluklarda barış kültürü aşıla.",
           "Sosyal medya üzerinden olumlu mesajlar yay.",
           "Yerel liderlerle yakın işbirliği kur.",
@@ -500,7 +501,8 @@
           "Toplumu huzura kavuşturan projeler geliştir.",
           "Mafya aileleri arasında dayanışmayı sağla.",
           "Etkinliklerle sosyal dengeyi koru."
-        ].concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
+        ]).map(t => ({ text: t, done: false }))
+        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
   
@@ -552,7 +554,7 @@
       },
       {
         title: "İleri Görevler", locked: true,
-        tasks: [
+        tasks: ([
           "Mafya Aileleri Arası Barışı Sağla",
           "12 Aşiret Kavgasını Uzlaştır",
           "Çatışan Taraflar Arasında Arabuluculuk Yap",
@@ -563,7 +565,8 @@
           "Ani Gerilimlerde Soğukkanlı Müdahale Et",
           "Kapsamlı İttifak Çalışmaları Yürüt",
           "Sürekli Barış Süreçlerini Organize Et"
-        ].concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done:false, hidden:true }])
+        ]).map(t => ({ text: t, done: false }))
+        .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done:false, hidden:true }])
       }
     ];
   
