@@ -145,6 +145,7 @@
     .card h2 { margin-bottom: 1rem; color: #ffcc00; }
     .card p { margin-bottom: 1rem; }
     .card button {
+      type: "button";
       padding: 0.6rem 1.2rem; background: #ff4444; border: none; border-radius: 5px;
       color: #fff; cursor: pointer; transition: background 0.3s;
     }
@@ -182,7 +183,6 @@
     .rankSection {
       background: rgba(255,255,255,0.07);
       border: 1px solid #888; padding: 1rem; border-radius: 10px;
-      /* Her bölüm slider içinde %100 genişlikte gösterilecek */
       min-width: 100%;
     }
     .rankSection h2 {
@@ -214,6 +214,11 @@
       background: #00bfff; width: 0%; height: 100%; transition: width 0.3s ease;
     }
     .progressText { text-align: right; font-size: 0.8rem; margin-top: 2px; }
+    
+    /* SLİDER OK HOVER */
+    #sliderPrev:hover, #sliderNext:hover {
+      color: #ffcc00;
+    }
   </style>
 </head>
 <body>
@@ -265,11 +270,11 @@
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
           <ul>
-            <li><span>Silah (2500$)</span> <button onclick="buyItem('Silah', 2500)">Satın Al</button></li>
-            <li><span>Bomba (1000$)</span> <button onclick="buyItem('Bomba', 1000)">Satın Al</button></li>
-            <li><span>C4 (1500$)</span> <button onclick="buyItem('C4', 1500)">Satın Al</button></li>
-            <li><span>Villa (15000$)</span> <button onclick="buyItem('Villa', 15000)">Satın Al</button></li>
-            <li><span>Ev (10000$)</span> <button onclick="buyItem('Ev', 10000)">Satın Al</button></li>
+            <li><span>Silah (2500$)</span> <button type="button" onclick="buyItem('Silah', 2500)">Satın Al</button></li>
+            <li><span>Bomba (1000$)</span> <button type="button" onclick="buyItem('Bomba', 1000)">Satın Al</button></li>
+            <li><span>C4 (1500$)</span> <button type="button" onclick="buyItem('C4', 1500)">Satın Al</button></li>
+            <li><span>Villa (15000$)</span> <button type="button" onclick="buyItem('Villa', 15000)">Satın Al</button></li>
+            <li><span>Ev (10000$)</span> <button type="button" onclick="buyItem('Ev', 10000)">Satın Al</button></li>
           </ul>
         </div>
       </div>
@@ -297,19 +302,19 @@
       <div class="card" id="cardVakur">
         <h2>Vakur</h2>
         <p>Mavi 🏅</p>
-        <button onclick="openGorevPage('Vakur')">Görev ve Rozeti</button>
+        <button type="button" onclick="openGorevPage('Vakur')">Görev ve Rozeti</button>
         <div class="badge-container">Rozet: <span id="blueBadgeCount">0</span></div>
       </div>
       <div class="card locked" id="cardHatip">
         <h2>Hatip</h2>
         <p>Turuncu 🏅</p>
-        <button onclick="openGorevPage('Hatip')">Görev ve Rozeti</button>
+        <button type="button" onclick="openGorevPage('Hatip')">Görev ve Rozeti</button>
         <div class="badge-container">Rozet: <span id="orangeBadgeCount">0</span></div>
       </div>
       <div class="card locked" id="cardBaron">
         <h2>Baron</h2>
         <p>Kırmızı 🏅</p>
-        <button onclick="openGorevPage('Baron')">Görev ve Rozeti</button>
+        <button type="button" onclick="openGorevPage('Baron')">Görev ve Rozeti</button>
         <div class="badge-container">Rozet: <span id="redBadgeCount">0</span></div>
       </div>
     </div>
@@ -318,7 +323,7 @@
      
   <!-- GÖREV SAYFASI -->
   <div id="gorevPage">
-    <button onclick="closeGorevPage()">Geri Dön</button>
+    <button type="button" onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
     <!-- Slider için wrapper -->
     <div id="tasksContainer"></div>
@@ -620,15 +625,17 @@
       displayTrenPage(1);
     };
      
-    /****************** TUTAR SATIN ALMA ******************/
+    /****************** SATIN ALMA ONAYI ******************/
     function buyItem(itemName, cost) {
-      if(money < cost) {
-        alert("Yetersiz bakiye!");
-        return;
+      if (confirm(itemName + " satın almak istiyor musunuz? (" + cost + "$)")) {
+        if(money < cost) {
+          alert("Yetersiz bakiye!");
+          return;
+        }
+        money -= cost;
+        updateMoneyUI();
+        alert(itemName + " satın alındı! (-" + cost + "$)");
       }
-      money -= cost;
-      updateMoneyUI();
-      alert(itemName + " satın alındı! (-" + cost + "$)");
     }
      
     /****************** DURUMUM & TÜCCAR AÇ/KAPA ******************/
@@ -655,7 +662,7 @@
         if(i >= villageData.length) break;
         const v = villageData[i];
         let li = document.createElement("li");
-        li.innerHTML = "<span>" + v.name + " (6 At)</span><button onclick=\"inceleKoy('" + v.name + "')\">İncele</button>";
+        li.innerHTML = "<span>" + v.name + " (6 At)</span><button type=\"button\" onclick=\"inceleKoy('" + v.name + "')\">İncele</button>";
         ul.appendChild(li);
       }
       renderKoyIncelemePagination();
@@ -682,38 +689,14 @@
       );
     }
      
-    /****************** TREN SEYEHAT ******************/
-    let currentTrenPage = 1;
-    function displayTrenPage(page) {
-      currentTrenPage = page;
-      const pageSize = pageSizes[page-1];
-      let start = 0; for(let i=0; i<page-1; i++){ start += pageSizes[i]; }
-      let end = start + pageSize;
-      const trenList = document.getElementById("trenList");
-      trenList.innerHTML = "";
-      for(let i = start; i < end; i++){
-        if(i >= allKoyler.length) break;
-        let li = document.createElement("li");
-        li.innerHTML = "<span>" + allKoyler[i] + "</span><button onclick=\"travelToTrain('" + allKoyler[i] + "')\">Seyahat Et</button>";
-        trenList.appendChild(li);
-      }
-      renderTrenPagination();
-    }
-    function renderTrenPagination(){
-      const pag = document.getElementById("trenPagination");
-      pag.innerHTML = "";
-      for(let p = 1; p <= totalPages; p++){
-        let sp = document.createElement("span");
-        sp.innerText = p;
-        if(p === currentTrenPage) sp.classList.add("active");
-        sp.onclick = () => displayTrenPage(p);
-        pag.appendChild(sp);
-      }
-    }
+    /****************** TREN SEYEHAT ONAYI ******************/
     function travelToTrain(village){
       if(currentVillage === village) return;
       if(money < 500){
         alert("Tren bileti için yeterli paranız yok!");
+        return;
+      }
+      if(!confirm(village + " köyüne gitmek istiyor musunuz? (500$)")){
         return;
       }
       money -= 500;
@@ -786,10 +769,27 @@
     }
      
     /****************** GÖREV SAYFASI – SLİDER ******************/
+    function openGorevPage(rank){
+      // Kilit kontrolü
+      if((rank === "Hatip" && !isHatipUnlocked) || (rank === "Baron" && !isBaronUnlocked))
+        return;
+      
+      currentRank = rank;
+      document.getElementById("mainPage").style.display = "none";
+      document.getElementById("gorevPage").style.display = "block";
+      document.getElementById("gorevHeader").innerText = rank + " Görevleri";
+      
+      loadRankTasks(rank);
+    }
+    function closeGorevPage(){
+      document.getElementById("gorevPage").style.display = "none";
+      document.getElementById("mainPage").style.display = "block";
+    }
+     
+    // Görevleri slider şeklinde yükle
     function loadRankTasks(rank){
       let container = document.getElementById("tasksContainer");
       container.innerHTML = "";
-      // Oluşturulacak slider container'ı
       let sliderContainer = document.createElement("div");
       sliderContainer.id = "sliderContainer";
       sliderContainer.style.display = "flex";
@@ -798,28 +798,25 @@
       let diffs = rankData[rank];
       sliderTotalPages = diffs.length;
       
-      // Her bölüm için slider sayfası oluşturuyoruz
       diffs.forEach((diffObj, diffIndex) => {
         let section = document.createElement("div");
         section.className = "rankSection";
-        section.style.minWidth = "100%";  // Her sayfa tam genişlikte olsun
+        section.style.minWidth = "100%";
         if(diffObj.locked) section.classList.add("lockedDifficulty");
          
         let h2 = document.createElement("h2");
         h2.innerText = diffObj.title;
         section.appendChild(h2);
          
-        // Görevleri listele
         diffObj.tasks.forEach((task, taskIndex) => {
           let divT = document.createElement("div");
           divT.className = "taskItem";
           if(task.done) divT.classList.add("completedTask");
           if(task.hidden === true) divT.style.display = "none";
-          divT.innerHTML = "<span>" + task.text + "</span><button onclick=\"completeTask('" + rank + "', " + diffIndex + ", " + taskIndex + ")\">Tamamla</button>";
+          divT.innerHTML = "<span>" + task.text + "</span><button type=\"button\" onclick=\"completeTask('" + rank + "', " + diffIndex + ", " + taskIndex + ")\">Tamamla</button>";
           section.appendChild(divT);
         });
          
-        // Seviye barı ekle
         let pBar = document.createElement("div");
         pBar.className = "difficultyProgressBar";
         let pFill = document.createElement("div");
@@ -832,12 +829,9 @@
         section.appendChild(pText);
          
         sliderContainer.appendChild(section);
-         
-        // Yüzde güncellemesi
         updateDifficultyProgress(rank, diffIndex);
       });
       
-      // Slider navigasyon okları
       let sliderWrapper = document.createElement("div");
       sliderWrapper.id = "taskSliderWrapper";
       sliderWrapper.style.position = "relative";
@@ -874,7 +868,6 @@
       sliderWrapper.appendChild(sliderContainer);
       container.appendChild(sliderWrapper);
       
-      // Slider başlangıç ayarı
       currentSliderPage = 0;
       prevArrow.onclick = () => slidePrev();
       nextArrow.onclick = () => slideNext();
@@ -898,7 +891,6 @@
       sliderContainer.style.transform = "translateX(" + (-100 * currentSliderPage) + "%)";
     }
      
-    // Görev tamamlama fonksiyonu
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -911,10 +903,8 @@
         alert("Zaten tamamladınız!");
         return;
       }
-      // Görevi tamamla
       taskItem.done = true;
        
-      // Global sayaç güncellemesi
       if(rank === "Vakur"){
         vakurTaskCount++;
         checkVakurRewards();
@@ -928,7 +918,6 @@
       updateStatBars();
       updateBadgesUI();
        
-      // Bölümdeki tüm görevler tamamlandı mı kontrolü
       let allDone = diffObj.tasks.every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
@@ -951,7 +940,6 @@
       loadRankTasks(rank);
     }
      
-    // Yüzde hesaplama
     function updateDifficultyProgress(rank, diffIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -967,7 +955,6 @@
       txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
     }
      
-    /*********** 50 GÖREVDE BİR ROZET vs. ***********/
     function checkVakurRewards(){
       if(vakurTaskCount > 0 && vakurTaskCount % 50 === 0){
         blueBadgeCount++;
