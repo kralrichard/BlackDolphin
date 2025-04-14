@@ -807,7 +807,7 @@
         updateDifficultyProgress(rank, diffIndex);
       });
     }
-    // Gizli (hidden) görevler hariç tamamlanan görevleri kontrol ediyoruz.
+    // Gizli (hidden) görevleri hariç kontrol ediyoruz.
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -831,7 +831,7 @@
       }
       updateStatBars();
   
-      // Sadece gizli olmayan görevleri kontrol ediyoruz.
+      // Sadece gizli olmayan görevleri hesaplıyoruz.
       let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
