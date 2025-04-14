@@ -2,6 +2,8 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <!-- Mobil uyumluluğu sağlamak için viewport ekleniyor -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
     /* GENEL STİLLER */
@@ -61,7 +63,7 @@
       border-radius: 5px;
       border: 1px solid #333;
     }
-    /* Sağ üstteki para göstergesinin rengi yeşil */
+    /* Sağ üstteki para göstergesinin rengi yeşil olsun */
     #money { color: green !important; }
     
     /* Renk Sınıfları */
@@ -136,9 +138,7 @@
       margin-top: 3px;
       font-size: 0.8rem;
     }
-    .lockedStat { 
-      opacity: 0.4; 
-    }
+    .lockedStat { opacity: 0.4; }
     .badge-indicator {
       text-align: center;
       font-size: 0.8rem;
@@ -226,7 +226,7 @@
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute;
-      top: 140px; /* Sağ panel kutuları hizasına yakın */
+      top: 140px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -246,14 +246,14 @@
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
       width: 250px;
-      padding: 2rem;  /* Eşit şekilde kutucuk büyütüldü */
+      padding: 2rem;  /* Eşit şekilde kutu büyütüldü */
       text-align: center;
       transition: transform 0.3s ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    /* Kartlardaki rol isimleri büyük harflerle, ve biraz yukarı kaydırıldı */
+    /* Kartlardaki rol isimleri büyük harflerle (VAKUR, HATİP, BARON) ve yukarı kaydırıldı */
     #cardVakur h2 { 
       color: blue; 
       text-transform: uppercase;
@@ -275,7 +275,7 @@
       margin-bottom: 15px;
       font-size: 1.5rem;
     }
-    /* Epistemolojik Serüven butonları: arka plan siyah, metin beyaz, ama buton metinleri kutu ile arada boşluk olsun */
+    /* Epistemolojik Serüven butonları: arka plan siyah, metin beyaz */
     .card button {
       padding: 0.6rem 1.2rem;
       background: black;
@@ -284,7 +284,7 @@
       color: white;
       cursor: pointer;
       transition: background 0.3s;
-      margin-top: 15px;  /* Buton ile rol metni arasında boşluk */
+      margin-top: 15px;
     }
     .card button:hover { background: #333; }
     
@@ -415,6 +415,28 @@
     .arrow-button:hover { background: rgba(0,0,0,0.7); }
     #leftArrow { left: 5px; }
     #rightArrow { right: 5px; }
+    
+    /* Responsive Ayarlar (Mobil Uyumluluk) */
+    @media (max-width: 768px) {
+      /* Sol ve Sağ paneli akışa al, tam genişlik kullan */
+      #leftPanel, #rightContainer {
+        position: static;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      /* Orta paneldeki kartların kutucuğu da tam genişlik olsun */
+      #centerRanks {
+        position: static;
+        transform: none;
+        margin: 10px auto;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .card {
+        width: 90%;
+        margin: 10px 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -645,7 +667,7 @@
           "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
           "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
         ]).map(t => ({ text: t, done: false }))
-        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
+        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
       }
     ];
     
@@ -724,7 +746,7 @@
           "Mafya aileleri arasında dayanışmayı sağla.",
           "Etkinliklerle sosyal dengeyi koru."
         ].map(t => ({ text: t, done: false })))
-        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
+        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
       }
     ];
     
@@ -788,7 +810,7 @@
           "Kapsamlı İttifak Çalışmaları Yürüt",
           "Sürekli Barış Süreçlerini Organize Et"
         ]).map(t => ({ text: t, done: false }))
-        .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done:false, hidden:true }])
+        .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done: false, hidden: true }])
       }
     ];
     
