@@ -141,7 +141,6 @@
     }
     .card:hover { transform: translateY(-5px); }
     .card h2 { margin-bottom: 1rem; color: #ffcc00; }
-    /* Rank kartlarındaki buton metni, entelektüel bir ifade olacak */
     .card button {
       padding: 0.6rem 1.2rem; background: #ff4444; border: none; border-radius: 5px;
       color: #fff; cursor: pointer; transition: background 0.3s;
@@ -416,7 +415,7 @@
       {
         title: "Son Görevler", locked: true,
         tasks: [
-          { text: "🎖️ Tebrikler! Hatip rütbesindeki görevleri tamamladınız. Baron kilidi açıldı!", done: false, hidden: true }
+          { text: "🎖️ Tebrikler! Vakur rütbesindeki görevleri tamamladınız!", done: false, hidden: true }
         ]
       }
     ];
@@ -485,8 +484,18 @@
       {
         title: "Son Görevler", locked: true,
         tasks: [
-          { text: "🎖️ Tebrikler! Baron oldunuz! Ana menüye dönüyorsunuz!", done: false, hidden: true }
-        ]
+          "Yerel topluluklarda barış kültürü aşıla.",
+          "Sosyal medya üzerinden olumlu mesajlar yay.",
+          "Yerel liderlerle yakın işbirliği kur.",
+          "Eski çatışmaları unut, yeni başlangıçlar yap.",
+          "Kriz zamanlarında destek ağı oluştur.",
+          "Halk arasında iletişimi güçlendir.",
+          "Barış temalı etkinlikler düzenle.",
+          "Toplumu huzura kavuşturan projeler geliştir.",
+          "Mafya aileleri arasında dayanışmayı sağla.",
+          "Etkinliklerle sosyal dengeyi koru.",
+          { text: "🎖️ Tebrikler! Hatip rütbesindeki tüm görevleri tamamladınız, Baron kilidi açıldı!", done: false, hidden: true }
+        ].map(t => typeof t === "string" ? { text: t, done: false } : t)
       }
     ];
 
