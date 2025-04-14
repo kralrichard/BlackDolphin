@@ -61,7 +61,7 @@
       border-radius: 5px;
       border: 1px solid #333;
     }
-    /* Sağ üstteki para göstergesinin rengi yeşil olsun */
+    /* Sağ üstteki para göstergesinin rengi yeşil */
     #money { color: green !important; }
     
     /* Renk Sınıfları */
@@ -104,8 +104,8 @@
       padding: 0.5rem;
       margin-top: 0.5rem;
     }
-    .tab-content.active {
-      display: block;
+    .tab-content.active { 
+      display: block; 
     }
     
     /* DURUMUM İÇERİĞİ */
@@ -121,7 +121,7 @@
       font-weight: bold;
       font-size: 0.85rem;
     }
-    /* Durum panelinde renk ayarı */
+    /* Durum panelindeki renk ayarı */
     #vakurStat .stat-label { color: blue; }
     #hatipStat .stat-label { color: orange; }
     #baronStat .stat-label { color: red; }
@@ -136,7 +136,9 @@
       margin-top: 3px;
       font-size: 0.8rem;
     }
-    .lockedStat { opacity: 0.4; }
+    .lockedStat { 
+      opacity: 0.4; 
+    }
     .badge-indicator {
       text-align: center;
       font-size: 0.8rem;
@@ -224,7 +226,7 @@
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute;
-      top: 140px; /* Sağ paneldeki kutular hizasına yakın */
+      top: 140px; /* Sağ panel kutuları hizasına yakın */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -244,14 +246,36 @@
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
       width: 250px;
-      padding: 1.5rem;
+      padding: 2rem;  /* Eşit şekilde kutucuk büyütüldü */
       text-align: center;
       transition: transform 0.3s ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    /* Kartlardaki butonlar: Epistemolojik Serüven butonunun arka planı siyah, yazı beyaz */
+    /* Kartlardaki rol isimleri büyük harflerle, ve biraz yukarı kaydırıldı */
+    #cardVakur h2 { 
+      color: blue; 
+      text-transform: uppercase;
+      margin-top: -10px;
+      margin-bottom: 15px; /* h2 ile buton arası boşluk */
+      font-size: 1.5rem;
+    }
+    #cardHatip h2 { 
+      color: orange; 
+      text-transform: uppercase;
+      margin-top: -10px;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    #cardBaron h2 { 
+      color: red; 
+      text-transform: uppercase;
+      margin-top: -10px;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    /* Epistemolojik Serüven butonları: arka plan siyah, metin beyaz, ama buton metinleri kutu ile arada boşluk olsun */
     .card button {
       padding: 0.6rem 1.2rem;
       background: black;
@@ -260,27 +284,9 @@
       color: white;
       cursor: pointer;
       transition: background 0.3s;
+      margin-top: 15px;  /* Buton ile rol metni arasında boşluk */
     }
     .card button:hover { background: #333; }
-    /* Kartlardaki h2 etiketlerini istediğimiz gibi güncelliyoruz: */
-    #cardVakur h2 { 
-      color: blue; 
-      text-transform: uppercase;
-      margin-top: -10px; /* yukarı kaydırma */
-      font-size: 1.5rem;
-    }
-    #cardHatip h2 { 
-      color: orange; 
-      text-transform: uppercase;
-      margin-top: -10px;
-      font-size: 1.5rem;
-    }
-    #cardBaron h2 { 
-      color: red; 
-      text-transform: uppercase;
-      margin-top: -10px;
-      font-size: 1.5rem;
-    }
     
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
