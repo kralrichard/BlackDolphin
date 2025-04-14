@@ -174,15 +174,16 @@
     #gorevPage {
       display: none; position: fixed; top: 0; left: 0;
       width: 100%; height: 100%; background: #000; color: #fff; z-index: 3000;
-      padding: 2rem; overflow-y: auto;
+      padding: 2rem; overflow: hidden;
     }
     #gorevPage h1 {
       text-align: center; margin-bottom: 1rem;
     }
     .rankSection {
-      max-width: 600px; margin: 0 auto 2rem auto;
-      border: 1px solid #888; padding: 1rem; border-radius: 10px;
       background: rgba(255,255,255,0.07);
+      border: 1px solid #888; padding: 1rem; border-radius: 10px;
+      /* Her bölüm slider içinde %100 genişlikte gösterilecek */
+      min-width: 100%;
     }
     .rankSection h2 {
       text-align: center; margin-bottom: 0.5rem; color: #ffcc00;
@@ -319,6 +320,7 @@
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
+    <!-- Slider için wrapper -->
     <div id="tasksContainer"></div>
   </div>
      
@@ -360,7 +362,7 @@
     }));
      
     /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
-    // Vakur görevleri (önceden tanımlandığı gibi 10 görevden oluşan 5 seviye)
+    // Vakur görevleri (her seviye 10 görev)
     const vakurDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -439,7 +441,7 @@
       }
     ];
      
-    // Hatip görevleri – son seviye güncellendi:
+    // Hatip görevleri – Son Görevler güncellendi:
     const hatipDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -503,7 +505,6 @@
       },
       { 
         title: "Son Görevler", locked: true,
-        // Hatip için verilen metinde 8 görev vardı; iki tane ilave örnek görev eklenerek toplam 10 görev oluşturuldu.
         tasks: [
           "Uluslararası konferansta ülkeni temsil et.",
           "Farklı ülkelerden liderleri bir araya getir.",
@@ -512,14 +513,15 @@
           "Diplomatik krizde aracı rol üstlen.",
           "‘Barış ve Uzlaşma Vakfı’ kurarak projeler yönet.",
           "Önemli çatışma bölgelerine arabulucu olarak davet al.",
-          "Tebrikler, Baron oldunuz! Ana menüye dönüyoruz.",
+          "İşsizlere yönelik motivasyon konuşması gerçekleştir.",
           "Uluslararası barış inisiyatiflerine liderlik et.",
-          "Küresel diplomasi platformunda konuşma yap."
-        ].map(t => ({ text: t, done: false }))
+          "Küresel diplomasi platformunda konuşma yap.",
+          { text: "Tebrikler, Baron oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }
+        ].map(t => (typeof t === "string" ? { text: t, done: false } : t))
       }
     ];
      
-    // Baron görevleri – her seviye 10 görev içerecek şekilde güncellendi:
+    // Baron görevleri – her seviye 10 görevden oluşacak şekilde:
     const baronDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -603,6 +605,10 @@
       "Hatip": hatipDifficulties,
       "Baron": baronDifficulties
     };
+     
+    /****************** SLİDER DEĞİŞKENLERİ ******************/
+    let currentSliderPage = 0;
+    let sliderTotalPages = 0;
      
     /****************** ONLOAD ******************/
     window.onload = function() {
@@ -779,50 +785,41 @@
       document.getElementById("baronBadgeCount").innerText = redBadgeCount;
     }
      
-    /****************** GÖREV SAYFASI ******************/
-    let currentRank = "";
-    function openGorevPage(rank){
-      // Kilit kontrol
-      if(rank === "Hatip" && !isHatipUnlocked) return;
-      if(rank === "Baron" && !isBaronUnlocked) return;
-       
-      currentRank = rank;
-      document.getElementById("mainPage").style.display = "none";
-      let gp = document.getElementById("gorevPage");
-      gp.style.display = "block";
-      document.getElementById("gorevHeader").innerText = rank + " Görevleri";
-       
-      loadRankTasks(rank);
-    }
-    function closeGorevPage(){
-      document.getElementById("gorevPage").style.display = "none";
-      document.getElementById("mainPage").style.display = "block";
-    }
-     
-    // Görevleri listele
+    /****************** GÖREV SAYFASI – SLİDER ******************/
     function loadRankTasks(rank){
       let container = document.getElementById("tasksContainer");
       container.innerHTML = "";
+      // Oluşturulacak slider container'ı
+      let sliderContainer = document.createElement("div");
+      sliderContainer.id = "sliderContainer";
+      sliderContainer.style.display = "flex";
+      sliderContainer.style.transition = "transform 0.3s ease";
+      
       let diffs = rankData[rank];
+      sliderTotalPages = diffs.length;
+      
+      // Her bölüm için slider sayfası oluşturuyoruz
       diffs.forEach((diffObj, diffIndex) => {
         let section = document.createElement("div");
         section.className = "rankSection";
+        section.style.minWidth = "100%";  // Her sayfa tam genişlikte olsun
         if(diffObj.locked) section.classList.add("lockedDifficulty");
          
         let h2 = document.createElement("h2");
         h2.innerText = diffObj.title;
         section.appendChild(h2);
          
-        // Görevler
+        // Görevleri listele
         diffObj.tasks.forEach((task, taskIndex) => {
           let divT = document.createElement("div");
           divT.className = "taskItem";
           if(task.done) divT.classList.add("completedTask");
+          if(task.hidden === true) divT.style.display = "none";
           divT.innerHTML = "<span>" + task.text + "</span><button onclick=\"completeTask('" + rank + "', " + diffIndex + ", " + taskIndex + ")\">Tamamla</button>";
           section.appendChild(divT);
         });
          
-        // Seviye bar
+        // Seviye barı ekle
         let pBar = document.createElement("div");
         pBar.className = "difficultyProgressBar";
         let pFill = document.createElement("div");
@@ -834,14 +831,74 @@
         pText.className = "progressText";
         section.appendChild(pText);
          
-        container.appendChild(section);
+        sliderContainer.appendChild(section);
          
-        // Yüzdeyi güncelle
+        // Yüzde güncellemesi
         updateDifficultyProgress(rank, diffIndex);
       });
+      
+      // Slider navigasyon okları
+      let sliderWrapper = document.createElement("div");
+      sliderWrapper.id = "taskSliderWrapper";
+      sliderWrapper.style.position = "relative";
+      sliderWrapper.style.overflow = "hidden";
+      
+      let prevArrow = document.createElement("div");
+      prevArrow.id = "sliderPrev";
+      prevArrow.innerHTML = "&#9664;";
+      prevArrow.style.position = "absolute";
+      prevArrow.style.left = "0";
+      prevArrow.style.top = "50%";
+      prevArrow.style.transform = "translateY(-50%)";
+      prevArrow.style.fontSize = "3rem";
+      prevArrow.style.color = "white";
+      prevArrow.style.cursor = "pointer";
+      prevArrow.style.zIndex = "10";
+      prevArrow.style.userSelect = "none";
+      
+      let nextArrow = document.createElement("div");
+      nextArrow.id = "sliderNext";
+      nextArrow.innerHTML = "&#9654;";
+      nextArrow.style.position = "absolute";
+      nextArrow.style.right = "0";
+      nextArrow.style.top = "50%";
+      nextArrow.style.transform = "translateY(-50%)";
+      nextArrow.style.fontSize = "3rem";
+      nextArrow.style.color = "white";
+      nextArrow.style.cursor = "pointer";
+      nextArrow.style.zIndex = "10";
+      nextArrow.style.userSelect = "none";
+      
+      sliderWrapper.appendChild(prevArrow);
+      sliderWrapper.appendChild(nextArrow);
+      sliderWrapper.appendChild(sliderContainer);
+      container.appendChild(sliderWrapper);
+      
+      // Slider başlangıç ayarı
+      currentSliderPage = 0;
+      prevArrow.onclick = () => slidePrev();
+      nextArrow.onclick = () => slideNext();
+      updateSlider();
     }
      
-    // Görev tamamlama
+    function slidePrev(){
+      if(currentSliderPage > 0){
+        currentSliderPage--;
+        updateSlider();
+      }
+    }
+    function slideNext(){
+      if(currentSliderPage < sliderTotalPages - 1){
+        currentSliderPage++;
+        updateSlider();
+      }
+    }
+    function updateSlider(){
+      let sliderContainer = document.getElementById("sliderContainer");
+      sliderContainer.style.transform = "translateX(" + (-100 * currentSliderPage) + "%)";
+    }
+     
+    // Görev tamamlama fonksiyonu
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -854,10 +911,10 @@
         alert("Zaten tamamladınız!");
         return;
       }
-      // Tamamla
+      // Görevi tamamla
       taskItem.done = true;
        
-      // Global sayaç
+      // Global sayaç güncellemesi
       if(rank === "Vakur"){
         vakurTaskCount++;
         checkVakurRewards();
@@ -871,17 +928,15 @@
       updateStatBars();
       updateBadgesUI();
        
-      // Tüm görevler bitti mi => sonraki seviye kilidi
+      // Bölümdeki tüm görevler tamamlandı mı kontrolü
       let allDone = diffObj.tasks.every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
           diffs[diffIndex+1].locked = false;
           alert(diffObj.title + " bitti! '" + diffs[diffIndex+1].title + "' açıldı.");
         } else {
-          // Son seviye bitti
           alert(rank + " rankındaki tüm görevleri tamamladınız!");
           closeGorevPage();
-          // Rank atlama
           if(rank === "Vakur" && !isHatipUnlocked){
             isHatipUnlocked = true;
             document.getElementById("cardHatip").classList.remove("locked");
@@ -893,11 +948,10 @@
           }
         }
       }
-      // Ekranı yenile
       loadRankTasks(rank);
     }
      
-    // % hesapla
+    // Yüzde hesaplama
     function updateDifficultyProgress(rank, diffIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -905,7 +959,7 @@
       let totalCount = diffObj.tasks.length;
       let percent = Math.floor((doneCount / totalCount) * 100);
        
-      let sections = document.getElementById("tasksContainer").getElementsByClassName("rankSection");
+      let sections = document.getElementById("sliderContainer").getElementsByClassName("rankSection");
       if(!sections[diffIndex]) return;
       let fill = sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
       let txt = sections[diffIndex].getElementsByClassName("progressText")[0];
@@ -934,7 +988,6 @@
         alert("Baron: 50 görev tamamladınız! +10.000$ +1 Rozet\n(Vakur rozeti düşebilir!)");
         if(blueBadgeCount > 0) { blueBadgeCount--; }
       }
-      // Hayır/Afet yardımı => Vakur artabilir
       if(taskText.toLowerCase().includes("hayır") || taskText.toLowerCase().includes("afet")){
         blueBadgeCount++;
         alert("Baron: Hayır/Afet yardımı yaptınız! Vakur rozeti +1");
