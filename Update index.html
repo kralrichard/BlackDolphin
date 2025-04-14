@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Mobil uyumluluk için viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oyuncu Profili Örneği</title>
+  <style>
+    /* Temel stil */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .profile {
+      border: 1px solid #ccc;
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      max-width: 400px;
+      text-align: center;
+    }
+    .profile img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .profile h2 {
+      margin: 0 0 10px;
+    }
+    .profile p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Oyuncu Profili Örneği</h1>
+  <div id="profiles"></div>
+
+  <script>
+    // İsim doğrulaması: yalnızca İngilizce ve Türkçe harfler; rakam veya sembol içermez.
+    function isValidName(name) {
+      // İzin verilen karakterler: A-Z, a-z ve Türkçe harfler: Ç,Ğ,İ,Ö,Ş,Ü (küçük halleri: ç,ğ,ı,ö,ş,ü)
+      const regex = /^[A-Za-zÇĞİÖŞÜçğıöşü]+$/;
+      return regex.test(name);
+    }
+
+    // PlayerProfile sınıfı: tüm kullanıcılar için ortak özellikler (şehir, servet, varsayılan profil resmi) sabit kalır.
+    class PlayerProfile {
+      constructor(name, gender, wealth) {
+        if (!isValidName(name)) {
+          throw new Error("İsim yalnızca harflerden oluşmalıdır (rakam veya sembol içeremez).");
+        }
+        this.name = name;
+        this.city = "Asman";         // Tüm kullanıcılar için sabit
+        this.gender = gender;        // "Bay" veya "Bayan"
+        this.wealth = wealth;        // Servet, dinamik olarak güncellenecek
+        this.profileImage = this.getDefaultProfileImage();
+      }
+
+      getDefaultProfileImage() {
+        // Varsayılan profil resmi: cinsiyete göre atanır.
+        if (this.gender === "Bay") {
+          // Uzun takım elbiseli, şapkalı, esmer ve yakışıklı bir beyefendi resmi (placeholder)
+          return "https://via.placeholder.com/150?text=Gentleman";
+        } else if (this.gender === "Bayan") {
+          // Kahin tipli bir firstlady resmi (placeholder)
+          return "https://via.placeholder.com/150?text=Firstlady";
+        } else {
+          // Varsayılan resim (gerektiğinde)
+          return "https://via.placeholder.com/150?text=Profile";
+        }
+      }
+    }
+
+    // Veritabanına eklendiğinde tüm kullanıcıların temel profil verileri aynı olacak.
+    // Örnek: İsim ve cinsiyet farklı, diğer veriler sabit.
+    const profilesData = [
+      new PlayerProfile("KralRichard", "Bay", 500000),
+      new PlayerProfile("KralRichard", "Bayan", 500000)
+    ];
+
+    // Profilleri DOM'a ekleme
+    const profilesContainer = document.getElementById("profiles");
+    profilesData.forEach(profile => {
+      const div = document.createElement("div");
+      div.className = "profile";
+      div.innerHTML = `
+        <img src="${profile.profileImage}" alt="${profile.gender === 'Bay' ? 'Gentleman Profile' : 'Firstlady Profile'}">
+        <h2>${profile.name}</h2>
+        <p><strong>Şehir:</strong> ${profile.city}</p>
+        <p><strong>Cinsiyet:</strong> ${profile.gender}</p>
+        <p><strong>Servet:</strong> $${profile.wealth}</p>
+      `;
+      profilesContainer.appendChild(div);
+    });
+  </script>
+</body>
+</html>
