@@ -74,7 +74,8 @@
     }
     .stat-text { margin-top: 3px; font-size: 0.8rem; }
     .lockedStat { opacity: 0.4; }
-    /* Burada artık "Rozet: 0" yazısı kaldırılarak, rozet ikonunu ve R harfini ekliyoruz */
+    /* Badge gösterimi artık "Rozet: 0" metnini taşımıyor.
+       Her stat için ilgili rozet ikonunun soluna "R" harfi ekleniyor. */
     .badge-indicator {
       text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
     }
@@ -141,7 +142,7 @@
     }
     .card:hover { transform: translateY(-5px); }
     .card h2 { margin-bottom: 1rem; color: #ffcc00; }
-    /* Rank kartlarındaki renklendirme yazıları ve rozet simgeleri kaldırıldı */
+    /* Rank kartlarındaki buton metni, daha entelektüel bir ifade olacak */
     .card button {
       padding: 0.6rem 1.2rem; background: #ff4444; border: none; border-radius: 5px;
       color: #fff; cursor: pointer; transition: background 0.3s;
@@ -221,7 +222,7 @@
         </svg>
       </div>
     </div>
-    <!-- Sağ üstteki para göstergesi "Dolar:" ifadesi kaldırılarak sadece "$" ile gösterilecek -->
+    <!-- Para göstergesi sadece "$" ile gösterilecek -->
     <div class="money"><span id="money">$500000</span></div>
   </header>
 
@@ -237,7 +238,6 @@
             <div class="stat-label">Vakur 🛡️</div>
             <div class="stat-fill" id="vakurFill"></div>
             <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
-            <!-- Badge gösterimi: "Rozet: 0" kaldırılarak badge ikonu eklenmiştir -->
             <div class="badge-indicator">
               <span style="display: inline-block; width: 15px; height: 15px; background: blue; border-radius: 50%; margin-right: 5px;"></span>
               R
@@ -300,15 +300,15 @@
     <div id="centerRanks">
       <div class="card" id="cardVakur">
         <h2>Vakur</h2>
-        <button onclick="openGorevPage('Vakur')">Görev ve Rozeti</button>
+        <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
       </div>
       <div class="card locked" id="cardHatip">
         <h2>Hatip</h2>
-        <button onclick="openGorevPage('Hatip')">Görev ve Rozeti</button>
+        <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
       </div>
       <div class="card locked" id="cardBaron">
         <h2>Baron</h2>
-        <button onclick="openGorevPage('Baron')">Görev ve Rozeti</button>
+        <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
       </div>
     </div>
   </div><!-- /#mainPage -->
@@ -562,6 +562,10 @@
         alert("Tren bileti için yeterli paranız yok!"); 
         return; 
       }
+      // Tren bileti için onay mesajı: "x köyüne gitmek istediğinize emin misiniz? ($500)"
+      if (!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")) {
+        return;
+      }
       money -= 500;
       updateMoneyUI();
       currentVillage = village;
@@ -624,7 +628,7 @@
     /****************** GÖREV SAYFASI ******************/
     let currentRank = "";
     function openGorevPage(rank){
-      // Kilit kontrol
+      // Kilit kontrolü
       if(rank === "Hatip" && !isHatipUnlocked) return;
       if(rank === "Baron" && !isBaronUnlocked) return;
 
