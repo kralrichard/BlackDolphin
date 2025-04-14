@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <!-- Mobil uyumluluğu sağlamak için viewport ekleniyor -->
+  <!-- Mobil uyumluluğu sağlamak için viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
@@ -63,7 +63,7 @@
       border-radius: 5px;
       border: 1px solid #333;
     }
-    /* Sağ üstteki para göstergesinin rengi yeşil olsun */
+    /* Sağ üstteki para göstergesinin rengi yeşil */
     #money { color: green !important; }
     
     /* Renk Sınıfları */
@@ -106,8 +106,8 @@
       padding: 0.5rem;
       margin-top: 0.5rem;
     }
-    .tab-content.active { 
-      display: block; 
+    .tab-content.active {
+      display: block;
     }
     
     /* DURUMUM İÇERİĞİ */
@@ -123,7 +123,7 @@
       font-weight: bold;
       font-size: 0.85rem;
     }
-    /* Durum panelindeki renk ayarı */
+    /* Durum panelinde renk ayarı */
     #vakurStat .stat-label { color: blue; }
     #hatipStat .stat-label { color: orange; }
     #baronStat .stat-label { color: red; }
@@ -138,7 +138,9 @@
       margin-top: 3px;
       font-size: 0.8rem;
     }
-    .lockedStat { opacity: 0.4; }
+    .lockedStat {
+      opacity: 0.4;
+    }
     .badge-indicator {
       text-align: center;
       font-size: 0.8rem;
@@ -226,7 +228,7 @@
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute;
-      top: 140px;
+      top: 140px; /* Sağ panel kutuları hizasına yakın */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -246,19 +248,19 @@
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
       width: 250px;
-      padding: 2rem;  /* Eşit şekilde kutu büyütüldü */
+      padding: 2rem;  /* Eşit şekilde büyütülmüş kutu */
       text-align: center;
       transition: transform 0.3s ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    /* Kartlardaki rol isimleri büyük harflerle (VAKUR, HATİP, BARON) ve yukarı kaydırıldı */
+    /* Kartlardaki rol isimleri: Büyük harflerle ve buton üstü boşluk sağlandı */
     #cardVakur h2 { 
       color: blue; 
       text-transform: uppercase;
       margin-top: -10px;
-      margin-bottom: 15px; /* h2 ile buton arası boşluk */
+      margin-bottom: 15px;
       font-size: 1.5rem;
     }
     #cardHatip h2 { 
@@ -275,7 +277,7 @@
       margin-bottom: 15px;
       font-size: 1.5rem;
     }
-    /* Epistemolojik Serüven butonları: arka plan siyah, metin beyaz */
+    /* Epistemolojik Serüven butonları: Arka plan siyah, yazı beyaz */
     .card button {
       padding: 0.6rem 1.2rem;
       background: black;
@@ -418,13 +420,11 @@
     
     /* Responsive Ayarlar (Mobil Uyumluluk) */
     @media (max-width: 768px) {
-      /* Sol ve Sağ paneli akışa al, tam genişlik kullan */
       #leftPanel, #rightContainer {
         position: static;
         width: 100%;
         margin-bottom: 20px;
       }
-      /* Orta paneldeki kartların kutucuğu da tam genişlik olsun */
       #centerRanks {
         position: static;
         transform: none;
@@ -466,7 +466,7 @@
             <div class="stat-fill" id="vakurFill"></div>
             <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
             <div class="badge-indicator">
-              <span style="display: inline-block; width: 15px; height: 15px; background: blue; border-radius: 50%; margin-right: 5px;"></span>
+              <span style="display:inline-block; width:15px; height:15px; background:blue; border-radius:50%; margin-right:5px;"></span>
               R
             </div>
           </div>
@@ -475,7 +475,7 @@
             <div class="stat-fill" id="hatipFill"></div>
             <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
             <div class="badge-indicator">
-              <span style="display: inline-block; width: 15px; height: 15px; background: orange; border-radius: 50%; margin-right: 5px;"></span>
+              <span style="display:inline-block; width:15px; height:15px; background:orange; border-radius:50%; margin-right:5px;"></span>
               R
             </div>
           </div>
@@ -484,7 +484,7 @@
             <div class="stat-fill" id="baronFill"></div>
             <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
             <div class="badge-indicator">
-              <span style="display: inline-block; width: 15px; height: 15px; background: red; border-radius: 50%; margin-right: 5px;"></span>
+              <span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; margin-right:5px;"></span>
               R
             </div>
           </div>
@@ -497,11 +497,11 @@
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
           <ul>
-            <li><span>Silah (2500$)</span> <button onclick="buyItem('Silah', 2500)">Satın Al</button></li>
-            <li><span>Bomba (1000$)</span> <button onclick="buyItem('Bomba', 1000)">Satın Al</button></li>
-            <li><span>C4 (1500$)</span> <button onclick="buyItem('C4', 1500)">Satın Al</button></li>
-            <li><span>Villa (15000$)</span> <button onclick="buyItem('Villa', 15000)">Satın Al</button></li>
-            <li><span>Ev (10000$)</span> <button onclick="buyItem('Ev', 10000)">Satın Al</button></li>
+            <li><span>Silah (2500$)</span> <button onclick="buyItem('Silah',2500)">Satın Al</button></li>
+            <li><span>Bomba (1000$)</span> <button onclick="buyItem('Bomba',1000)">Satın Al</button></li>
+            <li><span>C4 (1500$)</span> <button onclick="buyItem('C4',1500)">Satın Al</button></li>
+            <li><span>Villa (15000$)</span> <button onclick="buyItem('Villa',15000)">Satın Al</button></li>
+            <li><span>Ev (10000$)</span> <button onclick="buyItem('Ev',10000)">Satın Al</button></li>
           </ul>
         </div>
       </div>
@@ -578,17 +578,17 @@
     function randomMalikane() { 
       return [5,10,15][Math.floor(Math.random()*3)]; 
     }
-    function randomSiginak()  { 
+    function randomSiginak() { 
       return [50,75,100][Math.floor(Math.random()*3)]; 
     }
-    function randomVilla()    { 
+    function randomVilla() { 
       return [25,50,75][Math.floor(Math.random()*3)]; 
     }
     const villageData = allKoyler.map(k => ({
       name: k,
       malikane: randomMalikane(),
-      siginak:  randomSiginak(),
-      villa:    randomVilla()
+      siginak: randomSiginak(),
+      villa: randomVilla()
     }));
     
     /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
@@ -1008,16 +1008,16 @@
       document.getElementById("mainPage").style.display = "none";
       let gp = document.getElementById("gorevPage");
       gp.style.display = "block";
-      // Görev başlığı dinamik olarak ayarlanıyor:
+      // Görev başlığı artık "VAKUR GÖREVLERİ", "HATİP GÖREVLERİ", "BARON GÖREVLERİ" şeklinde ayarlanıyor.
       if(rank === "Vakur") {
         document.getElementById("gorevHeader").style.color = "blue";
-        document.getElementById("gorevHeader").innerText = "VAKUR GÖREVLERİNİ";
+        document.getElementById("gorevHeader").innerText = "VAKUR GÖREVLERİ";
       } else if(rank === "Hatip") {
         document.getElementById("gorevHeader").style.color = "orange";
-        document.getElementById("gorevHeader").innerText = "HATİP GÖREVLERİNİ";
+        document.getElementById("gorevHeader").innerText = "HATİP GÖREVLERİ";
       } else if(rank === "Baron") {
         document.getElementById("gorevHeader").style.color = "red";
-        document.getElementById("gorevHeader").innerText = "BARON GÖREVLERİNİ";
+        document.getElementById("gorevHeader").innerText = "BARON GÖREVLERİ";
       }
       loadRankTasks(rank);
       updateArrowVisibility();
