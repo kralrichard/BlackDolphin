@@ -360,6 +360,7 @@
     }));
      
     /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
+    // Vakur görevleri (önceden tanımlandığı gibi 10 görevden oluşan 5 seviye)
     const vakurDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -438,6 +439,7 @@
       }
     ];
      
+    // Hatip görevleri – son seviye güncellendi:
     const hatipDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -488,7 +490,7 @@
         title: "İleri Görevler", locked: true,
         tasks: [
           "Bölgesel toplum hareketine önderlik et.",
-          "Ulusal konferansta çözüm önerileri sun.",
+          "Uluslararası konferansta çözüm önerileri sun.",
           "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
           "Barış çalıştayında moderatörlük yap.",
           "Kurumsal şirkette üst düzey müzakerelerde bulun.",
@@ -501,47 +503,97 @@
       },
       { 
         title: "Son Görevler", locked: true,
+        // Hatip için verilen metinde 8 görev vardı; iki tane ilave örnek görev eklenerek toplam 10 görev oluşturuldu.
         tasks: [
-          "🎖️ Tebrikler! Baron oldunuz! Ana menüye dönüyorsunuz."
+          "Uluslararası konferansta ülkeni temsil et.",
+          "Farklı ülkelerden liderleri bir araya getir.",
+          "Barışçıl çözümlerle ödül al.",
+          "Büyük kampanyayla yasa değişikliğini sağla.",
+          "Diplomatik krizde aracı rol üstlen.",
+          "‘Barış ve Uzlaşma Vakfı’ kurarak projeler yönet.",
+          "Önemli çatışma bölgelerine arabulucu olarak davet al.",
+          "Tebrikler, Baron oldunuz! Ana menüye dönüyoruz.",
+          "Uluslararası barış inisiyatiflerine liderlik et.",
+          "Küresel diplomasi platformunda konuşma yap."
         ].map(t => ({ text: t, done: false }))
       }
     ];
      
+    // Baron görevleri – her seviye 10 görev içerecek şekilde güncellendi:
     const baronDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
         tasks: [
-          "Küresel çapta eğitim reformlarını destekleyen vakıf kur ve finanse et.",
-          "Prestijli üniversitelerin kampüs inşaatlarına yatırım yap."
+          "Ufak çapta uyuşturucu satmayı dene.",
+          "Mahallede küçük 'koruma ücreti' topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
+          "Sahte marka ürünlerin satış ağını oluştur.",
+          "Şantaj veya tehditle rakibi sustur.",
+          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
+          "Kaçak içki satışı yapan ekibe arka çık.",
+          "Küçük çapta sahte belge düzenleyerek kazanç sağla.",
+          "Sokakta küçük bahis oyunları düzenle."
         ].map(t => ({ text: t, done: false }))
       },
       { 
         title: "Orta Görevler", locked: true,
         tasks: [
-          "Uluslararası öğrenci burs programlarını başlat ve fonla.",
-          "Büyük şehirlerde modern kreş açılışlarını gerçekleştir."
+          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
+          "Yasadışı kumar organizasyonu başlat.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
+          "Kara para aklama için küçük sermaye oluştur.",
+          "Gece kulübünün 'gizli ortak' statüsünü al.",
+          "Sahte pasaport ve vize üretim ağını kur.",
+          "Küçük çaplı soygunlara lojistik destek sağla."
         ].map(t => ({ text: t, done: false }))
       },
       { 
         title: "Zor Görevler", locked: true,
         tasks: [
-          "Protez bacak ve sağlık ekipmanları üretimine büyük yatırım yap.",
-          "Afet bölgelerinde yeniden yapılandırma projelerini finanse et."
+          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Polis ve siyasi bağlantıları güçlendir.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüplerinde yatırımın tekeli olsun.",
+          "Rakip çetenin liderini korkutarak saflarına katıl.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
+          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır.",
+          "Rakip çeteyi içten bölerek zayıflat.",
+          "Büyük çaplı yasadışı bahis zincirini yönet."
         ].map(t => ({ text: t, done: false }))
       },
       { 
         title: "İleri Görevler", locked: true,
         tasks: [
-          "Üst düzey bilimsel araştırmalara mali destek sağla.",
-          "Yenilenebilir enerji projelerine uluslararası yatırım yap."
+          "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
+          "Üst düzey bürokratlarla gizli anlaşmalar yap.",
+          "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
+          "Yurt dışı kara para aklama ofisleri aç.",
+          "Güvenlik birimlerinde kilit isimleri satın al.",
+          "Şehrin limanlarında kontrol sağla.",
+          "Gösterişli hayır işleriyle meşrulaş.",
+          "Kumarhane zinciri kurarak yasadışı gelirleri yasallaştır.",
+          "Uluslararası silah kaçakçılığı operasyonlarını yönet.",
+          "Yurt dışı siyasi bağlantılarla nüfuzunu arttır."
         ].map(t => ({ text: t, done: false }))
       },
       { 
         title: "Son Görevler", locked: true,
         tasks: [
-          "Dünya genelinde kültür-sanat merkezleri inşa ettir.",
-          "Küresel sağlık fonları kurarak sağlık sistemlerini destekle.",
-          "🎖️ Tebrikler! Tüm görevleri tamamladınız!"
+          "Kumarhane zinciri ve malikâne sahibi ol.",
+          "Uluslararası mafya ağının temsilcisini üstlen.",
+          "Siyasete dolaylı girip seçimleri fonla.",
+          "Yeraltı 'Baronlar Konseyi' kur.",
+          "Devlet kurumlarına adam yerleştir.",
+          "Yurt dışı yatırımları yönet.",
+          "Rakip baronlara operasyon yap.",
+          "Finans ve medya gücünü ele geçirerek kamuoyu oluştur.",
+          "Uluslararası kaçakçılık ağının liderliğini devral.",
+          "🎖️ Tebrikler, Baron oldunuz! Ana menüye dönüyorsunuz."
         ].map(t => ({ text: t, done: false }))
       }
     ];
