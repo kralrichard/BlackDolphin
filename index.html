@@ -6,118 +6,216 @@
   <style>
     /* GENEL STİLLER */
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: #888; color: #f1f1f1; min-height: 100vh;
-      position: relative; padding-top: 120px;
+      background: #888; 
+      color: #f1f1f1; 
+      min-height: 100vh;
+      position: relative; 
+      padding-top: 120px;
       font-size: 0.9rem;
     }
     /* HEADER */
     header {
       background: rgba(0,0,0,0.85);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2rem; position: fixed; top: 0; left: 0;
-      width: 100%; z-index: 999;
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      padding: 1rem 2rem; 
+      position: fixed; 
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      z-index: 999;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
     .logo {
-      font-size: 2rem; font-weight: bold; text-transform: uppercase;
-      color: #fff; text-shadow: 1px 1px 0 #000, 2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.5);
-      display: flex; align-items: center;
+      font-size: 2rem; 
+      font-weight: bold; 
+      text-transform: uppercase;
+      color: #fff; 
+      text-shadow: 1px 1px 0 #000, 2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.5);
+      display: flex; 
+      align-items: center;
     }
-    .logo-dolphin { margin-left: 10px; width: 50px; height: auto; }
-    .logo-dolphin svg { width: 100%; height: auto; fill: #00cc66; stroke: #fff; stroke-width: 2; }
+    .logo-dolphin { 
+      margin-left: 10px; 
+      width: 50px; 
+      height: auto; 
+    }
+    .logo-dolphin svg { 
+      width: 100%; 
+      height: auto; 
+      fill: #00cc66; 
+      stroke: #fff; 
+      stroke-width: 2; 
+    }
     .money {
-      font-size: 1rem; background: #222; padding: 0.5rem 1rem;
-      border-radius: 5px; border: 1px solid #333;
+      font-size: 1rem; 
+      background: #222; 
+      padding: 0.5rem 1rem;
+      border-radius: 5px; 
+      border: 1px solid #333;
     }
-    .money span { color: #ffcc00; margin-left: 5px; font-weight: bold; }
+    /* Sağ üstte bulunan para göstergesindeki dolar ve tutar yeşil olsun */
+    #money { color: green !important; }
+    
+    /* Renk sınıfları */
+    .vakur-color { color: blue !important; }
+    .hatip-color { color: orange !important; }
+    .baron-color { color: red !important; }
     
     /* ANA SAYFA KAPSAYICI */
     #mainPage {
-      width: 100%; min-height: 100vh; position: relative;
+      width: 100%; 
+      min-height: 100vh; 
+      position: relative;
     }
     
     /* SOL PANEL: Durumum & Tüccar */
     #leftPanel {
-      position: fixed; top: 120px; left: 20px;
-      width: 280px; z-index: 1000;
+      position: fixed; 
+      top: 120px; 
+      left: 20px;
+      width: 280px; 
+      z-index: 1000;
     }
     .sectionBox {
       background: rgba(0,0,0,0.6);
-      margin-bottom: 1rem; border-radius: 10px;
+      margin-bottom: 1rem; 
+      border-radius: 10px;
       padding: 1rem;
     }
     .sectionBox h2 {
-      text-align: center; color: #ffcc00;
-      margin-bottom: 1rem; cursor: pointer;
+      text-align: center; 
+      color: #ffcc00;
+      margin-bottom: 1rem; 
+      cursor: pointer;
       font-size: 1.2rem;
     }
     .tab-content {
       display: none;
-      background: rgba(0,0,0,0.4); border-radius: 5px;
-      padding: 0.5rem; margin-top: 0.5rem;
+      background: rgba(0,0,0,0.4); 
+      border-radius: 5px;
+      padding: 0.5rem; 
+      margin-top: 0.5rem;
     }
-    .tab-content.active { display: block; }
+    .tab-content.active { 
+      display: block; 
+    }
     
     /* DURUMUM İÇERİĞİ */
     .stat-bar {
-      margin-bottom: 0.7rem; background: #444;
-      border-radius: 5px; overflow: hidden; padding: 5px;
+      margin-bottom: 0.7rem; 
+      background: #444;
+      border-radius: 5px; 
+      overflow: hidden; 
+      padding: 5px;
     }
-    .stat-label { margin-bottom: 3px; font-weight: bold; font-size: 0.85rem; }
+    .stat-label { 
+      margin-bottom: 3px; 
+      font-weight: bold; 
+      font-size: 0.85rem; 
+    }
+    /* Durum panelinde renk: */
+    #vakurStat .stat-label { color: blue; }
+    #hatipStat .stat-label { color: orange; }
+    #baronStat .stat-label { color: red; }
+    
     .stat-fill {
-      height: 18px; background: #00bfff; width: 0%;
+      height: 18px; 
+      background: #00bfff; 
+      width: 0%;
       transition: width 1s ease;
     }
-    .stat-text { margin-top: 3px; font-size: 0.8rem; }
+    .stat-text { 
+      margin-top: 3px; 
+      font-size: 0.8rem; 
+    }
     .lockedStat { opacity: 0.4; }
     .badge-indicator {
-      text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
+      text-align: center; 
+      font-size: 0.8rem; 
+      margin-top: 3px; 
+      color: #ffcc00;
     }
     
     /* TÜCCAR İÇERİĞİ */
-    #tuccarContent ul { list-style: none; margin: 0; padding: 0; }
+    #tuccarContent ul { 
+      list-style: none; 
+      margin: 0; 
+      padding: 0; 
+    }
     #tuccarContent li {
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
       margin-bottom: 0.5rem;
     }
     #tuccarContent li button {
-      background: #ff4444; border: none; border-radius: 5px;
-      color: #fff; cursor: pointer; padding: 0.3rem 0.5rem;
+      background: #ff4444; 
+      border: none; 
+      border-radius: 5px;
+      color: #fff; 
+      cursor: pointer; 
+      padding: 0.3rem 0.5rem;
       font-size: 0.8rem;
     }
     
     /* SAĞ PANEL: Köy İncelemesi & Trenle Seyehat */
     #rightContainer {
-      position: fixed; right: 20px; top: 140px; width: 280px; z-index: 1000;
+      position: fixed; 
+      right: 20px; 
+      top: 140px; 
+      width: 280px; 
+      z-index: 1000;
     }
     #koyIncelemeBox, #trenSeyahatBox {
       background: rgba(0,0,0,0.7);
-      padding: 1rem; border-radius: 10px;
+      padding: 1rem; 
+      border-radius: 10px;
       margin-bottom: 1rem;
     }
     #koyIncelemeBox h3, #trenSeyahatBox h3 {
-      text-align: center; color: #ffcc00; margin-bottom: 0.5rem; font-size: 1rem;
+      text-align: center; 
+      color: #ffcc00; 
+      margin-bottom: 0.5rem; 
+      font-size: 1rem;
     }
     #koyIncelemeBox ul, #trenSeyahatBox ul {
-      list-style: none; padding: 0; margin: 0; font-size: 0.85rem;
+      list-style: none; 
+      padding: 0; 
+      margin: 0; 
+      font-size: 0.85rem;
     }
     #koyIncelemeBox li, #trenSeyahatBox li {
-      margin-bottom: 0.3rem; display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.3rem; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
     }
     #koyIncelemeBox li button, #trenSeyahatBox li button {
-      padding: 0.3rem 0.5rem; font-size: 0.8rem; cursor: pointer;
+      padding: 0.3rem 0.5rem; 
+      font-size: 0.8rem; 
+      cursor: pointer;
     }
     /* Sayfalama */
     #koyIncelemePagination, #trenPagination {
-      text-align: center; margin-top: 0.5rem;
+      text-align: center; 
+      margin-top: 0.5rem;
     }
     #koyIncelemePagination span, #trenPagination span {
-      display: inline-block; padding: 0.3rem 0.6rem; margin: 0 0.2rem;
-      background: #444; border-radius: 3px; cursor: pointer; color: #ffcc00;
+      display: inline-block; 
+      padding: 0.3rem 0.6rem; 
+      margin: 0 0.2rem;
+      background: #444; 
+      border-radius: 3px; 
+      cursor: pointer; 
+      color: #ffcc00;
     }
     #koyIncelemePagination span.active, #trenPagination span.active {
       background: #555;
@@ -125,58 +223,68 @@
     
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
-      position: absolute; top: 50%; left: 50%;
+      position: absolute; 
+      top: 50%; 
+      left: 50%;
       transform: translate(-50%, -50%);
-      display: flex; gap: 20px; z-index: 900;
+      display: flex; 
+      gap: 20px; 
+      z-index: 900;
     }
+    #cardVakur h2 { color: blue; }
+    #cardHatip h2 { color: orange; }
+    #cardBaron h2 { color: red; }
     .card {
-      background: rgba(255,255,255,0.05); backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-      width: 250px; padding: 1.5rem; text-align: center;
-      transition: transform 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      background: rgba(255,255,255,0.05); 
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.1); 
+      border-radius: 10px;
+      width: 250px; 
+      padding: 1.5rem; 
+      text-align: center;
+      transition: transform 0.3s ease; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    .card h2 { margin-bottom: 1rem; color: #ffcc00; }
-    .card button {
-      padding: 0.6rem 1.2rem; background: #ff4444; border: none; border-radius: 5px;
-      color: #fff; cursor: pointer; transition: background 0.3s;
-    }
-    .card button:hover { background: #ff2222; }
-    .locked {
-      opacity: 0.4; pointer-events: none; position: relative;
-    }
-    .locked::after {
-      content: "KİLİTLİ"; position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.8); padding: 0.5rem 1rem; border-radius: 5px;
-      font-weight: bold; color: #ff4444;
-    }
     
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
-      position: fixed; bottom: 20px; left: 20px; font-size: 1.2rem;
-      background: #0288d1; padding: 0.5rem 1rem; border-radius: 8px;
+      position: fixed; 
+      bottom: 20px; 
+      left: 20px; 
+      font-size: 1.2rem;
+      background: #0288d1; 
+      padding: 0.5rem 1rem; 
+      border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       z-index: 1000;
     }
     
     /* GÖREV SAYFASI (Overlay) */
     #gorevPage {
-      display: none; position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%; background: #000; color: #fff; z-index: 3000;
-      padding: 2rem; overflow-y: auto;
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%; 
+      background: #000; 
+      color: #fff; 
+      z-index: 3000;
+      padding: 2rem; 
+      overflow-y: auto;
     }
     #gorevPage h1 {
-      text-align: center; margin-bottom: 1rem;
+      text-align: center; 
+      margin-bottom: 1rem;
     }
     /* Görev kutucuklarını yatay sıralamak için wrapper */
     #tasksContainerWrapper {
       position: relative;
       overflow: hidden;
-      padding: 0 40px; /* Sol ve sağ boşluklar, oklar için */
+      padding: 0 40px;
     }
-    /* Burada flex container ile kutucukları yatay sıralıyoruz */
     #tasksContainer {
       display: flex;
       flex-direction: row;
@@ -185,7 +293,6 @@
       scroll-behavior: smooth;
       padding-bottom: 10px;
     }
-    /* Her bir görev kutucuğu (rankSection) için genişlik ayarı */
     .rankSection {
       flex: 0 0 300px;
       border: 1px solid #888;
@@ -194,34 +301,62 @@
       background: rgba(255,255,255,0.07);
     }
     .rankSection h2 {
-      text-align: center; margin-bottom: 0.5rem; color: #ffcc00;
+      text-align: center; 
+      margin-bottom: 0.5rem;
     }
     .taskItem {
-      background: #222; border-radius: 5px;
-      padding: 0.5rem; margin-bottom: 0.5rem;
-      display: flex; justify-content: space-between; align-items: center;
+      background: #222; 
+      border-radius: 5px;
+      padding: 0.5rem; 
+      margin-bottom: 0.5rem;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
     }
     .taskItem span {
-      max-width: 80%; white-space: nowrap;
-      text-overflow: ellipsis; overflow: hidden;
+      max-width: 80%; 
+      white-space: nowrap;
+      text-overflow: ellipsis; 
+      overflow: hidden;
       display: inline-block;
     }
     .taskItem button {
-      background: #ff4444; border: none; border-radius: 5px;
-      color: #fff; cursor: pointer; padding: 0.3rem 0.5rem; margin-left: 10px;
+      background: #ff4444; 
+      border: none; 
+      border-radius: 5px;
+      color: #fff; 
+      cursor: pointer; 
+      padding: 0.3rem 0.5rem; 
+      margin-left: 10px;
       font-size: 0.8rem;
     }
     .completedTask span::after {
-      content: " ✅"; color: #0f0; margin-left: 5px;
+      content: " ✅"; 
+      color: #0f0; 
+      margin-left: 5px;
     }
-    .lockedDifficulty { opacity: 0.3; pointer-events: none; }
+    .lockedDifficulty { 
+      opacity: 0.3; 
+      pointer-events: none; 
+    }
     .difficultyProgressBar {
-      background: #444; height: 18px; border-radius: 5px; overflow: hidden; margin-top: 0.5rem;
+      background: #444; 
+      height: 18px; 
+      border-radius: 5px; 
+      overflow: hidden; 
+      margin-top: 0.5rem;
     }
     .difficultyProgressFill {
-      background: #00bfff; width: 0%; height: 100%; transition: width 0.3s ease;
+      background: #00bfff; 
+      width: 0%; 
+      height: 100%; 
+      transition: width 0.3s ease;
     }
-    .progressText { text-align: right; font-size: 0.8rem; margin-top: 2px; }
+    .progressText { 
+      text-align: right; 
+      font-size: 0.8rem; 
+      margin-top: 2px; 
+    }
     
     /* Ok butonları */
     .arrow-button {
@@ -265,7 +400,7 @@
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
         <div id="durumumContent" class="tab-content">
           <div class="stat-bar" id="vakurStat">
-            <div class="stat-label">Vakur 🛡️</div>
+            <div class="stat-label vakur-color">Vakur 🛡️</div>
             <div class="stat-fill" id="vakurFill"></div>
             <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
             <div class="badge-indicator">
@@ -274,7 +409,7 @@
             </div>
           </div>
           <div class="stat-bar lockedStat" id="hatipStat">
-            <div class="stat-label">Hatip 👥</div>
+            <div class="stat-label hatip-color">Hatip 👥</div>
             <div class="stat-fill" id="hatipFill"></div>
             <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
             <div class="badge-indicator">
@@ -283,7 +418,7 @@
             </div>
           </div>
           <div class="stat-bar lockedStat" id="baronStat">
-            <div class="stat-label">Baron ♛</div>
+            <div class="stat-label baron-color">Baron ♛</div>
             <div class="stat-fill" id="baronFill"></div>
             <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
             <div class="badge-indicator">
@@ -327,15 +462,15 @@
     <!-- ORTA PANEL: Rank Kartları -->
     <div id="centerRanks">
       <div class="card" id="cardVakur">
-        <h2>Vakur</h2>
+        <h2 class="vakur-color">Vakur</h2>
         <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
       </div>
       <div class="card locked" id="cardHatip">
-        <h2>Hatip</h2>
+        <h2 class="hatip-color">Hatip</h2>
         <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
       </div>
       <div class="card locked" id="cardBaron">
-        <h2>Baron</h2>
+        <h2 class="baron-color">Baron</h2>
         <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
       </div>
     </div>
@@ -378,9 +513,15 @@
     ];
   
     /********** Rastgele Köy Özellikleri **********/
-    function randomMalikane() { return [5,10,15][Math.floor(Math.random()*3)]; }
-    function randomSiginak()  { return [50,75,100][Math.floor(Math.random()*3)]; }
-    function randomVilla()    { return [25,50,75][Math.floor(Math.random()*3)]; }
+    function randomMalikane() { 
+      return [5,10,15][Math.floor(Math.random()*3)]; 
+    }
+    function randomSiginak()  { 
+      return [50,75,100][Math.floor(Math.random()*3)]; 
+    }
+    function randomVilla()    { 
+      return [25,50,75][Math.floor(Math.random()*3)]; 
+    }
     const villageData = allKoyler.map(k => ({
       name: k,
       malikane: randomMalikane(),
@@ -805,7 +946,17 @@
       document.getElementById("mainPage").style.display = "none";
       let gp = document.getElementById("gorevPage");
       gp.style.display = "block";
-      document.getElementById("gorevHeader").innerText = rank + " Görevleri";
+      // Görev başlığının rengi göreve göre ayarlanıyor:
+      if(rank === "Vakur") {
+        document.getElementById("gorevHeader").style.color = "blue";
+        document.getElementById("gorevHeader").innerText = "Vakur Görevlerini";
+      } else if(rank === "Hatip") {
+        document.getElementById("gorevHeader").style.color = "orange";
+        document.getElementById("gorevHeader").innerText = "Hatip Görevlerini";
+      } else if(rank === "Baron") {
+        document.getElementById("gorevHeader").style.color = "red";
+        document.getElementById("gorevHeader").innerText = "Baron Görevlerini";
+      }
       loadRankTasks(rank);
       updateArrowVisibility();
     }
@@ -824,6 +975,13 @@
   
         let h2 = document.createElement("h2");
         h2.innerText = diffObj.title;
+        if(rank === "Vakur") {
+          h2.classList.add("vakur-color");
+        } else if(rank === "Hatip") {
+          h2.classList.add("hatip-color");
+        } else if(rank === "Baron") {
+          h2.classList.add("baron-color");
+        }
         section.appendChild(h2);
   
         diffObj.tasks.forEach((task, taskIndex) => {
@@ -877,7 +1035,6 @@
       }
       updateStatBars();
   
-      // Gizli görev hariç görevlere bakıyoruz.
       let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
@@ -915,25 +1072,22 @@
       txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
     }
   
-    /* Ok butonları ile yatay kaydırma fonksiyonu */
+    /* Ok butonları ile yatay kaydırma */
     function scrollTasks(direction) {
       const container = document.getElementById("tasksContainer");
-      // 310px kaydır (örnek genişlik + gap)
       container.scrollBy({ left: direction * 310, behavior: "smooth" });
-      setTimeout(updateArrowVisibility, 350); // animasyondan sonra ok görünürlüğünü güncelle
+      setTimeout(updateArrowVisibility, 350);
     }
   
     function updateArrowVisibility() {
       const container = document.getElementById("tasksContainer");
       const leftArrow = document.getElementById("leftArrow");
       const rightArrow = document.getElementById("rightArrow");
-      // Eğer scroll sol konum 0 ise sol ok gizlensin
       if(container.scrollLeft === 0) {
         leftArrow.style.display = "none";
       } else {
         leftArrow.style.display = "block";
       }
-      // Eğer içerik tamamıyla görüntüleniyorsa sağ ok gizlensin
       if(container.scrollWidth - container.clientWidth - container.scrollLeft < 5) {
         rightArrow.style.display = "none";
       } else {
