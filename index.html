@@ -224,13 +224,13 @@
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute;
-      top: 140px; /* Sağ paneldeki kutuların hizasına yakın */
+      top: 140px; /* Sağ panel kutuları hizasına yakın */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       gap: 20px;
       z-index: 900;
-      background: lightgreen;
+      background: grey; /* Açık yeşil yerine gri */
       padding: 10px;
       border-radius: 10px;
     }
@@ -251,18 +251,17 @@
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    /* Epistemolojik Serüven butonunu güncelliyoruz:
-       Butonun içi beyaz, metni kırmızı olacak şekilde. */
+    /* Epistemolojik Serüven butonları: arka plan siyah, yazı beyaz */
     .card button {
       padding: 0.6rem 1.2rem;
-      background: white;
+      background: black;  /* siyah */
       border: none;
       border-radius: 5px;
-      color: red;
+      color: white;       /* yazı beyaz */
       cursor: pointer;
       transition: background 0.3s;
     }
-    .card button:hover { background: #f0f0f0; }
+    .card button:hover { background: #333; }
     
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
@@ -962,7 +961,7 @@
       document.getElementById("mainPage").style.display = "none";
       let gp = document.getElementById("gorevPage");
       gp.style.display = "block";
-      // Görev başlığı renk ve yazısı dinamik olarak ayarlanıyor:
+      // Görev başlığı dinamik olarak ayarlanıyor:
       if(rank === "Vakur") {
         document.getElementById("gorevHeader").style.color = "blue";
         document.getElementById("gorevHeader").innerText = "Vakur Görevlerini";
@@ -1027,7 +1026,7 @@
         updateDifficultyProgress(rank, diffIndex);
       });
     }
-    // Gizli (hidden) görevler hariç kontrol
+    // Gizli görevler hariç kontrol
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
