@@ -424,9 +424,8 @@
           "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
           "Yurt çapında geri dönüşüm projesi başlat.",
           "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
-          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder.",
-          { text: "🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }
-        ].map(t => typeof t === "string" ? { text: t, done: false } : t)
+          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
+        ].concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
 
@@ -504,7 +503,7 @@
           "Toplumu huzura kavuşturan projeler geliştir.",
           "Mafya aileleri arasında dayanışmayı sağla.",
           "Etkinliklerle sosyal dengeyi koru.",
-          { text: "🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }
+          { text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }
         ].map(t => typeof t === "string" ? { text: t, done: false } : t)
       }
     ];
@@ -568,7 +567,7 @@
           "Ani Gerilimlerde Soğukkanlı Müdahale Et",
           "Kapsamlı İttifak Çalışmaları Yürüt",
           "Sürekli Barış Süreçlerini Organize Et",
-          { text: "🎖️ Tebrikler! Tüm görevleri tamamladınız!", done: false, hidden: true }
+          { text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done:false, hidden:true }
         ].map(t => typeof t === "string" ? { text: t, done: false } : t)
       }
     ];
@@ -813,6 +812,7 @@
         updateDifficultyProgress(rank, diffIndex);
       });
     }
+    // Gizli görevleri kontrol ederken, hidden görevleri hariç tutuyoruz.
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -836,7 +836,8 @@
       }
       updateStatBars();
 
-      let allDone = diffObj.tasks.every(t => t.done === true);
+      // Sadece hidden olmayan görevleri tamamlanmış sayıyoruz.
+      let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
           diffs[diffIndex + 1].locked = false;
@@ -860,8 +861,8 @@
     function updateDifficultyProgress(rank, diffIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
-      let doneCount = diffObj.tasks.filter(t => t.done).length;
-      let totalCount = diffObj.tasks.length;
+      let doneCount = diffObj.tasks.filter(t => !t.hidden && t.done).length;
+      let totalCount = diffObj.tasks.filter(t => !t.hidden).length;
       let percent = Math.floor((doneCount / totalCount) * 100);
 
       let sections = document.getElementById("tasksContainer").getElementsByClassName("rankSection");
