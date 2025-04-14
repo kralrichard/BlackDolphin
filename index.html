@@ -224,13 +224,13 @@
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute;
-      top: 140px; /* Sağ panel kutuları hizasına yakın */
+      top: 140px; /* Sağ paneldeki kutular hizasına yakın */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       gap: 20px;
       z-index: 900;
-      background: grey; /* Açık yeşil yerine gri */
+      background: grey;
       padding: 10px;
       border-radius: 10px;
     }
@@ -251,17 +251,36 @@
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    /* Epistemolojik Serüven butonları: arka plan siyah, yazı beyaz */
+    /* Kartlardaki butonlar: Epistemolojik Serüven butonunun arka planı siyah, yazı beyaz */
     .card button {
       padding: 0.6rem 1.2rem;
-      background: black;  /* siyah */
+      background: black;
       border: none;
       border-radius: 5px;
-      color: white;       /* yazı beyaz */
+      color: white;
       cursor: pointer;
       transition: background 0.3s;
     }
     .card button:hover { background: #333; }
+    /* Kartlardaki h2 etiketlerini istediğimiz gibi güncelliyoruz: */
+    #cardVakur h2 { 
+      color: blue; 
+      text-transform: uppercase;
+      margin-top: -10px; /* yukarı kaydırma */
+      font-size: 1.5rem;
+    }
+    #cardHatip h2 { 
+      color: orange; 
+      text-transform: uppercase;
+      margin-top: -10px;
+      font-size: 1.5rem;
+    }
+    #cardBaron h2 { 
+      color: red; 
+      text-transform: uppercase;
+      margin-top: -10px;
+      font-size: 1.5rem;
+    }
     
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
@@ -415,7 +434,7 @@
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
         <div id="durumumContent" class="tab-content">
           <div class="stat-bar" id="vakurStat">
-            <div class="stat-label vakur-color">Vakur 🛡️</div>
+            <div class="stat-label vakur-color">VAKUR 🛡️</div>
             <div class="stat-fill" id="vakurFill"></div>
             <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
             <div class="badge-indicator">
@@ -424,7 +443,7 @@
             </div>
           </div>
           <div class="stat-bar lockedStat" id="hatipStat">
-            <div class="stat-label hatip-color">Hatip 👥</div>
+            <div class="stat-label hatip-color">HATİP 👥</div>
             <div class="stat-fill" id="hatipFill"></div>
             <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
             <div class="badge-indicator">
@@ -433,7 +452,7 @@
             </div>
           </div>
           <div class="stat-bar lockedStat" id="baronStat">
-            <div class="stat-label baron-color">Baron ♛</div>
+            <div class="stat-label baron-color">BARON ♛</div>
             <div class="stat-fill" id="baronFill"></div>
             <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
             <div class="badge-indicator">
@@ -477,15 +496,15 @@
     <!-- ORTA PANEL: Rank Kartları -->
     <div id="centerRanks">
       <div class="card" id="cardVakur">
-        <h2 class="vakur-color">Vakur</h2>
+        <h2 class="vakur-color">VAKUR</h2>
         <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
       </div>
       <div class="card locked" id="cardHatip">
-        <h2 class="hatip-color">Hatip</h2>
+        <h2 class="hatip-color">HATİP</h2>
         <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
       </div>
       <div class="card locked" id="cardBaron">
-        <h2 class="baron-color">Baron</h2>
+        <h2 class="baron-color">BARON</h2>
         <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
       </div>
     </div>
@@ -964,13 +983,13 @@
       // Görev başlığı dinamik olarak ayarlanıyor:
       if(rank === "Vakur") {
         document.getElementById("gorevHeader").style.color = "blue";
-        document.getElementById("gorevHeader").innerText = "Vakur Görevlerini";
+        document.getElementById("gorevHeader").innerText = "VAKUR GÖREVLERİNİ";
       } else if(rank === "Hatip") {
         document.getElementById("gorevHeader").style.color = "orange";
-        document.getElementById("gorevHeader").innerText = "Hatip Görevlerini";
+        document.getElementById("gorevHeader").innerText = "HATİP GÖREVLERİNİ";
       } else if(rank === "Baron") {
         document.getElementById("gorevHeader").style.color = "red";
-        document.getElementById("gorevHeader").innerText = "Baron Görevlerini";
+        document.getElementById("gorevHeader").innerText = "BARON GÖREVLERİNİ";
       }
       loadRankTasks(rank);
       updateArrowVisibility();
