@@ -6,215 +6,211 @@
   <style>
     /* GENEL STİLLER */
     * {
-      margin: 0; 
-      padding: 0; 
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: #888; 
-      color: #f1f1f1; 
+      background: #888;
+      color: #f1f1f1;
       min-height: 100vh;
-      position: relative; 
+      position: relative;
       padding-top: 120px;
       font-size: 0.9rem;
     }
     /* HEADER */
     header {
       background: rgba(0,0,0,0.85);
-      display: flex; 
-      align-items: center; 
+      display: flex;
+      align-items: center;
       justify-content: space-between;
-      padding: 1rem 2rem; 
-      position: fixed; 
-      top: 0; 
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
       left: 0;
-      width: 100%; 
+      width: 100%;
       z-index: 999;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
     .logo {
-      font-size: 2rem; 
-      font-weight: bold; 
+      font-size: 2rem;
+      font-weight: bold;
       text-transform: uppercase;
-      color: #fff; 
+      color: #fff;
       text-shadow: 1px 1px 0 #000, 2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.5);
-      display: flex; 
+      display: flex;
       align-items: center;
     }
-    .logo-dolphin { 
-      margin-left: 10px; 
-      width: 50px; 
-      height: auto; 
+    .logo-dolphin {
+      margin-left: 10px;
+      width: 50px;
+      height: auto;
     }
-    .logo-dolphin svg { 
-      width: 100%; 
-      height: auto; 
-      fill: #00cc66; 
-      stroke: #fff; 
-      stroke-width: 2; 
+    .logo-dolphin svg {
+      width: 100%;
+      height: auto;
+      fill: #00cc66;
+      stroke: #fff;
+      stroke-width: 2;
     }
     .money {
-      font-size: 1rem; 
-      background: #222; 
+      font-size: 1rem;
+      background: #222;
       padding: 0.5rem 1rem;
-      border-radius: 5px; 
+      border-radius: 5px;
       border: 1px solid #333;
     }
-    /* Sağ üstte bulunan para göstergesindeki dolar ve tutar yeşil olsun */
+    /* Sağ üstteki para göstergesinin rengi yeşil olsun */
     #money { color: green !important; }
     
-    /* Renk sınıfları */
+    /* Renk Sınıfları */
     .vakur-color { color: blue !important; }
     .hatip-color { color: orange !important; }
     .baron-color { color: red !important; }
     
     /* ANA SAYFA KAPSAYICI */
     #mainPage {
-      width: 100%; 
-      min-height: 100vh; 
+      width: 100%;
+      min-height: 100vh;
       position: relative;
     }
     
-    /* SOL PANEL: Durumum & Tüccar */
+    /* SOL PANEL */
     #leftPanel {
-      position: fixed; 
-      top: 120px; 
+      position: fixed;
+      top: 120px;
       left: 20px;
-      width: 280px; 
+      width: 280px;
       z-index: 1000;
     }
     .sectionBox {
       background: rgba(0,0,0,0.6);
-      margin-bottom: 1rem; 
+      margin-bottom: 1rem;
       border-radius: 10px;
       padding: 1rem;
     }
     .sectionBox h2 {
-      text-align: center; 
+      text-align: center;
       color: #ffcc00;
-      margin-bottom: 1rem; 
+      margin-bottom: 1rem;
       cursor: pointer;
       font-size: 1.2rem;
     }
     .tab-content {
       display: none;
-      background: rgba(0,0,0,0.4); 
+      background: rgba(0,0,0,0.4);
       border-radius: 5px;
-      padding: 0.5rem; 
+      padding: 0.5rem;
       margin-top: 0.5rem;
     }
-    .tab-content.active { 
-      display: block; 
+    .tab-content.active {
+      display: block;
     }
     
     /* DURUMUM İÇERİĞİ */
     .stat-bar {
-      margin-bottom: 0.7rem; 
+      margin-bottom: 0.7rem;
       background: #444;
-      border-radius: 5px; 
-      overflow: hidden; 
+      border-radius: 5px;
+      overflow: hidden;
       padding: 5px;
     }
-    .stat-label { 
-      margin-bottom: 3px; 
-      font-weight: bold; 
-      font-size: 0.85rem; 
+    .stat-label {
+      margin-bottom: 3px;
+      font-weight: bold;
+      font-size: 0.85rem;
     }
-    /* Durum panelinde renk: */
+    /* Durum panelinde renk ayarı */
     #vakurStat .stat-label { color: blue; }
     #hatipStat .stat-label { color: orange; }
     #baronStat .stat-label { color: red; }
     
     .stat-fill {
-      height: 18px; 
-      background: #00bfff; 
+      height: 18px;
+      background: #00bfff;
       width: 0%;
       transition: width 1s ease;
     }
-    .stat-text { 
-      margin-top: 3px; 
-      font-size: 0.8rem; 
+    .stat-text {
+      margin-top: 3px;
+      font-size: 0.8rem;
     }
     .lockedStat { opacity: 0.4; }
     .badge-indicator {
-      text-align: center; 
-      font-size: 0.8rem; 
-      margin-top: 3px; 
+      text-align: center;
+      font-size: 0.8rem;
+      margin-top: 3px;
       color: #ffcc00;
     }
     
     /* TÜCCAR İÇERİĞİ */
-    #tuccarContent ul { 
-      list-style: none; 
-      margin: 0; 
-      padding: 0; 
-    }
+    #tuccarContent ul { list-style: none; margin: 0; padding: 0; }
     #tuccarContent li {
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
     }
     #tuccarContent li button {
-      background: #ff4444; 
-      border: none; 
+      background: #ff4444;
+      border: none;
       border-radius: 5px;
-      color: #fff; 
-      cursor: pointer; 
+      color: #fff;
+      cursor: pointer;
       padding: 0.3rem 0.5rem;
       font-size: 0.8rem;
     }
     
-    /* SAĞ PANEL: Köy İncelemesi & Trenle Seyehat */
+    /* SAĞ PANEL */
     #rightContainer {
-      position: fixed; 
-      right: 20px; 
-      top: 140px; 
-      width: 280px; 
+      position: fixed;
+      right: 20px;
+      top: 140px;
+      width: 280px;
       z-index: 1000;
     }
     #koyIncelemeBox, #trenSeyahatBox {
       background: rgba(0,0,0,0.7);
-      padding: 1rem; 
+      padding: 1rem;
       border-radius: 10px;
       margin-bottom: 1rem;
     }
     #koyIncelemeBox h3, #trenSeyahatBox h3 {
-      text-align: center; 
-      color: #ffcc00; 
-      margin-bottom: 0.5rem; 
+      text-align: center;
+      color: #ffcc00;
+      margin-bottom: 0.5rem;
       font-size: 1rem;
     }
     #koyIncelemeBox ul, #trenSeyahatBox ul {
-      list-style: none; 
-      padding: 0; 
-      margin: 0; 
+      list-style: none;
+      padding: 0;
+      margin: 0;
       font-size: 0.85rem;
     }
     #koyIncelemeBox li, #trenSeyahatBox li {
-      margin-bottom: 0.3rem; 
-      display: flex; 
-      justify-content: space-between; 
+      margin-bottom: 0.3rem;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
     #koyIncelemeBox li button, #trenSeyahatBox li button {
-      padding: 0.3rem 0.5rem; 
-      font-size: 0.8rem; 
+      padding: 0.3rem 0.5rem;
+      font-size: 0.8rem;
       cursor: pointer;
     }
     /* Sayfalama */
     #koyIncelemePagination, #trenPagination {
-      text-align: center; 
+      text-align: center;
       margin-top: 0.5rem;
     }
     #koyIncelemePagination span, #trenPagination span {
-      display: inline-block; 
-      padding: 0.3rem 0.6rem; 
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
       margin: 0 0.2rem;
-      background: #444; 
-      border-radius: 3px; 
-      cursor: pointer; 
+      background: #444;
+      border-radius: 3px;
+      cursor: pointer;
       color: #ffcc00;
     }
     #koyIncelemePagination span.active, #trenPagination span.active {
@@ -223,39 +219,54 @@
     
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
-      position: absolute; 
-      top: 50%; 
+      position: absolute;
+      top: 140px; /* Sağ paneldeki kutuların hizasına yakın */
       left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex; 
-      gap: 20px; 
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
       z-index: 900;
+      background: lightgreen;
+      padding: 10px;
+      border-radius: 10px;
     }
+    /* Kart başlık renkleri */
     #cardVakur h2 { color: blue; }
     #cardHatip h2 { color: orange; }
     #cardBaron h2 { color: red; }
     .card {
-      background: rgba(255,255,255,0.05); 
+      background: rgba(255,255,255,0.05);
       backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.1); 
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      width: 250px; 
-      padding: 1.5rem; 
+      width: 250px;
+      padding: 1.5rem;
       text-align: center;
-      transition: transform 0.3s ease; 
+      transition: transform 0.3s ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
+    /* Buton metinlerini kırmızı yapıyoruz */
+    .card button {
+      padding: 0.6rem 1.2rem;
+      background: #ff4444;
+      border: none;
+      border-radius: 5px;
+      color: red; /* Burada kırmızı */
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .card button:hover { background: #ff2222; }
     
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
-      position: fixed; 
-      bottom: 20px; 
-      left: 20px; 
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
       font-size: 1.2rem;
-      background: #0288d1; 
-      padding: 0.5rem 1rem; 
+      background: #0288d1;
+      padding: 0.5rem 1rem;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       z-index: 1000;
@@ -263,20 +274,20 @@
     
     /* GÖREV SAYFASI (Overlay) */
     #gorevPage {
-      display: none; 
-      position: fixed; 
-      top: 0; 
+      display: none;
+      position: fixed;
+      top: 0;
       left: 0;
-      width: 100%; 
-      height: 100%; 
-      background: #000; 
-      color: #fff; 
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #fff;
       z-index: 3000;
-      padding: 2rem; 
+      padding: 2rem;
       overflow-y: auto;
     }
     #gorevPage h1 {
-      text-align: center; 
+      text-align: center;
       margin-bottom: 1rem;
     }
     /* Görev kutucuklarını yatay sıralamak için wrapper */
@@ -301,61 +312,61 @@
       background: rgba(255,255,255,0.07);
     }
     .rankSection h2 {
-      text-align: center; 
+      text-align: center;
       margin-bottom: 0.5rem;
     }
     .taskItem {
-      background: #222; 
+      background: #222;
       border-radius: 5px;
-      padding: 0.5rem; 
+      padding: 0.5rem;
       margin-bottom: 0.5rem;
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
     .taskItem span {
-      max-width: 80%; 
+      max-width: 80%;
       white-space: nowrap;
-      text-overflow: ellipsis; 
+      text-overflow: ellipsis;
       overflow: hidden;
       display: inline-block;
     }
     .taskItem button {
-      background: #ff4444; 
-      border: none; 
+      background: #ff4444;
+      border: none;
       border-radius: 5px;
-      color: #fff; 
-      cursor: pointer; 
-      padding: 0.3rem 0.5rem; 
+      color: #fff;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
       margin-left: 10px;
       font-size: 0.8rem;
     }
     .completedTask span::after {
-      content: " ✅"; 
-      color: #0f0; 
+      content: " ✅";
+      color: #0f0;
       margin-left: 5px;
     }
-    .lockedDifficulty { 
-      opacity: 0.3; 
-      pointer-events: none; 
+    .lockedDifficulty {
+      opacity: 0.3;
+      pointer-events: none;
     }
     .difficultyProgressBar {
-      background: #444; 
-      height: 18px; 
-      border-radius: 5px; 
-      overflow: hidden; 
+      background: #444;
+      height: 18px;
+      border-radius: 5px;
+      overflow: hidden;
       margin-top: 0.5rem;
     }
     .difficultyProgressFill {
-      background: #00bfff; 
-      width: 0%; 
-      height: 100%; 
+      background: #00bfff;
+      width: 0%;
+      height: 100%;
       transition: width 0.3s ease;
     }
-    .progressText { 
-      text-align: right; 
-      font-size: 0.8rem; 
-      margin-top: 2px; 
+    .progressText {
+      text-align: right;
+      font-size: 0.8rem;
+      margin-top: 2px;
     }
     
     /* Ok butonları */
@@ -495,13 +506,13 @@
     /********************* GENEL DEĞİŞKENLER *********************/
     let money = 500000;
     let currentVillage = "Asman";
-  
+    
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
-  
+    
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
-  
+    
     const allKoyler = [
       "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
       "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
@@ -511,24 +522,18 @@
       "Zebeşker", "Mirğan", "Dideri", "Kazıka", "Nehlnehli",
       "Birdirej", "Cembel"
     ];
-  
+    
     /********** Rastgele Köy Özellikleri **********/
-    function randomMalikane() { 
-      return [5,10,15][Math.floor(Math.random()*3)]; 
-    }
-    function randomSiginak()  { 
-      return [50,75,100][Math.floor(Math.random()*3)]; 
-    }
-    function randomVilla()    { 
-      return [25,50,75][Math.floor(Math.random()*3)]; 
-    }
+    function randomMalikane() { return [5,10,15][Math.floor(Math.random()*3)]; }
+    function randomSiginak()  { return [50,75,100][Math.floor(Math.random()*3)]; }
+    function randomVilla()    { return [25,50,75][Math.floor(Math.random()*3)]; }
     const villageData = allKoyler.map(k => ({
       name: k,
       malikane: randomMalikane(),
       siginak:  randomSiginak(),
       villa:    randomVilla()
     }));
-  
+    
     /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
     const vakurDifficulties = [
       {
@@ -608,7 +613,7 @@
         .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
-  
+    
     const hatipDifficulties = [
       {
         title: "Basit Görevler", locked: false,
@@ -687,7 +692,7 @@
         .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
-  
+    
     const baronDifficulties = [
       {
         title: "Basit Görevler", locked: false,
@@ -751,13 +756,13 @@
         .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done:false, hidden:true }])
       }
     ];
-  
+    
     const rankData = {
       "Vakur": vakurDifficulties,
       "Hatip": hatipDifficulties,
       "Baron": baronDifficulties
     };
-  
+    
     /****************** ONLOAD ******************/
     window.onload = function() {
       updateMoneyUI();
@@ -767,7 +772,7 @@
       displayTrenPage(1);
       updateArrowVisibility();
     };
-  
+    
     /****************** TUTAR SATIN ALMA ******************/
     function buyItem(itemName, cost) {
       if(money < cost) {
@@ -784,7 +789,7 @@
       updateMoneyUI();
       alert(itemName + " satın alındı! (-" + cost + "$)");
     }
-  
+    
     /****************** DURUMUM & TÜCCAR AÇ/KAPA ******************/
     function toggleDurumum(){
       const elem = document.getElementById("durumumContent");
@@ -794,7 +799,7 @@
       const elem = document.getElementById("tuccarContent");
       elem.classList.toggle("active");
     }
-  
+    
     /****************** KÖY INCELEME ******************/
     let currentIncelemePage = 1;
     function displayKoyIncelemePage(page) {
@@ -838,7 +843,7 @@
         "Villa: " + found.villa
       );
     }
-  
+    
     /****************** TREN SEYEHAT ******************/
     let currentTrenPage = 1;
     function displayTrenPage(page) {
@@ -886,7 +891,7 @@
       updateProfileInfo();
       alert("Trenle " + village + " köyüne geldiniz!");
     }
-  
+    
     /****************** PARA & KÖY ADI ******************/
     function updateMoneyUI(){
       document.getElementById("money").innerText = "$" + money;
@@ -895,7 +900,7 @@
       document.getElementById("currentVillageDisplay").innerText = currentVillage;
       document.getElementById("bottomLeft").innerText = currentVillage;
     }
-  
+    
     /****************** STAT BAR’LARI ******************/
     function getVakurKoruma(){
       let koruma = Math.floor(vakurTaskCount / 22);
@@ -914,7 +919,7 @@
       let vakPct = Math.floor((vakVal / 660) * 100);
       document.getElementById("vakurText").innerText = "Koruma: " + vakVal + " (" + vakPct + "%)";
       document.getElementById("vakurFill").style.width = vakPct + "%";
-  
+      
       if(isHatipUnlocked){
         document.getElementById("hatipStat").classList.remove("lockedStat");
         let hatVal = getHatipNufus();
@@ -924,7 +929,7 @@
       } else {
         document.getElementById("hatipStat").classList.add("lockedStat");
       }
-  
+      
       if(isBaronUnlocked){
         document.getElementById("baronStat").classList.remove("lockedStat");
         let barVal = getBaronEtki();
@@ -935,18 +940,18 @@
         document.getElementById("baronStat").classList.add("lockedStat");
       }
     }
-  
+    
     /****************** GÖREV SAYFASI ******************/
     let currentRank = "";
     function openGorevPage(rank){
       if(rank === "Hatip" && !isHatipUnlocked) return;
       if(rank === "Baron" && !isBaronUnlocked) return;
-  
+      
       currentRank = rank;
       document.getElementById("mainPage").style.display = "none";
       let gp = document.getElementById("gorevPage");
       gp.style.display = "block";
-      // Görev başlığının rengi göreve göre ayarlanıyor:
+      // Görev başlığının rengi ve yazısı ranka göre ayarlanıyor:
       if(rank === "Vakur") {
         document.getElementById("gorevHeader").style.color = "blue";
         document.getElementById("gorevHeader").innerText = "Vakur Görevlerini";
@@ -972,7 +977,7 @@
         let section = document.createElement("div");
         section.className = "rankSection";
         if(diffObj.locked) section.classList.add("lockedDifficulty");
-  
+        
         let h2 = document.createElement("h2");
         h2.innerText = diffObj.title;
         if(rank === "Vakur") {
@@ -983,7 +988,7 @@
           h2.classList.add("baron-color");
         }
         section.appendChild(h2);
-  
+        
         diffObj.tasks.forEach((task, taskIndex) => {
           let divT = document.createElement("div");
           divT.className = "taskItem";
@@ -995,23 +1000,23 @@
           `;
           section.appendChild(divT);
         });
-  
+        
         let pBar = document.createElement("div");
         pBar.className = "difficultyProgressBar";
         let pFill = document.createElement("div");
         pFill.className = "difficultyProgressFill";
         pBar.appendChild(pFill);
         section.appendChild(pBar);
-  
+        
         let pText = document.createElement("div");
         pText.className = "progressText";
         section.appendChild(pText);
-  
+        
         document.getElementById("tasksContainer").appendChild(section);
         updateDifficultyProgress(rank, diffIndex);
       });
     }
-    // Gizli (hidden) görevler hariç kontrol ediyoruz.
+    // Gizli (hidden) görevler hariç kontrol
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -1025,7 +1030,7 @@
         return;
       }
       taskItem.done = true;
-  
+      
       if(rank === "Vakur"){
         vakurTaskCount++;
       } else if(rank === "Hatip"){
@@ -1034,7 +1039,7 @@
         baronTaskCount++;
       }
       updateStatBars();
-  
+      
       let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
@@ -1063,7 +1068,7 @@
       let doneCount = diffObj.tasks.filter(t => !t.hidden && t.done).length;
       let totalCount = diffObj.tasks.filter(t => !t.hidden).length;
       let percent = Math.floor((doneCount / totalCount) * 100);
-  
+      
       let sections = document.getElementById("tasksContainer").getElementsByClassName("rankSection");
       if(!sections[diffIndex]) return;
       let fill = sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
@@ -1071,14 +1076,14 @@
       fill.style.width = percent + "%";
       txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
     }
-  
+    
     /* Ok butonları ile yatay kaydırma */
     function scrollTasks(direction) {
       const container = document.getElementById("tasksContainer");
       container.scrollBy({ left: direction * 310, behavior: "smooth" });
       setTimeout(updateArrowVisibility, 350);
     }
-  
+    
     function updateArrowVisibility() {
       const container = document.getElementById("tasksContainer");
       const leftArrow = document.getElementById("leftArrow");
