@@ -170,21 +170,26 @@
     #gorevPage h1 {
       text-align: center; margin-bottom: 1rem;
     }
-    /* Görev kutucuklarını yatay sıralamak için #tasksContainer'a flexbox ekliyoruz */
+    /* Görev kutucuklarını yatay sıralamak için wrapper */
+    #tasksContainerWrapper {
+      position: relative;
+      overflow: hidden;
+      padding: 0 40px; /* Sol ve sağ boşluklar, oklar için */
+    }
+    /* Burada flex container ile kutucukları yatay sıralıyoruz */
     #tasksContainer {
       display: flex;
       flex-direction: row;
-      overflow-x: auto;
       gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
       padding-bottom: 10px;
     }
-    /* Her bir görev kutucuğu (rankSection) için sabit genişlik ayarlıyoruz */
+    /* Her bir görev kutucuğu (rankSection) için genişlik ayarı */
     .rankSection {
-      flex: 0 0 300px; 
-      /* varsayılan margin ve paddingleri koruyabilirsiniz */
-      margin-bottom: 20px;
-      border: 1px solid #888; 
-      padding: 1rem; 
+      flex: 0 0 300px;
+      border: 1px solid #888;
+      padding: 1rem;
       border-radius: 10px;
       background: rgba(255,255,255,0.07);
     }
@@ -217,6 +222,24 @@
       background: #00bfff; width: 0%; height: 100%; transition: width 0.3s ease;
     }
     .progressText { text-align: right; font-size: 0.8rem; margin-top: 2px; }
+    
+    /* Ok butonları */
+    .arrow-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      z-index: 101;
+      transition: background 0.3s;
+    }
+    .arrow-button:hover { background: rgba(0,0,0,0.7); }
+    #leftArrow { left: 5px; }
+    #rightArrow { right: 5px; }
   </style>
 </head>
 <body>
@@ -322,8 +345,12 @@
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
-    <!-- Görev kutucuklarının yatay sıralanması için tasksContainer'a flexbox eklenmiştir -->
-    <div id="tasksContainer"></div>
+    <!-- Görev kutucuklarını yatay sıralamak için wrapper -->
+    <div id="tasksContainerWrapper">
+      <button id="leftArrow" class="arrow-button" onclick="scrollTasks(-1)">&#x276E;</button>
+      <div id="tasksContainer"></div>
+      <button id="rightArrow" class="arrow-button" onclick="scrollTasks(1)">&#x276F;</button>
+    </div>
   </div>
   
   <!-- ALT SOL KÖY BİLGİSİ -->
@@ -515,7 +542,7 @@
           "Toplumu huzura kavuşturan projeler geliştir.",
           "Mafya aileleri arasında dayanışmayı sağla.",
           "Etkinliklerle sosyal dengeyi koru."
-        ]).map(t => ({ text: t, done: false }))
+        ].map(t => ({ text: t, done: false })))
         .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done:false, hidden:true }])
       }
     ];
@@ -597,6 +624,7 @@
       updateStatBars();
       displayKoyIncelemePage(1);
       displayTrenPage(1);
+      updateArrowVisibility();
     };
   
     /****************** TUTAR SATIN ALMA ******************/
@@ -779,6 +807,7 @@
       gp.style.display = "block";
       document.getElementById("gorevHeader").innerText = rank + " Görevleri";
       loadRankTasks(rank);
+      updateArrowVisibility();
     }
     function closeGorevPage(){
       document.getElementById("gorevPage").style.display = "none";
@@ -820,7 +849,7 @@
         pText.className = "progressText";
         section.appendChild(pText);
   
-        container.appendChild(section);
+        document.getElementById("tasksContainer").appendChild(section);
         updateDifficultyProgress(rank, diffIndex);
       });
     }
@@ -848,7 +877,7 @@
       }
       updateStatBars();
   
-      // Gizli görevler dışındaki görevlerin tamamlanmasını kontrol ediyoruz.
+      // Gizli görev hariç görevlere bakıyoruz.
       let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
@@ -869,6 +898,7 @@
         }
       }
       loadRankTasks(rank);
+      updateArrowVisibility();
     }
     function updateDifficultyProgress(rank, diffIndex){
       let diffs = rankData[rank];
@@ -883,6 +913,32 @@
       let txt = sections[diffIndex].getElementsByClassName("progressText")[0];
       fill.style.width = percent + "%";
       txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
+    }
+  
+    /* Ok butonları ile yatay kaydırma fonksiyonu */
+    function scrollTasks(direction) {
+      const container = document.getElementById("tasksContainer");
+      // 310px kaydır (örnek genişlik + gap)
+      container.scrollBy({ left: direction * 310, behavior: "smooth" });
+      setTimeout(updateArrowVisibility, 350); // animasyondan sonra ok görünürlüğünü güncelle
+    }
+  
+    function updateArrowVisibility() {
+      const container = document.getElementById("tasksContainer");
+      const leftArrow = document.getElementById("leftArrow");
+      const rightArrow = document.getElementById("rightArrow");
+      // Eğer scroll sol konum 0 ise sol ok gizlensin
+      if(container.scrollLeft === 0) {
+        leftArrow.style.display = "none";
+      } else {
+        leftArrow.style.display = "block";
+      }
+      // Eğer içerik tamamıyla görüntüleniyorsa sağ ok gizlensin
+      if(container.scrollWidth - container.clientWidth - container.scrollLeft < 5) {
+        rightArrow.style.display = "none";
+      } else {
+        rightArrow.style.display = "block";
+      }
     }
   </script>
 </body>
