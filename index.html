@@ -74,11 +74,9 @@
     }
     .stat-text { margin-top: 3px; font-size: 0.8rem; }
     .lockedStat { opacity: 0.4; }
+    /* Burada artık "Rozet: 0" yazısı kaldırılarak, rozet ikonunu ve R harfini ekliyoruz */
     .badge-indicator {
       text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
-    }
-    #profileInfo {
-      margin-top: 1rem; font-size: 0.9rem; font-weight: bold; text-align: center;
     }
 
     /* TÜCCAR İÇERİĞİ */
@@ -143,7 +141,7 @@
     }
     .card:hover { transform: translateY(-5px); }
     .card h2 { margin-bottom: 1rem; color: #ffcc00; }
-    .card p { margin-bottom: 1rem; }
+    /* Rank kartlarındaki renklendirme yazıları ve rozet simgeleri kaldırıldı */
     .card button {
       padding: 0.6rem 1.2rem; background: #ff4444; border: none; border-radius: 5px;
       color: #fff; cursor: pointer; transition: background 0.3s;
@@ -157,9 +155,6 @@
       transform: translate(-50%, -50%);
       background: rgba(0,0,0,0.8); padding: 0.5rem 1rem; border-radius: 5px;
       font-weight: bold; color: #ff4444;
-    }
-    .badge-container {
-      margin-top: 10px; font-size: 1.2rem; color: #ffcc00;
     }
 
     /* ALT SOL KÖY BİLGİSİ */
@@ -226,7 +221,7 @@
         </svg>
       </div>
     </div>
-    <!-- Sağ üstteki para göstergesi "Dolar:" yazısı kaldırılarak sadece "$" ile gösterilecek -->
+    <!-- Sağ üstteki para göstergesi "Dolar:" ifadesi kaldırılarak sadece "$" ile gösterilecek -->
     <div class="money"><span id="money">$500000</span></div>
   </header>
 
@@ -242,19 +237,29 @@
             <div class="stat-label">Vakur 🛡️</div>
             <div class="stat-fill" id="vakurFill"></div>
             <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
-            <div class="badge-indicator">Rozet: <span id="vakurBadgeCount">0</span></div>
+            <!-- Badge gösterimi: "Rozet: 0" kaldırılarak badge ikonu eklenmiştir -->
+            <div class="badge-indicator">
+              <span style="display: inline-block; width: 15px; height: 15px; background: blue; border-radius: 50%; margin-right: 5px;"></span>
+              R
+            </div>
           </div>
           <div class="stat-bar lockedStat" id="hatipStat">
             <div class="stat-label">Hatip 👥</div>
             <div class="stat-fill" id="hatipFill"></div>
             <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
-            <div class="badge-indicator">Rozet: <span id="hatipBadgeCount">0</span></div>
+            <div class="badge-indicator">
+              <span style="display: inline-block; width: 15px; height: 15px; background: orange; border-radius: 50%; margin-right: 5px;"></span>
+              R
+            </div>
           </div>
           <div class="stat-bar lockedStat" id="baronStat">
             <div class="stat-label">Baron ♛</div>
             <div class="stat-fill" id="baronFill"></div>
             <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
-            <div class="badge-indicator">Rozet: <span id="baronBadgeCount">0</span></div>
+            <div class="badge-indicator">
+              <span style="display: inline-block; width: 15px; height: 15px; background: red; border-radius: 50%; margin-right: 5px;"></span>
+              R
+            </div>
           </div>
           <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
         </div>
@@ -295,21 +300,15 @@
     <div id="centerRanks">
       <div class="card" id="cardVakur">
         <h2>Vakur</h2>
-        <p>Mavi 🏅</p>
         <button onclick="openGorevPage('Vakur')">Görev ve Rozeti</button>
-        <div class="badge-container">Rozet: <span id="blueBadgeCount">0</span></div>
       </div>
       <div class="card locked" id="cardHatip">
         <h2>Hatip</h2>
-        <p>Turuncu 🏅</p>
         <button onclick="openGorevPage('Hatip')">Görev ve Rozeti</button>
-        <div class="badge-container">Rozet: <span id="orangeBadgeCount">0</span></div>
       </div>
       <div class="card locked" id="cardBaron">
         <h2>Baron</h2>
-        <p>Kırmızı 🏅</p>
         <button onclick="openGorevPage('Baron')">Görev ve Rozeti</button>
-        <div class="badge-container">Rozet: <span id="redBadgeCount">0</span></div>
       </div>
     </div>
   </div><!-- /#mainPage -->
@@ -331,8 +330,6 @@
 
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
-
-    let blueBadgeCount = 0, orangeBadgeCount = 0, redBadgeCount = 0;
 
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
@@ -451,7 +448,6 @@
       updateMoneyUI();
       updateProfileInfo();
       updateStatBars();
-      updateBadgesUI();
       displayKoyIncelemePage(1);
       displayTrenPage(1);
     };
@@ -485,16 +481,15 @@
     }
 
     /****************** KÖY INCELEME ******************/
-    let currentIncelemePage=1;
+    let currentIncelemePage = 1;
     function displayKoyIncelemePage(page) {
       currentIncelemePage = page;
       const pageSize = pageSizes[page-1];
-      let start = 0; 
-      for(let i=0; i<page-1; i++){
+      let start = 0;
+      for(let i = 0; i < page-1; i++){
         start += pageSizes[i];
       }
       let end = start + pageSize;
-
       const ul = document.getElementById("koyIncelemeList");
       ul.innerHTML = "";
       for(let i = start; i < end; i++){
@@ -510,7 +505,7 @@
     function renderKoyIncelemePagination() {
       const pag = document.getElementById("koyIncelemePagination");
       pag.innerHTML = "";
-      for(let p=1; p<=totalPages; p++){
+      for(let p = 1; p <= totalPages; p++){
         let sp = document.createElement("span");
         sp.innerText = p;
         if(p === currentIncelemePage) sp.classList.add("active");
@@ -522,10 +517,10 @@
       let found = villageData.find(v => v.name === koyName);
       if(!found) return;
       alert(
-        "Köy: "+koyName+"\n" +
-        "Malikane: "+found.malikane+"\n" +
-        "Sığınak: "+found.siginak+"\n" +
-        "Villa: "+found.villa
+        "Köy: " + koyName + "\n" +
+        "Malikane: " + found.malikane + "\n" +
+        "Sığınak: " + found.siginak + "\n" +
+        "Villa: " + found.villa
       );
     }
 
@@ -535,7 +530,7 @@
       currentTrenPage = page;
       const pageSize = pageSizes[page-1];
       let start = 0;
-      for(let i=0; i<page-1; i++){
+      for(let i = 0; i < page-1; i++){
         start += pageSizes[i];
       }
       let end = start + pageSize;
@@ -571,7 +566,7 @@
       updateMoneyUI();
       currentVillage = village;
       updateProfileInfo();
-      alert("Trenle "+village+" köyüne geldiniz!");
+      alert("Trenle " + village + " köyüne geldiniz!");
     }
 
     /****************** PARA & KÖY ADI ******************/
@@ -624,16 +619,6 @@
       } else {
         document.getElementById("baronStat").classList.add("lockedStat");
       }
-    }
-
-    /****************** ROZET GÖSTERGESİ ******************/
-    function updateBadgesUI(){
-      document.getElementById("blueBadgeCount").innerText = blueBadgeCount;
-      document.getElementById("orangeBadgeCount").innerText = orangeBadgeCount;
-      document.getElementById("redBadgeCount").innerText = redBadgeCount;
-      document.getElementById("vakurBadgeCount").innerText = blueBadgeCount;
-      document.getElementById("hatipBadgeCount").innerText = orangeBadgeCount;
-      document.getElementById("baronBadgeCount").innerText = redBadgeCount;
     }
 
     /****************** GÖREV SAYFASI ******************/
@@ -720,16 +705,12 @@
       // Global sayaç
       if(rank === "Vakur"){
         vakurTaskCount++;
-        checkVakurRewards();
       } else if(rank === "Hatip"){
         hatipTaskCount++;
-        checkHatipRewards();
       } else if(rank === "Baron"){
         baronTaskCount++;
-        checkBaronRewards(taskItem.text);
       }
       updateStatBars();
-      updateBadgesUI();
 
       // Tüm görevler bitti mi => sonraki seviye kilidi
       let allDone = diffObj.tasks.every(t => t.done === true);
@@ -771,36 +752,6 @@
       let txt = sections[diffIndex].getElementsByClassName("progressText")[0];
       fill.style.width = percent + "%";
       txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
-    }
-
-    /*********** 50 GÖREVDE BİR ROZET vs. ***********/
-    function checkVakurRewards(){
-      if(vakurTaskCount > 0 && vakurTaskCount % 50 === 0){
-        blueBadgeCount++;
-        alert("Vakur: 50 görev tamamladınız! +1 Rozet");
-      }
-    }
-    function checkHatipRewards(){
-      if(hatipTaskCount > 0 && hatipTaskCount % 50 === 0){
-        orangeBadgeCount++;
-        alert("Hatip: 50 görev tamamladınız! +5 Nüfus, +1 Rozet");
-      }
-    }
-    function checkBaronRewards(taskText){
-      if(baronTaskCount > 0 && baronTaskCount % 50 === 0){
-        redBadgeCount++;
-        money += 10000;
-        updateMoneyUI();
-        alert("Baron: 50 görev tamamladınız! +10.000$ +1 Rozet\n(Vakur rozeti düşebilir!)");
-        if(blueBadgeCount > 0) {
-          blueBadgeCount--;
-        }
-      }
-      // Hayır/Afet yardımı => Vakur artabilir
-      if(taskText.toLowerCase().includes("hayır") || taskText.toLowerCase().includes("afet")){
-        blueBadgeCount++;
-        alert("Baron: Hayır/Afet yardımı yaptınız! Vakur rozeti +1");
-      }
     }
   </script>
 </body>
