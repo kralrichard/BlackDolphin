@@ -107,7 +107,8 @@
     #koyIncelemeBox h3, #trenSeyahatBox h3 {
       text-align: center; color: #ffcc00; margin-bottom: 0.5rem; font-size: 1rem;
     }
-    #koyIncelemeBox ul, #trenSeyahatBox ul {
+    #koyIncelemeBox ul, #trenSeyehatBox ul,
+    #trenSeyahatBox ul {
       list-style: none; padding: 0; margin: 0; font-size: 0.85rem;
     }
     #koyIncelemeBox li, #trenSeyahatBox li {
@@ -145,7 +146,6 @@
     .card h2 { margin-bottom: 1rem; color: #ffcc00; }
     .card p { margin-bottom: 1rem; }
     .card button {
-      type: "button";
       padding: 0.6rem 1.2rem; background: #ff4444; border: none; border-radius: 5px;
       color: #fff; cursor: pointer; transition: background 0.3s;
     }
@@ -299,29 +299,26 @@
      
     <!-- ORTA PANEL: Rank Kartları -->
     <div id="centerRanks">
-      <div class="card" id="cardVakur">
+      <div class="card" id="cardVakur" onclick="openGorevPage('Vakur')">
         <h2>Vakur</h2>
         <p>Mavi 🏅</p>
-        <button type="button" onclick="openGorevPage('Vakur')">Görev ve Rozeti</button>
         <div class="badge-container">Rozet: <span id="blueBadgeCount">0</span></div>
       </div>
-      <div class="card locked" id="cardHatip">
+      <div class="card locked" id="cardHatip" onclick="openGorevPage('Hatip')">
         <h2>Hatip</h2>
         <p>Turuncu 🏅</p>
-        <button type="button" onclick="openGorevPage('Hatip')">Görev ve Rozeti</button>
         <div class="badge-container">Rozet: <span id="orangeBadgeCount">0</span></div>
       </div>
-      <div class="card locked" id="cardBaron">
+      <div class="card locked" id="cardBaron" onclick="openGorevPage('Baron')">
         <h2>Baron</h2>
         <p>Kırmızı 🏅</p>
-        <button type="button" onclick="openGorevPage('Baron')">Görev ve Rozeti</button>
         <div class="badge-container">Rozet: <span id="redBadgeCount">0</span></div>
       </div>
     </div>
   </div>
   <!-- /#mainPage -->
      
-  <!-- GÖREV SAYFASI -->
+  <!-- GÖREV SAYFASI (Overlay) -->
   <div id="gorevPage">
     <button type="button" onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
@@ -344,6 +341,7 @@
      
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
+    let currentTrenPage = 1;
      
     const allKoyler = [
       "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
@@ -355,7 +353,6 @@
       "Birdirej", "Cembel"
     ];
      
-    /********** Rastgele Köy Özellikleri **********/
     function randomMalikane() { return [5,10,15][Math.floor(Math.random()*3)]; }
     function randomSiginak()  { return [50,75,100][Math.floor(Math.random()*3)]; }
     function randomVilla()    { return [25,50,75][Math.floor(Math.random()*3)]; }
@@ -367,7 +364,6 @@
     }));
      
     /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
-    // Vakur görevleri (her seviye 10 görev)
     const vakurDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -446,7 +442,6 @@
       }
     ];
      
-    // Hatip görevleri – Son Görevler güncellendi:
     const hatipDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -482,7 +477,7 @@
         title: "Zor Görevler", locked: true,
         tasks: [
           "İki rakip grubu bir araya getirip barış görüşmesi yap.",
-          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Uluslararası platformda toplumsal bir konuda konuş.",
           "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
           "Mahalle halkının taleplerini dile getirip sonuç al.",
           "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
@@ -526,7 +521,6 @@
       }
     ];
      
-    // Baron görevleri – her seviye 10 görevden oluşacak şekilde:
     const baronDifficulties = [
       { 
         title: "Basit Görevler", locked: false,
@@ -615,7 +609,6 @@
     let currentSliderPage = 0;
     let sliderTotalPages = 0;
      
-    /****************** ONLOAD ******************/
     window.onload = function() {
       updateMoneyUI();
       updateProfileInfo();
@@ -635,6 +628,8 @@
         money -= cost;
         updateMoneyUI();
         alert(itemName + " satın alındı! (-" + cost + "$)");
+      } else {
+        return;
       }
     }
      
@@ -662,7 +657,7 @@
         if(i >= villageData.length) break;
         const v = villageData[i];
         let li = document.createElement("li");
-        li.innerHTML = "<span>" + v.name + " (6 At)</span><button type=\"button\" onclick=\"inceleKoy('" + v.name + "')\">İncele</button>";
+        li.innerHTML = "<span>" + v.name + " (6 At)</span><button type='button' onclick=\"inceleKoy('" + v.name + "')\">İncele</button>";
         ul.appendChild(li);
       }
       renderKoyIncelemePagination();
@@ -704,6 +699,31 @@
       currentVillage = village;
       updateProfileInfo();
       alert("Trenle " + village + " köyüne geldiniz!");
+    }
+    function displayTrenPage(page) {
+      currentTrenPage = page;
+      const trenPageSize = 5;
+      const start = (page - 1) * trenPageSize;
+      const end = start + trenPageSize;
+      const trenList = document.getElementById("trenList");
+      trenList.innerHTML = "";
+      villageData.slice(start, end).forEach(v => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${v.name}</span> <button type="button" onclick="travelToTrain('${v.name}')">Git</button>`;
+        trenList.appendChild(li);
+      });
+      renderTrenPagination(Math.ceil(villageData.length / trenPageSize), page);
+    }
+    function renderTrenPagination(totalTrenPages, currentPage) {
+      const pag = document.getElementById("trenPagination");
+      pag.innerHTML = "";
+      for(let p = 1; p <= totalTrenPages; p++){
+        let sp = document.createElement("span");
+        sp.innerText = p;
+        if(p === currentPage) sp.classList.add("active");
+        sp.onclick = () => displayTrenPage(p);
+        pag.appendChild(sp);
+      }
     }
      
     /****************** PARA & KÖY ADI ******************/
@@ -813,7 +833,7 @@
           divT.className = "taskItem";
           if(task.done) divT.classList.add("completedTask");
           if(task.hidden === true) divT.style.display = "none";
-          divT.innerHTML = "<span>" + task.text + "</span><button type=\"button\" onclick=\"completeTask('" + rank + "', " + diffIndex + ", " + taskIndex + ")\">Tamamla</button>";
+          divT.innerHTML = "<span>" + task.text + "</span><button type='button' onclick=\"completeTask('" + rank + "', " + diffIndex + ", " + taskIndex + ")\">Tamamla</button>";
           section.appendChild(divT);
         });
          
@@ -889,6 +909,18 @@
     function updateSlider(){
       let sliderContainer = document.getElementById("sliderContainer");
       sliderContainer.style.transform = "translateX(" + (-100 * currentSliderPage) + "%)";
+      let prevArrow = document.getElementById("sliderPrev");
+      let nextArrow = document.getElementById("sliderNext");
+      if(currentSliderPage === 0) {
+        prevArrow.style.display = "none";
+      } else {
+        prevArrow.style.display = "block";
+      }
+      if(currentSliderPage === sliderTotalPages - 1) {
+        nextArrow.style.display = "none";
+      } else {
+        nextArrow.style.display = "block";
+      }
     }
      
     function completeTask(rank, diffIndex, taskIndex){
