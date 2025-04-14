@@ -107,8 +107,7 @@
     #koyIncelemeBox h3, #trenSeyahatBox h3 {
       text-align: center; color: #ffcc00; margin-bottom: 0.5rem; font-size: 1rem;
     }
-    #koyIncelemeBox ul, #trenSeyehatBox ul,
-    #trenSeyahatBox ul {
+    #koyIncelemeBox ul, #trenSeyahatBox ul {
       list-style: none; padding: 0; margin: 0; font-size: 0.85rem;
     }
     #koyIncelemeBox li, #trenSeyahatBox li {
@@ -333,6 +332,7 @@
     /********************* GENEL DEĞİŞKENLER *********************/
     let money = 500000;
     let currentVillage = "Asman";
+    let currentRank = "";  // Global olarak kullanılacak rank bilgisini açıkça tanımladık.
      
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
@@ -526,7 +526,7 @@
         title: "Basit Görevler", locked: false,
         tasks: [
           "Ufak çapta uyuşturucu satmayı dene.",
-          "Mahallede küçük 'koruma ücreti' topla.",
+          "Mahallede küçük 'koruma parası' topla.",
           "Kafe/mekândan ufak haraç iste.",
           "Sokak satıcıları arasında rekabeti lehine çevir.",
           "Sahte marka ürünlerin satış ağını oluştur.",
