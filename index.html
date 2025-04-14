@@ -170,9 +170,22 @@
     #gorevPage h1 {
       text-align: center; margin-bottom: 1rem;
     }
+    /* Görev kutucuklarını yatay sıralamak için #tasksContainer'a flexbox ekliyoruz */
+    #tasksContainer {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 20px;
+      padding-bottom: 10px;
+    }
+    /* Her bir görev kutucuğu (rankSection) için sabit genişlik ayarlıyoruz */
     .rankSection {
-      max-width: 600px; margin: 0 auto 2rem auto;
-      border: 1px solid #888; padding: 1rem; border-radius: 10px;
+      flex: 0 0 300px; 
+      /* varsayılan margin ve paddingleri koruyabilirsiniz */
+      margin-bottom: 20px;
+      border: 1px solid #888; 
+      padding: 1rem; 
+      border-radius: 10px;
       background: rgba(255,255,255,0.07);
     }
     .rankSection h2 {
@@ -309,6 +322,7 @@
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
+    <!-- Görev kutucuklarının yatay sıralanması için tasksContainer'a flexbox eklenmiştir -->
     <div id="tasksContainer"></div>
   </div>
   
@@ -810,7 +824,7 @@
         updateDifficultyProgress(rank, diffIndex);
       });
     }
-    // Gizli (hidden) görevleri hariç kontrol ediyoruz.
+    // Gizli (hidden) görevler hariç kontrol ediyoruz.
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -834,7 +848,7 @@
       }
       updateStatBars();
   
-      // Sadece gizli olmayan görevleri hesaplıyoruz.
+      // Gizli görevler dışındaki görevlerin tamamlanmasını kontrol ediyoruz.
       let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
