@@ -74,8 +74,7 @@
     }
     .stat-text { margin-top: 3px; font-size: 0.8rem; }
     .lockedStat { opacity: 0.4; }
-    /* Badge gösterimi artık "Rozet: 0" metnini taşımıyor.
-       Her stat için ilgili rozet ikonunun soluna "R" harfi ekleniyor. */
+    /* Badge göstergesi: eski "Rozet: 0" metni kaldırılıp, ilgili rozet ikonunun soluna R harfi ekleniyor */
     .badge-indicator {
       text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
     }
@@ -142,7 +141,7 @@
     }
     .card:hover { transform: translateY(-5px); }
     .card h2 { margin-bottom: 1rem; color: #ffcc00; }
-    /* Rank kartlarındaki buton metni, daha entelektüel bir ifade olacak */
+    /* Rank kartlarındaki buton metni, entelektüel bir ifade olacak */
     .card button {
       padding: 0.6rem 1.2rem; background: #ff4444; border: none; border-radius: 5px;
       color: #fff; cursor: pointer; transition: background 0.3s;
@@ -420,22 +419,150 @@
       {
         title: "Son Görevler", locked: true,
         tasks: [
-          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
-          "Büyük bağış konseri/festival düzenle.",
-          "Gönüllüleri bir araya getiren platform kur.",
-          "Eğitim bursu fonu başlat.",
-          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
-          "Yardım vakfı kurarak sürekli yardım yürüt.",
-          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
-          "Yurt çapında geri dönüşüm projesi başlat.",
-          "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
-          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
+          "🎖️ Tebrikler! Hatur görevlerini tamamladınız! (Baron kilidi açıldı.)"
         ].map(t => ({ text: t, done: false }))
       }
     ];
 
-    const hatipDifficulties = [ /* Basit, Orta, Zor, İleri, Son */ ];
-    const baronDifficulties = [ /* Basit, Orta, Zor, İleri, Son */ ];
+    const hatipDifficulties = [
+      {
+        title: "Basit Görevler", locked: false,
+        tasks: [
+          "Sokak kavgasını tatlı dille sakinleştir.",
+          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
+          "Aile içi gerginliği dinleyerek gider.",
+          "Sosyal medyada tartışmayı tatlıya bağla.",
+          "Yanlış bilgiyi doğru kaynakla düzelt.",
+          "Dedikoduyu kaynağından çürüterek sakinleştir.",
+          "Okul/kulüp etkinliğinde kısa konuşma yap.",
+          "Ufak grupta hitabet pratiği yap.",
+          "Arkadaş grubuna moral verici konuşma yap.",
+          "Sosyal medya üzerinden küçük bilgilendirici yayın düzenle."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "Orta Görevler", locked: true,
+        tasks: [
+          "Komşular arasındaki sorunu toplantı ile çöz.",
+          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
+          "Yerel hayır kurumuna bağış toplamak için ikna et.",
+          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
+          "Aile şirketinde tartışmada hakemlik yap.",
+          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
+          "Mahalle muhtarıyla imza kampanyası başlat.",
+          "Gönüllü ekiple sokak sanatçılarına destek sağla.",
+          "Mahallede çevre bilinci semineri düzenle.",
+          "Gençlere yönelik küçük münazara yarışmaları organize et."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "Zor Görevler", locked: true,
+        tasks: [
+          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
+          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
+          "Mahalle halkının taleplerini dile getirip sonuç al.",
+          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
+          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
+          "Binlerce kişilik tartışmayı sakinleştir.",
+          "Sivil toplum zirvesinde temsilci olarak konuş.",
+          "Yerel basında toplumsal sorunlar üzerine köşe yazısı yayınla.",
+          "İşsizlere yönelik motivasyon konuşması gerçekleştir."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "İleri Görevler", locked: true,
+        tasks: [
+          "Bölgesel toplum hareketine önderlik et.",
+          "Ulusal konferansta çözüm önerileri sun.",
+          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
+          "Barış çalıştayında moderatörlük yap.",
+          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
+          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
+          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
+          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver.",
+          "Kamu kurumlarında iletişim eğitimi ver.",
+          "Şiddetsiz iletişim üzerine farkındalık kampanyası başlat."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "Son Görevler", locked: true,
+        tasks: [
+          "🎖️ Tebrikler! Baron oldunuz! Ana menüye dönüyorsunuz."
+        ].map(t => ({ text: t, done: false }))
+      }
+    ];
+
+    const baronDifficulties = [
+      {
+        title: "Basit Görevler", locked: false,
+        tasks: [
+          "Ufak çapta uyuşturucu satmayı dene.",
+          "Mahallede küçük 'koruma ücreti' topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
+          "Sahte marka ürünlerin satış ağını oluştur.",
+          "Şantaj veya tehditle rakibi sustur.",
+          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
+          "Kaçak içki satışı yapan ekibe arka çık."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "Orta Görevler", locked: true,
+        tasks: [
+          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
+          "Yasadışı kumar organizasyonu başlat.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
+          "Kara para aklama için küçük sermaye oluştur.",
+          "Gece kulübünün 'gizli ortak' statüsünü al."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "Zor Görevler", locked: true,
+        tasks: [
+          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Polis ve siyasi bağlantıları güçlendir.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüplerinde yatırımın tekeli olsun.",
+          "Rakip çetenin liderini korkutarak saflarına katıl.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
+          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "İleri Görevler", locked: true,
+        tasks: [
+          "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
+          "Üst düzey bürokratlarla gizli anlaşmalar yap.",
+          "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
+          "Yurt dışı kara para aklama ofisleri aç.",
+          "Güvenlik birimlerinde kilit isimleri satın al.",
+          "Şehrin limanlarında kontrol sağla.",
+          "Gösterişli hayır işleriyle meşrulaş.",
+          "Kumarhane zinciri kurarak yasadışı gelirleri yasallaştır."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "Son Görevler", locked: true,
+        tasks: [
+          "Küresel çapta eğitim reformlarını destekleyen vakıf kur ve finanse et.",
+          "Prestijli üniversitelerin kampüs inşaatlarına yatırım yap.",
+          "Üst düzey bilimsel araştırmalara mali destek sağla.",
+          "Küresel sağlık fonları kurarak sağlık sistemlerini destekle.",
+          "Protez bacak ve sağlık ekipmanları üretimine büyük yatırım yap.",
+          "Dünya genelinde mafya zirvesine katılarak temsilcilik yap.",
+          "Yurt dışı yatırımları yönet.",
+          "Uluslararası kaçakçılık ağının liderliğini devral.",
+          "Kumarhane zinciri ve malikâne sahibi ol.",
+          "Dünya genelinde mafya zirvesine katılarak temsilcilik yap.",
+          "🎖️ Tebrikler! Tüm görevleri tamamladınız!"
+        ].map(t => ({ text: t, done: false }))
+      }
+    ];
 
     const rankData = {
       "Vakur": vakurDifficulties,
@@ -628,7 +755,7 @@
     /****************** GÖREV SAYFASI ******************/
     let currentRank = "";
     function openGorevPage(rank){
-      // Kilit kontrolü
+      // Kilit kontrolü: Eğer Hatip veya Baron kilidi açıksa görüntülenmesin.
       if(rank === "Hatip" && !isHatipUnlocked) return;
       if(rank === "Baron" && !isBaronUnlocked) return;
 
@@ -703,10 +830,10 @@
         alert("Zaten tamamladınız!");
         return;
       }
-      // Tamamla
+      // Görevi tamamla
       taskItem.done = true;
 
-      // Global sayaç
+      // Global sayaç güncellemesi
       if(rank === "Vakur"){
         vakurTaskCount++;
       } else if(rank === "Hatip"){
@@ -716,17 +843,16 @@
       }
       updateStatBars();
 
-      // Tüm görevler bitti mi => sonraki seviye kilidi
+      // Eğer tüm görevler tamamlandıysa, sonraki seviye kilidi açılır.
       let allDone = diffObj.tasks.every(t => t.done === true);
       if(allDone){
         if(diffIndex < diffs.length - 1){
           diffs[diffIndex + 1].locked = false;
           alert(diffObj.title + " bitti! '" + diffs[diffIndex + 1].title + "' açıldı.");
         } else {
-          // Son seviye bitti
           alert(rank + " rankındaki tüm görevleri tamamladınız!");
           closeGorevPage();
-          // Rank atlama
+          // Rank atlamaları:
           if(rank === "Vakur" && !isHatipUnlocked){
             isHatipUnlocked = true;
             document.getElementById("cardHatip").classList.remove("locked");
@@ -736,13 +862,14 @@
             document.getElementById("cardBaron").classList.remove("locked");
             alert("Tebrikler! Baron kilidi açıldı, ana menüye dönüyorsunuz.");
           }
+          // Baronda rank yükseltme yok, son mesaj veriliyor.
         }
       }
       // Ekranı yenile
       loadRankTasks(rank);
     }
 
-    // % hesapla
+    // Yüzde hesaplama
     function updateDifficultyProgress(rank, diffIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
