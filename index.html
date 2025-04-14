@@ -74,7 +74,7 @@
     }
     .stat-text { margin-top: 3px; font-size: 0.8rem; }
     .lockedStat { opacity: 0.4; }
-    /* Badge göstergesi: eski "Rozet: 0" metni kaldırılıp, ilgili rozet ikonunun soluna R harfi ekleniyor */
+    /* Badge göstergesi */
     .badge-indicator {
       text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
     }
@@ -484,17 +484,16 @@
       {
         title: "Son Görevler", locked: true,
         tasks: [
-          "Yerel topluluklarda barış kültürü aşıla.",
-          "Sosyal medya üzerinden olumlu mesajlar yay.",
-          "Yerel liderlerle yakın işbirliği kur.",
-          "Eski çatışmaları unut, yeni başlangıçlar yap.",
-          "Kriz zamanlarında destek ağı oluştur.",
-          "Halk arasında iletişimi güçlendir.",
-          "Barış temalı etkinlikler düzenle.",
-          "Toplumu huzura kavuşturan projeler geliştir.",
-          "Mafya aileleri arasında dayanışmayı sağla.",
-          "Etkinliklerle sosyal dengeyi koru.",
-          { text: "🎖️ Tebrikler! Hatip rütbesindeki tüm görevleri tamamladınız, Baron kilidi açıldı!", done: false, hidden: true }
+          "Mafya Aileleri Arası Barışı Sağla",
+          "12 Aşiret Kavgasını Uzlaştır",
+          "Çatışan Taraflar Arasında Arabuluculuk Yap",
+          "Kriz Yönetimi İçin Toplantı Düzenle",
+          "İttifaklar Kurarak Denge Sağla",
+          "Gizli Müzakere Kanalları Oluştur",
+          "Eski Husumetleri Gidererek Yeni İttifaklar Kur",
+          "Ani Gerilimlerde Soğukkanlı Müdahale Et",
+          "Kapsamlı İttifak Çalışmaları Yürüt",
+          { text: "🎖️ TEBRİKLER! Baron seviyesine geçtiniz.", done: false, hidden: true }
         ].map(t => typeof t === "string" ? { text: t, done: false } : t)
       }
     ];
