@@ -145,7 +145,11 @@
     }
     
     /* TÜCCAR İÇERİĞİ */
-    #tuccarContent ul { list-style: none; margin: 0; padding: 0; }
+    #tuccarContent ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
     #tuccarContent li {
       display: flex;
       justify-content: space-between;
@@ -247,17 +251,18 @@
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    /* Buton metinlerini kırmızı yapıyoruz */
+    /* Epistemolojik Serüven butonunu güncelliyoruz:
+       Butonun içi beyaz, metni kırmızı olacak şekilde. */
     .card button {
       padding: 0.6rem 1.2rem;
-      background: #ff4444;
+      background: white;
       border: none;
       border-radius: 5px;
-      color: red; /* Burada kırmızı */
+      color: red;
       cursor: pointer;
       transition: background 0.3s;
     }
-    .card button:hover { background: #ff2222; }
+    .card button:hover { background: #f0f0f0; }
     
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
@@ -524,9 +529,15 @@
     ];
     
     /********** Rastgele Köy Özellikleri **********/
-    function randomMalikane() { return [5,10,15][Math.floor(Math.random()*3)]; }
-    function randomSiginak()  { return [50,75,100][Math.floor(Math.random()*3)]; }
-    function randomVilla()    { return [25,50,75][Math.floor(Math.random()*3)]; }
+    function randomMalikane() { 
+      return [5,10,15][Math.floor(Math.random()*3)]; 
+    }
+    function randomSiginak()  { 
+      return [50,75,100][Math.floor(Math.random()*3)]; 
+    }
+    function randomVilla()    { 
+      return [25,50,75][Math.floor(Math.random()*3)]; 
+    }
     const villageData = allKoyler.map(k => ({
       name: k,
       malikane: randomMalikane(),
@@ -878,11 +889,11 @@
     }
     function travelToTrain(village){
       if(currentVillage === village) return;
-      if(money < 500){ 
-        alert("Tren bileti için yeterli paranız yok!"); 
-        return; 
+      if(money < 500){
+        alert("Tren bileti için yeterli paranız yok!");
+        return;
       }
-      if (!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")) {
+      if (!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")){
         return;
       }
       money -= 500;
@@ -951,7 +962,7 @@
       document.getElementById("mainPage").style.display = "none";
       let gp = document.getElementById("gorevPage");
       gp.style.display = "block";
-      // Görev başlığının rengi ve yazısı ranka göre ayarlanıyor:
+      // Görev başlığı renk ve yazısı dinamik olarak ayarlanıyor:
       if(rank === "Vakur") {
         document.getElementById("gorevHeader").style.color = "blue";
         document.getElementById("gorevHeader").innerText = "Vakur Görevlerini";
