@@ -16,11 +16,10 @@
     body {
       background: #888;
       color: #f1f1f1;
-      /* Daha aşağıda hizalama için padding azaltıldı veya ayarlandı */
-      padding-top: 140px; 
-      font-size: 0.9rem;
       min-height: 100vh;
       position: relative;
+      font-size: 0.9rem;
+      /* Bu örnekte body üzerindeki padding-top kaldırıldı */
     }
 
     /* HEADER */
@@ -142,7 +141,6 @@
       border-radius: 50%;
       margin-right: 5px;
     }
-    /* Gizle/göster */
     .hiddenRail { display: none; }
 
     /* ANA SAYFA KAPSAYICI */
@@ -152,12 +150,13 @@
       position: relative;
     }
 
-    /* SOL PANEL: Durumum & Tüccar
-       - VAKUR-HATİP-BARON'la aynı hizaya gelmesi için top: 140px
-       - Yukarıdaki body padding-top'u da 140px seçtik. */
+    /**************************************************************
+     * SOL PANEL - Durumum & Tüccar
+     *  VAKUR–HATİP–BARON ile AYNI HİZADA olması için top: 260px;
+     **************************************************************/
     #leftPanel {
       position: fixed;
-      top: 140px;
+      top: 260px;
       left: 20px;
       width: 280px;
       z-index: 1000;
@@ -199,7 +198,6 @@
       font-weight: bold;
       font-size: 0.85rem;
     }
-    /* Durum panelinde renk ayarı */
     #vakurStat .stat-label { color: blue; }
     #hatipStat .stat-label { color: orange; }
     #baronStat .stat-label { color: red; }
@@ -246,12 +244,14 @@
       font-size: 0.8rem;
     }
 
-    /* SAĞ PANEL: Köy İncelemesi & Tren Seyehat
-       - Ortadaki kartlarla aynı hizaya gelmesi için top: 140px */
+    /**************************************************************
+     * SAĞ PANEL - Köy İncelemesi & Tren Seyehat
+     *  VAKUR–HATİP–BARON ile AYNI HİZADA olması için top: 260px;
+     **************************************************************/
     #rightContainer {
       position: fixed;
       right: 20px;
-      top: 140px;
+      top: 260px;
       width: 280px;
       z-index: 1000;
     }
@@ -302,12 +302,13 @@
       background: #555;
     }
 
-    /* ORTA PANEL: Rank Kartları (VAKUR, HATİP, BARON)
-       - Aynı hizaya gelmesi için top: 140px
-       - Bu sayede sol panel, orta kartlar ve sağ panel yatayda çizgi oluşturur. */
+    /**************************************************************
+     * ORTA PANEL: Rank Kartları (VAKUR, HATİP, BARON)
+     *  Doğru konumda dendiğinden top: 260px olarak ayarlıyoruz.
+     **************************************************************/
     #centerRanks {
       position: absolute;
-      top: 140px;
+      top: 260px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -488,9 +489,6 @@
 
     /* Responsive Ayarlar (Mobil) */
     @media (max-width: 768px) {
-      body {
-        padding-top: 40px;
-      }
       #leftPanel, #rightContainer, #centerRanks {
         position: static;
         top: auto !important;
@@ -575,7 +573,7 @@
       </ul>
     </div>
 
-    <!-- ALT BUTON (Ortada, Geniş Dikdörtgen) 
+    <!-- ALT BUTON (Ortada, Geniş Dikdörtgen)
          Yön oku sağa bakacak şekilde &rarr; -->
     <div id="trainToggleBottomWrapper">
       <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">
@@ -654,7 +652,7 @@
       </div>
     </div>
 
-    <!-- ORTA PANEL: Rank Kartları -->
+    <!-- ORTA PANEL: Rank Kartları (VAKUR, HATİP, BARON) -->
     <div id="centerRanks">
       <div class="card" id="cardVakur">
         <h2 class="vakur-color">VAKUR</h2>
@@ -1281,7 +1279,7 @@
     function toggleTrainRail(){
       const rail = document.getElementById("trainTrack");
       rail.classList.toggle("hiddenRail");
-      // İsterseniz butonun metnini de değişebilirsiniz.
+      // Butonun metnini de değişebilirsiniz, isterseniz.
     }
   </script>
 </body>
