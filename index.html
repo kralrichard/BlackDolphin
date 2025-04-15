@@ -2,7 +2,6 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <!-- Mobil uyumluluğu sağlamak için viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
@@ -17,10 +16,6 @@
       background: #888;
       color: #f1f1f1;
       min-height: 100vh;
-      position: relative;
-      /* Tren rayı ve butonlar için biraz daha boşluk bıraktık */
-      padding-top: 200px;
-      font-size: 0.9rem;
     }
 
     /* HEADER */
@@ -34,11 +29,12 @@
       top: 0;
       left: 0;
       width: 100%;
+      height: 60px;
       z-index: 999;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
     .logo {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: bold;
       text-transform: uppercase;
       color: #fff;
@@ -65,7 +61,6 @@
       border-radius: 5px;
       border: 1px solid #333;
     }
-    /* Sağ üstteki para göstergesinin rengi yeşil */
     #money { color: green !important; }
 
     /* Renk Sınıfları */
@@ -74,90 +69,73 @@
     .baron-color { color: red !important; }
 
     /********************************************************
-     *     TREN RAYI BÖLÜMÜ + ÜST ve ALT BUTON ALANLARI     *
+     *            TREN RAYI BÖLÜMÜ + KÜÇÜK BUTON            *
      ********************************************************/
     #trainTrackSection {
       position: fixed;
-      top: 60px; /* Header yüksekliği + biraz boşluk */
-      left: 0;
-      width: 100%;
-      background: #ccc;
-      padding: 10px 0;
-      z-index: 998; /* Header'ın hemen altında */
-      display: flex;
-      flex-direction: column; /* Dikeyde üst buton - tren listesi - alt buton */
-      align-items: center;
+      top: 120px; /* Sol/Sağ panellerle aynı hizada */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 998;
+      /* Eğer ray görünsün isterseniz display:block yapıp boyutu ayarlayabilirsiniz */
     }
-
-    /* Butonları ortalamak için iki ayrı sarmalayıcı (üst ve alt) */
-    #trainToggleWrapper, 
-    #trainToggleBottomWrapper {
-      width: 100%;
-      text-align: center; 
-      margin: 5px 0;
-    }
-
-    /* Siyah arka planlı butonun ortak stili */
-    #trainToggleBtnTop,
-    #trainToggleBtnBottom {
+    /* Tek bir küçük buton: "Tren Rotası" */
+    #trainToggleBtn {
       background: #000;
       color: #fff;
       border: none;
-      font-size: 1rem;
-      padding: 0.8rem 1.2rem;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.5rem;
       cursor: pointer;
       border-radius: 5px;
-      display: inline-block;
-      width: 160px;  /* Geniş dikdörtgen */
-      text-align: center;
-      font-weight: bold;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
-    #trainToggleBtnTop:hover,
-    #trainToggleBtnBottom:hover {
+    #trainToggleBtn:hover {
       background: #333;
     }
-
-    /* Tren rayının kendisi (köy noktaları) */
+    /* Tren rayını yatay scrollda göstermek için */
     #trainTrack {
-      margin: 10px 0;
+      margin-top: 5px;
+      background: #ccc;
+      padding: 5px 10px;
+      border-radius: 5px;
+      max-width: 800px;
       overflow-x: auto;
       white-space: nowrap;
-      width: 90%;
+      text-align: center;
+      display: none; /* Başta gizli */
     }
     #trainTrack ul {
       list-style: none;
-      display: flex;
-      align-items: center;
+      display: inline-flex;
       gap: 15px;
+      align-items: center;
     }
     #trainTrack li {
-      display: flex;
-      align-items: center;
       font-weight: bold;
       color: #333;
+      display: flex;
+      align-items: center;
     }
     .trainDot {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       background: #000;
       border-radius: 50%;
       margin-right: 5px;
     }
-    /* Gizle/göster klasörü */
-    .hiddenRail { display: none; }
 
     /* ANA SAYFA KAPSAYICI */
     #mainPage {
       width: 100%;
       min-height: 100vh;
-      position: relative;
     }
 
     /* SOL PANEL */
     #leftPanel {
       position: fixed;
-      top: 220px; /* Tren rayını da hesaba kattık */
+      top: 120px; /* Header+butonla aynı hizaya çekildi */
       left: 20px;
       width: 280px;
       z-index: 1000;
@@ -173,7 +151,7 @@
       color: #ffcc00;
       margin-bottom: 1rem;
       cursor: pointer;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
     .tab-content {
       display: none;
@@ -185,8 +163,6 @@
     .tab-content.active {
       display: block;
     }
-
-    /* DURUMUM İÇERİĞİ */
     .stat-bar {
       margin-bottom: 0.7rem;
       background: #444;
@@ -199,11 +175,9 @@
       font-weight: bold;
       font-size: 0.85rem;
     }
-    /* Durum panelinde renk ayarı */
     #vakurStat .stat-label { color: blue; }
     #hatipStat .stat-label { color: orange; }
     #baronStat .stat-label { color: red; }
-
     .stat-fill {
       height: 18px;
       background: #00bfff;
@@ -224,7 +198,7 @@
       color: #ffcc00;
     }
 
-    /* TÜCCAR İÇERİĞİ */
+    /* TÜCCAR */
     #tuccarContent ul {
       list-style: none;
       margin: 0;
@@ -250,7 +224,7 @@
     #rightContainer {
       position: fixed;
       right: 20px;
-      top: 220px; /* Tren rayını da hesaba kattık */
+      top: 120px; /* Aynı hizaya */
       width: 280px;
       z-index: 1000;
     }
@@ -283,7 +257,6 @@
       font-size: 0.8rem;
       cursor: pointer;
     }
-    /* Sayfalama */
     #koyIncelemePagination, #trenPagination {
       text-align: center;
       margin-top: 0.5rem;
@@ -303,8 +276,8 @@
 
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
-      position: absolute;
-      top: 140px; /* Sağ panel kutuları hizasına yakın */
+      position: fixed;
+      top: 120px; /* Aynı hizaya */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -314,7 +287,6 @@
       padding: 10px;
       border-radius: 10px;
     }
-    /* Kart başlık renkleri */
     #cardVakur h2 { color: blue; }
     #cardHatip h2 { color: orange; }
     #cardBaron h2 { color: red; }
@@ -324,55 +296,42 @@
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
       width: 250px;
-      padding: 2rem;
+      padding: 1.5rem;
       text-align: center;
       transition: transform 0.3s ease;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       cursor: pointer;
     }
-    .card:hover { transform: translateY(-5px); }
-
-    /* Kartlardaki rol isimleri: Büyük harflerle ve buton üstü boşluk sağlandı */
-    #cardVakur h2 {
-      color: blue;
-      text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
+    .card:hover {
+      transform: translateY(-5px);
     }
-    #cardHatip h2 {
-      color: orange;
+    .card h2 {
       text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
+      margin-top: -5px;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
     }
-    #cardBaron h2 {
-      color: red;
-      text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
-    /* Epistemolojik Serüven butonları: Arka plan siyah, yazı beyaz */
     .card button {
-      padding: 0.6rem 1.2rem;
+      padding: 0.5rem 1.0rem;
       background: black;
       border: none;
       border-radius: 5px;
       color: white;
       cursor: pointer;
       transition: background 0.3s;
-      margin-top: 15px;
+      margin-top: 10px;
+      font-size: 0.85rem;
     }
-    .card button:hover { background: #333; }
+    .card button:hover {
+      background: #333;
+    }
 
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       background: #0288d1;
       padding: 0.5rem 1rem;
       border-radius: 8px;
@@ -398,7 +357,6 @@
       text-align: center;
       margin-bottom: 1rem;
     }
-    /* Görev kutucuklarını yatay sıralamak için wrapper */
     #tasksContainerWrapper {
       position: relative;
       overflow: hidden;
@@ -476,8 +434,6 @@
       font-size: 0.8rem;
       margin-top: 2px;
     }
-
-    /* Ok butonları */
     .arrow-button {
       position: absolute;
       top: 50%;
@@ -497,30 +453,23 @@
     #leftArrow { left: 5px; }
     #rightArrow { right: 5px; }
 
-    /* Responsive Ayarlar (Mobil Uyumluluk) */
+    /* Responsive */
     @media (max-width: 768px) {
-      #mainPage {
-        padding-top: 40px; /* Mobilde üst boşluğu biraz azalttık */
-      }
-      #leftPanel, #rightContainer {
+      #leftPanel, #rightContainer, #centerRanks {
         position: static;
         width: 100%;
-        margin-bottom: 20px;
-        top: auto !important;
+        margin-top: 70px; /* Header altına biraz boşluk */
       }
       #centerRanks {
-        position: static;
         transform: none;
         margin: 10px auto;
         flex-wrap: wrap;
         justify-content: center;
+        position: static;
       }
       .card {
         width: 90%;
-        margin: 10px 0;
-      }
-      #trainTrack {
-        width: 100%;
+        margin: 10px auto;
       }
     }
   </style>
@@ -538,21 +487,12 @@
     </div>
     <div class="money"><span id="money">$500000</span></div>
   </header>
-  
-  <!-- TREN RAYI BÖLÜMÜ -->
-  <div id="trainTrackSection">
-    <!-- ÜST BUTON (Ortada, Geniş Dikdörtgen) -->
-    <div id="trainToggleWrapper">
-      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">
-        TREN ROTASI
-        <br>
-        &larr;
-      </button>
-    </div>
 
-    <!-- Tren Rayı (Köyler Nokta Halinde) -->
-    <div id="trainTrack">
-      <ul id="trainTrackList">
+  <!-- KÜÇÜK "TREN ROTASI" BUTONU + RAYI (Baştan gizli) -->
+  <div id="trainTrackSection">
+    <button id="trainToggleBtn" onclick="toggleTrainRail()">TREN ROTASI</button>
+    <div id="trainTrack" class="hiddenRail">
+      <ul>
         <li><span class="trainDot"></span>Asman</li>
         <li><span class="trainDot"></span>Mizrin</li>
         <li><span class="trainDot"></span>Qeruk</li>
@@ -586,22 +526,12 @@
         <li><span class="trainDot"></span>Cembel</li>
       </ul>
     </div>
-
-    <!-- ALT BUTON (Ortada, Geniş Dikdörtgen) -->
-    <div id="trainToggleBottomWrapper">
-      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">
-        TREN ROTASI
-        <br>
-        &larr;
-      </button>
-    </div>
   </div>
-  
+
   <!-- ANA SAYFA -->
   <div id="mainPage">
     <!-- SOL PANEL: Durumum & Tüccar -->
     <div id="leftPanel">
-      <!-- Durumum Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
         <div id="durumumContent" class="tab-content">
@@ -635,8 +565,7 @@
           <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
         </div>
       </div>
-
-      <!-- Tüccar Sekmesi -->
+      
       <div class="sectionBox">
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
@@ -650,20 +579,6 @@
         </div>
       </div>
     </div><!-- /#leftPanel -->
-
-    <!-- SAĞ PANEL: Köy İncelemesi & Trenle Seyehat -->
-    <div id="rightContainer">
-      <div id="koyIncelemeBox">
-        <h3>Köy İncelemesi</h3>
-        <ul id="koyIncelemeList"></ul>
-        <div id="koyIncelemePagination"></div>
-      </div>
-      <div id="trenSeyahatBox">
-        <h3>Trenle Seyehat</h3>
-        <ul id="trenList"></ul>
-        <div id="trenPagination"></div>
-      </div>
-    </div>
 
     <!-- ORTA PANEL: Rank Kartları -->
     <div id="centerRanks">
@@ -680,13 +595,26 @@
         <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
       </div>
     </div>
+
+    <!-- SAĞ PANEL: Köy İncelemesi & Trenle Seyehat -->
+    <div id="rightContainer">
+      <div id="koyIncelemeBox">
+        <h3>Köy İncelemesi</h3>
+        <ul id="koyIncelemeList"></ul>
+        <div id="koyIncelemePagination"></div>
+      </div>
+      <div id="trenSeyahatBox">
+        <h3>Trenle Seyehat</h3>
+        <ul id="trenList"></ul>
+        <div id="trenPagination"></div>
+      </div>
+    </div>
   </div><!-- /#mainPage -->
 
   <!-- GÖREV SAYFASI (Overlay) -->
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
-    <!-- Görev kutucuklarını yatay sıralamak için wrapper -->
     <div id="tasksContainerWrapper">
       <button id="leftArrow" class="arrow-button" onclick="scrollTasks(-1)">&#x276E;</button>
       <div id="tasksContainer"></div>
@@ -707,7 +635,7 @@
     
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
-    
+
     /* 31 köy */
     const allKoyler = [
       "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
@@ -719,7 +647,7 @@
       "Cembel"
     ];
     
-    /********** Rastgele Köy Özellikleri **********/
+    /* Rastgele köy özellikleri */
     function randomMalikane() { 
       return [5,10,15][Math.floor(Math.random()*3)]; 
     }
@@ -894,7 +822,7 @@
         .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
       }
     ];
-    
+
     const baronDifficulties = [
       {
         title: "ÇIRAK BARON I", locked: false,
@@ -958,14 +886,13 @@
         .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done: false, hidden: true }])
       }
     ];
-    
+
     const rankData = {
       "Vakur": vakurDifficulties,
       "Hatip": hatipDifficulties,
       "Baron": baronDifficulties
     };
-    
-    /****************** ONLOAD ******************/
+
     window.onload = function() {
       updateMoneyUI();
       updateProfileInfo();
@@ -983,7 +910,7 @@
       }
       if (itemName === "Silah" || itemName === "Bomba" || itemName === "Villa") {
         let costPercent = ((cost / money) * 100).toFixed(2);
-        if (!confirm(itemName + " satın almak istediğinize emin misiniz? (Maliyet: $" + cost + " - Bu, bakiyenizin %" + costPercent + "si)")) {
+        if(!confirm(`${itemName} satın almak istediğinize emin misiniz? (Maliyet: $${cost} - Bu, bakiyenizin %${costPercent}si)`)){
           return;
         }
       }
@@ -1084,7 +1011,7 @@
         alert("Tren bileti için yeterli paranız yok!");
         return;
       }
-      if (!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")){
+      if(!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")){
         return;
       }
       money -= 500;
@@ -1202,7 +1129,7 @@
         pText.className = "progressText";
         section.appendChild(pText);
         
-        document.getElementById("tasksContainer").appendChild(section);
+        container.appendChild(section);
         updateDifficultyProgress(rank, diffIndex);
       });
     }
@@ -1237,6 +1164,7 @@
         } else {
           alert(rank + " rankındaki tüm görevleri tamamladınız!");
           closeGorevPage();
+          // Sıradaki rank kilidini aç
           if(rank === "Vakur" && !isHatipUnlocked){
             isHatipUnlocked = true;
             document.getElementById("cardHatip").classList.remove("locked");
@@ -1263,7 +1191,7 @@
       let fill = sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
       let txt = sections[diffIndex].getElementsByClassName("progressText")[0];
       fill.style.width = percent + "%";
-      txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
+      txt.innerText = `${doneCount} / ${totalCount} (${percent}%)`;
     }
 
     /* Ok butonları ile yatay kaydırma */
@@ -1276,7 +1204,7 @@
       const container = document.getElementById("tasksContainer");
       const leftArrow = document.getElementById("leftArrow");
       const rightArrow = document.getElementById("rightArrow");
-      if(container.scrollLeft === 0) {
+      if(container.scrollLeft <= 0) {
         leftArrow.style.display = "none";
       } else {
         leftArrow.style.display = "block";
@@ -1287,18 +1215,15 @@
         rightArrow.style.display = "block";
       }
     }
-    
-    /******************** TREN RAYINI GİZLE/GÖSTER ********************/
+
+    /******************* TREN RAYINI GİZLE/GÖSTER *******************/
     function toggleTrainRail(){
       const rail = document.getElementById("trainTrack");
-      rail.classList.toggle("hiddenRail");
-      // İsterseniz buton yazısını da değiştirebilirsiniz
-      // Örnek:
-      // let topBtn = document.getElementById("trainToggleBtnTop");
-      // topBtn.innerHTML = rail.classList.contains("hiddenRail") 
-      //                   ? "TREN ROTASI<br>→" 
-      //                   : "TREN ROTASI<br>←";
-      // Aynısını alt buton için de yapabilirsiniz.
+      if(rail.style.display === "none" || rail.style.display === ""){
+        rail.style.display = "block";
+      } else {
+        rail.style.display = "none";
+      }
     }
   </script>
 </body>
