@@ -154,10 +154,14 @@
       position: relative;
     }
 
-    /* SOL PANEL */
+    /* 
+      SOL PANEL 
+      - Durumum sekmesini tren rotası altındaki gri-beyaz geçiş çizgisine
+        gelecek şekilde 260px'e ayarlıyoruz.
+    */
     #leftPanel {
       position: fixed;
-      top: 220px; /* Tren rayını da hesaba kattık */
+      top: 260px; /* Güncellenen konum */
       left: 20px;
       width: 280px;
       z-index: 1000;
@@ -246,11 +250,15 @@
       font-size: 0.8rem;
     }
 
-    /* SAĞ PANEL */
+    /* 
+      SAĞ PANEL 
+      - Köy İncelemesi & Tren Seyahat kutularını da tren rotasının alt çizgisine hizalı olacak şekilde
+        260px'e ayarlıyoruz.
+    */
     #rightContainer {
       position: fixed;
       right: 20px;
-      top: 220px; /* Tren rayını da hesaba kattık */
+      top: 260px; /* Güncellenen konum */
       width: 280px;
       z-index: 1000;
     }
@@ -301,10 +309,13 @@
       background: #555;
     }
 
-    /* ORTA PANEL: Rank Kartları */
+    /* 
+      ORTA PANEL: Rank Kartları 
+      - VAKUR, HATİP, BARON butonlarını yukarı çekiyoruz (100px).
+    */
     #centerRanks {
       position: absolute;
-      top: 140px; /* Sağ panel kutuları hizasına yakın */
+      top: 100px; /* Önceki: 140px; yukarı alındı */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -588,11 +599,12 @@
     </div>
 
     <!-- ALT BUTON (Ortada, Geniş Dikdörtgen) -->
+    <!-- Burada &larr; yerine &rarr; olarak değiştirdik -->
     <div id="trainToggleBottomWrapper">
       <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">
         TREN ROTASI
         <br>
-        &larr;
+        &rarr;
       </button>
     </div>
   </div>
