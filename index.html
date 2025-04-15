@@ -592,9 +592,10 @@
     }));
     
     /********** GÖREV LİSTELERİ (Vakur, Hatip, Baron) **********/
+    // Vakur için – başlıklar güncellendi
     const vakurDifficulties = [
       {
-        title: "Basit Görevler", locked: false,
+        title: "ÇIRAK VAKUR I", locked: false,
         tasks: [
           "Bir çocuğun okul çantası almasına yardımcı ol.",
           "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
@@ -609,7 +610,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Orta Görevler", locked: true,
+        title: "USTA VAKUR II", locked: true,
         tasks: [
           "Aile içinde tartışan iki akrabayı barıştır.",
           "Mahallede yardım kermesi veya etkinlik organize et.",
@@ -624,7 +625,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Zor Görevler", locked: true,
+        title: "UZMAN VAKUR III", locked: true,
         tasks: [
           "Afet bölgesine yardım ekibi olarak katıl.",
           "Kronik bir sorun için belediyeyle görüşüp çözüm talep et.",
@@ -639,7 +640,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "İleri Görevler", locked: true,
+        title: "EFSANE VAKUR IV", locked: true,
         tasks: [
           "Büyük ölçekli yardım projesine liderlik et.",
           "Gençlere yönelik mentorluk programı başlat.",
@@ -654,7 +655,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Son Görevler", locked: true,
+        title: "YÜCE VAKUR V", locked: true,
         tasks: ([ 
           "Ulusal çapta sosyal sorumluluk projesi yürüt.",
           "Büyük bağış konseri/festival düzenle.",
@@ -667,13 +668,14 @@
           "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
           "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
         ]).map(t => ({ text: t, done: false }))
-        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
+        .concat([{ text:"🎖️ Tebrikler! Vakur oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
       }
     ];
     
+    // Hatip için – başlıklar güncellendi
     const hatipDifficulties = [
       {
-        title: "Basit Görevler", locked: false,
+        title: "ÇIRAK HATİP I", locked: false,
         tasks: [
           "Sokak kavgasını tatlı dille sakinleştir.",
           "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
@@ -688,7 +690,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Orta Görevler", locked: true,
+        title: "USTA HATİP II", locked: true,
         tasks: [
           "Komşular arasındaki sorunu toplantı ile çöz.",
           "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
@@ -703,7 +705,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Zor Görevler", locked: true,
+        title: "UZMAN HATİP III", locked: true,
         tasks: [
           "İki rakip grubu bir araya getirip barış görüşmesi yap.",
           "Ulusal platformda toplumsal bir konuda konuş.",
@@ -718,7 +720,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "İleri Görevler", locked: true,
+        title: "EFSANE HATİP IV", locked: true,
         tasks: [
           "Bölgesel toplum hareketine önderlik et.",
           "Ulusal konferansta çözüm önerileri sun.",
@@ -733,7 +735,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Son Görevler", locked: true,
+        title: "YÜCE HATİP V", locked: true,
         tasks: ([ 
           "Yerel topluluklarda barış kültürü aşıla.",
           "Sosyal medya üzerinden olumlu mesajlar yay.",
@@ -745,14 +747,15 @@
           "Toplumu huzura kavuşturan projeler geliştir.",
           "Mafya aileleri arasında dayanışmayı sağla.",
           "Etkinliklerle sosyal dengeyi koru."
-        ].map(t => ({ text: t, done: false })))
+        ]).map(t => ({ text: t, done: false }))
         .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
       }
     ];
     
+    // Baron için – başlıklar güncellendi
     const baronDifficulties = [
       {
-        title: "Basit Görevler", locked: false,
+        title: "ÇIRAK BARON I", locked: false,
         tasks: [
           "Ufak çapta uyuşturucu satmayı dene.",
           "Mahallede küçük 'koruma ücreti' topla.",
@@ -767,7 +770,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Orta Görevler", locked: true,
+        title: "USTA BARON II", locked: true,
         tasks: [
           "Esnaftan düzenli 'koruma parası' toplamaya başla.",
           "Polis/memurlarla rüşvet bağlantısı kur.",
@@ -782,7 +785,7 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "Zor Görevler", locked: true,
+        title: "UZMAN BARON III", locked: true,
         tasks: [
           "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
           "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
@@ -797,8 +800,8 @@
         ].map(t => ({ text: t, done: false }))
       },
       {
-        title: "İleri Görevler", locked: true,
-        tasks: ([ 
+        title: "EFSANE BARON IV", locked: true,
+        tasks: [
           "Mafya Aileleri Arası Barışı Sağla",
           "12 Aşiret Kavgasını Uzlaştır",
           "Çatışan Taraflar Arasında Arabuluculuk Yap",
@@ -809,7 +812,7 @@
           "Ani Gerilimlerde Soğukkanlı Müdahale Et",
           "Kapsamlı İttifak Çalışmaları Yürüt",
           "Sürekli Barış Süreçlerini Organize Et"
-        ]).map(t => ({ text: t, done: false }))
+        ].map(t => ({ text: t, done: false }))
         .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done: false, hidden: true }])
       }
     ];
@@ -879,281 +882,4 @@
       }
       renderKoyIncelemePagination();
     }
-    function renderKoyIncelemePagination() {
-      const pag = document.getElementById("koyIncelemePagination");
-      pag.innerHTML = "";
-      for(let p = 1; p <= totalPages; p++){
-        let sp = document.createElement("span");
-        sp.innerText = p;
-        if(p === currentIncelemePage) sp.classList.add("active");
-        sp.onclick = () => displayKoyIncelemePage(p);
-        pag.appendChild(sp);
-      }
-    }
-    function inceleKoy(koyName){
-      let found = villageData.find(v => v.name === koyName);
-      if(!found) return;
-      alert(
-        "Köy: " + koyName + "\n" +
-        "Malikane: " + found.malikane + "\n" +
-        "Sığınak: " + found.siginak + "\n" +
-        "Villa: " + found.villa
-      );
-    }
-    
-    /****************** TREN SEYEHAT ******************/
-    let currentTrenPage = 1;
-    function displayTrenPage(page) {
-      currentTrenPage = page;
-      const pageSize = pageSizes[page-1];
-      let start = 0;
-      for(let i = 0; i < page-1; i++){
-        start += pageSizes[i];
-      }
-      let end = start + pageSize;
-      const trenList = document.getElementById("trenList");
-      trenList.innerHTML = "";
-      for(let i = start; i < end; i++){
-        if(i >= allKoyler.length) break;
-        let li = document.createElement("li");
-        li.innerHTML = `<span>${allKoyler[i]}</span>
-                        <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
-        trenList.appendChild(li);
-      }
-      renderTrenPagination();
-    }
-    function renderTrenPagination(){
-      const pag = document.getElementById("trenPagination");
-      pag.innerHTML = "";
-      for(let p = 1; p <= totalPages; p++){
-        let sp = document.createElement("span");
-        sp.innerText = p;
-        if(p === currentTrenPage) sp.classList.add("active");
-        sp.onclick = () => displayTrenPage(p);
-        pag.appendChild(sp);
-      }
-    }
-    function travelToTrain(village){
-      if(currentVillage === village) return;
-      if(money < 500){
-        alert("Tren bileti için yeterli paranız yok!");
-        return;
-      }
-      if (!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")){
-        return;
-      }
-      money -= 500;
-      updateMoneyUI();
-      currentVillage = village;
-      updateProfileInfo();
-      alert("Trenle " + village + " köyüne geldiniz!");
-    }
-    
-    /****************** PARA & KÖY ADI ******************/
-    function updateMoneyUI(){
-      document.getElementById("money").innerText = "$" + money;
-    }
-    function updateProfileInfo(){
-      document.getElementById("currentVillageDisplay").innerText = currentVillage;
-      document.getElementById("bottomLeft").innerText = currentVillage;
-    }
-    
-    /****************** STAT BAR’LARI ******************/
-    function getVakurKoruma(){
-      let koruma = Math.floor(vakurTaskCount / 22);
-      return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
-    }
-    function getHatipNufus(){
-      let nufus = Math.floor(hatipTaskCount / 40) * 5;
-      return (nufus % 201 === 0 && nufus > 0) ? 200 : nufus % 201;
-    }
-    function getBaronEtki(){
-      let etki = Math.floor(baronTaskCount * 2);
-      return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
-    }
-    function updateStatBars(){
-      let vakVal = getVakurKoruma();
-      let vakPct = Math.floor((vakVal / 660) * 100);
-      document.getElementById("vakurText").innerText = "Koruma: " + vakVal + " (" + vakPct + "%)";
-      document.getElementById("vakurFill").style.width = vakPct + "%";
-      
-      if(isHatipUnlocked){
-        document.getElementById("hatipStat").classList.remove("lockedStat");
-        let hatVal = getHatipNufus();
-        let hatPct = Math.floor((hatVal / 200) * 100);
-        document.getElementById("hatipText").innerText = "Nüfus: " + hatVal + " (" + hatPct + "%)";
-        document.getElementById("hatipFill").style.width = hatPct + "%";
-      } else {
-        document.getElementById("hatipStat").classList.add("lockedStat");
-      }
-      
-      if(isBaronUnlocked){
-        document.getElementById("baronStat").classList.remove("lockedStat");
-        let barVal = getBaronEtki();
-        let barPct = Math.floor((barVal / 500) * 100);
-        document.getElementById("baronText").innerText = "Etki: " + barVal + " (" + barPct + "%)";
-        document.getElementById("baronFill").style.width = barPct + "%";
-      } else {
-        document.getElementById("baronStat").classList.add("lockedStat");
-      }
-    }
-    
-    /****************** GÖREV SAYFASI ******************/
-    let currentRank = "";
-    function openGorevPage(rank){
-      if(rank === "Hatip" && !isHatipUnlocked) return;
-      if(rank === "Baron" && !isBaronUnlocked) return;
-      
-      currentRank = rank;
-      document.getElementById("mainPage").style.display = "none";
-      let gp = document.getElementById("gorevPage");
-      gp.style.display = "block";
-      // Görev başlığı artık "VAKUR GÖREVLERİ", "HATİP GÖREVLERİ", "BARON GÖREVLERİ" şeklinde ayarlanıyor.
-      if(rank === "Vakur") {
-        document.getElementById("gorevHeader").style.color = "blue";
-        document.getElementById("gorevHeader").innerText = "VAKUR GÖREVLERİ";
-      } else if(rank === "Hatip") {
-        document.getElementById("gorevHeader").style.color = "orange";
-        document.getElementById("gorevHeader").innerText = "HATİP GÖREVLERİ";
-      } else if(rank === "Baron") {
-        document.getElementById("gorevHeader").style.color = "red";
-        document.getElementById("gorevHeader").innerText = "BARON GÖREVLERİ";
-      }
-      loadRankTasks(rank);
-      updateArrowVisibility();
-    }
-    function closeGorevPage(){
-      document.getElementById("gorevPage").style.display = "none";
-      document.getElementById("mainPage").style.display = "block";
-    }
-    function loadRankTasks(rank){
-      let container = document.getElementById("tasksContainer");
-      container.innerHTML = "";
-      let diffs = rankData[rank];
-      diffs.forEach((diffObj, diffIndex) => {
-        let section = document.createElement("div");
-        section.className = "rankSection";
-        if(diffObj.locked) section.classList.add("lockedDifficulty");
-        
-        let h2 = document.createElement("h2");
-        h2.innerText = diffObj.title;
-        if(rank === "Vakur") {
-          h2.classList.add("vakur-color");
-        } else if(rank === "Hatip") {
-          h2.classList.add("hatip-color");
-        } else if(rank === "Baron") {
-          h2.classList.add("baron-color");
-        }
-        section.appendChild(h2);
-        
-        diffObj.tasks.forEach((task, taskIndex) => {
-          let divT = document.createElement("div");
-          divT.className = "taskItem";
-          if(task.done) divT.classList.add("completedTask");
-          if(task.hidden) divT.style.display = "none";
-          divT.innerHTML = `<span>${task.text}</span>
-            <button onclick="completeTask('${rank}', ${diffIndex}, ${taskIndex})">Tamamla</button>`;
-          section.appendChild(divT);
-        });
-        
-        let pBar = document.createElement("div");
-        pBar.className = "difficultyProgressBar";
-        let pFill = document.createElement("div");
-        pFill.className = "difficultyProgressFill";
-        pBar.appendChild(pFill);
-        section.appendChild(pBar);
-        
-        let pText = document.createElement("div");
-        pText.className = "progressText";
-        section.appendChild(pText);
-        
-        document.getElementById("tasksContainer").appendChild(section);
-        updateDifficultyProgress(rank, diffIndex);
-      });
-    }
-    // Gizli görevler hariç kontrol
-    function completeTask(rank, diffIndex, taskIndex){
-      let diffs = rankData[rank];
-      let diffObj = diffs[diffIndex];
-      if(diffObj.locked){
-        alert("Bu görev bölümü kilitli!");
-        return;
-      }
-      let taskItem = diffObj.tasks[taskIndex];
-      if(taskItem.done){
-        alert("Zaten tamamladınız!");
-        return;
-      }
-      taskItem.done = true;
-      
-      if(rank === "Vakur"){
-        vakurTaskCount++;
-      } else if(rank === "Hatip"){
-        hatipTaskCount++;
-      } else if(rank === "Baron"){
-        baronTaskCount++;
-      }
-      updateStatBars();
-      
-      let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
-      if(allDone){
-        if(diffIndex < diffs.length - 1){
-          diffs[diffIndex + 1].locked = false;
-          alert(diffObj.title + " bitti! '" + diffs[diffIndex + 1].title + "' açıldı.");
-        } else {
-          alert(rank + " rankındaki tüm görevleri tamamladınız!");
-          closeGorevPage();
-          if(rank === "Vakur" && !isHatipUnlocked){
-            isHatipUnlocked = true;
-            document.getElementById("cardHatip").classList.remove("locked");
-            alert("Tebrikler! Hatip kilidi açıldı, ana menüye dönüyorsunuz.");
-          } else if(rank === "Hatip" && !isBaronUnlocked){
-            isBaronUnlocked = true;
-            document.getElementById("cardBaron").classList.remove("locked");
-            alert("Tebrikler! Baron kilidi açıldı, ana menüye dönüyorsunuz.");
-          }
-        }
-      }
-      loadRankTasks(rank);
-      updateArrowVisibility();
-    }
-    function updateDifficultyProgress(rank, diffIndex){
-      let diffs = rankData[rank];
-      let diffObj = diffs[diffIndex];
-      let doneCount = diffObj.tasks.filter(t => !t.hidden && t.done).length;
-      let totalCount = diffObj.tasks.filter(t => !t.hidden).length;
-      let percent = Math.floor((doneCount / totalCount) * 100);
-      
-      let sections = document.getElementById("tasksContainer").getElementsByClassName("rankSection");
-      if(!sections[diffIndex]) return;
-      let fill = sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
-      let txt = sections[diffIndex].getElementsByClassName("progressText")[0];
-      fill.style.width = percent + "%";
-      txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
-    }
-    
-    /* Ok butonları ile yatay kaydırma */
-    function scrollTasks(direction) {
-      const container = document.getElementById("tasksContainer");
-      container.scrollBy({ left: direction * 310, behavior: "smooth" });
-      setTimeout(updateArrowVisibility, 350);
-    }
-    
-    function updateArrowVisibility() {
-      const container = document.getElementById("tasksContainer");
-      const leftArrow = document.getElementById("leftArrow");
-      const rightArrow = document.getElementById("rightArrow");
-      if(container.scrollLeft === 0) {
-        leftArrow.style.display = "none";
-      } else {
-        leftArrow.style.display = "block";
-      }
-      if(container.scrollWidth - container.clientWidth - container.scrollLeft < 5) {
-        rightArrow.style.display = "none";
-      } else {
-        rightArrow.style.display = "block";
-      }
-    }
-  </script>
-</body>
-</html>
+    function renderKoyIn
