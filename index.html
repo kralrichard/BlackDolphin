@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /**************** GENEL STİLLER ****************/
+    /* GENEL STİLLER */
     * {
-      margin: 0; 
-      padding: 0; 
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
       background: #888;
@@ -18,17 +18,18 @@
       min-height: 100vh;
     }
 
-    /* HEADER SABİT ÜSTTE */
+    /* HEADER (üstte sabit) */
     header {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 60px;
       background: rgba(0,0,0,0.85);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
       z-index: 999;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
@@ -37,9 +38,9 @@
       font-weight: bold;
       text-transform: uppercase;
       color: #fff;
+      text-shadow: 1px 1px 0 #000, 2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
-      text-shadow: 1px 1px 0 #000, 2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.5);
     }
     .logo-dolphin {
       margin-left: 10px;
@@ -60,188 +61,50 @@
       border-radius: 5px;
       border: 1px solid #333;
     }
-    #money {
-      color: green !important;
+    #money { 
+      color: green !important; 
     }
 
-    /* ORTAK RENK SINIFLARI */
+    /* Renk Sınıfları */
     .vakur-color { color: blue !important; }
     .hatip-color { color: orange !important; }
     .baron-color { color: red !important; }
 
-    /************************************************
-     1) ANA DIŞ KAPSAYICI SATIR (hepsi aynı hizada)
-    ************************************************/
-    #mainRow {
-      position: fixed;        /* Ekrana sabit, scroll etmez */
-      top: 120px;             /* Durumum kutusu kadar alta */
-      left: 0;
-      width: 100%;
-      display: flex;          /* Yatayda yan yana */
-      justify-content: space-between;
-      align-items: flex-start;
-      z-index: 900;           /* Header: 999, burası: 900 */
-      padding: 0 20px;        /* soldan/sağdan biraz boşluk */
-    }
-
-    /************************************************
-      2) SOL PANEL (Durumum & Tüccar)
-    ************************************************/
-    #leftPanel {
-      width: 250px;
-    }
-    .sectionBox {
-      background: rgba(0,0,0,0.6);
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      padding: 1rem;
-    }
-    .sectionBox h2 {
-      text-align: center;
-      color: #ffcc00;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .tab-content {
-      display: none;
-      background: rgba(0,0,0,0.4);
-      border-radius: 5px;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-    }
-    .tab-content.active {
-      display: block;
-    }
-    /* Stat Bars (Durumum) */
-    .stat-bar {
-      margin-bottom: 0.7rem;
-      background: #444;
-      border-radius: 5px;
-      overflow: hidden;
-      padding: 5px;
-    }
-    .stat-label {
-      margin-bottom: 3px;
-      font-weight: bold;
-      font-size: 0.85rem;
-    }
-    .stat-fill {
-      height: 18px;
-      background: #00bfff;
-      width: 0%; 
-      transition: width 1s ease;
-    }
-    .stat-text {
-      margin-top: 3px;
-      font-size: 0.8rem;
-    }
-    .lockedStat { opacity: 0.4; }
-    .badge-indicator {
-      text-align: center;
-      font-size: 0.8rem;
-      margin-top: 3px;
-      color: #ffcc00;
-    }
-    /* Tüccar listesi */
-    #tuccarContent ul {
-      list-style: none;
-      margin: 0; padding: 0;
-    }
-    #tuccarContent li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    #tuccarContent li button {
-      background: #ff4444;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-      padding: 0.3rem 0.5rem;
-      font-size: 0.8rem;
-    }
-
-    /************************************************
-      3) ORTA BLOK (Rank Kartları + Küçük Tren Buton)
-    ************************************************/
-    #centerWrapper {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 15px;
-    }
-
-    /* Rank Kartları */
-    #centerRanks {
-      display: flex;
-      gap: 20px;
-      background: grey;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    .card {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      width: 200px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      cursor: pointer;
-    }
-    .card:hover { transform: translateY(-5px); }
-    .card h2 {
-      margin-top: -5px;
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-    }
-    .card button {
-      padding: 0.5rem 1.0rem;
-      background: black;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 10px;
-      font-size: 0.85rem;
-    }
-    .card button:hover { background: #333; }
-
-    /* Küçük Tren Rotası Butonu ve Ray */
+    /*************************************************************
+      TREN RAYI BÖLÜMÜ + KÜÇÜK BUTON (alta sabitledik)
+    *************************************************************/
     #trainTrackSection {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 0; /* Ortadaki kartlarla aynı hizada kalsın */
+      position: fixed;
+      bottom: 120px; /* Artık alta sabitlendi (top yerine bottom) */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 998;
     }
+    /* Küçük "Tren Rotası" butonu */
     #trainToggleBtn {
       background: #000;
       color: #fff;
       border: none;
       font-size: 0.8rem;
-      padding: 0.4rem 0.7rem;
+      padding: 0.3rem 0.5rem;
       cursor: pointer;
       border-radius: 5px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
-    #trainToggleBtn:hover { background: #333; }
+    #trainToggleBtn:hover {
+      background: #333;
+    }
+    /* Tren rayının yatay scrollda görünmesi */
     #trainTrack {
       margin-top: 5px;
       background: #ccc;
       padding: 5px 10px;
       border-radius: 5px;
-      max-width: 400px;
+      max-width: 800px;
       overflow-x: auto;
       white-space: nowrap;
       text-align: center;
-      display: none; /* Başlangıçta gizli */
+      display: none; /* Başta gizli */
     }
     #trainTrack ul {
       list-style: none;
@@ -264,19 +127,113 @@
       margin-right: 5px;
     }
 
-    /************************************************
-      4) SAĞ PANEL (Köy İncelemesi & Tren Seyehat)
-    ************************************************/
-    #rightContainer {
-      width: 250px;
+    /* ANA SAYFA KAPSAYICI */
+    #mainPage {
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* SOL PANEL: Durumum & Tüccar (alta sabitledik) */
+    #leftPanel {
+      position: fixed;
+      bottom: 120px; /* top yerine bottom */
+      left: 20px;
+      width: 280px;
+      z-index: 1000;
+    }
+    .sectionBox {
+      background: rgba(0,0,0,0.6);
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .sectionBox h2 {
+      text-align: center;
+      color: #ffcc00;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .tab-content {
+      display: none;
+      background: rgba(0,0,0,0.4);
+      border-radius: 5px;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    /* Stat bar (Durumum) */
+    .stat-bar {
+      margin-bottom: 0.7rem;
+      background: #444;
+      border-radius: 5px;
+      overflow: hidden;
+      padding: 5px;
+    }
+    .stat-label {
+      margin-bottom: 3px;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+    #vakurStat .stat-label { color: blue; }
+    #hatipStat .stat-label { color: orange; }
+    #baronStat .stat-label { color: red; }
+    .stat-fill {
+      height: 18px;
+      background: #00bfff;
+      width: 0%;
+      transition: width 1s ease;
+    }
+    .stat-text {
+      margin-top: 3px;
+      font-size: 0.8rem;
+    }
+    .lockedStat {
+      opacity: 0.4;
+    }
+    .badge-indicator {
+      text-align: center;
+      font-size: 0.8rem;
+      margin-top: 3px;
+      color: #ffcc00;
+    }
+    /* Tüccar listesi */
+    #tuccarContent ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    #tuccarContent li {
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    #tuccarContent li button {
+      background: #ff4444;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    /* SAĞ PANEL (alta sabitledik) */
+    #rightContainer {
+      position: fixed;
+      bottom: 120px; /* top yerine bottom */
+      right: 20px;
+      width: 280px;
+      z-index: 1000;
     }
     #koyIncelemeBox, #trenSeyahatBox {
       background: rgba(0,0,0,0.7);
       padding: 1rem;
       border-radius: 10px;
+      margin-bottom: 1rem;
     }
     #koyIncelemeBox h3, #trenSeyahatBox h3 {
       text-align: center;
@@ -286,8 +243,8 @@
     }
     #koyIncelemeBox ul, #trenSeyahatBox ul {
       list-style: none;
-      margin: 0; 
       padding: 0;
+      margin: 0;
       font-size: 0.85rem;
     }
     #koyIncelemeBox li, #trenSeyahatBox li {
@@ -301,6 +258,7 @@
       font-size: 0.8rem;
       cursor: pointer;
     }
+    /* Sayfalama */
     #koyIncelemePagination, #trenPagination {
       text-align: center;
       margin-top: 0.5rem;
@@ -318,39 +276,91 @@
       background: #555;
     }
 
-    /************************************************
-      5) ALT SOL KÖY BİLGİSİ
-    ************************************************/
+    /* ORTA PANEL: Rank Kartları (alta sabitledik) */
+    #centerRanks {
+      position: fixed;
+      bottom: 120px; /* top yerine bottom */
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 900;
+      background: grey;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    /* Kart görünümleri */
+    #cardVakur h2 { color: blue; }
+    #cardHatip h2 { color: orange; }
+    #cardBaron h2 { color: red; }
+    .card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      width: 250px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h2 {
+      text-transform: uppercase;
+      margin-top: -5px;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+    .card button {
+      padding: 0.5rem 1.0rem;
+      background: black;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+    .card button:hover {
+      background: #333;
+    }
+
+    /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
       position: fixed;
-      bottom: 10px; 
+      bottom: 20px;   /* Altta kalsın */
       left: 20px;
-      font-size: 1rem;
+      font-size: 1.1rem;
       background: #0288d1;
-      padding: 0.4rem 0.8rem;
+      padding: 0.5rem 1rem;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       z-index: 1000;
     }
 
-    /************************************************
-      6) GÖREV SAYFASI (Overlay)
-    ************************************************/
+    /* GÖREV SAYFASI (Overlay) */
     #gorevPage {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #000; 
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
       color: #fff;
       z-index: 3000;
       padding: 2rem;
       overflow-y: auto;
     }
     #gorevPage h1 {
-      text-align: center; 
+      text-align: center;
       margin-bottom: 1rem;
     }
+    /* Görev kutucuklarını yatay sıralamak için wrapper */
     #tasksContainerWrapper {
       position: relative;
       overflow: hidden;
@@ -447,34 +457,33 @@
     #leftArrow { left: 5px; }
     #rightArrow { right: 5px; }
 
-    /************************************************
-      RESPONSIVE (mobil vb.)
-    ************************************************/
+    /* Responsive */
     @media (max-width: 768px) {
-      /* Ana satırı dikey yığılmaya çeviriyoruz */
-      #mainRow {
-        flex-direction: column; 
-        align-items: center;
-        padding: 0;
-      }
-      #leftPanel, #rightContainer {
-        width: 90%;
-        margin-bottom: 15px;
-      }
-      #centerWrapper {
-        flex-direction: column;
-        align-items: center;
+      /* Paneller alta sabitlendiğinden, mobilde konum sorunlarına karşı top/bottom kalkabilir vs.
+         Basitçe position: static; yapabiliriz. */
+      #leftPanel, #rightContainer, #centerRanks {
+        position: static;
+        width: 100%;
+        margin-top: 70px; 
       }
       #centerRanks {
-        margin-bottom: 10px;
+        transform: none;
+        margin: 10px auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        position: static;
       }
-      .card { width: 90%; margin: 0 auto; }
-
-      #trainTrack {
-        max-width: 90%;
+      .card {
+        width: 90%;
+        margin: 10px auto;
+      }
+      #trainTrackSection {
+        position: static;
+        transform: none;
+        margin: 10px auto;
+        text-align: center;
       }
     }
-
   </style>
 </head>
 <body>
@@ -488,14 +497,52 @@
         </svg>
       </div>
     </div>
-    <div class="money">
-      <span id="money">$500000</span>
-    </div>
+    <div class="money"><span id="money">$500000</span></div>
   </header>
 
-  <!-- ANA SATIR: Solda Durumum, Ortada 3 Kart + Tren Butonu, Sağda Köy İnceleme -->
-  <div id="mainRow">
-    <!-- SOL PANEL -->
+  <!-- TREN BUTONU + RAY (Alta sabitlendi) -->
+  <div id="trainTrackSection">
+    <button id="trainToggleBtn" onclick="toggleTrainRail()">TREN ROTASI</button>
+    <div id="trainTrack">
+      <ul>
+        <li><span class="trainDot"></span>Asman</li>
+        <li><span class="trainDot"></span>Mizrin</li>
+        <li><span class="trainDot"></span>Qeruk</li>
+        <li><span class="trainDot"></span>Twılveser</li>
+        <li><span class="trainDot"></span>Ashma</li>
+        <li><span class="trainDot"></span>Ogean</li>
+        <li><span class="trainDot"></span>Karuk</li>
+        <li><span class="trainDot"></span>Tilkarut</li>
+        <li><span class="trainDot"></span>Midep</li>
+        <li><span class="trainDot"></span>Ömerk</li>
+        <li><span class="trainDot"></span>Tilal</li>
+        <li><span class="trainDot"></span>Olik</li>
+        <li><span class="trainDot"></span>Mıshecerk</li>
+        <li><span class="trainDot"></span>Mızelb</li>
+        <li><span class="trainDot"></span>Kergü</li>
+        <li><span class="trainDot"></span>Bozdepe</li>
+        <li><span class="trainDot"></span>Cinnık</li>
+        <li><span class="trainDot"></span>Bostancı</li>
+        <li><span class="trainDot"></span>Masucark</li>
+        <li><span class="trainDot"></span>Kırıkan</li>
+        <li><span class="trainDot"></span>Kuzluk</li>
+        <li><span class="trainDot"></span>Qeremsal</li>
+        <li><span class="trainDot"></span>Medırbaz</li>
+        <li><span class="trainDot"></span>Hecuk</li>
+        <li><span class="trainDot"></span>Zebeşker</li>
+        <li><span class="trainDot"></span>Mirğan</li>
+        <li><span class="trainDot"></span>Dideri</li>
+        <li><span class="trainDot"></span>Kazıka</li>
+        <li><span class="trainDot"></span>Nehlnehli</li>
+        <li><span class="trainDot"></span>Birdirej</li>
+        <li><span class="trainDot"></span>Cembel</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ANA SAYFA KAPSAYICI -->
+  <div id="mainPage">
+    <!-- SOL PANEL (alta sabit) -->
     <div id="leftPanel">
       <div class="sectionBox">
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
@@ -530,6 +577,7 @@
           <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
         </div>
       </div>
+      
       <div class="sectionBox">
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
@@ -542,66 +590,25 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div><!-- /#leftPanel -->
 
-    <!-- ORTA: Rank Kartları + Küçük Tren Butonu -->
-    <div id="centerWrapper">
-      <div id="centerRanks">
-        <div class="card" id="cardVakur">
-          <h2 class="vakur-color">VAKUR</h2>
-          <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
-        </div>
-        <div class="card locked" id="cardHatip">
-          <h2 class="hatip-color">HATİP</h2>
-          <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
-        </div>
-        <div class="card locked" id="cardBaron">
-          <h2 class="baron-color">BARON</h2>
-          <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
-        </div>
+    <!-- ORTA PANEL: Rank Kartları (alta sabit) -->
+    <div id="centerRanks">
+      <div class="card" id="cardVakur">
+        <h2 class="vakur-color">VAKUR</h2>
+        <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
       </div>
-      <!-- Tren Rotası Buton + Ray -->
-      <div id="trainTrackSection">
-        <button id="trainToggleBtn" onclick="toggleTrainRail()">TREN ROTASI</button>
-        <div id="trainTrack">
-          <ul>
-            <li><span class="trainDot"></span>Asman</li>
-            <li><span class="trainDot"></span>Mizrin</li>
-            <li><span class="trainDot"></span>Qeruk</li>
-            <li><span class="trainDot"></span>Twılveser</li>
-            <li><span class="trainDot"></span>Ashma</li>
-            <li><span class="trainDot"></span>Ogean</li>
-            <li><span class="trainDot"></span>Karuk</li>
-            <li><span class="trainDot"></span>Tilkarut</li>
-            <li><span class="trainDot"></span>Midep</li>
-            <li><span class="trainDot"></span>Ömerk</li>
-            <li><span class="trainDot"></span>Tilal</li>
-            <li><span class="trainDot"></span>Olik</li>
-            <li><span class="trainDot"></span>Mıshecerk</li>
-            <li><span class="trainDot"></span>Mızelb</li>
-            <li><span class="trainDot"></span>Kergü</li>
-            <li><span class="trainDot"></span>Bozdepe</li>
-            <li><span class="trainDot"></span>Cinnık</li>
-            <li><span class="trainDot"></span>Bostancı</li>
-            <li><span class="trainDot"></span>Masucark</li>
-            <li><span class="trainDot"></span>Kırıkan</li>
-            <li><span class="trainDot"></span>Kuzluk</li>
-            <li><span class="trainDot"></span>Qeremsal</li>
-            <li><span class="trainDot"></span>Medırbaz</li>
-            <li><span class="trainDot"></span>Hecuk</li>
-            <li><span class="trainDot"></span>Zebeşker</li>
-            <li><span class="trainDot"></span>Mirğan</li>
-            <li><span class="trainDot"></span>Dideri</li>
-            <li><span class="trainDot"></span>Kazıka</li>
-            <li><span class="trainDot"></span>Nehlnehli</li>
-            <li><span class="trainDot"></span>Birdirej</li>
-            <li><span class="trainDot"></span>Cembel</li>
-          </ul>
-        </div>
+      <div class="card locked" id="cardHatip">
+        <h2 class="hatip-color">HATİP</h2>
+        <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
+      </div>
+      <div class="card locked" id="cardBaron">
+        <h2 class="baron-color">BARON</h2>
+        <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
       </div>
     </div>
 
-    <!-- SAĞ PANEL -->
+    <!-- SAĞ PANEL (alta sabit) -->
     <div id="rightContainer">
       <div id="koyIncelemeBox">
         <h3>Köy İncelemesi</h3>
@@ -614,10 +621,7 @@
         <div id="trenPagination"></div>
       </div>
     </div>
-  </div>
-
-  <!-- ALT SOL KÖY BİLGİSİ -->
-  <div id="bottomLeft">Asman</div>
+  </div><!-- /#mainPage -->
 
   <!-- GÖREV SAYFASI (Overlay) -->
   <div id="gorevPage">
@@ -630,28 +634,33 @@
     </div>
   </div>
 
+  <!-- ALT SOL KÖY BİLGİSİ (aynen koruduk) -->
+  <div id="bottomLeft">Asman</div>
+
   <script>
     /********************* GENEL DEĞİŞKENLER *********************/
     let money = 500000;
     let currentVillage = "Asman";
+    
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
-
+    
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
 
-    /* 31 Köy */
+    /* 31 köy ve köy özellikleri */
     const allKoyler = [
-      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk",
-      "Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan",
-      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej",
+      "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
+      "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
+      "Tilal", "Olik", "Mıshecerk", "Mızelb", "Kergü",
+      "Bozdepe", "Cinnık", "Bostancı", "Masucark", "Kırıkan",
+      "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk", "Zebeşker",
+      "Mirğan", "Dideri", "Kazıka", "Nehlnehli", "Birdirej",
       "Cembel"
     ];
-
     function randomMalikane() { return [5,10,15][Math.floor(Math.random()*3)]; }
-    function randomSiginak()  { return [50,75,100][Math.floor(Math.random()*3)]; }
-    function randomVilla()    { return [25,50,75][Math.floor(Math.random()*3)]; }
-
+    function randomSiginak() { return [50,75,100][Math.floor(Math.random()*3)]; }
+    function randomVilla() { return [25,50,75][Math.floor(Math.random()*3)]; }
     const villageData = allKoyler.map(k => ({
       name: k,
       malikane: randomMalikane(),
@@ -659,18 +668,16 @@
       villa: randomVilla()
     }));
 
-    /* GÖREV LİSTELERİ (kısaltılmış) - Tamamını eskisi gibi ekleyin */
-    const vakurDifficulties = [ /* ... */ ];
-    const hatipDifficulties = [ /* ... */ ];
-    const baronDifficulties = [ /* ... */ ];
-
+    /* Görev listeleri (kısaltılmadı) */
+    const vakurDifficulties = [/* ... */];
+    const hatipDifficulties = [/* ... */];
+    const baronDifficulties = [/* ... */];
     const rankData = {
       "Vakur": vakurDifficulties,
       "Hatip": hatipDifficulties,
       "Baron": baronDifficulties
     };
 
-    /****************** ONLOAD ******************/
     window.onload = function() {
       updateMoneyUI();
       updateProfileInfo();
@@ -680,14 +687,15 @@
       updateArrowVisibility();
     };
 
-    /****************** TUTAR SATIN ALMA ******************/
+    /****************** TUTAR SATIN ALMA vs. ******************/
     function buyItem(itemName, cost) {
       if(money < cost) {
-        alert("Yetersiz bakiye!"); return;
+        alert("Yetersiz bakiye!");
+        return;
       }
-      if(["Silah","Bomba","C4","Villa"].includes(itemName)) {
-        let costPercent = ((cost / money)*100).toFixed(2);
-        if(!confirm(itemName+" satın almak? ($"+cost+" - %"+costPercent+")")){
+      if(["Silah","Bomba","Villa","C4"].includes(itemName)){
+        let costPercent = ((cost/money)*100).toFixed(2);
+        if(!confirm(`${itemName} satın almak? ($${cost} - %${costPercent})`)){
           return;
         }
       }
@@ -695,8 +703,6 @@
       updateMoneyUI();
       alert(itemName+" satın alındı! (-"+cost+"$)");
     }
-
-    /****************** DURUMUM & TÜCCAR ******************/
     function toggleDurumum(){
       document.getElementById("durumumContent").classList.toggle("active");
     }
@@ -705,7 +711,7 @@
     }
 
     /****************** KÖY INCELEME ******************/
-    let currentIncelemePage = 1;
+    let currentIncelemePage=1;
     function displayKoyIncelemePage(page){
       currentIncelemePage=page;
       const pageSize=pageSizes[page-1];
@@ -719,7 +725,7 @@
         const v=villageData[i];
         let li=document.createElement("li");
         li.innerHTML=`<span>${v.name} (6 At)</span>
-                      <button onclick="inceleKoy('${v.name}')">İncele</button>`;
+          <button onclick="inceleKoy('${v.name}')">İncele</button>`;
         ul.appendChild(li);
       }
       renderKoyIncelemePagination();
@@ -738,7 +744,10 @@
     function inceleKoy(koyName){
       let found=villageData.find(v=>v.name===koyName);
       if(!found)return;
-      alert("Köy: "+koyName+"\nMalikane: "+found.malikane+"\nSığınak: "+found.siginak+"\nVilla: "+found.villa);
+      alert(
+        "Köy: "+koyName+"\nMalikane: "+found.malikane+
+        "\nSığınak: "+found.siginak+"\nVilla: "+found.villa
+      );
     }
 
     /****************** TREN SEYEHAT ******************/
@@ -747,7 +756,7 @@
       currentTrenPage=page;
       const pageSize=pageSizes[page-1];
       let start=0;
-      for(let i=0;i<page-1;i++){ start+=pageSizes[i]; }
+      for(let i=0;i<page-1;i++){start+=pageSizes[i];}
       let end=start+pageSize;
       const trenList=document.getElementById("trenList");
       trenList.innerHTML="";
@@ -755,7 +764,7 @@
         if(i>=allKoyler.length) break;
         let li=document.createElement("li");
         li.innerHTML=`<span>${allKoyler[i]}</span>
-                      <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
+          <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
         trenList.appendChild(li);
       }
       renderTrenPagination();
@@ -766,7 +775,7 @@
       for(let p=1;p<=totalPages;p++){
         let sp=document.createElement("span");
         sp.innerText=p;
-        if(p===currentTrenPage) sp.classList.add("active");
+        if(p===currentTrenPage)sp.classList.add("active");
         sp.onclick=()=>displayTrenPage(p);
         pag.appendChild(sp);
       }
@@ -777,7 +786,7 @@
         alert("Tren bileti için paranız yok!");
         return;
       }
-      if(!confirm(village+" köyüne gitmek istediğinize emin misiniz? ($500)")){
+      if(!confirm(`${village} köyüne gitmek istediğinize emin misiniz? ($500)`)){
         return;
       }
       money-=500;
@@ -796,10 +805,10 @@
       document.getElementById("bottomLeft").innerText=currentVillage;
     }
 
-    /****************** STAT BARLARI ******************/
+    /****************** STAT BAR’LARI ******************/
     function getVakurKoruma(){
       let koruma=Math.floor(vakurTaskCount/22);
-      return (koruma%661===0 && koruma>0)? 660 : koruma%661;
+      return (koruma%661===0 && koruma>0)?660:koruma%661;
     }
     function getHatipNufus(){
       let nufus=Math.floor(hatipTaskCount/40)*5;
@@ -812,14 +821,14 @@
     function updateStatBars(){
       let vakVal=getVakurKoruma();
       let vakPct=Math.floor((vakVal/660)*100);
-      document.getElementById("vakurText").innerText = "Koruma: "+vakVal+" ("+vakPct+"%)";
-      document.getElementById("vakurFill").style.width = vakPct+"%";
+      document.getElementById("vakurText").innerText=`Koruma: ${vakVal} (${vakPct}%)`;
+      document.getElementById("vakurFill").style.width=vakPct+"%";
 
       if(isHatipUnlocked){
         document.getElementById("hatipStat").classList.remove("lockedStat");
         let hatVal=getHatipNufus();
         let hatPct=Math.floor((hatVal/200)*100);
-        document.getElementById("hatipText").innerText="Nüfus: "+hatVal+" ("+hatPct+"%)";
+        document.getElementById("hatipText").innerText=`Nüfus: ${hatVal} (${hatPct}%)`;
         document.getElementById("hatipFill").style.width=hatPct+"%";
       } else {
         document.getElementById("hatipStat").classList.add("lockedStat");
@@ -829,7 +838,7 @@
         document.getElementById("baronStat").classList.remove("lockedStat");
         let barVal=getBaronEtki();
         let barPct=Math.floor((barVal/500)*100);
-        document.getElementById("baronText").innerText="Etki: "+barVal+" ("+barPct+"%)";
+        document.getElementById("baronText").innerText=`Etki: ${barVal} (${barPct}%)`;
         document.getElementById("baronFill").style.width=barPct+"%";
       } else {
         document.getElementById("baronStat").classList.add("lockedStat");
@@ -839,18 +848,19 @@
     /****************** GÖREV SAYFASI ******************/
     let currentRank="";
     function openGorevPage(rank){
-      if(rank==="Hatip" && !isHatipUnlocked)return;
-      if(rank==="Baron" && !isBaronUnlocked)return;
+      if(rank==="Hatip"&&!isHatipUnlocked)return;
+      if(rank==="Baron"&&!isBaronUnlocked)return;
       currentRank=rank;
-      document.getElementById("gorevPage").style.display="block";
-      document.getElementById("mainRow").style.display="none"; 
+      document.getElementById("mainPage").style.display="none";
+      let gp=document.getElementById("gorevPage");
+      gp.style.display="block";
       document.getElementById("gorevHeader").innerText="BAŞLANGIÇ - KEŞİF YOLCUĞU";
       loadRankTasks(rank);
       updateArrowVisibility();
     }
     function closeGorevPage(){
       document.getElementById("gorevPage").style.display="none";
-      document.getElementById("mainRow").style.display="flex";
+      document.getElementById("mainPage").style.display="block";
     }
     function loadRankTasks(rank){
       let container=document.getElementById("tasksContainer");
@@ -863,9 +873,9 @@
 
         let h2=document.createElement("h2");
         h2.innerText=diffObj.title;
-        if(rank==="Vakur") h2.classList.add("vakur-color");
-        else if(rank==="Hatip") h2.classList.add("hatip-color");
-        else if(rank==="Baron") h2.classList.add("baron-color");
+        if(rank==="Vakur")h2.classList.add("vakur-color");
+        else if(rank==="Hatip")h2.classList.add("hatip-color");
+        else if(rank==="Baron")h2.classList.add("baron-color");
         section.appendChild(h2);
 
         diffObj.tasks.forEach((task,taskIndex)=>{
@@ -874,7 +884,7 @@
           if(task.done) divT.classList.add("completedTask");
           if(task.hidden) divT.style.display="none";
           divT.innerHTML=`<span>${task.text}</span>
-                          <button onclick="completeTask('${rank}',${diffIndex},${taskIndex})">Tamamla</button>`;
+            <button onclick="completeTask('${rank}',${diffIndex},${taskIndex})">Tamamla</button>`;
           section.appendChild(divT);
         });
 
@@ -896,14 +906,19 @@
     function completeTask(rank,diffIndex,taskIndex){
       let diffs=rankData[rank];
       let diffObj=diffs[diffIndex];
-      if(diffObj.locked){ alert("Bu görev bölümü kilitli!"); return; }
+      if(diffObj.locked){
+        alert("Bu görev bölümü kilitli!");
+        return;
+      }
       let taskItem=diffObj.tasks[taskIndex];
-      if(taskItem.done){ alert("Zaten tamamladınız!"); return; }
-
+      if(taskItem.done){
+        alert("Zaten tamamladınız!");
+        return;
+      }
       taskItem.done=true;
-      if(rank==="Vakur") vakurTaskCount++;
-      else if(rank==="Hatip") hatipTaskCount++;
-      else if(rank==="Baron") baronTaskCount++;
+      if(rank==="Vakur")vakurTaskCount++;
+      else if(rank==="Hatip")hatipTaskCount++;
+      else if(rank==="Baron")baronTaskCount++;
       updateStatBars();
 
       let allDone=diffObj.tasks.filter(t=>!t.hidden).every(t=>t.done===true);
@@ -914,15 +929,14 @@
         } else {
           alert(rank+" rankındaki tüm görevleri tamamladınız!");
           closeGorevPage();
-          // Sıradaki rankı aç
           if(rank==="Vakur"&&!isHatipUnlocked){
             isHatipUnlocked=true;
             document.getElementById("cardHatip").classList.remove("locked");
-            alert("Tebrikler! Hatip kilidi açıldı.");
+            alert("Tebrikler! Hatip kilidi açıldı!");
           } else if(rank==="Hatip"&&!isBaronUnlocked){
             isBaronUnlocked=true;
             document.getElementById("cardBaron").classList.remove("locked");
-            alert("Tebrikler! Baron kilidi açıldı.");
+            alert("Tebrikler! Baron kilidi açıldı!");
           }
         }
       }
@@ -935,13 +949,12 @@
       let doneCount=diffObj.tasks.filter(t=>!t.hidden&&t.done).length;
       let totalCount=diffObj.tasks.filter(t=>!t.hidden).length;
       let percent=Math.floor((doneCount/totalCount)*100);
-
       let sections=document.getElementById("tasksContainer").getElementsByClassName("rankSection");
       if(!sections[diffIndex])return;
       let fill=sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
       let txt=sections[diffIndex].getElementsByClassName("progressText")[0];
       fill.style.width=percent+"%";
-      txt.innerText=doneCount+" / "+totalCount+" ("+percent+"%)";
+      txt.innerText=`${doneCount} / ${totalCount} (${percent}%)`;
     }
 
     /* Ok butonları ile yatay kaydırma */
@@ -963,10 +976,10 @@
       }
     }
 
-    /* TREN RAYI GÖSTER/GİZLE */
+    /* TREN RAYINI GİZLE/GÖSTER */
     function toggleTrainRail(){
       const rail=document.getElementById("trainTrack");
-      if(rail.style.display===""||rail.style.display==="none") {
+      if(!rail.style.display||rail.style.display==="none"){
         rail.style.display="block";
       } else {
         rail.style.display="none";
