@@ -18,7 +18,8 @@
       color: #f1f1f1;
       min-height: 100vh;
       position: relative;
-      padding-top: 120px;
+      /* Tren rayı eklediğimiz için padding-top'u biraz arttırıyoruz */
+      padding-top: 200px;
       font-size: 0.9rem;
     }
     /* HEADER */
@@ -71,6 +72,66 @@
     .hatip-color { color: orange !important; }
     .baron-color { color: red !important; }
     
+    /********************************************************
+     * TREN RAYI BÖLÜMÜ (para durumunun altında gri alanda) *
+     ********************************************************/
+    #trainTrackSection {
+      position: fixed;
+      top: 60px; /* Header yüksekliği + biraz boşluk */
+      left: 0;
+      width: 100%;
+      background: #ccc;
+      padding: 10px 0;
+      z-index: 998; /* Header'ın hemen altında */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    /* Sol taraftaki siyah zeminli – beyaz ok buton */
+    #trainToggleBtn {
+      background: #000;
+      color: #fff;
+      border: none;
+      font-size: 1.2rem;
+      padding: 0.5rem 0.8rem;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    /* Tren rayı içerisindeki liste ve nokta stili */
+    #trainTrack {
+      margin-left: 20px;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: calc(100% - 100px);
+    }
+    #trainTrack ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    #trainTrack li {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      color: #333; /* Daha koyu renkte */
+    }
+    .trainDot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #000;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    
+    /* Gizli / Gösterilebilir ray */
+    /* Burada bir toggling sistemi kuruyoruz. İstersek #trainTrack'e 'hidden' class ekleyebiliriz */
+    .hiddenRail {
+      display: none;
+    }
+    
     /* ANA SAYFA KAPSAYICI */
     #mainPage {
       width: 100%;
@@ -81,7 +142,7 @@
     /* SOL PANEL */
     #leftPanel {
       position: fixed;
-      top: 120px;
+      top: 220px; /* Tren rayını da hesaba kattık (body padding-top + biraz daha) */
       left: 20px;
       width: 280px;
       z-index: 1000;
@@ -174,7 +235,7 @@
     #rightContainer {
       position: fixed;
       right: 20px;
-      top: 140px;
+      top: 220px; /* Tren rayını da hesaba kattık */
       width: 280px;
       z-index: 1000;
     }
@@ -420,10 +481,19 @@
     
     /* Responsive Ayarlar (Mobil Uyumluluk) */
     @media (max-width: 768px) {
+      /* Tren rayında da yatay scroll kaldığı için ek bir değişiklik yapılabilir istenirse */
+      #trainTrack {
+        width: 100%;
+      }
+      
       #leftPanel, #rightContainer {
         position: static;
         width: 100%;
         margin-bottom: 20px;
+        top: auto !important;
+      }
+      #mainPage {
+        padding-top: 40px; /* Mobilde biraz küçültüldü */
       }
       #centerRanks {
         position: static;
@@ -452,6 +522,49 @@
     </div>
     <div class="money"><span id="money">$500000</span></div>
   </header>
+  
+  <!-- TREN RAYI BÖLÜMÜ -->
+  <div id="trainTrackSection">
+    <!-- Sol taraftaki siyah buton (beyaz ok) -->
+    <button id="trainToggleBtn" onclick="toggleTrainRail()">&larr;</button>
+    <!-- Ray -->
+    <div id="trainTrack">
+      <ul id="trainTrackList">
+        <!-- 31 köyü (Mızrin tekrarı kaldırılmış) nokta ile işaretle -->
+        <li><span class="trainDot"></span>Asman</li>
+        <li><span class="trainDot"></span>Mizrin</li>
+        <li><span class="trainDot"></span>Qeruk</li>
+        <li><span class="trainDot"></span>Twılveser</li>
+        <li><span class="trainDot"></span>Ashma</li>
+        <li><span class="trainDot"></span>Ogean</li>
+        <li><span class="trainDot"></span>Karuk</li>
+        <li><span class="trainDot"></span>Tilkarut</li>
+        <li><span class="trainDot"></span>Midep</li>
+        <li><span class="trainDot"></span>Ömerk</li>
+        <li><span class="trainDot"></span>Tilal</li>
+        <li><span class="trainDot"></span>Olik</li>
+        <li><span class="trainDot"></span>Mıshecerk</li>
+        <li><span class="trainDot"></span>Mızelb</li>
+        <li><span class="trainDot"></span>Kergü</li>
+        <li><span class="trainDot"></span>Bozdepe</li>
+        <li><span class="trainDot"></span>Cinnık</li>
+        <li><span class="trainDot"></span>Bostancı</li>
+        <li><span class="trainDot"></span>Masucark</li>
+        <li><span class="trainDot"></span>Kırıkan</li>
+        <li><span class="trainDot"></span>Kuzluk</li>
+        <li><span class="trainDot"></span>Qeremsal</li>
+        <li><span class="trainDot"></span>Medırbaz</li>
+        <li><span class="trainDot"></span>Hecuk</li>
+        <li><span class="trainDot"></span>Zebeşker</li>
+        <li><span class="trainDot"></span>Mirğan</li>
+        <li><span class="trainDot"></span>Dideri</li>
+        <li><span class="trainDot"></span>Kazıka</li>
+        <li><span class="trainDot"></span>Nehlnehli</li>
+        <li><span class="trainDot"></span>Birdirej</li>
+        <li><span class="trainDot"></span>Cembel</li>
+      </ul>
+    </div>
+  </div>
   
   <!-- ANA SAYFA -->
   <div id="mainPage">
@@ -564,14 +677,15 @@
     const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
     
+    /* 31 köy (ikincil Mızrin kaldırıldı) */
     const allKoyler = [
       "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
       "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
       "Tilal", "Olik", "Mıshecerk", "Mızelb", "Kergü",
-      "Bozdepe", "Cinnık", "Mızrin", "Bostancı", "Masucark",
-      "Kırıkan", "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk",
-      "Zebeşker", "Mirğan", "Dideri", "Kazıka", "Nehlnehli",
-      "Birdirej", "Cembel"
+      "Bozdepe", "Cinnık", "Bostancı", "Masucark", "Kırıkan",
+      "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk", "Zebeşker",
+      "Mirğan", "Dideri", "Kazıka", "Nehlnehli", "Birdirej",
+      "Cembel"
     ];
     
     /********** Rastgele Köy Özellikleri **********/
@@ -592,7 +706,6 @@
     }));
     
     /********** GÖREV LİSTELERİ **********/
-    // Vakur için – istenilen başlıklar
     const vakurDifficulties = [
       {
         title: "ÇIRAK VAKUR I", locked: false,
@@ -672,7 +785,6 @@
       }
     ];
     
-    // Hatip için – başlıklar güncellendi
     const hatipDifficulties = [
       {
         title: "ÇIRAK HATİP I", locked: false,
@@ -752,7 +864,6 @@
       }
     ];
     
-    // Baron için – başlıklar güncellendi
     const baronDifficulties = [
       {
         title: "ÇIRAK BARON I", locked: false,
@@ -897,9 +1008,9 @@
       let found = villageData.find(v => v.name === koyName);
       if(!found) return;
       alert(
-        "Köy: " + koyName + "\n" +
-        "Malikane: " + found.malikane + "\n" +
-        "Sığınak: " + found.siginak + "\n" +
+        "Köy: " + koyName + "\\n" +
+        "Malikane: " + found.malikane + "\\n" +
+        "Sığınak: " + found.siginak + "\\n" +
         "Villa: " + found.villa
       );
     }
@@ -1011,7 +1122,6 @@
       document.getElementById("mainPage").style.display = "none";
       let gp = document.getElementById("gorevPage");
       gp.style.display = "block";
-      // Üst başlık artık her zaman "BAŞLANGIÇ - KEŞİF YOLCUĞU"
       document.getElementById("gorevHeader").innerText = "BAŞLANGIÇ - KEŞİF YOLCUĞU";
       loadRankTasks(rank);
       updateArrowVisibility();
@@ -1065,7 +1175,6 @@
         updateDifficultyProgress(rank, diffIndex);
       });
     }
-    // Gizli görevler hariç kontrol
     function completeTask(rank, diffIndex, taskIndex){
       let diffs = rankData[rank];
       let diffObj = diffs[diffIndex];
@@ -1132,7 +1241,6 @@
       container.scrollBy({ left: direction * 310, behavior: "smooth" });
       setTimeout(updateArrowVisibility, 350);
     }
-    
     function updateArrowVisibility() {
       const container = document.getElementById("tasksContainer");
       const leftArrow = document.getElementById("leftArrow");
@@ -1147,6 +1255,15 @@
       } else {
         rightArrow.style.display = "block";
       }
+    }
+    
+    /******************** TREN RAYINI GİZLE/GÖSTER ********************/
+    function toggleTrainRail(){
+      const rail = document.getElementById("trainTrack");
+      rail.classList.toggle("hiddenRail");
+      // Buton üzerinde görsel değişiklik yapmak isterseniz:
+      // let btn = document.getElementById("trainToggleBtn");
+      // btn.innerText = rail.classList.contains("hiddenRail") ? "→" : "←";
     }
   </script>
 </body>
