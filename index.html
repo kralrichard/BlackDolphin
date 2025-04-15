@@ -16,11 +16,11 @@
     body {
       background: #888;
       color: #f1f1f1;
+      /* Daha aşağıda hizalama için padding azaltıldı veya ayarlandı */
+      padding-top: 140px; 
+      font-size: 0.9rem;
       min-height: 100vh;
       position: relative;
-      /* Tren rayı ve butonlar için biraz daha boşluk bıraktık */
-      padding-top: 200px;
-      font-size: 0.9rem;
     }
 
     /* HEADER */
@@ -96,7 +96,6 @@
       text-align: center; 
       margin: 5px 0;
     }
-
     /* Siyah arka planlı butonun ortak stili */
     #trainToggleBtnTop,
     #trainToggleBtnBottom {
@@ -116,7 +115,6 @@
     #trainToggleBtnBottom:hover {
       background: #333;
     }
-
     /* Tren rayının kendisi (köy noktaları) */
     #trainTrack {
       margin: 10px 0;
@@ -144,7 +142,7 @@
       border-radius: 50%;
       margin-right: 5px;
     }
-    /* Gizle/göster klasörü */
+    /* Gizle/göster */
     .hiddenRail { display: none; }
 
     /* ANA SAYFA KAPSAYICI */
@@ -154,14 +152,12 @@
       position: relative;
     }
 
-    /* 
-      SOL PANEL 
-      - Durumum sekmesini tren rotası altındaki gri-beyaz geçiş çizgisine
-        gelecek şekilde 260px'e ayarlıyoruz.
-    */
+    /* SOL PANEL: Durumum & Tüccar
+       - VAKUR-HATİP-BARON'la aynı hizaya gelmesi için top: 140px
+       - Yukarıdaki body padding-top'u da 140px seçtik. */
     #leftPanel {
       position: fixed;
-      top: 260px; /* Güncellenen konum */
+      top: 140px;
       left: 20px;
       width: 280px;
       z-index: 1000;
@@ -250,15 +246,12 @@
       font-size: 0.8rem;
     }
 
-    /* 
-      SAĞ PANEL 
-      - Köy İncelemesi & Tren Seyahat kutularını da tren rotasının alt çizgisine hizalı olacak şekilde
-        260px'e ayarlıyoruz.
-    */
+    /* SAĞ PANEL: Köy İncelemesi & Tren Seyehat
+       - Ortadaki kartlarla aynı hizaya gelmesi için top: 140px */
     #rightContainer {
       position: fixed;
       right: 20px;
-      top: 260px; /* Güncellenen konum */
+      top: 140px;
       width: 280px;
       z-index: 1000;
     }
@@ -309,13 +302,12 @@
       background: #555;
     }
 
-    /* 
-      ORTA PANEL: Rank Kartları 
-      - VAKUR, HATİP, BARON butonlarını yukarı çekiyoruz (100px).
-    */
+    /* ORTA PANEL: Rank Kartları (VAKUR, HATİP, BARON)
+       - Aynı hizaya gelmesi için top: 140px
+       - Bu sayede sol panel, orta kartlar ve sağ panel yatayda çizgi oluşturur. */
     #centerRanks {
       position: absolute;
-      top: 100px; /* Önceki: 140px; yukarı alındı */
+      top: 140px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -342,30 +334,16 @@
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-
-    /* Kartlardaki rol isimleri: Büyük harflerle ve buton üstü boşluk sağlandı */
-    #cardVakur h2 {
-      color: blue;
-      text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
-    #cardHatip h2 {
-      color: orange;
-      text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
+    /* Kartlardaki rol isimleri */
+    #cardVakur h2,
+    #cardHatip h2,
     #cardBaron h2 {
-      color: red;
       text-transform: uppercase;
       margin-top: -10px;
       margin-bottom: 15px;
       font-size: 1.5rem;
     }
-    /* Epistemolojik Serüven butonları: Arka plan siyah, yazı beyaz */
+    /* Epistemolojik Serüven butonları */
     .card button {
       padding: 0.6rem 1.2rem;
       background: black;
@@ -508,19 +486,18 @@
     #leftArrow { left: 5px; }
     #rightArrow { right: 5px; }
 
-    /* Responsive Ayarlar (Mobil Uyumluluk) */
+    /* Responsive Ayarlar (Mobil) */
     @media (max-width: 768px) {
-      #mainPage {
-        padding-top: 40px; /* Mobilde üst boşluğu biraz azalttık */
+      body {
+        padding-top: 40px;
       }
-      #leftPanel, #rightContainer {
+      #leftPanel, #rightContainer, #centerRanks {
         position: static;
+        top: auto !important;
         width: 100%;
         margin-bottom: 20px;
-        top: auto !important;
       }
       #centerRanks {
-        position: static;
         transform: none;
         margin: 10px auto;
         flex-wrap: wrap;
@@ -598,8 +575,8 @@
       </ul>
     </div>
 
-    <!-- ALT BUTON (Ortada, Geniş Dikdörtgen) -->
-    <!-- Burada &larr; yerine &rarr; olarak değiştirdik -->
+    <!-- ALT BUTON (Ortada, Geniş Dikdörtgen) 
+         Yön oku sağa bakacak şekilde &rarr; -->
     <div id="trainToggleBottomWrapper">
       <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">
         TREN ROTASI
@@ -987,7 +964,7 @@
       updateArrowVisibility();
     };
 
-    /****************** TUTAR SATIN ALMA ******************/
+    /****************** SATIN ALMA ******************/
     function buyItem(itemName, cost) {
       if(money < cost) {
         alert("Yetersiz bakiye!");
@@ -1304,13 +1281,7 @@
     function toggleTrainRail(){
       const rail = document.getElementById("trainTrack");
       rail.classList.toggle("hiddenRail");
-      // İsterseniz buton yazısını da değiştirebilirsiniz
-      // Örnek:
-      // let topBtn = document.getElementById("trainToggleBtnTop");
-      // topBtn.innerHTML = rail.classList.contains("hiddenRail") 
-      //                   ? "TREN ROTASI<br>→" 
-      //                   : "TREN ROTASI<br>←";
-      // Aynısını alt buton için de yapabilirsiniz.
+      // İsterseniz butonun metnini de değişebilirsiniz.
     }
   </script>
 </body>
