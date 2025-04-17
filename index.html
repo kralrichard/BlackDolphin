@@ -1,1 +1,32 @@
-.icon{width:16px;height:16px;fill:currentColor;flex-shrink:0}.search-wrapper{position:fixed;bottom:60px;left:20px;display:flex;align-items:center;background:rgb(0 0 0 / .6);padding:.4rem .6rem;border-radius:5px;z-index:1000}.search-wrapper input{margin-left:8px;border:none;background:#fff0;color:#fff;outline:none;font-size:.9rem}.chat-wrapper{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;background:rgb(0 0 0 / .6);padding:.5rem 1rem;border-radius:5px;z-index:1000}.chat-wrapper input{margin-left:8px;border:none;background:#fff0;color:#fff;outline:none;font-size:.9rem}#messageNotification{position:fixed;bottom:20px;right:20px;display:flex;align-items:center;background:rgb(255 165 0 / .9);padding:.5rem 1rem;border-radius:5px;color:#000;font-size:.9rem;box-shadow:0 4px 6px rgb(0 0 0 / .3);z-index:1000}.bell-icon{margin-right:6px;color:#333}
+1<!DOCTYPE html>2<html lang="tr">3<head>4<meta charset="UTF-8">5<meta name="viewport" content="width=device-width,initial-scale=1.0">6<title>Black Dolphine-Mafia Oyunu</title>7<style>8*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+9 body{background:#888;color:#f1f1f1;font-size:.9rem}
+10 header{background:rgba(0,0,0,.85);display:flex;justify-content:space-between;padding:1rem;position:fixed;top:0;left:0;width:100%;z-index:999}
+11 .logo{font-size:2rem;color:#fff}
+12 .money{background:#222;padding:.5rem 1rem;border-radius:5px}
+13 #money{color:green!important}
+14 #leftPanel{position:fixed;top:260px;left:20px;width:280px;z-index:1000}
+15 .sectionBox{background:rgba(0,0,0,.6);padding:1rem;margin-bottom:1rem;border-radius:10px}
+16 .sectionBox h2{cursor:pointer;color:#ffcc00;text-align:center;margin-bottom:1rem;font-size:1.2rem}
+17 .tab-content{display:none;background:rgba(0,0,0,.4);padding:.5rem;border-radius:5px}
+18 .tab-content.active{display:block}
+19 #mainPage{min-height:100vh;padding-top:120px}
+20 #tuccarContent ul{list-style:none;padding:0}
+21 #tuccarContent li{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+22 #tuccarContent li span{flex:1}
+23 #tuccarContent li button{flex:1;margin-left:5px;padding:.3rem;font-size:.8rem;border:none;border-radius:5px;background:#ff4444;color:#fff;cursor:pointer}
+24 #tuccarContent ul li:nth-child(n+6)button{margin-left:0;width:100%;background:#0066cc;margin-top:4px}
+25</style>26</head>27<body>28<header>29<div class="logo">BLACK DOLPHINE</div>30<div class="money"><span id="money">$500000</span></div>31</header>32<div id="mainPage">33<div id="leftPanel">34<div class="sectionBox">35<h2 onclick="toggleDurumum()">Durumum↓</h2>36<div id="durumumContent" class="tab-content"></div>37</div>38<div class="sectionBox">39<h2 onclick="toggleTuccar()">Tüccar↓</h2>40<div id="tuccarContent" class="tab-content">41<ul>42<li><span>Davet Et</span><button onclick="invite()">Davet Et</button></li>43<li><span>Ailem</span><button onclick="showFamily()">Ailem</button></li>44<li><span>Mesajlarım</span><button onclick="openMessages()">Mesajlarım</button></li>45<li><span>Avlan</span><button onclick="hunt()">Avlan</button></li>46<li><span>Açık Arttırma</span><button onclick="openAuction()">Açık Arttırma</button></li>47<li><span>Kaçakçılık</span><button onclick="smuggle()">Kaçakçılık</button></li>48<li><span>At Yarışı</span><button onclick="startRace()">At Yarışı</button></li>49<li><span>At Bilgileri</span><button onclick="horseInfo()">At Bilgileri</button></li>50<li><span>Oyun İçi Bilgiler</span><button onclick="gameInfo()">Oyun İçi Bilgiler</button></li>51<li><span>Arananlar</span><button onclick="wantedList()">Arananlar</button></li>52<li><span>Kumar</span><button onclick="openGambling()">Kumar</button></li>53</ul>54</div>55</div>56</div>57</div>58<script>59 var money=500000;60 var currentVillage="Asman";61 function toggleDurumum(){document.getElementById("durumumContent").classList.toggle("active")}
+62 function toggleTuccar(){document.getElementById("tuccarContent").classList.toggle("active")}
+63 function invite(){alert("Davet Et")}
+64 function showFamily(){alert("Ailem")}
+65 function openMessages(){alert("Mesajlarım")}
+66 function hunt(){alert("Avlan")}
+67 function openAuction(){alert("Açık Arttırma")}
+68 function smuggle(){alert("Kaçakçılık")}
+69 function startRace(){alert("At Yarışı")}
+70 function horseInfo(){alert("At Bilgileri")}
+71 function gameInfo(){alert("Oyun İçi Bilgiler")}
+72 function wantedList(){alert("Arananlar")}
+73 function openGambling(){alert("Kumar")}
+74 function buyItem(i,c){if(money<c){alert("Yetersiz bakiye");return}money-=c;document.getElementById("money").innerText="$"+money;alert(i+" alındı")}
+75</script>76</body>77</html>
