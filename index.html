@@ -1,21 +1,478 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Black Dolphine-Mafia Oyunu</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:#888;color:#f1f1f1;padding-top:120px}
-header{position:fixed;top:0;left:0;width:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;z-index:1000;box-shadow:0 2px 5px rgba(0,0,0,0.5)}.logo{font-size:2rem;font-weight:bold;color:#fff}.money{background:#222;padding:0.5rem 1rem;border-radius:5px}
-#money{color:green!important}
-#trainTrackSection{position:fixed;top:60px;left:0;width:100%;background:#ccc;padding:10px 0;z-index:998;display:flex;flex-direction:column;align-items:center}
-#trainToggleWrapper,#trainToggleBottomWrapper{width:100%;text-align:center;margin:5px 0}
-#trainToggleBtnTop,#trainToggleBtnBottom{background:#000;color:#fff;border:none;border-radius:5px;padding:0.8rem 1.2rem;width:160px;font-weight:bold;cursor:pointer}
-#trainTrack{overflow-x:auto;white-space:nowrap;width:90%;margin:10px 0}
-#trainTrack ul{display:flex;list-style:none;gap:15px}
-#trainTrack li{display:flex;align-items:center;font-weight:bold;color:#333}.trainDot{width:10px;height:10px;background:#000;border-radius:50%;margin-right:5px}.hiddenRail{display:none}
-#mainPage{position:relative}
-#leftPanel{position:fixed;top:260px;left:20px;width:280px;z-index:900}
-#userName{text-align:center;margin-bottom:1rem;color:#ffcc00;font-weight:bold}.sectionBox{background:rgba(0,0,0,0.6);border-radius:10px;margin-bottom:1rem;overflow:hidden}.sectionBox h2{background:rgba(0,0,0,0.8);cursor:pointer;padding:0.6rem;text-align:center;color:#ffcc00}.tab-content{display:none;padding:0.6rem}.tab-content.active{display:block}.stat-bar{background:#444;border-radius:5px;padding:5px;margin-bottom:0.7rem}.stat-label{font-weight:bold;font-size:0.85rem;margin-bottom:3px}.stat-fill{height:18px;background:#00bfff;width:0;transition:width 1s ease}.stat-text{font-size:0.8rem;margin-top:3px}.lockedStat{opacity:0.4}
-#tuccarContent ul{list-style:none;margin:0;padding:0}
-#tuccarContent li{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}
-#tuccarContent li span{flex:1;font-size:0.85rem}
-#tuccarContent li button{background:#ff4444;border:none;border-radius:5px;color:#fff;cursor:pointer;padding:0.3rem 0.5rem;font-size:0.8rem}.tuccar-tabs{margin-top:1rem;border-top:1px solid #555;padding-top:0.5rem}.tuccar-tabs ul{list-style:none;display:flex;flex-wrap:wrap;gap:0.5rem;margin:0;padding:0}.tuccar-tabs li{cursor:pointer;padding:0.4rem 0.8rem;background:#333;border-radius:4px;font-size:0.85rem}.tuccar-tabs li.active{background:#555}.tab-panel{display:none;margin-top:0.5rem;padding:0.6rem;background:rgba(255,255,255,0.1);border-radius:5px}.tab-panel.active{display:block}</style></head><body><!-- HEADER --><header><div class="logo">BLACK DOLPHINE</div><div class="money"><span id="money">$500000</span></div></header><!-- TREN RAYI --><div id="trainTrackSection"><div id="trainToggleWrapper"><button id="trainToggleBtnTop" onclick="toggle('trainTrack')">TREN ROTASI<br>&larr;</button></div><div id="trainTrack"><ul id="trainTrackList"><li><span class="trainDot"></span>Asman</li><li><span class="trainDot"></span>Mizrin</li><li><span class="trainDot"></span>Qeruk</li><!-- … diğer köyler … --></ul></div><div id="trainToggleBottomWrapper"><button id="trainToggleBtnBottom" onclick="toggle('trainTrack')">TREN ROTASI<br>&rarr;</button></div></div><!-- ANA SAYFA --><div id="mainPage"><!-- SOL PANEL --><div id="leftPanel"><div id="userName">KullanıcıAdı</div><!-- Durumum --><div class="sectionBox"><h2 onclick="toggle('durumumContent')">Durumum&#9660;</h2><div id="durumumContent" class="tab-content"><div class="stat-bar" id="vakurStat"><div class="stat-label vakur-color">VAKUR 🛡️</div><div class="stat-fill" id="vakurFill"></div><div class="stat-text" id="vakurText">Koruma:0(0%)</div></div><div class="stat-bar lockedStat" id="hatipStat"><div class="stat-label hatip-color">HATİP 👥</div><div class="stat-fill" id="hatipFill"></div><div class="stat-text" id="hatipText">Nüfus:0(0%)</div></div><div class="stat-bar lockedStat" id="baronStat"><div class="stat-label baron-color">BARON ♛</div><div class="stat-fill" id="baronFill"></div><div class="stat-text" id="baronText">Etki:0(0%)</div></div><div id="profileInfo">Köy:<span id="currentVillageDisplay">Asman</span></div></div></div><!-- Tüccar --><div class="sectionBox"><h2 onclick="toggle('tuccarContent')">Tüccar&#9660;</h2><div id="tuccarContent" class="tab-content"><ul><li><span>Silah(2500$)</span><button onclick="buyItem('Silah',2500)">Satın Al</button></li><li><span>Bomba(1000$)</span><button onclick="buyItem('Bomba',1000)">Satın Al</button></li><li><span>C4(1500$)</span><button onclick="buyItem('C4',1500)">Satın Al</button></li><li><span>Villa(15000$)</span><button onclick="buyItem('Villa',15000)">Satın Al</button></li><li><span>Ev(10000$)</span><button onclick="buyItem('Ev',10000)">Satın Al</button></li></ul><div class="tuccar-tabs"><ul><li onclick="selectTab('invite')" id="tab-invite">Davet Et</li><li onclick="selectTab('family')" id="tab-family">Ailem</li><li onclick="selectTab('messages')" id="tab-messages">Mesajlarım</li><li onclick="selectTab('hunt')" id="tab-hunt">Avlan</li><li onclick="selectTab('auction')" id="tab-auction">Açık Arttırma</li><li onclick="selectTab('smuggle')" id="tab-smuggle">Kaçakçılık</li><li onclick="selectTab('race')" id="tab-race">At Yarışı</li><li onclick="selectTab('horse')" id="tab-horse">At Bilgileri</li><li onclick="selectTab('gameinfo')" id="tab-gameinfo">Oyun İçi Bilgiler</li><li onclick="selectTab('wanted')" id="tab-wanted">Arananlar</li><li onclick="selectTab('gambling')" id="tab-gambling">Kumar</li></ul></div><div id="tuccar-panels"><div id="invite" class="tab-panel">Davet Et içeriği</div><div id="family" class="tab-panel">Ailem içeriği</div><div id="messages" class="tab-panel">Mesajlarım içeriği</div><div id="hunt" class="tab-panel">Avlan içeriği</div><div id="auction" class="tab-panel">Açık Arttırma içeriği</div><div id="smuggle" class="tab-panel">Kaçakçılık içeriği</div><div id="race" class="tab-panel">At Yarışı içeriği</div><div id="horse" class="tab-panel">At Bilgileri içeriği</div><div id="gameinfo" class="tab-panel">Oyun İçi Bilgiler içeriği</div><div id="wanted" class="tab-panel">Arananlar içeriği</div><div id="gambling" class="tab-panel">Kumar içeriği</div></div></div></div></div><!-- SAĞ PANEL ve ORTA PANEL...eskisi gibi devam eder --></div><!-- ALT KUTULAR --><input type="text" id="userSearchBox" placeholder="Kullanıcı Ara..." style="position:fixed; bottom:60px; left:20px; width:200px; padding:0.4rem; border:none; border-radius:5px;"><input type="text" id="chatBox" placeholder="Mesaj yaz..." style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; padding:0.5rem; border:none; border-radius:5px;"><div id="bottomLeft" style="position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.5rem 1rem; border-radius:8px;">Asman</div><div id="messageNotification" style="position:fixed; bottom:20px; right:20px; background:orange; padding:0.5rem 1rem; border-radius:5px;">Yeni Mesaj Var!</div><script>function toggle(id){document.getElementById(id).classList.toggle('active')}
-function selectTab(name){document.querySelectorAll('.tuccar-tabs li').forEach(li=>li.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById(name).classList.add('active')}
-let money=500000,currentVillage='Asman';function updateMoney(){document.getElementById('money').innerText='$'+money}
-function buyItem(i,c){if(money<c){alert('Yetersiz bakiye');return}if(confirm(i+' alılsın mı? ($'+c+')')){money-=c;updateMoney();alert(i+' alındı.')}}
-window.onload=function(){updateMoney();document.getElementById('currentVillageDisplay').innerText=currentVillage;selectTab('invite')};</script></body></html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Mobil uyumluluğu sağlamak için viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Dolphine - Mafia Oyunu</title>
+  <style>
+    /* =============== GENEL =============== */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #888; color: #f1f1f1;
+      min-height: 100vh; padding-top: 120px; position: relative;
+      font-size: 0.9rem;
+    }
+
+    /* =============== HEADER =============== */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .logo { font-size: 2rem; font-weight: bold; color: #fff; }
+    .money {
+      background: #222; padding: 0.5rem 1rem; border-radius: 5px;
+      font-size: 1rem;
+    }
+    #money { color: green !important; }
+
+    /* =============== TREN RAYI =============== */
+    #trainTrackSection {
+      position: fixed; top: 60px; left: 0; width: 100%;
+      background: #ccc; padding: 10px 0; z-index: 998;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    #trainToggleWrapper, #trainToggleBottomWrapper {
+      width: 100%; text-align: center; margin: 5px 0;
+    }
+    #trainToggleBtnTop, #trainToggleBtnBottom {
+      background: #000; color: #fff; border: none; border-radius: 5px;
+      padding: 0.8rem 1.2rem; width: 160px; font-weight: bold;
+      cursor: pointer;
+    }
+    #trainTrack {
+      overflow-x: auto; white-space: nowrap; width: 90%;
+      margin: 10px 0;
+    }
+    #trainTrack ul { display: flex; list-style: none; gap: 15px; }
+    #trainTrack li {
+      display: flex; align-items: center; font-weight: bold; color: #333;
+    }
+    .trainDot {
+      width: 10px; height: 10px; background: #000;
+      border-radius: 50%; margin-right: 5px;
+    }
+    .hiddenRail { display: none; }
+
+    /* =============== ANA SAYFA =============== */
+    #mainPage { width: 100%; min-height: 100vh; position: relative; }
+
+    /* ---- SOL PANEL ---- */
+    #leftPanel {
+      position: fixed; top: 260px; left: 20px; width: 280px; z-index: 1000;
+    }
+    /* Kullanıcı adı başlığı */
+    #userName {
+      color: #ffcc00; text-align: center; margin-bottom: 1rem;
+      font-size: 1.1rem; font-weight: bold;
+    }
+    .sectionBox {
+      background: rgba(0,0,0,0.6); border-radius: 10px;
+      padding: 1rem; margin-bottom: 1rem;
+    }
+    .sectionBox h2 {
+      cursor: pointer; color: #ffcc00; text-align: center;
+      margin-bottom: 1rem; font-size: 1.2rem;
+    }
+    .tab-content {
+      display: none; background: rgba(0,0,0,0.4);
+      padding: 0.5rem; border-radius: 5px;
+    }
+    .tab-content.active { display: block; }
+
+    /* Durumum içeriği */
+    .stat-bar {
+      background: #444; border-radius: 5px; overflow: hidden;
+      padding: 5px; margin-bottom: 0.7rem;
+    }
+    .stat-label { font-weight: bold; font-size: 0.85rem; margin-bottom: 3px; }
+    .vakur-color { color: blue; }
+    .hatip-color { color: orange; }
+    .baron-color { color: red; }
+    .stat-fill {
+      width: 0%; height: 18px; background: #00bfff;
+      transition: width 1s ease;
+    }
+    .stat-text { font-size: 0.8rem; margin-top: 3px; }
+    .badge-indicator { color: #ffcc00; font-size: 0.8rem; text-align: center; }
+
+    /* Tüccar içeriği */
+    #tuccarContent ul { list-style: none; padding: 0; }
+    #tuccarContent li {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 0.5rem;
+    }
+    #tuccarContent li span { flex: 1; }
+    #tuccarContent li button {
+      flex: 1; margin-left: 5px; padding: 0.3rem;
+      font-size: 0.8rem; border: none; border-radius: 5px;
+      background: #ff4444; color: #fff; cursor: pointer;
+    }
+    /* Menü butonları tam genişlik */
+    #tuccarContent ul li:nth-child(n+6) button {
+      margin-left: 0; width: 100%; background: #0066cc; margin-top: 4px;
+    }
+
+    /* ---- SAĞ PANEL ---- */
+    #rightContainer {
+      position: fixed; top: 260px; right: 20px; width: 280px; z-index: 1000;
+    }
+    #koyIncelemeBox, #trenSeyahatBox {
+      background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    #koyIncelemeBox h3, #trenSeyahatBox h3 {
+      text-align: center; color: #ffcc00; margin-bottom: 0.5rem;
+    }
+    #koyIncelemeBox ul, #trenSeyahatBox ul {
+      list-style: none; padding: 0; margin: 0; font-size: 0.85rem;
+    }
+    #koyIncelemeBox li, #trenSeyahatBox li {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 0.4rem;
+    }
+    #koyIncelemeBox li button, #trenSeyahatBox li button {
+      padding: 0.3rem 0.6rem; font-size: 0.8rem;
+      border: none; border-radius: 5px; cursor: pointer;
+      background: #00bfff; color: #fff;
+    }
+    #koyIncelemePagination, #trenPagination {
+      text-align: center; margin-top: 0.5rem;
+    }
+    #koyIncelemePagination span, #trenPagination span {
+      display: inline-block; padding: 0.3rem 0.6rem; margin: 0 0.2rem;
+      background: #444; border-radius: 3px; cursor: pointer;
+      color: #ffcc00;
+    }
+    #koyIncelemePagination span.active, #trenPagination span.active {
+      background: #555;
+    }
+
+    /* ---- ORTA PANEL ---- */
+    #centerRanks {
+      position: absolute; top: 260px; left: 50%;
+      transform: translateX(-50%); display: flex; gap: 20px;
+      padding: 10px; background: grey; border-radius: 10px; z-index: 900;
+    }
+    .card {
+      background: rgba(255,255,255,0.05); border-radius: 10px;
+      width: 250px; padding: 2rem; text-align: center;
+      cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .card:hover { transform: translateY(-5px); }
+    .card h2 { text-transform: uppercase; margin-bottom: 15px; }
+    .card button {
+      padding: 0.6rem 1.2rem; background: black; color: white;
+      border: none; border-radius: 5px; cursor: pointer;
+    }
+
+    /* ---- ALT KUTULAR ---- */
+    #userSearchBox {
+      position: fixed; bottom: 60px; left: 20px; width: 200px;
+      padding: 0.4rem; border: none; border-radius: 5px;
+      font-size: 0.9rem; z-index: 1000;
+    }
+    #chatBox {
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%); width: 300px;
+      padding: 0.5rem; border-radius: 5px; border: none;
+      font-size: 0.9rem; z-index: 1000;
+    }
+    #bottomLeft {
+      position: fixed; bottom: 20px; left: 20px;
+      background: #0288d1; padding: 0.5rem 1rem;
+      border-radius: 8px; font-size: 1.2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 1000;
+    }
+    #messageNotification {
+      position: fixed; bottom: 20px; right: 20px;
+      background: rgba(255,165,0,0.9); padding: 0.5rem 1rem;
+      border-radius: 5px; font-size: 0.9rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 1000;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      #leftPanel, #rightContainer, #centerRanks {
+        position: static; width: 100%; margin-bottom: 20px;
+      }
+      #centerRanks {
+        transform: none; justify-content: center; flex-wrap: wrap;
+      }
+      .card { width: 90%; margin: 10px 0; }
+      #trainTrack { width: 100%; }
+      #userSearchBox { width: 80%; }
+      #chatBox { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">BLACK DOLPHINE</div>
+    <div class="money"><span id="money">$500000</span></div>
+  </header>
+
+  <!-- TREN RAYI -->
+  <div id="trainTrackSection">
+    <div id="trainToggleWrapper">
+      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">TREN ROTASI<br>&larr;</button>
+    </div>
+    <div id="trainTrack">
+      <ul id="trainTrackList">
+        <li><span class="trainDot"></span>Asman</li>
+        <li><span class="trainDot"></span>Mizrin</li>
+        <li><span class="trainDot"></span>Qeruk</li>
+        <!-- … diğer köyler … -->
+      </ul>
+    </div>
+    <div id="trainToggleBottomWrapper">
+      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">TREN ROTASI<br>&rarr;</button>
+    </div>
+  </div>
+
+  <!-- ANA SAYFA -->
+  <div id="mainPage">
+    <!-- SOL PANEL -->
+    <div id="leftPanel">
+      <div id="userName">Kullanıcı: YourNameHere</div>
+
+      <!-- Durumum -->
+      <div class="sectionBox">
+        <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
+        <div id="durumumContent" class="tab-content">
+          <div class="stat-bar" id="vakurStat">
+            <div class="stat-label vakur-color">VAKUR 🛡️</div>
+            <div class="stat-fill" id="vakurFill"></div>
+            <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+            <div class="badge-indicator">R</div>
+          </div>
+          <div class="stat-bar lockedStat" id="hatipStat">
+            <div class="stat-label hatip-color">HATİP 👥</div>
+            <div class="stat-fill" id="hatipFill"></div>
+            <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+          </div>
+          <div class="stat-bar lockedStat" id="baronStat">
+            <div class="stat-label baron-color">BARON ♛</div>
+            <div class="stat-fill" id="baronFill"></div>
+            <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
+          </div>
+          <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
+        </div>
+      </div>
+
+      <!-- Tüccar -->
+      <div class="sectionBox">
+        <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
+        <div id="tuccarContent" class="tab-content">
+          <ul>
+            <li><span>Silah (2500$)</span><button onclick="buyItem('Silah',2500)">Satın Al</button></li>
+            <li><span>Bomba (1000$)</span><button onclick="buyItem('Bomba',1000)">Satın Al</button></li>
+            <li><span>C4 (1500$)</span><button onclick="buyItem('C4',1500)">Satın Al</button></li>
+            <li><span>Villa (15000$)</span><button onclick="buyItem('Villa',15000)">Satın Al</button></li>
+            <li><span>Ev (10000$)</span><button onclick="buyItem('Ev',10000)">Satın Al</button></li>
+            <li><span>Davet Et</span><button onclick="invite()">Davet Et</button></li>
+            <li><span>Ailem</span><button onclick="showFamily()">Ailem</button></li>
+            <li><span>Mesajlarım</span><button onclick="openMessages()">Mesajlarım</button></li>
+            <li><span>Avlan</span><button onclick="hunt()">Avlan</button></li>
+            <li><span>Açık Arttırma</span><button onclick="openAuction()">Açık Arttırma</button></li>
+            <li><span>Kaçakçılık</span><button onclick="smuggle()">Kaçakçılık</button></li>
+            <li><span>At Yarışı</span><button onclick="startRace()">At Yarışı</button></li>
+            <li><span>At Bilgileri</span><button onclick="horseInfo()">At Bilgileri</button></li>
+            <li><span>Oyun İçi Bilgiler</span><button onclick="gameInfo()">Oyun İçi Bilgiler</button></li>
+            <li><span>Arananlar</span><button onclick="wantedList()">Arananlar</button></li>
+            <li><span>Kumar</span><button onclick="openGambling()">Kumar</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAĞ PANEL -->
+    <div id="rightContainer">
+      <div id="koyIncelemeBox">
+        <h3>Köy İncelemesi</h3>
+        <ul id="koyIncelemeList"></ul>
+        <div id="koyIncelemePagination"></div>
+      </div>
+      <div id="trenSeyahatBox">
+        <h3>Trenle Seyehat</h3>
+        <ul id="trenList"></ul>
+        <div id="trenPagination"></div>
+      </div>
+    </div>
+
+    <!-- ORTA PANEL -->
+    <div id="centerRanks">
+      <div class="card" id="cardVakur">
+        <h2 class="vakur-color">VAKUR</h2>
+        <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
+      </div>
+      <div class="card locked" id="cardHatip">
+        <h2 class="hatip-color">HATİP</h2>
+        <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
+      </div>
+      <div class="card locked" id="cardBaron">
+        <h2 class="baron-color">BARON</h2>
+        <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALT KUTULAR -->
+  <input type="text" id="userSearchBox" placeholder="Kullanıcı Ara...">
+  <input type="text" id="chatBox" placeholder="Mesaj yaz...">
+  <div id="bottomLeft">Asman</div>
+  <div id="messageNotification">Yeni Mesajınız Var!</div>
+
+  <script>
+    // Genel değişkenler
+    let money = 500000;
+    let currentVillage = "Asman";
+
+    // Sayfa boyutları ve köy verisi
+    const pageSizes = [3,3,5,5,5,5,5];
+    let currentIncelemePage = 1, currentTrenPage = 1;
+    const allKoyler = ["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk",
+                      "Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe","Cinnık","Bostancı","Masucark",
+                      "Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka",
+                      "Nehlnehli","Birdirej","Cembel"];
+    function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+    const villageData = allKoyler.map(n=>({
+      name:n,
+      malikane:rnd([5,10,15]),
+      siginak:rnd([50,75,100]),
+      villa:rnd([25,50,75])
+    }));
+
+    window.onload = function(){
+      updateMoneyUI();
+      updateProfileInfo();
+      displayKoyIncelemePage(1);
+      displayTrenPage(1);
+    };
+
+    // Para ve profil güncelle
+    function updateMoneyUI(){
+      document.getElementById("money").innerText = "$"+money;
+    }
+    function updateProfileInfo(){
+      document.getElementById("currentVillageDisplay").innerText = currentVillage;
+      document.getElementById("bottomLeft").innerText = currentVillage;
+    }
+
+    // Sekme aç/kapa
+    function toggleDurumum(){
+      document.getElementById("durumumContent").classList.toggle("active");
+    }
+    function toggleTuccar(){
+      document.getElementById("tuccarContent").classList.toggle("active");
+    }
+
+    // Köy İnceleme
+    function displayKoyIncelemePage(page){
+      currentIncelemePage = page;
+      const start = pageSizes.slice(0,page-1).reduce((s,v)=>s+v,0);
+      const end = start + pageSizes[page-1];
+      const ul = document.getElementById("koyIncelemeList");
+      ul.innerHTML = "";
+      for(let i=start; i<end && i<villageData.length; i++){
+        const v = villageData[i];
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${v.name} (6 At)</span>
+          <button onclick="inceleKoy('${v.name}')">İncele</button>
+        `;
+        ul.appendChild(li);
+      }
+      renderKoyPagination();
+    }
+    function renderKoyPagination(){
+      const pag = document.getElementById("koyIncelemePagination");
+      pag.innerHTML = "";
+      for(let p=1; p<=pageSizes.length; p++){
+        const span = document.createElement("span");
+        span.innerText = p;
+        if(p===currentIncelemePage) span.classList.add("active");
+        span.onclick = ()=>displayKoyIncelemePage(p);
+        pag.appendChild(span);
+      }
+    }
+    function inceleKoy(name){
+      const v = villageData.find(x=>x.name===name);
+      alert(`Köy: ${name}\nMalikane: ${v.malikane}\nSığınak: ${v.siginak}\nVilla: ${v.villa}`);
+    }
+
+    // Tren Seyahat
+    function displayTrenPage(page){
+      currentTrenPage = page;
+      const start = pageSizes.slice(0,page-1).reduce((s,v)=>s+v,0);
+      const end = start + pageSizes[page-1];
+      const ul = document.getElementById("trenList");
+      ul.innerHTML = "";
+      for(let i=start; i<end && i<allKoyler.length; i++){
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${allKoyler[i]}</span>
+          <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>
+        `;
+        ul.appendChild(li);
+      }
+      renderTrenPagination();
+    }
+    function renderTrenPagination(){
+      const pag = document.getElementById("trenPagination");
+      pag.innerHTML = "";
+      for(let p=1; p<=pageSizes.length; p++){
+        const span = document.createElement("span");
+        span.innerText = p;
+        if(p===currentTrenPage) span.classList.add("active");
+        span.onclick = ()=>displayTrenPage(p);
+        pag.appendChild(span);
+      }
+    }
+    function travelToTrain(village){
+      if(village===currentVillage) return;
+      if(money<500){ alert("Yetersiz bakiye!"); return; }
+      if(confirm(`${village} köyüne gitmek ister misiniz? ($500)`)){
+        money-=500; currentVillage=village;
+        updateMoneyUI(); updateProfileInfo();
+        alert(`Trenle ${village} köyüne varıldı.`);
+      }
+    }
+
+    // Satın alma
+    function buyItem(item,cost){
+      if(money<cost){ alert("Yetersiz bakiye!"); return; }
+      if(confirm(`${item} satın alınsın mı? ($${cost})`)){
+        money-=cost; updateMoneyUI(); alert(`${item} alındı.`);
+      }
+    }
+
+    // Tren rayını gizle/göster
+    function toggleTrainRail(){
+      document.getElementById("trainTrack").classList.toggle("hiddenRail");
+    }
+
+    // Menü butonları stublari
+    function invite()       { alert("Davet Et"); }
+    function showFamily()   { alert("Ailem"); }
+    function openMessages() { alert("Mesajlarım"); }
+    function hunt()         { alert("Avlan"); }
+    function openAuction()  { alert("Açık Arttırma"); }
+    function smuggle()      { alert("Kaçakçılık"); }
+    function startRace()    { alert("At Yarışı"); }
+    function horseInfo()    { alert("At Bilgileri"); }
+    function gameInfo()     { alert("Oyun İçi Bilgiler"); }
+    function wantedList()   { alert("Arananlar"); }
+    function openGambling() { alert("Kumar"); }
+  </script>
+</body>
+</html>
