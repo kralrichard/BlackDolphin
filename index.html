@@ -43,18 +43,31 @@
     /* ================= TREN RAYI ================= */
     #trainTrackSection {
       position: fixed; top: 60px; left: 0; width: 100%;
-      background: #ccc; padding: 10px 0;
+      background: #f0f0f0; padding: 10px 0;
       display: flex; flex-direction: column; align-items: center;
       z-index: 998;
     }
     #trainToggleWrapper, #trainToggleBottomWrapper {
       width: 100%; text-align: center; margin: 5px 0;
     }
-    #trainToggleBtnTop, #trainToggleBtnBottom {
-      background: #000; color: #fff;
-      border: none; border-radius: 5px;
-      padding: 0.8rem 1.2rem; width: 160px;
-      cursor: pointer; font-weight: bold;
+    #trainToggleBtnTop,
+    #trainToggleBtnBottom {
+      background: linear-gradient(135deg, #00b4db, #0083b0);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+      font-size: 0.9rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+    #trainToggleBtnTop:hover,
+    #trainToggleBtnBottom:hover {
+      transform: scale(1.05);
     }
     #trainTrack {
       overflow-x: auto; white-space: nowrap; width: 90%;
@@ -65,7 +78,8 @@
     }
     .trainDot {
       display: inline-block; width: 10px; height: 10px;
-      background: #000; border-radius: 50%;
+      background: #0288d1;
+      border-radius: 50%;
       margin-right: 5px;
     }
 
@@ -210,123 +224,3 @@
     <!-- ----- SOL PANEL ----- -->
     <div id="leftPanel">
       <!-- Durumum Sekmesi -->
-      <div class="sectionBox">
-        <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
-        <div id="durumumContent" class="tab-content">
-          <!-- mevcut içerik -->
-        </div>
-      </div>
-      <!-- Tüccar Sekmesi -->
-      <div class="sectionBox">
-        <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
-        <div id="tuccarContent" class="tab-content">
-          <!-- mevcut içerik -->
-        </div>
-      </div>
-      <!-- Davet Et Sekmesi -->
-      <div class="sectionBox">
-        <h2 onclick="toggleDavet()">Davet Et &#9660;</h2>
-        <div id="inviteContent" class="tab-content">
-          <button onclick="invite()">Davet Et</button>
-        </div>
-      </div>
-      <!-- Ailem Sekmesi -->
-      <div class="sectionBox">
-        <h2 onclick="toggleAilem()">Ailem &#9660;</h2>
-        <div id="ailemContent" class="tab-content">
-          <button onclick="showFamily()">Ailem</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ----- SAĞ PANEL ----- -->
-    <div id="rightContainer">
-      <div id="koyIncelemeBox">
-        <h3>Köy İncelemesi</h3>
-        <ul id="koyIncelemeList"></ul>
-        <div id="koyIncelemePagination"></div>
-      </div>
-      <div id="trenSeyahatBox">
-        <h3>Trenle Seyehat</h3>
-        <ul id="trenList"></ul>
-        <div id="trenPagination"></div>
-      </div>
-    </div>
-
-    <!-- ----- ORTA PANEL ----- -->
-    <div id="centerRanks">
-      <div class="card" id="cardVakur">
-        <h2 class="vakur-color">VAKUR</h2>
-        <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
-      </div>
-      <div class="card locked" id="cardHatip">
-        <h2 class="hatip-color">HATİP</h2>
-        <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
-      </div>
-      <div class="card locked" id="cardBaron">
-        <h2 class="baron-color">BARON</h2>
-        <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ----------------- EKSTRA BÖLÜMLER ----------------- -->
-  <input type="text" id="userSearchBox" placeholder="Kullanıcı Ara...">
-  <input type="text" id="chatBox" placeholder="Mesaj yaz...">
-  <div id="bottomLeft">Asman</div>
-  <div id="messageNotification">Yeni Mesajınız Var!</div>
-
-  <!-- ================ JAVASCRIPT ================ -->
-  <script>
-    // Genel değişkenler
-    let money = 500000;
-    let currentVillage = "Asman";
-
-    // Panel aç/kapa fonksiyonları
-    function toggleDurumum() {
-      document.getElementById("durumumContent").classList.toggle("active");
-    }
-    function toggleTuccar() {
-      document.getElementById("tuccarContent").classList.toggle("active");
-    }
-    function toggleDavet() {
-      document.getElementById("inviteContent").classList.toggle("active");
-    }
-    function toggleAilem() {
-      document.getElementById("ailemContent").classList.toggle("active");
-    }
-
-    // Yeni menü butonları için stub fonksiyonlar
-    function invite()       { alert("Davet Et tıklandı"); }
-    function showFamily()   { alert("Ailem tıklandı"); }
-    function openMessages() { alert("Mesajlarım tıklandı"); }
-    function openAuction()  { alert("Açık Arttırma tıklandı"); }
-    function startRace()    { alert("At Yarışı tıklandı"); }
-    function horseInfo()    { alert("At Bilgileri tıklandı"); }
-    function gameInfo()     { alert("Oyun İçi Bilgiler tıklandı"); }
-    function wantedList()   { alert("Arananlar tıklandı"); }
-    function openGambling() { alert("Kumar tıklandı"); }
-
-    // Satın alma fonksiyonu
-    function buyItem(item, cost) {
-      if (money < cost) { alert("Yetersiz bakiye!"); return; }
-      if (confirm(item + " satın alınsın mı? - $" + cost)) {
-        money -= cost;
-        document.getElementById("money").innerText = "$" + money;
-        alert(item + " alındı.");
-      }
-    }
-
-    // Tren rayını gizle/göster
-    function toggleTrainRail() {
-      document.getElementById("trainTrack").classList.toggle("hiddenRail");
-    }
-
-    // Sayfa yüklendiğinde profil ve köy ismi güncelle
-    window.onload = function() {
-      document.getElementById("bottomLeft").innerText = currentVillage;
-      document.getElementById("currentVillageDisplay").innerText = currentVillage;
-    };
-  </script>
-</body>
-</html>
