@@ -60,15 +60,6 @@
       overflow-x: auto; white-space: nowrap; width: 90%;
       margin: 10px 0;
     }
-    #trainTrack ul {
-      display: flex; list-style: none; gap: 15px;
-    }
-    .trainDot {
-      display: inline-block; width: 10px; height: 10px;
-      background: #00bfff; /* mavi nokta */
-      border-radius: 50%;
-      margin-right: 5px;
-    }
 
     /* ================= ANA SAYFA ================= */
     #mainPage { position: relative; }
@@ -109,7 +100,7 @@
     .badge-indicator { color: #ffcc00; font-size: 0.8rem; text-align: center; }
 
     /* ------ TÜCCAR İÇERİĞİ ------ */
-    #tuccarContent ul { list-style: none; }
+    #tuccarContent ul { list-style: none; padding-left: 0; }
     #tuccarContent li {
       display: flex; justify-content: space-between;
       align-items: center; margin-bottom: 0.5rem;
@@ -127,7 +118,7 @@
     /* ----------------- SAĞ PANEL ----------------- */
     #rightContainer {
       position: fixed; top: 260px; right: 20px;
-      width: 280px; z-index: 1000;
+      width: 300px; z-index: 1000;
     }
     #koyIncelemeBox, #trenSeyahatBox {
       background: rgba(0,0,0,0.7); padding: 1rem;
@@ -136,9 +127,24 @@
     #koyIncelemeBox h3, #trenSeyahatBox h3 {
       color: #ffcc00; text-align: center; margin-bottom: 0.5rem;
     }
-    #koyIncelemeList, #trenList { list-style: none; padding-left: 0; }
+
+    /* Numara + yatay akış için */
+    #koyIncelemeList, #trenList {
+      list-style: decimal inside;
+      display: flex;
+      gap: 1rem;
+      padding-left: 0;
+      margin: 0;
+    }
     #koyIncelemeList li, #trenList li {
-      margin-bottom: 0.4rem;
+      margin: 0;
+      white-space: nowrap;
+      color: #f1f1f1;
+      font-size: 0.9rem;
+    }
+    /* Tren numaraları mavi */
+    #trenList {
+      color: #00bfff;
     }
 
     /* ----------------- ORTA PANEL ----------------- */
@@ -205,13 +211,10 @@
       .card { width: 90%; margin: 10px 0; }
       #trainTrack { width: 100%; }
     }
-    @media (max-width: 400px), (max-height: 600px) {
-      #tuccarContent li button { font-size: 0.7rem; padding: 0.2rem 0.4rem; }
-    }
   </style>
 </head>
 <body>
-  <!-- ================ HEADER ================ -->
+  <!-- ======== HEADER ======== -->
   <header>
     <div class="logo">BLACK DOLPHINE
       <div class="logo-dolphin">
@@ -223,77 +226,41 @@
     <div class="money"><span id="money">$500000</span></div>
   </header>
 
-  <!-- ================ TREN RAYI ================ -->
+  <!-- ======== TREN RAYI ======== -->
   <div id="trainTrackSection">
     <div id="trainToggleWrapper">
-      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">TREN ROTASI &larr;</button>
+      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">TREN &larr;</button>
     </div>
     <div id="trainTrack">
-      <ul id="trainTrackList">
-        <!-- 31 Köy -->
-        <li><span class="trainDot"></span>Asman</li>
-        <li><span class="trainDot"></span>Mizrin</li>
-        <li><span class="trainDot"></span>Qeruk</li>
-        <li><span class="trainDot"></span>Derin</li>
-        <li><span class="trainDot"></span>Ravin</li>
-        <li><span class="trainDot"></span>Zal</li>
-        <li><span class="trainDot"></span>Şevin</li>
-        <li><span class="trainDot"></span>Hazar</li>
-        <li><span class="trainDot"></span>Cewl</li>
-        <li><span class="trainDot"></span>Nûrî</li>
-        <li><span class="trainDot"></span>Gever</li>
-        <li><span class="trainDot"></span>Berfin</li>
-        <li><span class="trainDot"></span>Botan</li>
-        <li><span class="trainDot"></span>Dicle</li>
-        <li><span class="trainDot"></span>Zagros</li>
-        <li><span class="trainDot"></span>Munzur</li>
-        <li><span class="trainDot"></span>Nemrut</li>
-        <li><span class="trainDot"></span>Van</li>
-        <li><span class="trainDot"></span>Bitlis</li>
-        <li><span class="trainDot"></span>Mardin</li>
-        <li><span class="trainDot"></span>Siirt</li>
-        <li><span class="trainDot"></span>Şırnak</li>
-        <li><span class="trainDot"></span>Hakkari</li>
-        <li><span class="trainDot"></span>Erciş</li>
-        <li><span class="trainDot"></span>Ardil</li>
-        <li><span class="trainDot"></span>Cizre</li>
-        <li><span class="trainDot"></span>Midyat</li>
-        <li><span class="trainDot"></span>Kurtalan</li>
-        <li><span class="trainDot"></span>Hasankeyf</li>
-        <li><span class="trainDot"></span>Lice</li>
-      </ul>
+      <!-- track içi boş, artık şehirler sağ panelde -->
     </div>
     <div id="trainToggleBottomWrapper">
-      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">TREN ROTASI &rarr;</button>
+      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">TREN &rarr;</button>
     </div>
   </div>
 
-  <!-- ================ ANA SAYFA ================ -->
+  <!-- ======== ANA SAYFA ======== -->
   <div id="mainPage">
-    <!-- ----- SOL PANEL ----- -->
+    <!-- ---- SOL PANEL ---- -->
     <div id="leftPanel">
-      <!-- Durumum Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
         <div id="durumumContent" class="tab-content">
-          <!-- Vakur, Hatip, Baron barları vs. buraya -->
+          <!-- … -->
         </div>
       </div>
-      <!-- Tüccar Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
-          <!-- Tüccar içeriği -->
+          <!-- … -->
         </div>
       </div>
-      <!-- Davet Et Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleDavet()">Davet Et &#9660;</h2>
         <div id="inviteContent" class="tab-content">
           <button onclick="invite()">Davet Et</button>
         </div>
       </div>
-      <!-- Ailem Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleAilem()">Ailem &#9660;</h2>
         <div id="ailemContent" class="tab-content">
@@ -302,85 +269,33 @@
       </div>
     </div>
 
-    <!-- ----- SAĞ PANEL ----- -->
+    <!-- ---- SAĞ PANEL ---- -->
     <div id="rightContainer">
       <div id="koyIncelemeBox">
         <h3>Köy İncelemesi</h3>
-        <ul id="koyIncelemeList">
-          <!-- Aynı 31 köy ismi -->
+        <ol id="koyIncelemeList">
           <li>Asman</li>
-          <li>Mizrin</li>
-          <li>Qeruk</li>
-          <li>Derin</li>
-          <li>Ravin</li>
-          <li>Zal</li>
-          <li>Şevin</li>
-          <li>Hazar</li>
-          <li>Cewl</li>
-          <li>Nûrî</li>
-          <li>Gever</li>
-          <li>Berfin</li>
-          <li>Botan</li>
-          <li>Dicle</li>
-          <li>Zagros</li>
-          <li>Munzur</li>
-          <li>Nemrut</li>
-          <li>Van</li>
-          <li>Bitlis</li>
-          <li>Mardin</li>
-          <li>Siirt</li>
-          <li>Şırnak</li>
-          <li>Hakkari</li>
-          <li>Erciş</li>
-          <li>Ardil</li>
-          <li>Cizre</li>
-          <li>Midyat</li>
-          <li>Kurtalan</li>
-          <li>Hasankeyf</li>
-          <li>Lice</li>
-        </ul>
-        <div id="koyIncelemePagination"></div>
+          <li>Mizrin, Qeruk, Derin, Ravin, Zal, Şevin</li>
+          <li>Hazar, Cewl, Nûrî, Gever, Berfin, Botan</li>
+          <li>Dicle, Zagros, Munzur, Nemrut, Van, Bitlis</li>
+          <li>Mardin, Siirt, Şırnak, Hakkari, Erciş, Ardil</li>
+          <li>Cizre, Midyat, Kurtalan, Hasankeyf, Lice, Ilısu</li>
+        </ol>
       </div>
       <div id="trenSeyahatBox">
         <h3>Trenle Seyehat</h3>
-        <ul id="trenList">
-          <!-- Aynı 31 köy ismi, noktalı -->
-          <li><span class="trainDot"></span>Asman</li>
-          <li><span class="trainDot"></span>Mizrin</li>
-          <li><span class="trainDot"></span>Qeruk</li>
-          <li><span class="trainDot"></span>Derin</li>
-          <li><span class="trainDot"></span>Ravin</li>
-          <li><span class="trainDot"></span>Zal</li>
-          <li><span class="trainDot"></span>Şevin</li>
-          <li><span class="trainDot"></span>Hazar</li>
-          <li><span class="trainDot"></span>Cewl</li>
-          <li><span class="trainDot"></span>Nûrî</li>
-          <li><span class="trainDot"></span>Gever</li>
-          <li><span class="trainDot"></span>Berfin</li>
-          <li><span class="trainDot"></span>Botan</li>
-          <li><span class="trainDot"></span>Dicle</li>
-          <li><span class="trainDot"></span>Zagros</li>
-          <li><span class="trainDot"></span>Munzur</li>
-          <li><span class="trainDot"></span>Nemrut</li>
-          <li><span class="trainDot"></span>Van</li>
-          <li><span class="trainDot"></span>Bitlis</li>
-          <li><span class="trainDot"></span>Mardin</li>
-          <li><span class="trainDot"></span>Siirt</li>
-          <li><span class="trainDot"></span>Şırnak</li>
-          <li><span class="trainDot"></span>Hakkari</li>
-          <li><span class="trainDot"></span>Erciş</li>
-          <li><span class="trainDot"></span>Ardil</li>
-          <li><span class="trainDot"></span>Cizre</li>
-          <li><span class="trainDot"></span>Midyat</li>
-          <li><span class="trainDot"></span>Kurtalan</li>
-          <li><span class="trainDot"></span>Hasankeyf</li>
-          <li><span class="trainDot"></span>Lice</li>
-        </ul>
-        <div id="trenPagination"></div>
+        <ol id="trenList">
+          <li>Asman</li>
+          <li>Mizrin, Qeruk, Derin, Ravin, Zal, Şevin</li>
+          <li>Hazar, Cewl, Nûrî, Gever, Berfin, Botan</li>
+          <li>Dicle, Zagros, Munzur, Nemrut, Van, Bitlis</li>
+          <li>Mardin, Siirt, Şırnak, Hakkari, Erciş, Ardil</li>
+          <li>Cizre, Midyat, Kurtalan, Hasankeyf, Lice, Ilısu</li>
+        </ol>
       </div>
     </div>
 
-    <!-- ----- ORTA PANEL ----- -->
+    <!-- ---- ORTA PANEL ---- -->
     <div id="centerRanks">
       <div class="card" id="cardVakur">
         <h2 class="vakur-color">VAKUR</h2>
@@ -397,62 +312,32 @@
     </div>
   </div>
 
-  <!-- ----------------- EKSTRA BÖLÜMLER ----------------- -->
+  <!-- ---- EKSTRALAR ---- -->
   <input type="text" id="userSearchBox" placeholder="Kullanıcı Ara...">
   <input type="text" id="chatBox" placeholder="Mesaj yaz...">
   <div id="bottomLeft">Asman</div>
   <div id="messageNotification">Yeni Mesajınız Var!</div>
 
-  <!-- ================ JAVASCRIPT ================ -->
+  <!-- ======== JAVASCRIPT ======== -->
   <script>
-    // Genel değişkenler
-    let money = 500000;
-    let currentVillage = "Asman";
+    let money = 500000, currentVillage = "Asman";
 
-    // Panel aç/kapa fonksiyonları
-    function toggleDurumum() {
-      document.getElementById("durumumContent").classList.toggle("active");
-    }
-    function toggleTuccar() {
-      document.getElementById("tuccarContent").classList.toggle("active");
-    }
-    function toggleDavet() {
-      document.getElementById("inviteContent").classList.toggle("active");
-    }
-    function toggleAilem() {
-      document.getElementById("ailemContent").classList.toggle("active");
-    }
+    function toggleDurumum() { document.getElementById("durumumContent").classList.toggle("active"); }
+    function toggleTuccar() { document.getElementById("tuccarContent").classList.toggle("active"); }
+    function toggleDavet()  { document.getElementById("inviteContent").classList.toggle("active"); }
+    function toggleAilem()  { document.getElementById("ailemContent").classList.toggle("active"); }
 
-    // Menü butonları stub fonksiyonları
-    function invite()       { alert("Davet Et tıklandı"); }
-    function showFamily()   { alert("Ailem tıklandı"); }
-    function openMessages() { alert("Mesajlarım tıklandı"); }
-    function openAuction()  { alert("Açık Arttırma tıklandı"); }
-    function startRace()    { alert("At Yarışı tıklandı"); }
-    function horseInfo()    { alert("At Bilgileri tıklandı"); }
-    function gameInfo()     { alert("Oyun İçi Bilgiler tıklandı"); }
-    function wantedList()   { alert("Arananlar tıklandı"); }
-    function openGambling() { alert("Kumar tıklandı"); }
+    function invite()     { alert("Davet Et tıklandı"); }
+    function showFamily() { alert("Ailem tıklandı"); }
 
-    // Satın alma fonksiyonu
-    function buyItem(item, cost) {
-      if (money < cost) { alert("Yetersiz bakiye!"); return; }
-      if (confirm(item + " satın alınsın mı? - $" + cost)) {
-        money -= cost;
-        document.getElementById("money").innerText = "$" + money;
-        alert(item + " alındı.");
-      }
-    }
+    function openGorevPage(level) { alert(level + " sayfası açılıyor."); }
 
-    // Tren rayını gizle/göster
     function toggleTrainRail() {
-      document.getElementById("trainTrack").classList.toggle("hiddenRail");
+      document.getElementById("trainTrackSection").classList.toggle("hiddenRail");
     }
 
-    // Sayfa yüklendiğinde profil ve köy ismi güncelle
-    window.onload = function() {
+    window.onload = function(){
       document.getElementById("bottomLeft").innerText = currentVillage;
-      document.getElementById("currentVillageDisplay").innerText = currentVillage;
     };
   </script>
 </body>
