@@ -28,13 +28,15 @@
       height:calc(100vh - 80px);
     }
     .sectionBox {
-      background:rgba(0,0,0,0.6);
-      border-radius:5px;
-      overflow:hidden;
-      /* Her sekmeye yüzde 15 azalma */
-      flex: 0 0 calc((100%/15) - 15%);
-      margin-bottom:0.6rem;
-      display:flex; flex-direction:column;
+      background: rgba(0,0,0,0.6);
+      border-radius: 5px;
+      overflow: hidden;
+      /* Her sekmeyi toplam yüksekliğin 1/15'i kadar yap, margin düşümüyle */
+      flex: none;
+      height: calc(100%/15 - 0.6rem);
+      margin-bottom: 0.6rem;
+      display: flex;
+      flex-direction: column;
     }
     .sectionBox h2 {
       background:#222; padding:0.5rem; color:#ffcc00;
