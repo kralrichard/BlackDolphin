@@ -5,13 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* ——— var olan stiller… ——— */
+    /* GENEL */
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; }
-    /* … */
+    header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:999; }
+    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; }
+    .logo svg { width:40px; margin-left:8px; fill:#00cc66; stroke:#fff; stroke-width:2; }
+    .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; }
+    #money { color:lime; }
 
-    /* ——— Yeni alt panel öğeleri ——— */
-    /* Kullanıcı Arama Kutusu */
+    /* SOL PANEL - 13 sekme */
+    #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; }
+    .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; }
+    .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; }
+    .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.85rem; }
+    .sectionBox .tab-content.active { display:block; }
+    .stat-bar { background:#444; border-radius:4px; padding:4px; margin-bottom:0.4rem; }
+    .stat-label { font-weight:bold; margin-bottom:2px; }
+    #vakurStat .stat-label { color:blue; }
+    #hatipStat .stat-label { color:orange; }
+    #baronStat .stat-label { color:red; }
+    .stat-fill { height:14px; background:#00bfff; width:0; transition:width 0.8s; }
+    .stat-text { font-size:0.75rem; margin-top:2px; }
+    .badge-indicator { text-align:center; color:#ffcc00; font-size:0.75rem; margin-top:2px; }
+    ul { list-style:none; }
+    li { display:flex; justify-content:space-between; margin-bottom:0.4rem; }
+    button { background:#333; border:none; padding:0.25rem 0.5rem; border-radius:3px; cursor:pointer; color:#fff; font-size:0.75rem; }
+
+    /* SAĞ PANEL */
+    #rightContainer { margin-left:17%; margin-right:20px; flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem; }
+    .box { background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem; width:160px; }
+    .box h3 { text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:0.9rem; }
+    .sub-tabs { text-align:center; margin-bottom:0.4rem; }
+    .sub-tabs button { background:#444; border:none; margin:0 0.15rem; padding:0.25rem 0.4rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; }
+    .sub-tabs button.active { background:#666; }
+    .sub-content { display:none; }
+    .sub-content.active { display:block; }
+
+    /* ORTA RANK */
+    #centerRanks { position:fixed; top:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px; display:flex; gap:6px; }
+    .card { background:rgba(255,255,255,0.05); padding:0.5rem; border-radius:5px; text-align:center; width:90px; font-size:0.8rem; }
+    .card h2 { margin-bottom:0.3rem; font-size:0.9rem; text-transform:uppercase; }
+    .card button { background:#000; border:none; padding:0.3rem; border-radius:3px; color:#fff; font-size:0.75rem; cursor:pointer; }
+
+    /* ALT SOL KÖY */
+    #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; }
+
+    /* ——— Yeni alt öğeler ——— */
     #userSearch {
       position: fixed;
       bottom: 60px;
@@ -24,7 +64,6 @@
       color: #000;
       font-size: 0.85rem;
     }
-    /* Chat Düğmesi */
     #chatBox {
       position: fixed;
       bottom: 20px;
@@ -39,7 +78,6 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    /* Mesaj Bildirimi İkonu */
     #messageIcon {
       position: fixed;
       bottom: 20px;
@@ -54,42 +92,116 @@
       fill: #ffcc00;
     }
 
-    /* ——— var olan responsivelar… ——— */
     @media(max-width:768px){
-      /* … */
+      #leftPanel{position:static;width:100%;margin-bottom:1rem;}
+      #rightContainer{margin-left:0;align-items:center;}
+      #centerRanks{position:static;transform:none;margin:1rem auto;}
+      .box{width:90%;}
       #userSearch { bottom: 70px; left: 10px; width: 120px; }
-      #chatBox { bottom: 10px; padding: 0.5rem 1rem; }
+      #chatBox   { bottom: 10px; padding: 0.5rem 1rem; }
       #messageIcon { bottom: 10px; right: 10px; }
     }
   </style>
 </head>
 <body>
-  <!-- ——— var olan body içeriği… ——— -->
-  <header>…</header>
-  <div id="leftPanel">…</div>
-  <div id="rightContainer">…</div>
-  <div id="centerRanks">…</div>
+  <header>
+    <div class="logo">BLACK DOLPHINE
+      <svg viewBox="0 0 100 50"><path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/></svg>
+    </div>
+    <div class="money"><span id="money">$500000</span></div>
+  </header>
 
-  <!-- ALT ALANDAKİ KÖY BİLGİSİ -->
+  <div id="leftPanel">
+    <!-- … tüm 13 sectionBox öğesi … -->
+    <!-- Örneğin: Durumum, Tüccar, Davet Et, … Oyunlar -->
+  </div>
+
+  <div id="rightContainer">
+    <div class="box">
+      <h3>Köy İncelemesi</h3>
+      <div class="sub-tabs" id="koyTabs"></div>
+      <div id="koyPages"></div>
+    </div>
+    <div class="box">
+      <h3>Trenle Seyehat</h3>
+      <div class="sub-tabs" id="trenTabs"></div>
+      <div id="trenPages"></div>
+    </div>
+  </div>
+
+  <div id="centerRanks">
+    <div class="card"><h2 class="vakur-color">VAKUR</h2><button>Serüven</button></div>
+    <div class="card"><h2 class="hatip-color">HATİP</h2><button>Serüven</button></div>
+    <div class="card"><h2 class="baron-color">BARON</h2><button>Serüven</button></div>
+  </div>
+
   <div id="bottomLeft">Asman</div>
 
-  <!-- —— Yeniler —— -->
-  <!-- 1. Kullanıcı Arama Kutusu (köy bilgisinin üstünde) -->
+  <!-- Yeni eklemeler -->
   <input type="text" id="userSearch" placeholder="Kullanıcı Ara">
-
-  <!-- 2. Chat Düğmesi (ortalıktaki dikdörtgen) -->
   <button id="chatBox">Chat</button>
-
-  <!-- 3. Mesaj Bildirimi İkonu (sağ alt köşe) -->
   <div id="messageIcon">
     <svg viewBox="0 0 24 24">
       <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
     </svg>
   </div>
 
-  <!-- ——— var olan script… ——— -->
   <script>
-    /* toggleTab, initSubTabs, villageData vs. */
+    // VİLLAGE VERİSİ
+    const villageData = [
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma",
+      "Ogean","Karuk","Tilkarut","Midep","Ömerk",
+      "Tilal","Olik","Mıshecerk","Mızelb","Kergü",
+      "Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan",
+      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker",
+      "Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej",
+      "Cembel"
+    ];
+
+    function toggleTab(id) {
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      document.getElementById(id).classList.toggle('active');
+    }
+
+    function initSubTabs(tabContainerId, pageContainerId) {
+      const tabs = document.getElementById(tabContainerId);
+      const pages = document.getElementById(pageContainerId);
+      const perPage = Math.ceil(villageData.length / 7);
+      villageData.push(); // to ensure length
+      for (let i = 0; i < 7; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i + 1;
+        btn.onclick = () => showVillagePage(i, tabContainerId, pageContainerId);
+        tabs.appendChild(btn);
+
+        const div = document.createElement('div');
+        div.className = 'sub-content';
+        if (i === 0) div.classList.add('active');
+        const ul = document.createElement('ul');
+        villageData.slice(i * perPage, i * perPage + perPage).forEach(v => {
+          const li = document.createElement('li');
+          li.innerText = v;
+          ul.appendChild(li);
+        });
+        div.appendChild(ul);
+        pages.appendChild(div);
+      }
+      tabs.querySelector('button').classList.add('active');
+    }
+
+    function showVillagePage(index, tabId, pageId) {
+      const tabs = document.getElementById(tabId).children;
+      const pages = document.getElementById(pageId).children;
+      Array.from(tabs).forEach((b,i)=>b.classList.toggle('active', i===index));
+      Array.from(pages).forEach((p,i)=>p.classList.toggle('active', i===index));
+      const perPage = Math.ceil(villageData.length / 7);
+      document.getElementById('bottomLeft').innerText = villageData[index * perPage] || '';
+    }
+
+    window.onload = () => {
+      initSubTabs('koyTabs','koyPages');
+      initSubTabs('trenTabs','trenPages');
+    };
   </script>
 </body>
 </html>
