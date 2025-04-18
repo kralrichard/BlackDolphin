@@ -6,51 +6,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* ========== GENEL VE HEADER STİLLER ========== */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background:#888; color:#f1f1f1; min-height:100vh; font-size:0.9rem; padding-top:120px; }
-    header {
-      background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:space-between;
-      padding:1rem 2rem; position:fixed; top:0; left:0; width:100%; z-index:999;
-      box-shadow:0 2px 5px rgba(0,0,0,0.5);
-    }
-    .logo{font-size:2rem;font-weight:bold;text-transform:uppercase;color:#fff;display:flex;align-items:center;}
-    .logo-dolphin{margin-left:10px;width:50px;height:auto;}
-    .logo-dolphin svg{width:100%;height:auto;fill:#00cc66;stroke:#fff;stroke-width:2;}
-    .money{font-size:1rem;background:#222;padding:0.5rem 1rem;border-radius:5px;border:1px solid #333;}
-    #money{color:green!important;}
+    /* ================= GENEL STİLLER ================= */
+    * { margin:0; padding:0; box‐sizing:border‐box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+    body { background:#888; color:#f1f1f1; min-height:100vh; position:relative; font-size:0.9rem; }
 
-    /* ========== TREN RAYI ========== */
-    #trainTrackSection{position:fixed;top:60px;left:0;width:100%;background:#ccc;padding:10px 0;z-index:998;
-      display:flex;flex-direction:column;align-items:center;}
-    #trainToggleWrapper,#trainToggleBottomWrapper{width:100%;text-align:center;margin:5px 0;}
-    #trainToggleBtnTop,#trainToggleBtnBottom{
-      background:#000;color:#fff;border:none;font-size:1rem;padding:0.8rem 1.2rem;
-      cursor:pointer;border-radius:5px;width:160px;font-weight:bold;
-    }
-    #trainToggleBtnTop:hover,#trainToggleBtnBottom:hover{background:#333;}
-    #trainTrack{margin:10px 0;overflow-x:auto;white-space:nowrap;width:90%;}
-    #trainTrack ul{list-style:none;display:flex;align-items:center;gap:15px;}
-    #trainTrack li{display:flex;align-items:center;font-weight:bold;color:#333;}
-    .trainDot{width:10px;height:10px;background:#000;border-radius:50%;margin-right:5px;}
-    .hiddenRail{display:none;}
+    /* ================= HEADER ================= */
+    header { background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:space-between;
+             padding:1rem 2rem; position:fixed; top:0; left:0; width:100%; z-index:999;
+             box-shadow:0 2px 5px rgba(0,0,0,0.5); }
+    .logo { font-size:2rem; font-weight:bold; text-transform:uppercase; color:#fff; }
+    .money { background:#222; padding:0.5rem 1rem; border-radius:5px; border:1px solid #333; }
+    #money { color:green !important; }
 
-    /* ========== SOL PANEL ========== */
+    /* ================ TREN RAYI ================= */
+    /* (… önceki tren rayı stilleri aynen …) */
+
+    /* ================= SOL PANEL ================= */
     #leftPanel {
-      position:fixed; top:260px; left:20px;
-      width:20%; min-width:180px; z-index:1000;
+      position:fixed; top:60px; left:2%; width:18%; min-width:160px;
+      font-size:0.75rem; z-index:1000;
     }
     .sectionBox {
-      background:rgba(0,0,0,0.6);
-      margin-bottom:0.8rem;
-      border-radius:8px;
-      padding:0.5rem;
-      font-size:0.75rem;
-      width:100%;
+      background:rgba(0,0,0,0.6); margin-bottom:0.5rem;
+      border-radius:8px; padding:0.5rem;
     }
     .sectionBox h2 {
-      text-align:center; color:#ffcc00; cursor:pointer;
-      margin-bottom:0.3rem; font-size:1rem; line-height:1.2;
+      margin:0.3rem 0; font-size:1rem; color:#ffcc00;
+      text-align:center; cursor:pointer;
     }
     .sectionBox .tab-content {
       display:none; background:rgba(0,0,0,0.4);
@@ -59,153 +41,65 @@
     .sectionBox .tab-content.active { display:block; }
     .sectionBox button {
       display:block; width:100%; margin:0.2rem 0; padding:0.4rem;
-      font-size:0.75rem; border:none; border-radius:5px;
-      background:#333; color:#fff; text-align:left; cursor:pointer;
+      font-size:0.8rem; background:#333; color:#fff; border:none;
+      border-radius:5px; text-align:left; cursor:pointer;
     }
     .sectionBox button:hover { background:#444; }
     .sectionBox ul { list-style:none; margin:0.3rem 0 0 0.5rem; padding:0; }
     .sectionBox ul ul { margin-left:0.5rem; }
 
-    /* ========== SAĞ PANEL ========== */
-    #rightContainer {
-      position:fixed; right:20px; top:260px;
-      width:280px; z-index:1000;
-    }
-    #koyIncelemeBox,#trenSeyahatBox {
-      background:rgba(0,0,0,0.7); padding:1rem;
-      border-radius:10px; margin-bottom:1rem;
-    }
-    #koyIncelemeBox h3,#trenSeyahatBox h3 {
-      text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:1rem;
-    }
-    #koyIncelemeBox ul,#trenSeyahatBox ul {
-      list-style:none; padding:0; margin:0; font-size:0.85rem;
-    }
-    #koyIncelemeBox li,#trenSeyahatBox li {
-      margin-bottom:0.3rem; display:flex; justify-content:space-between; align-items:center;
-    }
-    #koyIncelemeBox li button,#trenSeyahatBox li button {
-      padding:0.3rem 0.5rem; font-size:0.8rem; cursor:pointer;
-    }
-    #koyIncelemePagination,#trenPagination {
-      text-align:center; margin-top:0.5rem;
-    }
-    #koyIncelemePagination span,#trenPagination span {
-      display:inline-block; padding:0.3rem 0.6rem; margin:0 0.2rem;
-      background:#444; border-radius:3px; cursor:pointer; color:#ffcc00;
-    }
-    #koyIncelemePagination span.active,#trenPagination span.active {
-      background:#555;
-    }
+    /* ================ SAĞ PANEL, ORTA PANEL, GÖREV SAYFASI vb. ================
+       (… önceki kodunuzdaki tüm stiller ve HTML aynen buraya gelecek …) */
 
-    /* ========== ORTA PANEL ========== */
-    #centerRanks {
-      position:absolute; top:260px; left:50%;
-      transform:translateX(-50%); display:flex; gap:20px;
-      background:grey; padding:10px; border-radius:10px; z-index:900;
+    /* ================= ALT KÖŞE BÖLÜMLERİ ================= */
+    /* Kullanıcı arama kutusu */
+    #userSearchBox {
+      position:fixed; bottom:80px; left:20px;
+      width:160px; padding:0.4rem 0.6rem;
+      border:none; border-radius:5px;
+      font-size:0.9rem; z-index:1000;
     }
-    .card {
-      background:rgba(255,255,255,0.05); backdrop-filter:blur(4px);
-      border:1px solid rgba(255,255,255,0.1); border-radius:10px;
-      width:250px; padding:2rem; text-align:center;
-      transition:transform 0.3s; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.3);
+    /* Chat girişi (aralarında geniş dikdörtgen) */
+    #chatBox {
+      position:fixed; bottom:20px;
+      left:200px; right:200px;
+      padding:0.6rem 1rem;
+      border:none; border-radius:5px;
+      font-size:0.9rem; z-index:1000;
     }
-    .card:hover { transform:translateY(-5px); }
-    .card h2 { text-transform:uppercase; margin-bottom:15px; font-size:1.5rem; }
-    .card button {
-      padding:0.6rem 1.2rem; background:black; border:none;
-      border-radius:5px; color:white; cursor:pointer; transition:background 0.3s;
-    }
-    .card button:hover { background:#333; }
-
-    /* ========== ALT SOL KÖY BİLGİSİ ========== */
+    /* Alt sol: köy bilgisi */
     #bottomLeft {
       position:fixed; bottom:20px; left:20px;
-      background:#0288d1; padding:0.5rem 1rem; border-radius:8px;
-      box-shadow:0 4px 6px rgba(0,0,0,0.3); font-size:1.2rem; z-index:1000;
+      background:#0288d1; color:#fff;
+      padding:0.5rem 1rem; border-radius:8px;
+      font-size:1.2rem; z-index:1000;
+    }
+    /* Alt sağ: mesaj bildirimi */
+    #messageNotification {
+      position:fixed; bottom:20px; right:20px;
+      background:rgba(255,165,0,0.9); color:#000;
+      padding:0.5rem 1rem; border-radius:5px;
+      font-size:0.9rem; box-shadow:0 4px 6px rgba(0,0,0,0.3);
+      z-index:1000;
     }
 
-    /* ========== GÖREV SAYFASI ========== */
-    #gorevPage {
-      display:none; position:fixed; top:0; left:0;
-      width:100%; height:100%; background:#000; color:#fff;
-      z-index:3000; padding:2rem; overflow-y:auto;
-    }
-    #gorevPage h1 { text-align:center; margin-bottom:1rem; }
-    #tasksContainerWrapper {
-      position:relative; overflow:hidden; padding:0 40px;
-    }
-    #tasksContainer {
-      display:flex; gap:20px; overflow-x:auto; scroll-behavior:smooth; padding-bottom:10px;
-    }
-    .rankSection {
-      flex:0 0 300px; background:rgba(255,255,255,0.07);
-      border:1px solid #888; border-radius:10px; padding:1rem;
-    }
-    .taskItem {
-      background:#222; border-radius:5px; padding:0.5rem;
-      margin-bottom:0.5rem; display:flex; justify-content:space-between;
-    }
-    .taskItem button {
-      background:#ff4444; border:none; border-radius:5px; color:#fff;
-      cursor:pointer; padding:0.3rem 0.5rem; font-size:0.8rem;
-    }
-    .difficultyProgressBar {
-      background:#444; height:18px; border-radius:5px; overflow:hidden; margin-top:0.5rem;
-    }
-    .difficultyProgressFill {
-      background:#00bfff; width:0%; height:100%; transition:width 0.3s;
-    }
-    .progressText { text-align:right; font-size:0.8rem; margin-top:2px; }
-    .lockedDifficulty { opacity:0.3; pointer-events:none; }
-    .completedTask span::after { content:" ✅"; color:#0f0; margin-left:5px; }
-
-    /* ========== OK BUTONLARI ========== */
-    .arrow-button {
-      position:absolute; top:50%; transform:translateY(-50%);
-      background:rgba(0,0,0,0.5); border:none; color:#fff;
-      font-size:1.5rem; padding:0.3rem 0.6rem; cursor:pointer; z-index:101;
-      transition:background 0.3s;
-    }
-    .arrow-button:hover { background:rgba(0,0,0,0.7); }
-    #leftArrow { left:5px; } #rightArrow { right:5px; }
-
-    /* ========== RESPONSIVE ========== */
-    @media(max-width:768px){
-      #leftPanel,#rightContainer,#centerRanks{position:static;width:100%;margin-bottom:20px;}
-      #centerRanks{transform:none;justify-content:center;flex-wrap:wrap;}
-      .card{width:90%;margin:10px 0;}
-      #trainTrack{width:100%;}
+    /* ================= RESPONSIVE ================= */
+    @media (max-width:768px) {
+      #leftPanel { top:120px; width:40%; }
+      #chatBox { left:calc(20px + 160px + 10px); right:calc(20px + 100px + 10px); }
     }
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
-    <div class="logo">
-      BLACK DOLPHINE
-      <div class="logo-dolphin">
-        <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/>
-        </svg>
-      </div>
-    </div>
+    <div class="logo">BLACK DOLPHINE</div>
     <div class="money"><span id="money">$500000</span></div>
   </header>
 
   <!-- TREN RAYI -->
   <div id="trainTrackSection">
-    <div id="trainToggleWrapper">
-      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">TREN ROTASI<br>&larr;</button>
-    </div>
-    <div id="trainTrack">
-      <ul id="trainTrackList">
-        <!-- ... köyler ... -->
-      </ul>
-    </div>
-    <div id="trainToggleBottomWrapper">
-      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">TREN ROTASI<br>&rarr;</button>
-    </div>
+    <!-- … mevcut tren rayı içeriği … -->
   </div>
 
   <!-- ANA SAYFA -->
@@ -216,16 +110,116 @@
       <div class="sectionBox">
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
         <div id="durumumContent" class="tab-content">
-          <!-- ... içerik ... -->
+          <!-- …Durumum içeriği… -->
         </div>
       </div>
       <!-- Tüccar -->
       <div class="sectionBox">
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
-          <!-- ... içerik ... -->
+          <!-- …Tüccar içeriği… -->
         </div>
       </div>
       <!-- Davet Et -->
       <div class="sectionBox">
-        <h2 onclick="toggleDavet()">Davet Et &#9660
+        <h2 onclick="toggleDavet()">Davet Et &#9660;</h2>
+        <div id="inviteContent" class="tab-content">
+          <button onclick="invite()">Davet Et</button>
+        </div>
+      </div>
+      <!-- Ailem ve alt menüler -->
+      <div class="sectionBox">
+        <h2 onclick="toggleAilem()">Ailem &#9660;</h2>
+        <div id="ailemContent" class="tab-content">
+          <ul>
+            <li>
+              <button onclick="showFamily()">Ailem</button>
+              <ul>
+                <li>
+                  <button onclick="openMessages()">Mesajlarım</button>
+                  <ul>
+                    <li>
+                      <button onclick="hunt()">Avlan</button>
+                      <ul>
+                        <li>
+                          <button onclick="openAuction()">Açık Arttırma</button>
+                          <ul>
+                            <li>
+                              <button onclick="smuggling()">Kaçakçılık</button>
+                              <ul>
+                                <li>
+                                  <button onclick="startRace()">At Yarışı</button>
+                                  <ul>
+                                    <li>
+                                      <button onclick="horseInfo()">At Bilgileri</button>
+                                      <ul>
+                                        <li>
+                                          <button onclick="gameInfo()">Oyun İçi Bilgiler</button>
+                                          <ul>
+                                            <li>
+                                              <button onclick="hunting()">Avcılık</button>
+                                              <ul>
+                                                <li>
+                                                  <button onclick="wantedList()">Arananlar</button>
+                                                  <ul>
+                                                    <li>
+                                                      <button onclick="openGambling()">Kumar</button>
+                                                    </li>
+                                                  </ul>
+                                                </li>
+                                              </ul>
+                                            </li>
+                                          </ul>
+                                        </li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div><!-- /#leftPanel -->
+
+    <!-- SAĞ PANEL, ORTA PANEL vb. -->
+    <div id="rightContainer">…</div>
+    <div id="centerRanks">…</div>
+  </div><!-- /#mainPage -->
+
+  <!-- ALT KÖŞE BÖLÜMLERİ -->
+  <input type="text" id="userSearchBox" placeholder="Kullanıcı Ara...">
+  <input type="text" id="chatBox" placeholder="Mesaj yaz...">
+  <div id="bottomLeft">Asman</div>
+  <div id="messageNotification">Yeni Mesajınız Var!</div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    function toggleDurumum()   { document.getElementById("durumumContent").classList.toggle("active"); }
+    function toggleTuccar()    { document.getElementById("tuccarContent").classList.toggle("active"); }
+    function toggleDavet()     { document.getElementById("inviteContent").classList.toggle("active"); }
+    function toggleAilem()     { document.getElementById("ailemContent").classList.toggle("active"); }
+    function invite()          { alert("Davet Et tıklandı"); }
+    function showFamily()      { alert("Ailem tıklandı"); }
+    function openMessages()    { alert("Mesajlarım tıklandı"); }
+    function hunt()            { alert("Avlan tıklandı"); }
+    function openAuction()     { alert("Açık Arttırma tıklandı"); }
+    function smuggling()       { alert("Kaçakçılık tıklandı"); }
+    function startRace()       { alert("At Yarışı tıklandı"); }
+    function horseInfo()       { alert("At Bilgileri tıklandı"); }
+    function gameInfo()        { alert("Oyun İçi Bilgiler tıklandı"); }
+    function hunting()         { alert("Avcılık tıklandı"); }
+    function wantedList()      { alert("Arananlar tıklandı"); }
+    function openGambling()    { alert("Kumar tıklandı"); }
+    // … diğer fonksiyonlarınız …
+  </script>
+</body>
+</html>
