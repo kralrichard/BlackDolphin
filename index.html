@@ -14,7 +14,7 @@
     .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; }
     #money { color:lime; }
 
-    /* SOL PANEL - 12 sekme için daraltıldı */
+    /* SOL PANEL - 13 sekme */
     #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; }
     .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; }
     .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; }
@@ -179,6 +179,15 @@
         <ul><li>Şu anda arananlar listesi boş.</li></ul>
       </div>
     </div>
+    <!-- 13 Oyunlar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2>
+      <div id="oyunlar" class="tab-content">
+        <ul>
+          <li>Mevcut oyunlar listesi</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div id="rightContainer">
@@ -226,50 +235,4 @@
         let div = document.createElement('div');
         div.className='sub-content';
         let ul = document.createElement('ul');
-        villageData.slice(i*perPage, i*perPage+perPage).forEach(v=>{
-          let li=document.createElement('li');
-          li.innerHTML=`${v} <button onclick="${actionFn}('${v}')">${actionFn==='inceleKoy'?'İncele':'Seyahat Et'}</button>`;
-          ul.appendChild(li);
-        });
-        div.appendChild(ul);
-        pages.appendChild(div);
-      }
-      function show(idx){
-        Array.from(tabs.children).forEach((b,i)=>b.classList.toggle('active',i===idx));
-        Array.from(pages.children).forEach((d,i)=>d.classList.toggle('active',i===idx));
-      }
-      show(0);
-    }
-    window.onload = ()=>{
-      updateMoneyUI(); updateProfileInfo();
-      initSubTabs('koyTabs','koyPages','inceleKoy');
-      initSubTabs('trenTabs','trenPages','travelToTrain');
-    };
-    // TABLAR
-    function toggleTab(id){
-      document.getElementById(id).classList.toggle('active');
-    }
-    // GENEL
-    let money=500000, currentVillage="Asman";
-    function updateMoneyUI(){ document.getElementById('money').innerText='$'+money; }
-    function updateProfileInfo(){
-      document.getElementById('currentVillageDisplay').innerText=currentVillage;
-      document.getElementById('bottomLeft').innerText=currentVillage;
-    }
-    function buyItem(item,cost){
-      if(money<cost){ alert('Yetersiz bakiye!'); return; }
-      if(confirm(`${item} alımı için ${cost}$ onaylıyor musunuz?`)){
-        money-=cost; updateMoneyUI(); alert(`${item} satın alındı.`); }
-    }
-    function inceleKoy(v){ alert(`Köy: ${v}\nMalikane: --\nSığınak: --\nVilla: --`); }
-    function travelToTrain(v){
-      if(v===currentVillage){ alert('Zaten oradasınız!'); return; }
-      if(money<500){ alert('Yetersiz bakiye!'); return; }
-      if(confirm(`${v} köyüne gitmek için 500$ harcamak istiyor musunuz?`)){
-        money-=500; currentVillage=v; updateMoneyUI(); updateProfileInfo();
-        alert(`${v} köyüne vardınız!`);
-      }
-    }
-  </script>
-</body>
-</html>
+        villageData.slice(i*per
