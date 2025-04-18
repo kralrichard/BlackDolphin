@@ -71,6 +71,29 @@
     .hatip-color { color: orange !important; }
     .baron-color { color: red !important; }
     
+    /* Durumum altındaki sekmeler */
+    .durum-tabs {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 0.5rem;
+    }
+    .durum-tabs button {
+      flex: 1;
+      max-width: calc(100% / 12);
+      background: #555;
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0;
+      font-size: 0.75rem;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .durum-tabs button:hover {
+      background: #666;
+    }
+
     /* ANA SAYFA KAPSAYICI */
     #mainPage {
       width: 100%;
@@ -123,11 +146,9 @@
       font-weight: bold;
       font-size: 0.85rem;
     }
-    /* Durum panelinde renk ayarı */
     #vakurStat .stat-label { color: blue; }
     #hatipStat .stat-label { color: orange; }
     #baronStat .stat-label { color: red; }
-    
     .stat-fill {
       height: 18px;
       background: #00bfff;
@@ -228,7 +249,7 @@
     /* ORTA PANEL: Rank Kartları */
     #centerRanks {
       position: absolute;
-      top: 140px; /* Sağ panel kutuları hizasına yakın */
+      top: 140px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -238,10 +259,9 @@
       padding: 10px;
       border-radius: 10px;
     }
-    /* Kart başlık renkleri */
-    #cardVakur h2 { color: blue; }
-    #cardHatip h2 { color: orange; }
-    #cardBaron h2 { color: red; }
+    #cardVakur h2 { color: blue; text-transform: uppercase; margin: -10px 0 15px; font-size:1.5rem; }
+    #cardHatip h2 { color: orange; text-transform: uppercase; margin: -10px 0 15px; font-size:1.5rem; }
+    #cardBaron h2 { color: red; text-transform: uppercase; margin: -10px 0 15px; font-size:1.5rem; }
     .card {
       background: rgba(255,255,255,0.05);
       backdrop-filter: blur(4px);
@@ -255,29 +275,6 @@
       cursor: pointer;
     }
     .card:hover { transform: translateY(-5px); }
-    /* Kartlardaki rol isimleri: Büyük harflerle ve buton üstü boşluk sağlandı */
-    #cardVakur h2 { 
-      color: blue; 
-      text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
-    #cardHatip h2 { 
-      color: orange; 
-      text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
-    #cardBaron h2 { 
-      color: red; 
-      text-transform: uppercase;
-      margin-top: -10px;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
-    /* Epistemolojik Serüven butonları: Arka plan siyah, yazı beyaz */
     .card button {
       padding: 0.6rem 1.2rem;
       background: black;
@@ -321,7 +318,6 @@
       text-align: center;
       margin-bottom: 1rem;
     }
-    /* Görev kutucuklarını yatay sıralamak için wrapper */
     #tasksContainerWrapper {
       position: relative;
       overflow: hidden;
@@ -329,7 +325,6 @@
     }
     #tasksContainer {
       display: flex;
-      flex-direction: row;
       gap: 20px;
       overflow-x: auto;
       scroll-behavior: smooth;
@@ -399,8 +394,6 @@
       font-size: 0.8rem;
       margin-top: 2px;
     }
-    
-    /* Ok butonları */
     .arrow-button {
       position: absolute;
       top: 50%;
@@ -417,8 +410,8 @@
     .arrow-button:hover { background: rgba(0,0,0,0.7); }
     #leftArrow { left: 5px; }
     #rightArrow { right: 5px; }
-    
-    /* Responsive Ayarlar (Mobil Uyumluluk) */
+
+    /* Mobil uyumluluk */
     @media (max-width: 768px) {
       #leftPanel, #rightContainer {
         position: static;
@@ -460,14 +453,30 @@
       <!-- Durumum Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
+        
+        <!-- 12 Sekmeli Tab Bar -->
+        <div class="durum-tabs">
+          <button>Davet Et</button>
+          <button>Sekme 2</button>
+          <button>Sekme 3</button>
+          <button>Sekme 4</button>
+          <button>Sekme 5</button>
+          <button>Sekme 6</button>
+          <button>Sekme 7</button>
+          <button>Sekme 8</button>
+          <button>Sekme 9</button>
+          <button>Sekme 10</button>
+          <button>Sekme 11</button>
+          <button>Sekme 12</button>
+        </div>
+        
         <div id="durumumContent" class="tab-content">
           <div class="stat-bar" id="vakurStat">
             <div class="stat-label vakur-color">VAKUR 🛡️</div>
             <div class="stat-fill" id="vakurFill"></div>
             <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
             <div class="badge-indicator">
-              <span style="display:inline-block; width:15px; height:15px; background:blue; border-radius:50%; margin-right:5px;"></span>
-              R
+              <span style="display:inline-block; width:15px; height:15px; background:blue; border-radius:50%; margin-right:5px;"></span>R
             </div>
           </div>
           <div class="stat-bar lockedStat" id="hatipStat">
@@ -475,8 +484,7 @@
             <div class="stat-fill" id="hatipFill"></div>
             <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
             <div class="badge-indicator">
-              <span style="display:inline-block; width:15px; height:15px; background:orange; border-radius:50%; margin-right:5px;"></span>
-              R
+              <span style="display:inline-block; width:15px; height:15px; background:orange; border-radius:50%; margin-right:5px;"></span>R
             </div>
           </div>
           <div class="stat-bar lockedStat" id="baronStat">
@@ -484,8 +492,7 @@
             <div class="stat-fill" id="baronFill"></div>
             <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
             <div class="badge-indicator">
-              <span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; margin-right:5px;"></span>
-              R
+              <span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; margin-right:5px;"></span>R
             </div>
           </div>
           <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
@@ -542,7 +549,6 @@
   <div id="gorevPage">
     <button onclick="closeGorevPage()">Geri Dön</button>
     <h1 id="gorevHeader"></h1>
-    <!-- Görev kutucuklarını yatay sıralamak için wrapper -->
     <div id="tasksContainerWrapper">
       <button id="leftArrow" class="arrow-button" onclick="scrollTasks(-1)">&#x276E;</button>
       <div id="tasksContainer"></div>
@@ -554,600 +560,7 @@
   <div id="bottomLeft">Asman</div>
   
   <script>
-    /********************* GENEL DEĞİŞKENLER *********************/
-    let money = 500000;
-    let currentVillage = "Asman";
-    
-    let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
-    let isHatipUnlocked = false, isBaronUnlocked = false;
-    
-    const pageSizes = [3, 3, 5, 5, 5, 5, 5];
-    const totalPages = pageSizes.length;
-    
-    const allKoyler = [
-      "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
-      "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
-      "Tilal", "Olik", "Mıshecerk", "Mızelb", "Kergü",
-      "Bozdepe", "Cinnık", "Mızrin", "Bostancı", "Masucark",
-      "Kırıkan", "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk",
-      "Zebeşker", "Mirğan", "Dideri", "Kazıka", "Nehlnehli",
-      "Birdirej", "Cembel"
-    ];
-    
-    /********** Rastgele Köy Özellikleri **********/
-    function randomMalikane() { 
-      return [5,10,15][Math.floor(Math.random()*3)]; 
-    }
-    function randomSiginak() { 
-      return [50,75,100][Math.floor(Math.random()*3)]; 
-    }
-    function randomVilla() { 
-      return [25,50,75][Math.floor(Math.random()*3)]; 
-    }
-    const villageData = allKoyler.map(k => ({
-      name: k,
-      malikane: randomMalikane(),
-      siginak: randomSiginak(),
-      villa: randomVilla()
-    }));
-    
-    /********** GÖREV LİSTELERİ **********/
-    // Vakur için – istenilen başlıklar
-    const vakurDifficulties = [
-      {
-        title: "ÇIRAK VAKUR I", locked: false,
-        tasks: [
-          "Bir çocuğun okul çantası almasına yardımcı ol.",
-          "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
-          "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
-          "Arkadaşına ufak bir hediye vererek moralini yükselt.",
-          "İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",
-          "Kütüphanede eski kitapları düzenlemeye gönüllü ol.",
-          "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
-          "Otobüste yaşlı veya hamile birine yer ver.",
-          "Mahalle parkında çöp toplama etkinliğine katıl.",
-          "Arkadaşına küçük bir sürpriz parti düzenle."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "USTA VAKUR II", locked: true,
-        tasks: [
-          "Aile içinde tartışan iki akrabayı barıştır.",
-          "Mahallede yardım kermesi veya etkinlik organize et.",
-          "Maddi durumu kötü bir öğrenciye burs ayarla.",
-          "Bir STK’nın etkinliğinde aktif rol al.",
-          "Bakımsız parkı onarmak için gönüllüler topla.",
-          "Kan bağışı kampanyasına katkıda bulun.",
-          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
-          "Zorbalığa uğrayan birine çevrimiçi destek bul.",
-          "Engelliler için kamu binalarına erişim kolaylığı sağla.",
-          "Sokak hayvanları için geçici barınak oluştur."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "UZMAN VAKUR III", locked: true,
-        tasks: [
-          "Afet bölgesine yardım ekibi olarak katıl.",
-          "Kronik bir sorun için belediyeyle görüşüp çözüm talep et.",
-          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
-          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
-          "Küs olan iki arkadaşın barışmasına aracılık et.",
-          "Toplum dışlanmış birini etkinliklere dahil et.",
-          "Küçük çaplı bağış kampanyası düzenle.",
-          "Yerel hastanede gönüllü refakat programına katıl.",
-          "Belediye ile iş birliği yaparak gençlik merkezi aç.",
-          "Maddi sıkıntı yaşayan aileler için erzak paketi dağıtımı yap."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "EFSANE VAKUR IV", locked: true,
-        tasks: [
-          "Büyük ölçekli yardım projesine liderlik et.",
-          "Gençlere yönelik mentorluk programı başlat.",
-          "Meslek edindirme kursu organize et.",
-          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
-          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
-          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
-          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
-          "Ücretsiz terapi/rehberlik günü organize et.",
-          "Üniversite öğrencilerine staj imkânları sunan platform oluştur.",
-          "Çevre koruma amaçlı ağaçlandırma kampanyası düzenle."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "YÜCE VAKUR V", locked: true,
-        tasks: ([ 
-          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
-          "Büyük bağış konseri/festival düzenle.",
-          "Gönüllüleri bir araya getiren platform kur.",
-          "Eğitim bursu fonu başlat.",
-          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
-          "Yardım vakfı kurarak sürekli yardım yürüt.",
-          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
-          "Yurt çapında geri dönüşüm projesi başlat.",
-          "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
-          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
-        ]).map(t => ({ text: t, done: false }))
-        .concat([{ text:"🎖️ Tebrikler! Vakur oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
-      }
-    ];
-    
-    // Hatip için – başlıklar güncellendi
-    const hatipDifficulties = [
-      {
-        title: "ÇIRAK HATİP I", locked: false,
-        tasks: [
-          "Sokak kavgasını tatlı dille sakinleştir.",
-          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
-          "Aile içi gerginliği dinleyerek gider.",
-          "Sosyal medyada tartışmayı tatlıya bağla.",
-          "Yanlış bilgiyi doğru kaynakla düzelt.",
-          "Dedikoduyu kaynağından çürüterek sakinleştir.",
-          "Okul/kulüp etkinliğinde kısa konuşma yap.",
-          "Ufak grupta hitabet pratiği yap.",
-          "Arkadaş grubuna moral verici konuşma yap.",
-          "Sosyal medya üzerinden küçük bilgilendirici yayın düzenle."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "USTA HATİP II", locked: true,
-        tasks: [
-          "Komşular arasındaki sorunu toplantı ile çöz.",
-          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
-          "Yerel hayır kurumuna bağış toplamak için ikna et.",
-          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
-          "Aile şirketinde tartışmada hakemlik yap.",
-          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
-          "Mahalle muhtarıyla imza kampanyası başlat.",
-          "Gönüllü ekiple sokak sanatçılarına destek sağla.",
-          "Mahallede çevre bilinci semineri düzenle.",
-          "Gençlere yönelik küçük münazara yarışmaları organize et."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "UZMAN HATİP III", locked: true,
-        tasks: [
-          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
-          "Ulusal platformda toplumsal bir konuda konuş.",
-          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
-          "Mahalle halkının taleplerini dile getirip sonuç al.",
-          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
-          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
-          "Binlerce kişilik tartışmayı sakinleştir.",
-          "Sivil toplum zirvesinde temsilci olarak konuş.",
-          "Yerel basında toplumsal sorunlar üzerine köşe yazısı yayınla.",
-          "İşsizlere yönelik motivasyon konuşması gerçekleştir."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "EFSANE HATİP IV", locked: true,
-        tasks: [
-          "Bölgesel toplum hareketine önderlik et.",
-          "Ulusal konferansta çözüm önerileri sun.",
-          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
-          "Barış çalıştayında moderatörlük yap.",
-          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
-          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
-          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
-          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver.",
-          "Kamu kurumlarında iletişim eğitimi ver.",
-          "Şiddetsiz iletişim üzerine farkındalık kampanyası başlat."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "YÜCE HATİP V", locked: true,
-        tasks: ([ 
-          "Yerel topluluklarda barış kültürü aşıla.",
-          "Sosyal medya üzerinden olumlu mesajlar yay.",
-          "Yerel liderlerle yakın işbirliği kur.",
-          "Eski çatışmaları unut, yeni başlangıçlar yap.",
-          "Kriz zamanlarında destek ağı oluştur.",
-          "Halk arasında iletişimi güçlendir.",
-          "Barış temalı etkinlikler düzenle.",
-          "Toplumu huzura kavuşturan projeler geliştir.",
-          "Mafya aileleri arasında dayanışmayı sağla.",
-          "Etkinliklerle sosyal dengeyi koru."
-        ]).map(t => ({ text: t, done: false }))
-        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
-      }
-    ];
-    
-    // Baron için – başlıklar güncellendi
-    const baronDifficulties = [
-      {
-        title: "ÇIRAK BARON I", locked: false,
-        tasks: [
-          "Ufak çapta uyuşturucu satmayı dene.",
-          "Mahallede küçük 'koruma ücreti' topla.",
-          "Kafe/mekândan ufak haraç iste.",
-          "Sokak satıcıları arasında rekabeti lehine çevir.",
-          "Sahte marka ürünlerin satış ağını oluştur.",
-          "Şantaj veya tehditle rakibi sustur.",
-          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
-          "Kaçak içki satışı yapan ekibe arka çık.",
-          "Mahallede gizli bilgi toplama operasyonu düzenle.",
-          "Rakip küçük çete operasyonlarını sabote et."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "USTA BARON II", locked: true,
-        tasks: [
-          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
-          "Polis/memurlarla rüşvet bağlantısı kur.",
-          "Yasadışı kumar organizasyonu başlat.",
-          "Rakip çeteyle gerginliği lehine çöz.",
-          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
-          "Yasa dışı bahis mekanlarıyla anlaş.",
-          "Kara para aklama için küçük sermaye oluştur.",
-          "Gece kulübünün 'gizli ortak' statüsünü al.",
-          "Yerel medyada yalan haberler yayıp rakip imajını zedele.",
-          "Rakip operasyonlarına ince müdahaleler yaparak zayıflıkları ortaya çıkar."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "UZMAN BARON III", locked: true,
-        tasks: [
-          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
-          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
-          "Polis ve siyasi bağlantıları güçlendir.",
-          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
-          "Gece kulüplerinde yatırımın tekeli olsun.",
-          "Rakip çetenin liderini korkutarak saflarına katıl.",
-          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
-          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır.",
-          "Rakip çetenin üslerini gizlice ele geçir.",
-          "Organize suikast girişimleri düzenleyerek rakip liderleri sars."
-        ].map(t => ({ text: t, done: false }))
-      },
-      {
-        title: "EFSANE BARON IV", locked: true,
-        tasks: [
-          "Mafya Aileleri Arası Barışı Sağla",
-          "12 Aşiret Kavgasını Uzlaştır",
-          "Çatışan Taraflar Arasında Arabuluculuk Yap",
-          "Kriz Yönetimi İçin Toplantı Düzenle",
-          "İttifaklar Kurarak Denge Sağla",
-          "Gizli Müzakere Kanalları Oluştur",
-          "Eski Husumetleri Gidererek Yeni İttifaklar Kur",
-          "Ani Gerilimlerde Soğukkanlı Müdahale Et",
-          "Kapsamlı İttifak Çalışmaları Yürüt",
-          "Sürekli Barış Süreçlerini Organize Et"
-        ].map(t => ({ text: t, done: false }))
-        .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done: false, hidden: true }])
-      }
-    ];
-    
-    const rankData = {
-      "Vakur": vakurDifficulties,
-      "Hatip": hatipDifficulties,
-      "Baron": baronDifficulties
-    };
-    
-    /****************** ONLOAD ******************/
-    window.onload = function() {
-      updateMoneyUI();
-      updateProfileInfo();
-      updateStatBars();
-      displayKoyIncelemePage(1);
-      displayTrenPage(1);
-      updateArrowVisibility();
-    };
-    
-    /****************** TUTAR SATIN ALMA ******************/
-    function buyItem(itemName, cost) {
-      if(money < cost) {
-        alert("Yetersiz bakiye!");
-        return;
-      }
-      if (itemName === "Silah" || itemName === "Bomba" || itemName === "Villa") {
-        let costPercent = ((cost / money) * 100).toFixed(2);
-        if (!confirm(itemName + " satın almak istediğinize emin misiniz? (Maliyet: $" + cost + " - Bu, bakiyenizin %" + costPercent + "si)") ) {
-          return;
-        }
-      }
-      money -= cost;
-      updateMoneyUI();
-      alert(itemName + " satın alındı! (-" + cost + "$)");
-    }
-    
-    /****************** DURUMUM & TÜCCAR AÇ/KAPA ******************/
-    function toggleDurumum(){
-      const elem = document.getElementById("durumumContent");
-      elem.classList.toggle("active");
-    }
-    function toggleTuccar(){
-      const elem = document.getElementById("tuccarContent");
-      elem.classList.toggle("active");
-    }
-    
-    /****************** KÖY INCELEME ******************/
-    let currentIncelemePage = 1;
-    function displayKoyIncelemePage(page) {
-      currentIncelemePage = page;
-      const pageSize = pageSizes[page-1];
-      let start = 0;
-      for(let i = 0; i < page-1; i++){
-        start += pageSizes[i];
-      }
-      let end = start + pageSize;
-      const ul = document.getElementById("koyIncelemeList");
-      ul.innerHTML = "";
-      for(let i = start; i < end; i++){
-        if(i >= villageData.length) break;
-        const v = villageData[i];
-        let li = document.createElement("li");
-        li.innerHTML = `<span>${v.name} (6 At)</span>
-                        <button onclick="inceleKoy('${v.name}')">İncele</button>`;
-        ul.appendChild(li);
-      }
-      renderKoyIncelemePagination();
-    }
-    function renderKoyIncelemePagination() {
-      const pag = document.getElementById("koyIncelemePagination");
-      pag.innerHTML = "";
-      for(let p = 1; p <= totalPages; p++){
-        let sp = document.createElement("span");
-        sp.innerText = p;
-        if(p === currentIncelemePage) sp.classList.add("active");
-        sp.onclick = () => displayKoyIncelemePage(p);
-        pag.appendChild(sp);
-      }
-    }
-    function inceleKoy(koyName){
-      let found = villageData.find(v => v.name === koyName);
-      if(!found) return;
-      alert(
-        "Köy: " + koyName + "\n" +
-        "Malikane: " + found.malikane + "\n" +
-        "Sığınak: " + found.siginak + "\n" +
-        "Villa: " + found.villa
-      );
-    }
-    
-    /****************** TREN SEYEHAT ******************/
-    let currentTrenPage = 1;
-    function displayTrenPage(page) {
-      currentTrenPage = page;
-      const pageSize = pageSizes[page-1];
-      let start = 0;
-      for(let i = 0; i < page-1; i++){
-        start += pageSizes[i];
-      }
-      let end = start + pageSize;
-      const trenList = document.getElementById("trenList");
-      trenList.innerHTML = "";
-      for(let i = start; i < end; i++){
-        if(i >= allKoyler.length) break;
-        let li = document.createElement("li");
-        li.innerHTML = `<span>${allKoyler[i]}</span>
-                        <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
-        trenList.appendChild(li);
-      }
-      renderTrenPagination();
-    }
-    function renderTrenPagination(){
-      const pag = document.getElementById("trenPagination");
-      pag.innerHTML = "";
-      for(let p = 1; p <= totalPages; p++){
-        let sp = document.createElement("span");
-        sp.innerText = p;
-        if(p === currentTrenPage) sp.classList.add("active");
-        sp.onclick = () => displayTrenPage(p);
-        pag.appendChild(sp);
-      }
-    }
-    function travelToTrain(village){
-      if(currentVillage === village) return;
-      if(money < 500){
-        alert("Tren bileti için yeterli paranız yok!");
-        return;
-      }
-      if (!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")){
-        return;
-      }
-      money -= 500;
-      updateMoneyUI();
-      currentVillage = village;
-      updateProfileInfo();
-      alert("Trenle " + village + " köyüne geldiniz!");
-    }
-    
-    /****************** PARA & KÖY ADI ******************/
-    function updateMoneyUI(){
-      document.getElementById("money").innerText = "$" + money;
-    }
-    function updateProfileInfo(){
-      document.getElementById("currentVillageDisplay").innerText = currentVillage;
-      document.getElementById("bottomLeft").innerText = currentVillage;
-    }
-    
-    /****************** STAT BAR’LARI ******************/
-    function getVakurKoruma(){
-      let koruma = Math.floor(vakurTaskCount / 22);
-      return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
-    }
-    function getHatipNufus(){
-      let nufus = Math.floor(hatipTaskCount / 40) * 5;
-      return (nufus % 201 === 0 && nufus > 0) ? 200 : nufus % 201;
-    }
-    function getBaronEtki(){
-      let etki = Math.floor(baronTaskCount * 2);
-      return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
-    }
-    function updateStatBars(){
-      let vakVal = getVakurKoruma();
-      let vakPct = Math.floor((vakVal / 660) * 100);
-      document.getElementById("vakurText").innerText = "Koruma: " + vakVal + " (" + vakPct + "%)";
-      document.getElementById("vakurFill").style.width = vakPct + "%";
-      
-      if(isHatipUnlocked){
-        document.getElementById("hatipStat").classList.remove("lockedStat");
-        let hatVal = getHatipNufus();
-        let hatPct = Math.floor((hatVal / 200) * 100);
-        document.getElementById("hatipText").innerText = "Nüfus: " + hatVal + " (" + hatPct + "%)";
-        document.getElementById("hatipFill").style.width = hatPct + "%";
-      } else {
-        document.getElementById("hatipStat").classList.add("lockedStat");
-      }
-      
-      if(isBaronUnlocked){
-        document.getElementById("baronStat").classList.remove("lockedStat");
-        let barVal = getBaronEtki();
-        let barPct = Math.floor((barVal / 500) * 100);
-        document.getElementById("baronText").innerText = "Etki: " + barVal + " (" + barPct + "%)";
-        document.getElementById("baronFill").style.width = barPct + "%";
-      } else {
-        document.getElementById("baronStat").classList.add("lockedStat");
-      }
-    }
-    
-    /****************** GÖREV SAYFASI ******************/
-    let currentRank = "";
-    function openGorevPage(rank){
-      if(rank === "Hatip" && !isHatipUnlocked) return;
-      if(rank === "Baron" && !isBaronUnlocked) return;
-      
-      currentRank = rank;
-      document.getElementById("mainPage").style.display = "none";
-      let gp = document.getElementById("gorevPage");
-      gp.style.display = "block";
-      // Üst başlık artık her zaman "BAŞLANGIÇ - KEŞİF YOLCUĞU"
-      document.getElementById("gorevHeader").innerText = "BAŞLANGIÇ - KEŞİF YOLCUĞU";
-      loadRankTasks(rank);
-      updateArrowVisibility();
-    }
-    function closeGorevPage(){
-      document.getElementById("gorevPage").style.display = "none";
-      document.getElementById("mainPage").style.display = "block";
-    }
-    function loadRankTasks(rank){
-      let container = document.getElementById("tasksContainer");
-      container.innerHTML = "";
-      let diffs = rankData[rank];
-      diffs.forEach((diffObj, diffIndex) => {
-        let section = document.createElement("div");
-        section.className = "rankSection";
-        if(diffObj.locked) section.classList.add("lockedDifficulty");
-        
-        let h2 = document.createElement("h2");
-        h2.innerText = diffObj.title;
-        if(rank === "Vakur") {
-          h2.classList.add("vakur-color");
-        } else if(rank === "Hatip") {
-          h2.classList.add("hatip-color");
-        } else if(rank === "Baron") {
-          h2.classList.add("baron-color");
-        }
-        section.appendChild(h2);
-        
-        diffObj.tasks.forEach((task, taskIndex) => {
-          let divT = document.createElement("div");
-          divT.className = "taskItem";
-          if(task.done) divT.classList.add("completedTask");
-          if(task.hidden) divT.style.display = "none";
-          divT.innerHTML = `<span>${task.text}</span>
-            <button onclick="completeTask('${rank}', ${diffIndex}, ${taskIndex})">Tamamla</button>`;
-          section.appendChild(divT);
-        });
-        
-        let pBar = document.createElement("div");
-        pBar.className = "difficultyProgressBar";
-        let pFill = document.createElement("div");
-        pFill.className = "difficultyProgressFill";
-        pBar.appendChild(pFill);
-        section.appendChild(pBar);
-        
-        let pText = document.createElement("div");
-        pText.className = "progressText";
-        section.appendChild(pText);
-        
-        document.getElementById("tasksContainer").appendChild(section);
-        updateDifficultyProgress(rank, diffIndex);
-      });
-    }
-    // Gizli görevler hariç kontrol
-    function completeTask(rank, diffIndex, taskIndex){
-      let diffs = rankData[rank];
-      let diffObj = diffs[diffIndex];
-      if(diffObj.locked){
-        alert("Bu görev bölümü kilitli!");
-        return;
-      }
-      let taskItem = diffObj.tasks[taskIndex];
-      if(taskItem.done){
-        alert("Zaten tamamladınız!");
-        return;
-      }
-      taskItem.done = true;
-      
-      if(rank === "Vakur"){
-        vakurTaskCount++;
-      } else if(rank === "Hatip"){
-        hatipTaskCount++;
-      } else if(rank === "Baron"){
-        baronTaskCount++;
-      }
-      updateStatBars();
-      
-      let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
-      if(allDone){
-        if(diffIndex < diffs.length - 1){
-          diffs[diffIndex + 1].locked = false;
-          alert(diffObj.title + " bitti! '" + diffs[diffIndex + 1].title + "' açıldı.");
-        } else {
-          alert(rank + " rankındaki tüm görevleri tamamladınız!");
-          closeGorevPage();
-          if(rank === "Vakur" && !isHatipUnlocked){
-            isHatipUnlocked = true;
-            document.getElementById("cardHatip").classList.remove("locked");
-            alert("Tebrikler! Hatip kilidi açıldı, ana menüye dönüyorsunuz.");
-          } else if(rank === "Hatip" && !isBaronUnlocked){
-            isBaronUnlocked = true;
-            document.getElementById("cardBaron").classList.remove("locked");
-            alert("Tebrikler! Baron kilidi açıldı, ana menüye dönüyorsunuz.");
-          }
-        }
-      }
-      loadRankTasks(rank);
-      updateArrowVisibility();
-    }
-    function updateDifficultyProgress(rank, diffIndex){
-      let diffs = rankData[rank];
-      let diffObj = diffs[diffIndex];
-      let doneCount = diffObj.tasks.filter(t => !t.hidden && t.done).length;
-      let totalCount = diffObj.tasks.filter(t => !t.hidden).length;
-      let percent = Math.floor((doneCount / totalCount) * 100);
-      
-      let sections = document.getElementById("tasksContainer").getElementsByClassName("rankSection");
-      if(!sections[diffIndex]) return;
-      let fill = sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
-      let txt = sections[diffIndex].getElementsByClassName("progressText")[0];
-      fill.style.width = percent + "%";
-      txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
-    }
-    
-    /* Ok butonları ile yatay kaydırma */
-    function scrollTasks(direction) {
-      const container = document.getElementById("tasksContainer");
-      container.scrollBy({ left: direction * 310, behavior: "smooth" });
-      setTimeout(updateArrowVisibility, 350);
-    }
-    
-    function updateArrowVisibility() {
-      const container = document.getElementById("tasksContainer");
-      const leftArrow = document.getElementById("leftArrow");
-      const rightArrow = document.getElementById("rightArrow");
-      if(container.scrollLeft === 0) {
-        leftArrow.style.display = "none";
-      } else {
-        leftArrow.style.display = "block";
-      }
-      if(container.scrollWidth - container.clientWidth - container.scrollLeft < 5) {
-        rightArrow.style.display = "none";
-      } else {
-        rightArrow.style.display = "block";
-      }
-    }
+    /* JavaScript kodlarınız burada... */
   </script>
 </body>
 </html>
