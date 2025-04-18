@@ -24,19 +24,18 @@
     #leftPanel {
       position:fixed; top:80px; left:20px;
       width:15%; max-width:200px;
-      display:flex; flex-direction:column;
       height:calc(100vh - 80px);
+      display:flex; flex-direction:column;
     }
     .sectionBox {
-      background: rgba(0,0,0,0.6);
-      border-radius: 5px;
-      overflow: hidden;
-      /* Her sekmeyi toplam yüksekliğin 1/15'i kadar yap, margin düşümüyle */
-      flex: none;
-      height: calc(100%/15 - 0.6rem);
-      margin-bottom: 0.6rem;
-      display: flex;
-      flex-direction: column;
+      background:rgba(0,0,0,0.6);
+      border-radius:5px;
+      overflow:hidden;
+      transform: scale(0.6);
+      transform-origin: top left;
+      margin-bottom:2px;
+      display:flex; flex-direction:column;
+      flex:none;
     }
     .sectionBox h2 {
       background:#222; padding:0.5rem; color:#ffcc00;
@@ -57,22 +56,28 @@
 
     /* ======= ORTA RANK ======= */
     #centerRanks {
-      position:fixed; top:80px; left:50%;
-      transform:translateX(-50%);
-      background:rgba(0,0,0,0.5);
-      padding:0.4rem; border-radius:5px;
+      position:fixed; top:80px; left:50%; transform:translateX(-50%);
+      background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px;
       display:flex; gap:6px; z-index:900;
     }
     .card {
-      background:rgba(255,255,255,0.05);
-      padding:0.5rem; border-radius:5px;
-      text-align:center; width:90px; font-size:0.8rem;
+      background:rgba(255,255,255,0.05); padding:0.5rem;
+      border-radius:5px; text-align:center;
+      width:90px; font-size:0.8rem;
     }
     .card h2 { margin-bottom:0.3rem; text-transform:uppercase; }
     .card button {
       background:#000; border:none; padding:0.3rem;
       border-radius:3px; color:#fff; font-size:0.75rem;
       cursor:pointer;
+    }
+
+    /* ======= TREN RAYI ======= */
+    #trainTrackCanvas {
+      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:80%; height:160px;
+      background:#333; border:4px solid #555; border-radius:10px;
+      z-index:800;
     }
 
     /* ======= SAĞ PANEL ======= */
@@ -90,6 +95,17 @@
       margin-bottom:0.5rem; font-size:0.9rem;
     }
 
+    /* ======= ALT ARA ARAMA ======= */
+    #searchBoxBottom {
+      position:fixed; bottom:60px; left:20px;
+      width:60%; max-width:200px;
+      z-index:900;
+    }
+    #searchBoxBottom input {
+      width:100%; padding:0.4rem; border-radius:3px;
+      border:1px solid #333; background:#222; color:#fff;
+    }
+
     /* ======= ALT SOL KÖY ======= */
     #bottomLeft {
       position:fixed; bottom:20px; left:20px;
@@ -99,13 +115,10 @@
 
     /* ======= CHAT & MESAJ İKONU ======= */
     #chatBox {
-      position:fixed; bottom:20px; left:50%;
-      transform:translateX(-50%);
-      width:300px; max-width:80%;
-      background:rgba(0,0,0,0.7);
-      padding:0.5rem; border-radius:5px;
-      text-align:center; font-size:0.9rem; cursor:text;
-      z-index:900;
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+      width:300px; max-width:80%; background:rgba(0,0,0,0.7);
+      padding:0.5rem; border-radius:5px; text-align:center;
+      font-size:0.9rem; cursor:text; z-index:900;
     }
     #messageIcon {
       position:fixed; bottom:20px; right:20px;
@@ -116,7 +129,7 @@
 
     @media(max-width:768px){
       #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; }
-      .sectionBox { flex:none; height:auto; }
+      .sectionBox { transform:none; margin-bottom:1rem; }
       #centerRanks { position:static; transform:none; margin:1rem auto; }
       #rightContainer { position:static; width:100%; align-items:center; margin-top:1rem; }
       #chatBox, #bottomLeft, #messageIcon { bottom:10px; }
@@ -134,43 +147,38 @@
     <div class="sectionBox">
       <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
       <div id="durumum" class="tab-content">
-        <!-- stat bar içerikleri -->
+        <div class="stat-bar" id="vakurStat"><div class="stat-label">VAKUR 🛡️</div><div class="stat-fill" style="width:50%"></div></div>
+        <div class="stat-bar" id="hatipStat"><div class="stat-label">HATİP 👥</div><div class="stat-fill" style="width:30%"></div></div>
+        <div class="stat-bar" id="baronStat"><div class="stat-label">BARON ♛</div><div class="stat-fill" style="width:10%"></div></div>
+        <div>Köy: <strong>Asman</strong></div>
       </div>
     </div>
     <!-- 2. Tüccar -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2>
-      <div id="tuccar" class="tab-content"><ul>…</ul></div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content"><ul><li>Silah (2500$) <button>Satın Al</button></li><li>Bomba (1000$) <button>Satın Al</button></li><li>C4 (1500$) <button>Satın Al</button></li></ul></div></div>
     <!-- 3. Davet Et -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('davet')">Davet Et ↓</h2>
-      <div id="davet" class="tab-content"><ul>…</ul></div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content"><ul><li>Davet bağlantınızı ekleyin.</li></ul></div></div>
     <!-- 4. Ailem -->
-    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content"><ul>…</ul></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content"><ul><li>Aile üyeleri burada.</li></ul></div></div>
     <!-- 5. Mesajlarım -->
-    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content"><ul>…</ul></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content"><ul><li>Yeni mesaj yok.</li></ul></div></div>
     <!-- 6. Avlan -->
-    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content"><ul>…</ul></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content"><ul><li>Avlanma görevleri.</li></ul></div></div>
     <!-- 7. Açık Artırma -->
-    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content"><ul>…</ul></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content"><ul><li>Müzayede içerikleri.</li></ul></div></div>
     <!-- 8. Kaçakçılık -->
-    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"><ul>…</ul></div></div>
-    <!-- 9. Saldır -->
-    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content"><p>Saldırı eylemleri burada.</p></div></div>
-    <!-- 10. At Yarışı -->
-    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content"><ul>…</ul></div></div>
-    <!-- 11. At Bilgiler -->
-    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content"><ul>…</ul></div></div>
-    <!-- 12. Oyun içi Bilgiler -->
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content"><ul>…</ul></div></div>
-    <!-- 13. Arananlar -->
-    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content"><ul>…</ul></div></div>
-    <!-- 14. Oyunlar -->
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul>…</ul></div></div>
-    <!-- 15. Kullanıcı Arama -->
-    <div class="sectionBox"><h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama</h2><div id="kullaniciArama" class="tab-content"><input type="text" placeholder="Kullanıcı Ara..." /></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"><ul><li>Kaçakçılık görevleri.</li><li>Saldır</li></ul></div></div>
+    <!-- 9. At Yarışı -->
+    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content"><ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul></div></div>
+    <!-- 10. At Bilgiler -->
+    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content"><ul><li>Atların detaylı bilgileri burada.</li></ul></div></div>
+    <!-- 11. Oyun içi Bilgiler -->
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content"><ul><li>Oyun içi rehber ve ipuçları.</li></ul></div></div>
+    <!-- 12. Arananlar -->
+    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content"><ul><li>Şu anda arananlar listesi boş.</li></ul></div></div>
+    <!-- 13. Oyunlar -->
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul><li>Mevcut oyunlar listesi</li></ul></div></div>
+    <!-- 14. Kullanıcı Arama -->
+    <div class="sectionBox"><h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2><div id="kullaniciArama" class="tab-content"><input type="text" placeholder="Kullanıcı Ara..." /></div></div>
   </div>
 
   <div id="centerRanks">
@@ -179,11 +187,9 @@
     <div class="card"><h2>BARON</h2><button>Serüven</button></div>
   </div>
 
-  <div id="rightContainer">
-    <div class="box"><h3>Köy İncelemesi</h3><div class="sub-tabs"></div></div>
-    <div class="box"><h3>Trenle Seyehat</h3><div class="sub-tabs"></div></div>
-  </div>
+  <canvas id="trainTrackCanvas"></canvas>
 
+  <div id="searchBoxBottom"><input type="text" placeholder="Kullanıcı Ara..." /></div>
   <div id="bottomLeft">Asman</div>
   <div id="chatBox" contenteditable="true">CHAT</div>
   <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
@@ -193,6 +199,31 @@
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.getElementById(id).classList.toggle('active');
     }
+    const canvas = document.getElementById('trainTrackCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      drawTrack();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    function drawTrack(){
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h);
+      ctx.strokeStyle='#aaa'; ctx.lineWidth=4;
+      ctx.beginPath(); ctx.moveTo(20,20); ctx.lineTo(20,h-20);
+      ctx.moveTo(w-20,20); ctx.lineTo(w-20,h-20); ctx.stroke();
+      ctx.strokeStyle='#666'; ctx.lineWidth=2;
+      const step = (h-40)/7;
+      const icons=['🚂','🏠','💰','🛒','⚓','🎲','🔒','🔑'];
+      icons.forEach((icon,i)=>{
+        const y=20+i*step;
+        ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(w-20,y); ctx.stroke();
+        ctx.font='20px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(icon, w/2, y);
+      });
+    }
+    resizeCanvas();
   </script>
 </body>
 </html>
