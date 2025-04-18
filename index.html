@@ -1,236 +1,538 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Dolphine - Mafia Oyunu</title>
+
+  <!--
+    Stil tanımlamaları başlıyor
+    --------------------------------------------
+  -->
   <style>
     /* ======= GENEL ======= */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; }
-    header {
-      position:fixed; top:0; left:0; width:100%;
-      background:rgba(0,0,0,0.85);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1rem 2rem; z-index:1000;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
     }
-    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; }
+
+    body {
+      background: #888;
+      color: #f1f1f1;
+      padding-top: 80px;
+      font-size: 0.85rem;
+      display: flex;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
     #money {
-      background:#222; padding:0.4rem 0.8rem; border-radius:4px;
-      border:1px solid #333; font-size:0.9rem; color:lime;
+      background: #222;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      border: 1px solid #333;
+      font-size: 0.9rem;
+      color: lime;
     }
 
     /* ======= ÜST SAĞ PANEL ======= */
     #topRightPanel {
-      position:fixed; top:60px; right:20px;
-      display:flex; gap:8px; z-index:1000;
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
     }
+
     .box {
-      background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 5px;
+      padding: 0.6rem;
     }
+
     .box h3 {
-      text-align:center; color:#ffcc00;
-      margin-bottom:0.5rem; font-size:0.9rem;
+      text-align: center;
+      color: #ffcc00;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
     }
 
     /* ======= SOL PANEL ======= */
     #leftPanel {
-      position:fixed; top:80px; left:20px;
-      width:15%; max-width:200px;
-      height:calc(100vh - 80px);
-      display:flex; flex-direction:column;
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      width: 15%;
+      max-width: 200px;
+      height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
     }
+
     .sectionBox {
-      background:rgba(0,0,0,0.6);
-      border-radius:5px;
-      overflow:hidden;
-      transform:scale(1.1);
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 5px;
+      overflow: hidden;
+      transform: scale(1.1);
       transform-origin: top left;
-      margin-bottom:2px;
-      display:flex; flex-direction:column; flex:none;
+      margin-bottom: 2px;
+      display: flex;
+      flex-direction: column;
+      flex: none;
     }
+
     .sectionBox h2 {
-      background:#222; padding:0.5rem; color:#ffcc00;
-      cursor:pointer; font-size:0.85rem; user-select:none;
+      background: #222;
+      padding: 0.5rem;
+      color: #ffcc00;
+      cursor: pointer;
+      font-size: 0.85rem;
+      user-select: none;
     }
+
     .sectionBox .tab-content {
-      display:none; padding:0.5rem;
-      background:rgba(0,0,0,0.4);
-      font-size:0.8rem; flex:1; overflow:auto;
+      display: none;
+      padding: 0.5rem;
+      background: rgba(0, 0, 0, 0.4);
+      font-size: 0.8rem;
+      flex: 1;
+      overflow: auto;
     }
-    .sectionBox .tab-content.active { display:block; }
+
+    .sectionBox .tab-content.active {
+      display: block;
+    }
+
     .sectionBox input {
-      width:100%; padding:0.4rem; border-radius:3px;
-      border:1px solid #333; background:#222; color:#fff;
+      width: 100%;
+      padding: 0.4rem;
+      border-radius: 3px;
+      border: 1px solid #333;
+      background: #222;
+      color: #fff;
     }
-    ul { list-style:none; padding-left:0; }
-    li { margin-bottom:0.4rem; display:flex; justify-content:space-between; }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+    }
 
     /* ======= ORTA RANK ======= */
     #centerRanks {
-      position:fixed; top:80px; left:50%; transform:translateX(-50%);
-      background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px;
-      display:flex; gap:6px; z-index:900;
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      padding: 0.4rem;
+      border-radius: 5px;
+      display: flex;
+      gap: 6px;
+      z-index: 900;
     }
+
     .card {
-      background:rgba(255,255,255,0.05); padding:0.5rem;
-      border-radius:5px; text-align:center; width:90px; font-size:0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.5rem;
+      border-radius: 5px;
+      text-align: center;
+      width: 90px;
+      font-size: 0.8rem;
     }
-    .card h2 { margin-bottom:0.3rem; text-transform:uppercase; }
+
+    .card h2 {
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+    }
+
     .card button {
-      background:#000; border:none; padding:0.3rem;
-      border-radius:3px; color:#fff; font-size:0.75rem;
-      cursor:pointer;
+      background: #000;
+      border: none;
+      padding: 0.3rem;
+      border-radius: 3px;
+      color: #fff;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    /* ======= TRENLE SEYEHAT & 31 KÖY ======= */
+    #travelBox {
+      position: fixed;
+      top: 60px;
+      left: 240px;
+      width: 200px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 5px;
+    }
+
+    #travelBox h3 {
+      padding: 0.6rem;
+      text-align: center;
+      color: #ffcc00;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #333;
+    }
+
+    #travelBox .sub-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      padding: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    #travelBox .sub-tabs button {
+      background: #444;
+      border: none;
+      padding: 0.3rem 0.5rem;
+      color: #ffcc00;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    #travelBox .sub-tabs button.active {
+      background: #666;
+    }
+
+    #travelBox #travelPages .sub-content {
+      display: none;
+      padding: 0.5rem;
+      height: 150px;
+      overflow: auto;
+      font-size: 0.8rem;
+    }
+
+    #travelBox #travelPages .sub-content.active {
+      display: block;
     }
 
     /* ======= TREN RAYI ======= */
     #trainTrackCanvas {
-      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-      width:80%; height:160px;
-      background:#333; border:4px solid #555; border-radius:10px;
-      z-index:800;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 160px;
+      background: #333;
+      border: 4px solid #555;
+      border-radius: 10px;
+      z-index: 800;
+    }
+
+    /* ======= KÖY İNCELEMESİ ALT PANEL ======= */
+    #villageBox {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 200px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 5px;
+    }
+
+    #villageBox h3 {
+      padding: 0.6rem;
+      text-align: center;
+      color: #ffcc00;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #333;
+    }
+
+    #villageBox .sub-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      padding: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    #villageBox .sub-tabs button {
+      background: #444;
+      border: none;
+      padding: 0.3rem 0.5rem;
+      color: #ffcc00;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    #villageBox .sub-tabs button.active {
+      background: #666;
+    }
+
+    #villageBox #villagePages .sub-content {
+      display: none;
+      padding: 0.5rem;
+      height: 150px;
+      overflow: auto;
+      font-size: 0.8rem;
+    }
+
+    #villageBox #villagePages .sub-content.active {
+      display: block;
     }
 
     /* ======= ALT ARA ARAMA ======= */
     #searchBoxBottom {
-      position:fixed; bottom:60px; left:20px;
-      width:60%; max-width:200px; z-index:900;
+      position: fixed;
+      bottom: 60px;
+      left: 20px;
+      width: 60%;
+      max-width: 200px;
+      z-index: 900;
     }
+
     #searchBoxBottom input {
-      width:100%; padding:0.4rem; border-radius:3px;
-      border:1px solid #333; background:#222; color:#fff;
+      width: 100%;
+      padding: 0.4rem;
+      border-radius: 3px;
+      border: 1px solid #333;
+      background: #222;
+      color: #fff;
     }
 
     /* ======= ALT SOL KÖY ======= */
     #bottomLeft {
-      position:fixed; bottom:20px; left:20px;
-      background:#0288d1; padding:0.4rem 0.8rem;
-      border-radius:5px; font-size:0.9rem; z-index:900;
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #0288d1;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      z-index: 900;
     }
 
     /* ======= CHAT & MESAJ İKONU ======= */
     #chatBox {
-      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-      width:300px; max-width:80%; background:rgba(0,0,0,0.7);
-      padding:0.5rem; border-radius:5px; text-align:center;
-      font-size:0.9rem; cursor:text; z-index:900;
-    }
-    #messageIcon {
-      position:fixed; bottom:20px; right:20px;
-      background:rgba(0,0,0,0.7); padding:0.6rem;
-      border-radius:50%; font-size:1.2rem;
-      cursor:pointer; z-index:900;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      max-width: 80%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 0.5rem;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 0.9rem;
+      cursor: text;
+      z-index: 900;
     }
 
-    @media(max-width:768px){
-      #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; }
-      .sectionBox { transform:none; margin-bottom:1rem; }
-      #centerRanks { position:static; transform:none; margin:1rem auto; }
-      #topRightPanel, #searchBoxBottom, #bottomLeft, #chatBox, #messageIcon {
-        position:static; transform:none; margin:1rem auto;
+    #messageIcon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 0.6rem;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 900;
+    }
+
+    @media (max-width: 768px) {
+      #leftPanel {
+        position: static;
+        width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+      }
+      .sectionBox {
+        transform: none;
+        margin-bottom: 1rem;
+      }
+      #centerRanks {
+        position: static;
+        transform: none;
+        margin: 1rem auto;
+      }
+      #travelBox,
+      #villageBox,
+      #searchBoxBottom,
+      #bottomLeft,
+      #chatBox,
+      #messageIcon {
+        position: static;
+        transform: none;
+        margin: 1rem auto;
       }
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="logo">BLACK DOLPHINE</div>
     <div id="money">$500000</div>
   </header>
 
-  <!-- ÜST SAĞ PANEL: Trenle Seyehat ve Köy İncelemesi -->
-  <div id="topRightPanel">
-    <div class="box"><h3>Trenle Seyehat</h3><div class="sub-tabs"></div></div>
-    <div class="box"><h3>Köy İncelemesi</h3><div class="sub-tabs"></div></div>
+  <!-- Trenle Seyehat ve 31 Köy Sekmeleri -->
+  <div id="travelBox">
+    <h3>Trenle Seyehat</h3>
+    <div class="sub-tabs" id="travelTabs"></div>
+    <div id="travelPages"></div>
   </div>
 
+  <!-- Sol Panel: 15 Sekme (tüm sekmeler burada) -->
   <div id="leftPanel">
-    <!-- 1. Durumum -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
-      <div id="durumum" class="tab-content">
-        <div class="stat-bar" id="vakurStat"><div class="stat-label">VAKUR 🛡️</div><div class="stat-fill" style="width:50%"></div></div>
-        <div class="stat-bar" id="hatipStat"><div class="stat-label">HATİP 👥</div><div class="stat-fill" style="width:30%"></div></div>
-        <div class="stat-bar" id="baronStat"><div class="stat-label">BARON ♛</div><div class="stat-fill" style="width:10%"></div></div>
-        <div>Köy: <strong>Asman</strong></div>
-      </div>
-    </div>
-    <!-- 2. Tüccar -->
-    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content"><ul><li>Silah (2500$) <button>Satın Al</button></li><li>Bomba (1000$) <button>Satın Al</button></li><li>C4 (1500$) <button>Satın Al</button></li></ul></div></div>
-    <!-- 3. Davet Et -->
-    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content"><ul><li>Davet bağlantınızı ekleyin.</li></ul></div></div>
-    <!-- 4. Ailem -->
-    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content"><ul><li>Aile üyeleri burada.</li></ul></div></div>
-    <!-- 5. Mesajlarım -->
-    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content"><ul><li>Yeni mesaj yok.</li></ul></div></div>
-    <!-- 6. Avlan -->
-    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content"><ul><li>Avlanma görevleri.</li></ul></div></div>
-    <!-- 7. Açık Artırma -->
-    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content"><ul><li>Müzayede içerikleri.</li></ul></div></div>
-    <!-- 8. Kaçakçılık -->
-    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"><ul><li>Kaçakçılık görevleri.</li><li>At Yarışı</li></ul></div></div>
-    <!-- 9. Saldır -->
-    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content"><p>Saldırı eylemleri burada.</p></div></div>
-    <!-- 10. At Yarışı -->
-    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content"><ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul></div></div>
-    <!-- 11. At Bilgiler -->
-    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content"><ul><li>Atların detaylı bilgileri burada.</li></ul></div></div>
-    <!-- 12. Oyun içi Bilgiler -->
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content"><ul><li>Oyun içi rehber ve ipuçları.</li></ul></div></div>
-    <!-- 13. Arananlar -->
-    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content"><ul><li>Şu anda arananlar listesi boş.</li></ul></div></div>
-    <!-- 14. Oyunlar -->
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul><li>Mevcut oyunlar listesi</li></ul></div></div>
-    <!-- 15. Kullanıcı Arama -->
-    <div class="sectionBox"><h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2><div id="kullaniciArama" class="tab-content"><input type="text" placeholder="Kullanıcı Ara..." /></div></div>
+    <!-- Sekmeler dinamik olarak eklenecek -->
   </div>
 
+  <!-- Orta Rank Kartları -->
   <div id="centerRanks">
     <div class="card"><h2>VAKUR</h2><button>Serüven</button></div>
     <div class="card"><h2>HATİP</h2><button>Serüven</button></div>
     <div class="card"><h2>BARON</h2><button>Serüven</button></div>
   </div>
 
+  <!-- Tren Rayı -->
   <canvas id="trainTrackCanvas"></canvas>
+
+  <!-- Köy İncelemesi Alt Panel Sekmeleri -->
+  <div id="villageBox">
+    <h3>Köy İncelemesi</h3>
+    <div class="sub-tabs" id="villageTabs"></div>
+    <div id="villagePages"></div>
+  </div>
+
+  <!-- Alt Arama -->
   <div id="searchBoxBottom"><input type="text" placeholder="Kullanıcı Ara..." /></div>
+
+  <!-- Alt Sol Köy Bilgisi -->
   <div id="bottomLeft">Asman</div>
+
+  <!-- Chat Kutusu -->
   <div id="chatBox" contenteditable="true">CHAT</div>
+
+  <!-- Mesaj Bildirimi İkonu -->
   <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
 
   <script>
-    function toggleTab(id){
-      document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+    // 31 köy verisi
+    const villages = [
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk",
+      "Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb",
+      "Kergü","Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan",
+      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan",
+      "Dideri","Kazıka","Nehlnehli","Birdirej","Cembel"
+    ];
+
+    // Sekme başlatma fonksiyonu
+    function initTabs(tabId, pageId) {
+      const tabs = document.getElementById(tabId);
+      const pages = document.getElementById(pageId);
+      const per = 7;
+      for (let i = 0; i < 7; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i + 1;
+        btn.onclick = () => showPage(i, tabId, pageId);
+        tabs.appendChild(btn);
+
+        const div = document.createElement('div');
+        div.className = 'sub-content';
+        const ul = document.createElement('ul');
+        ul.style.paddingLeft = '0';
+        villages.slice(i * per, (i + 1) * per).forEach(v => {
+          const li = document.createElement('li');
+          li.innerText = v;
+          ul.appendChild(li);
+        });
+        div.appendChild(ul);
+        pages.appendChild(div);
+      }
+      showPage(0, tabId, pageId);
+    }
+
+    // Sayfa gösterme fonksiyonu
+    function showPage(idx, tabId, pageId) {
+      document.querySelectorAll(`#${tabId} button`).forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(pc => pc.classList.remove('active'));
+      document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[idx].classList.add('active');
+    }
+
+    // Dinamik sekmeleri başlat
+    initTabs('travelTabs', 'travelPages');
+    initTabs('villageTabs', 'villagePages');
+
+    // Tab toggle fonksiyonu
+    function toggleTab(id) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.getElementById(id).classList.toggle('active');
     }
-    const canvas = document.getElementById('trainTrackCanvas'),
-          ctx = canvas.getContext('2d');
-    function resizeCanvas(){
+
+    // Tren rayı çizimi
+    const canvas = document.getElementById('trainTrackCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
       drawTrack();
     }
     window.addEventListener('resize', resizeCanvas);
-    function drawTrack(){
-      const w = canvas.width, h = canvas.height;
-      ctx.clearRect(0,0,w,h);
-      ctx.strokeStyle='#aaa'; ctx.lineWidth=4;
+    function drawTrack() {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Ana raylar
+      ctx.strokeStyle = '#aaa';
+      ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.moveTo(20,20); ctx.lineTo(20,h-20);
-      ctx.moveTo(w-20,20); ctx.lineTo(w-20,h-20);
+      ctx.moveTo(20, 20);
+      ctx.lineTo(20, h - 20);
+      ctx.moveTo(w - 20, 20);
+      ctx.lineTo(w - 20, h - 20);
       ctx.stroke();
-      ctx.strokeStyle='#666'; ctx.lineWidth=2;
-      const step = (h-40)/7;
-      const icons = ['🚂','🏠','💰','🛒','⚓','🎲','🔒','🔑'];
-      icons.forEach((icon,i)=>{
-        const y = 20 + i*step;
+
+      // Traversler
+      ctx.strokeStyle = '#666';
+      ctx.lineWidth = 2;
+      const step = (h - 40) / 7;
+      const icons = ['🚂', '🏠', '💰', '🛒', '⚓', '🎲', '🔒', '🔑'];
+      icons.forEach((icon, i) => {
+        const y = 20 + i * step;
         ctx.beginPath();
-        ctx.moveTo(20,y);
-        ctx.lineTo(w-20,y);
+        ctx.moveTo(20, y);
+        ctx.lineTo(w - 20, y);
         ctx.stroke();
         ctx.font = '20px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(icon, w/2, y);
+        ctx.fillText(icon, w / 2, y);
       });
     }
     resizeCanvas();
