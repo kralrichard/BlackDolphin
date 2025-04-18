@@ -56,7 +56,7 @@
     #searchBox input { background:#222; color:#fff; border:1px solid #333; border-radius:4px; padding:0.4rem 0.8rem; font-size:0.85rem; }
 
     /* Mesaj Bildirimi */
-    #messageNotification { position:fixed; bottom:20px; right:20px; font-size:1.5rem; cursor:pointer; }
+    #messageNotification { position:fixed; bottom:60px; left:20px; font-size:1.5rem; cursor:pointer; }
 
     @media(max-width:768px){
       #leftPanel{position:static;width:100%;margin-bottom:1rem;}
@@ -75,8 +75,45 @@
   </header>
 
   <div id="leftPanel">
-    <!-- Sekmeler... -->
-    <!-- (Kodunuz burada aynen devam ediyor) -->
+    <!-- 1 Durumum -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
+      <div id="durumum" class="tab-content">
+        <div class="stat-bar" id="vakurStat">
+          <div class="stat-label vakur-color">VAKUR 🛡️</div>
+          <div class="stat-fill" id="vakurFill"></div>
+          <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+          <div class="badge-indicator">• R</div>
+        </div>
+        <div class="stat-bar lockedStat" id="hatipStat">
+          <div class="stat-label hatip-color">HATİP 👥</div>
+          <div class="stat-fill" id="hatipFill"></div>
+          <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+          <div class="badge-indicator">• R</div>
+        </div>
+        <div class="stat-bar lockedStat" id="baronStat">
+          <div class="stat-label baron-color">BARON ♛</div>
+          <div class="stat-fill" id="baronFill"></div>
+          <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
+          <div class="badge-indicator">• R</div>
+        </div>
+        <div>Köy: <span id="currentVillageDisplay">Asman</span></div>
+      </div>
+    </div>
+    <!-- 2 Tüccar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2>
+      <div id="tuccar" class="tab-content">
+        <ul>
+          <li>Silah (2500$) <button onclick="buyItem('Silah',2500)">Satın Al</button></li>
+          <li>Bomba (1000$) <button onclick="buyItem('Bomba',1000)">Satın Al</button></li>
+          <li>C4 (1500$) <button onclick="buyItem('C4',1500)">Satın Al</button></li>
+          <li>Villa (15000$) <button onclick="buyItem('Villa',15000)">Satın Al</button></li>
+          <li>Ev (10000$) <button onclick="buyItem('Ev',10000)">Satın Al</button></li>
+        </ul>
+      </div>
+    </div>
+    <!-- 3–13 sekmeler devam ediyor -->
   </div>
 
   <div id="rightContainer">
@@ -89,7 +126,7 @@
 
   <div id="bottomLeft">Asman</div>
 
-  <!-- Eklenecek öğeler -->
+  <!-- Yeni öğeler -->
   <div id="searchBox">
     <input type="text" placeholder="Kullanıcı Ara">
   </div>
@@ -98,45 +135,30 @@
   <script>
     // VERİ ve fonksiyonlar
     const villageData = [
-      "Asman","Mizrin","Qeruk","Twılveser","Ashma",
-      "Ogean","Karuk","Tilkarut","Midep","Ömerk",
-      "Tilal","Olik","Mıshecerk","Mızelb","Kergü",
-      "Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan",
-      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker",
-      "Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej",
-      "Cembel"
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk",
+      "Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan",
+      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel"
     ];
-    // ALT SEKME OLUŞTUR
-    function initSubTabs(tabContainerId, pageContainerId, actionFn){
+    function initSubTabs(tabContainerId, pageContainerId){
       const tabs = document.getElementById(tabContainerId);
       const pages = document.getElementById(pageContainerId);
       const perPage = Math.ceil(villageData.length/7);
-      for(let i=0;i<7;i++){
-        let btn = document.createElement('button');
-        btn.innerText = i+1;
-        btn.onclick = ()=>show(i);
-        tabs.appendChild(btn);
-        let div = document.createElement('div');
-        div.className='sub-content';
+      for(let i=0; i<7; i++){
+        let btn = document.createElement('button'); btn.innerText = i+1; btn.onclick = ()=>show(i); tabs.appendChild(btn);
+        let div = document.createElement('div'); div.className='sub-content';
         let ul = document.createElement('ul');
-        villageData.slice(i*perPage, (i+1)*perPage).forEach(v => {
-          let li = document.createElement('li');
-          li.innerText = v;
-          ul.appendChild(li);
-        });
-        div.appendChild(ul);
-        pages.appendChild(div);
+        villageData.slice(i*perPage,(i+1)*perPage).forEach(v=>{let li=document.createElement('li'); li.innerText=v; ul.appendChild(li);});
+        div.appendChild(ul); pages.appendChild(div);
+      }
+      function show(idx){
+        tabs.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',i===idx));
+        pages.querySelectorAll('.sub-content').forEach((c,i)=>c.classList.toggle('active',i===idx));
       }
       show(0);
-      function show(idx){
-        tabs.querySelectorAll('button').forEach((b,i)=> b.classList.toggle('active', i===idx));
-        pages.querySelectorAll('.sub-content').forEach((c,i)=> c.classList.toggle('active', i===idx));
-      }
     }
     initSubTabs('koyTabs','koyPages');
     initSubTabs('trenTabs','trenPages');
-
-    // Tab ve satın alma fonksiyonları kodunuzda kalacak
+    // Diğer fonksiyonlar burada kalacak
   </script>
 </body>
 </html>
