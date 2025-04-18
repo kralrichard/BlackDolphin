@@ -5,40 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* GENEL STİLLER */
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    body { background:#888; color:#f1f1f1; min-height:100vh; position:relative; font-size:0.9rem; padding-top:60px; }
-
-    /* HEADER */
+    body { background:#888; color:#f1f1f1; padding-top:60px; }
     header {
-      background:rgba(0,0,0,0.85); position:fixed; top:0; left:0; width:100%; height:60px;
-      display:flex; align-items:center; justify-content:space-between; padding:0 1rem; z-index:1000;
+      position:fixed; top:0; left:0; width:100%; height:60px;
+      background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:space-between;
+      padding:0 1rem; z-index:1000;
     }
-    .logo { font-size:1.5rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; }
+    .logo { font-size:1.5rem; font-weight:bold; display:flex; align-items:center; }
     .logo-dolphin { margin-left:10px; width:30px; }
-    .logo-dolphin svg { width:100%; height:auto; fill:#0c6; stroke:#fff; stroke-width:1; }
     .money { background:#222; padding:.3rem .6rem; border-radius:4px; border:1px solid #333; }
     #money { color:lime; }
 
-    /* SOL PANEL */
+    /* sol panel */
     #leftPanel {
       position:fixed; top:60px; left:10px; width:200px; z-index:900;
     }
-    .sectionBox {
-      background:rgba(0,0,0,0.6); margin-bottom:1rem; border-radius:8px; overflow:hidden;
-    }
+    .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:1rem; border-radius:8px; overflow:hidden; }
     .sectionBox h2 {
-      background:#111; padding:.6rem; cursor:pointer; font-size:1rem; color:#ffcc00;
-      text-align:center;
+      background:#111; padding:.6rem; cursor:pointer; font-size:1rem; color:#ffcc00; text-align:center;
     }
-    .sectionBox .tab-content {
-      display:none; padding:.5rem; background:rgba(0,0,0,0.4);
-    }
+    .sectionBox .tab-content { display:none; padding:.5rem; background:rgba(0,0,0,0.4); }
     .sectionBox .tab-content.active { display:block; }
 
-    /* ALT SOL KÖY BİLGİSİ */
+    /* Sağ panel */
+    #rightContainer {
+      position:fixed; top:60px; right:10px; width:300px; z-index:900;
+    }
+    .box {
+      background:rgba(0,0,0,0.7); margin-bottom:1rem; border-radius:8px; padding:1rem;
+    }
+    .box h3 { text-align:center; color:#ffcc00; margin-bottom:.5rem; }
+    .tabs {
+      text-align:center; margin-bottom:.5rem;
+    }
+    .tabs span {
+      display:inline-block; padding:.3rem .6rem; margin:0 .2rem;
+      background:#444; border-radius:4px; cursor:pointer; color:#ffcc00;
+    }
+    .tabs span.active { background:#555; }
+    .box ul { list-style:none; }
+    .box li {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:.3rem 0; border-bottom:1px solid #333;
+    }
+    .box li button {
+      background:#ff4444; border:none; border-radius:4px;
+      padding:.3rem .6rem; color:#fff; cursor:pointer;
+    }
+    /* alt köy bilgisi */
     #bottomLeft {
-      position:fixed; bottom:20px; left:10px; background:#0288d1;
+      position:fixed; bottom:10px; left:10px; background:#0288d1;
       padding:.5rem 1rem; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.3);
     }
   </style>
@@ -57,14 +74,14 @@
   </header>
 
   <div id="leftPanel">
-    <!-- Durumum -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('durumum')">Durumum</h2>
       <div id="durumum" class="tab-content">
-        <p>Koruma, nüfus, etki barları burada gösterilecek.</p>
+        <p>Koruma: 0 (0%)</p>
+        <p>Nüfus: 0 (0%)</p>
+        <p>Etki: 0 (0%)</p>
       </div>
     </div>
-    <!-- Tüccar -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('tuccar')">Tüccar</h2>
       <div id="tuccar" class="tab-content">
@@ -74,36 +91,117 @@
         </ul>
       </div>
     </div>
-    <!-- Davet Et -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('davet')">Davet Et</h2>
       <div id="davet" class="tab-content">
-        <p>Kullanıcı davet linki ve butonları burada olacak.</p>
+        <p>Davet linkiniz: <code>https://oyun/davet</code></p>
       </div>
     </div>
-    <!-- Ailem -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('ailem')">Ailem</h2>
       <div id="ailem" class="tab-content">
-        <p>Aile bireyleri listesi ve sohbet alanı.</p>
+        <p>Aile bireyleri burada listelenecek.</p>
       </div>
     </div>
-    <!-- Mesajlarım -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('mesajlar')">Mesajlarım</h2>
       <div id="mesajlar" class="tab-content">
-        <p>Gelen/giden mesajlarınız burada görünecek.</p>
+        <p>Yeni mesajınız yok.</p>
       </div>
+    </div>
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('avlan')">Avlan</h2>
+      <div id="avlan" class="tab-content">
+        <p>Avlanma alanı ve ekipman listesi.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="rightContainer">
+    <div class="box" id="koyIncelemeBox">
+      <h3>Köy İncelemesi</h3>
+      <div class="tabs" id="incelemeTabs">
+        <!-- sayfa sekmeleri -->
+        <span onclick="displayKoyPage(1)" class="active">1</span>
+        <span onclick="displayKoyPage(2)">2</span>
+        <span onclick="displayKoyPage(3)">3</span>
+        <span onclick="displayKoyPage(4)">4</span>
+        <span onclick="displayKoyPage(5)">5</span>
+        <span onclick="displayKoyPage(6)">6</span>
+        <span onclick="displayKoyPage(7)">7</span>
+      </div>
+      <ul id="koyList"></ul>
+    </div>
+
+    <div class="box" id="trenSeyehatBox">
+      <h3>Trenle Seyehat</h3>
+      <div class="tabs" id="trenTabs">
+        <span onclick="displayTrenPage(1)" class="active">1</span>
+        <span onclick="displayTrenPage(2)">2</span>
+        <span onclick="displayTrenPage(3)">3</span>
+        <span onclick="displayTrenPage(4)">4</span>
+        <span onclick="displayTrenPage(5)">5</span>
+        <span onclick="displayTrenPage(6)">6</span>
+        <span onclick="displayTrenPage(7)">7</span>
+      </div>
+      <ul id="trenList"></ul>
     </div>
   </div>
 
   <div id="bottomLeft">Köy: Asman</div>
 
   <script>
+    // sol panel sekmeleri
     function toggleTab(id) {
-      const el = document.getElementById(id);
-      el.classList.toggle('active');
+      document.getElementById(id).classList.toggle('active');
     }
+
+    // köy verisi
+    const villages = [
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk",
+      "Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan",
+      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel"
+    ];
+
+    // sayfa başına 5 köy (7 sayfada toplam 35 slot, fazlası ignore)
+    const perPage = 5;
+
+    function renderTabs(activeId, containerId) {
+      const tabs = document.getElementById(containerId).children;
+      for(let t of tabs) t.classList.remove('active');
+      document.getElementById(activeId).classList.add('active');
+    }
+
+    function displayKoyPage(page) {
+      renderTabs(`incelemeTabs`.replace, 'incelemeTabs');
+      const start = (page-1)*perPage, end = start+perPage;
+      const list = document.getElementById('koyList');
+      list.innerHTML = '';
+      villages.slice(start,end).forEach(v=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${v}</span><button onclick="alert('İncele: ${v}')">İncele</button>`;
+        list.appendChild(li);
+      });
+      // sekme rengini güncelle
+      Array.from(document.getElementById('incelemeTabs').children)
+        .forEach((tab,i)=> tab.classList.toggle('active', i===page-1));
+    }
+
+    function displayTrenPage(page) {
+      const start = (page-1)*perPage, end = start+perPage;
+      const list = document.getElementById('trenList');
+      list.innerHTML = '';
+      villages.slice(start,end).forEach(v=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${v}</span><button onclick="alert('Seyahat: ${v}')">Seyahat Et</button>`;
+        list.appendChild(li);
+      });
+      Array.from(document.getElementById('trenTabs').children)
+        .forEach((tab,i)=> tab.classList.toggle('active', i===page-1));
+    }
+
+    // ilk yüklemede sayfa 1'i göster
+    window.onload = ()=>{ displayKoyPage(1); displayTrenPage(1); };
   </script>
 </body>
 </html>
