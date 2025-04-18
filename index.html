@@ -6,109 +6,108 @@
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
     /* ======= GENEL ======= */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #888; color: #f1f1f1; padding-top: 80px; font-size: 0.85rem; display: flex; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; }
     header {
-      position: fixed; top: 0; left: 0; width: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2rem; z-index: 999;
+      position:fixed; top:0; left:0; width:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1rem 2rem; z-index:1000;
     }
-    .logo { font-size: 1.8rem; font-weight: bold; text-transform: uppercase; color: #fff; }
+    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; }
     #money {
-      background: #222; padding: 0.4rem 0.8rem; border-radius: 4px;
-      border: 1px solid #333; font-size: 0.9rem; color: lime;
+      background:#222; padding:0.4rem 0.8rem; border-radius:4px;
+      border:1px solid #333; font-size:0.9rem; color:lime;
     }
 
     /* ======= SOL PANEL ======= */
     #leftPanel {
-      position: fixed; top: 80px; left: 20px;
-      width: 15%; max-width: 180px;
+      position:fixed; top:80px; left:20px;
+      width:15%; max-width:200px;
     }
     .sectionBox {
-      background: rgba(0,0,0,0.6); margin-bottom: 0.6rem;
-      border-radius: 5px; overflow: hidden;
+      background:rgba(0,0,0,0.6); margin-bottom:0.6rem;
+      border-radius:5px; overflow:hidden;
     }
     .sectionBox h2 {
-      background: #222; padding: 0.5rem; color: #ffcc00;
-      cursor: pointer; font-size: 0.9rem; user-select: none;
+      background:#222; padding:0.5rem; color:#ffcc00;
+      cursor:pointer; font-size:0.9rem; user-select:none;
     }
     .sectionBox .tab-content {
-      display: none; padding: 0.5rem;
-      background: rgba(0,0,0,0.4); font-size: 0.85rem;
+      display:none; padding:0.5rem;
+      background:rgba(0,0,0,0.4); font-size:0.85rem;
     }
-    .sectionBox .tab-content.active { display: block; }
+    .sectionBox .tab-content.active { display:block; }
     .sectionBox input {
-      width: 100%; padding: 0.4rem; border-radius: 3px;
-      border: 1px solid #333; background: #222; color: #fff;
+      width:100%; padding:0.4rem; border-radius:3px;
+      border:1px solid #333; background:#222; color:#fff;
     }
-    ul { list-style: none; }
-    li { margin-bottom: 0.4rem; }
+    ul { list-style:none; }
+    li { margin-bottom:0.4rem; }
 
     /* ======= ORTA RANK ======= */
     #centerRanks {
-      position: fixed; top: 80px; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.5);
-      padding: 0.4rem; border-radius: 5px;
-      display: flex; gap: 6px;
+      position:fixed; top:80px; left:50%;
+      transform:translateX(-50%);
+      background:rgba(0,0,0,0.5);
+      padding:0.4rem; border-radius:5px;
+      display:flex; gap:6px; z-index:900;
     }
     .card {
-      background: rgba(255,255,255,0.05);
-      padding: 0.5rem; border-radius: 5px;
-      text-align: center; width: 90px; font-size: 0.8rem;
+      background:rgba(255,255,255,0.05);
+      padding:0.5rem; border-radius:5px;
+      text-align:center; width:90px; font-size:0.8rem;
     }
-    .card h2 { margin-bottom: 0.3rem; font-size: 0.9rem; text-transform: uppercase; }
+    .card h2 { margin-bottom:0.3rem; text-transform:uppercase; }
     .card button {
-      background: #000; border: none; padding: 0.3rem;
-      border-radius: 3px; color: #fff; font-size: 0.75rem;
-      cursor: pointer;
+      background:#000; border:none; padding:0.3rem;
+      border-radius:3px; color:#fff; font-size:0.75rem;
+      cursor:pointer;
     }
 
     /* ======= SAĞ PANEL ======= */
     #rightContainer {
-      margin-left: 17%; margin-right: 20px;
-      flex: 1; display: flex; flex-direction: column;
-      align-items: flex-end; gap: 0.8rem;
+      position:fixed; top:80px; right:20px;
+      display:flex; flex-direction:column; gap:0.8rem;
+      width:160px; max-width:25%;
     }
     .box {
-      background: rgba(0,0,0,0.7); border-radius: 5px;
-      padding: 0.6rem; width: 160px;
+      background:rgba(0,0,0,0.7); border-radius:5px;
+      padding:0.6rem;
     }
     .box h3 {
-      text-align: center; color: #ffcc00;
-      margin-bottom: 0.5rem; font-size: 0.9rem;
+      text-align:center; color:#ffcc00;
+      margin-bottom:0.5rem; font-size:0.9rem;
     }
 
     /* ======= ALT SOL KÖY ======= */
     #bottomLeft {
-      position: fixed; bottom: 20px; left: 20px;
-      background: #0288d1; padding: 0.4rem 0.8rem;
-      border-radius: 5px; font-size: 0.9rem;
+      position:fixed; bottom:20px; left:20px;
+      background:#0288d1; padding:0.4rem 0.8rem;
+      border-radius:5px; font-size:0.9rem;
     }
 
     /* ======= CHAT & MESAJ İKONU ======= */
     #chatBox {
-      position: fixed; bottom: 20px; left: 50%;
-      transform: translateX(-50%);
-      width: 300px; max-width: 80%;
-      background: rgba(0,0,0,0.7);
-      padding: 0.5rem; border-radius: 5px;
-      text-align: center; font-size: 0.9rem; cursor: text;
+      position:fixed; bottom:20px; left:50%;
+      transform:translateX(-50%);
+      width:300px; max-width:80%;
+      background:rgba(0,0,0,0.7);
+      padding:0.5rem; border-radius:5px;
+      text-align:center; font-size:0.9rem; cursor:text;
     }
     #messageIcon {
-      position: fixed; bottom: 20px; right: 20px;
-      background: rgba(0,0,0,0.7); padding: 0.6rem;
-      border-radius: 50%; font-size: 1.2rem;
-      cursor: pointer;
+      position:fixed; bottom:20px; right:20px;
+      background:rgba(0,0,0,0.7); padding:0.6rem;
+      border-radius:50%; font-size:1.2rem;
+      cursor:pointer;
     }
 
     @media(max-width:768px){
-      #leftPanel { position: static; width: 100%; margin-bottom: 1rem; }
-      #centerRanks { position: static; transform: none; margin: 1rem auto; }
-      #rightContainer { margin-left: 0; align-items: center; }
-      .box { width: 90%; }
-      #chatBox, #bottomLeft, #messageIcon { bottom: 10px; }
+      #leftPanel { position:static; width:100%; margin-bottom:1rem; }
+      #centerRanks { position:static; transform:none; margin:1rem auto; }
+      #rightContainer { position:static; width:100%; align-items:center; margin-top:1rem; }
+      #chatBox, #bottomLeft, #messageIcon { bottom:10px; }
     }
   </style>
 </head>
@@ -123,10 +122,108 @@
     <div class="sectionBox">
       <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
       <div id="durumum" class="tab-content">
-        <!-- Vakur/Hatip/Baron barları buraya eklenebilir -->
+        <div class="stat-bar" id="vakurStat">
+          <div class="stat-label">VAKUR 🛡️</div>
+          <div class="stat-fill" style="width:50%"></div>
+          <div class="stat-text">Koruma: 50%</div>
+        </div>
+        <div class="stat-bar" id="hatipStat">
+          <div class="stat-label">HATİP 👥</div>
+          <div class="stat-fill" style="width:30%"></div>
+          <div class="stat-text">Nüfus: 30%</div>
+        </div>
+        <div class="stat-bar" id="baronStat">
+          <div class="stat-label">BARON ♛</div>
+          <div class="stat-fill" style="width:10%"></div>
+          <div class="stat-text">Etki: 10%</div>
+        </div>
+        <div>Köy: <strong>Asman</strong></div>
       </div>
     </div>
-    <!-- ... Diğer orijinal 12 sekme burada ... -->
+    <!-- 2. Tüccar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2>
+      <div id="tuccar" class="tab-content">
+        <ul>
+          <li>Silah (2500$) <button>Satın Al</button></li>
+          <li>Bomba (1000$) <button>Satın Al</button></li>
+          <li>C4 (1500$) <button>Satın Al</button></li>
+        </ul>
+      </div>
+    </div>
+    <!-- 3. Davet Et -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('davet')">Davet Et ↓</h2>
+      <div id="davet" class="tab-content">
+        <ul><li>Davet bağlantınızı ekleyin.</li></ul>
+      </div>
+    </div>
+    <!-- 4. Ailem -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('ailem')">Ailem ↓</h2>
+      <div id="ailem" class="tab-content">
+        <ul><li>Aile üyeleri burada.</li></ul>
+      </div>
+    </div>
+    <!-- 5. Mesajlarım -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2>
+      <div id="mesajlar" class="tab-content">
+        <ul><li>Yeni mesaj yok.</li></ul>
+      </div>
+    </div>
+    <!-- 6. Avlan -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('avlan')">Avlan ↓</h2>
+      <div id="avlan" class="tab-content">
+        <ul><li>Avlanma görevleri.</li></ul>
+      </div>
+    </div>
+    <!-- 7. Açık Artırma -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2>
+      <div id="acikArttirma" class="tab-content">
+        <ul><li>Müzayede içerikleri.</li></ul>
+      </div>
+    </div>
+    <!-- 8. Kaçakçılık -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2>
+      <div id="kacakcilik" class="tab-content">
+        <ul>
+          <li>Kaçakçılık görevleri.</li>
+          <li>At Yarışı</li>
+        </ul>
+      </div>
+    </div>
+    <!-- 9. At Yarışı -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2>
+      <div id="atyarisi" class="tab-content">
+        <ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul>
+      </div>
+    </div>
+    <!-- 10. At Bilgiler -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2>
+      <div id="atBilgiler" class="tab-content">
+        <ul><li>Atların detaylı bilgileri burada.</li></ul>
+      </div>
+    </div>
+    <!-- 11. Oyun içi Bilgiler -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2>
+      <div id="oyunIci" class="tab-content">
+        <ul><li>Oyun içi rehber ve ipuçları.</li></ul>
+      </div>
+    </div>
+    <!-- 12. Arananlar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2>
+      <div id="arananlar" class="tab-content">
+        <ul><li>Şu anda arananlar listesi boş.</li></ul>
+      </div>
+    </div>
     <!-- 13. Oyunlar -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2>
@@ -152,11 +249,11 @@
   <div id="rightContainer">
     <div class="box">
       <h3>Köy İncelemesi</h3>
-      <div class="sub-tabs"> <!-- statik içerik --> </div>
+      <div class="sub-tabs"><!-- içerik --></div>
     </div>
     <div class="box">
       <h3>Trenle Seyehat</h3>
-      <div class="sub-tabs"> <!-- statik içerik --> </div>
+      <div class="sub-tabs"><!-- içerik --></div>
     </div>
   </div>
 
