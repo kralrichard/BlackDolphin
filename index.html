@@ -65,7 +65,8 @@
     }
     .trainDot {
       display: inline-block; width: 10px; height: 10px;
-      background: #000; border-radius: 50%;
+      background: #00bfff; /* mavi nokta */
+      border-radius: 50%;
       margin-right: 5px;
     }
 
@@ -134,6 +135,10 @@
     }
     #koyIncelemeBox h3, #trenSeyahatBox h3 {
       color: #ffcc00; text-align: center; margin-bottom: 0.5rem;
+    }
+    #koyIncelemeList, #trenList { list-style: none; padding-left: 0; }
+    #koyIncelemeList li, #trenList li {
+      margin-bottom: 0.4rem;
     }
 
     /* ----------------- ORTA PANEL ----------------- */
@@ -221,18 +226,45 @@
   <!-- ================ TREN RAYI ================ -->
   <div id="trainTrackSection">
     <div id="trainToggleWrapper">
-      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">TREN ROTASI<br>&larr;</button>
+      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">TREN ROTASI &larr;</button>
     </div>
     <div id="trainTrack">
       <ul id="trainTrackList">
+        <!-- 31 Köy -->
         <li><span class="trainDot"></span>Asman</li>
         <li><span class="trainDot"></span>Mizrin</li>
         <li><span class="trainDot"></span>Qeruk</li>
-        <!-- ... diğer köyler ... -->
+        <li><span class="trainDot"></span>Derin</li>
+        <li><span class="trainDot"></span>Ravin</li>
+        <li><span class="trainDot"></span>Zal</li>
+        <li><span class="trainDot"></span>Şevin</li>
+        <li><span class="trainDot"></span>Hazar</li>
+        <li><span class="trainDot"></span>Cewl</li>
+        <li><span class="trainDot"></span>Nûrî</li>
+        <li><span class="trainDot"></span>Gever</li>
+        <li><span class="trainDot"></span>Berfin</li>
+        <li><span class="trainDot"></span>Botan</li>
+        <li><span class="trainDot"></span>Dicle</li>
+        <li><span class="trainDot"></span>Zagros</li>
+        <li><span class="trainDot"></span>Munzur</li>
+        <li><span class="trainDot"></span>Nemrut</li>
+        <li><span class="trainDot"></span>Van</li>
+        <li><span class="trainDot"></span>Bitlis</li>
+        <li><span class="trainDot"></span>Mardin</li>
+        <li><span class="trainDot"></span>Siirt</li>
+        <li><span class="trainDot"></span>Şırnak</li>
+        <li><span class="trainDot"></span>Hakkari</li>
+        <li><span class="trainDot"></span>Erciş</li>
+        <li><span class="trainDot"></span>Ardil</li>
+        <li><span class="trainDot"></span>Cizre</li>
+        <li><span class="trainDot"></span>Midyat</li>
+        <li><span class="trainDot"></span>Kurtalan</li>
+        <li><span class="trainDot"></span>Hasankeyf</li>
+        <li><span class="trainDot"></span>Lice</li>
       </ul>
     </div>
     <div id="trainToggleBottomWrapper">
-      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">TREN ROTASI<br>&rarr;</button>
+      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">TREN ROTASI &rarr;</button>
     </div>
   </div>
 
@@ -244,14 +276,14 @@
       <div class="sectionBox">
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
         <div id="durumumContent" class="tab-content">
-          <!-- Vakur Stat Bar, profileInfo vs. burada -->
+          <!-- Vakur, Hatip, Baron barları vs. buraya -->
         </div>
       </div>
       <!-- Tüccar Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
-          <!-- Satın alım seçenekleri ve menü butonları burada -->
+          <!-- Tüccar içeriği -->
         </div>
       </div>
       <!-- Davet Et Sekmesi -->
@@ -274,12 +306,76 @@
     <div id="rightContainer">
       <div id="koyIncelemeBox">
         <h3>Köy İncelemesi</h3>
-        <ul id="koyIncelemeList"></ul>
+        <ul id="koyIncelemeList">
+          <!-- Aynı 31 köy ismi -->
+          <li>Asman</li>
+          <li>Mizrin</li>
+          <li>Qeruk</li>
+          <li>Derin</li>
+          <li>Ravin</li>
+          <li>Zal</li>
+          <li>Şevin</li>
+          <li>Hazar</li>
+          <li>Cewl</li>
+          <li>Nûrî</li>
+          <li>Gever</li>
+          <li>Berfin</li>
+          <li>Botan</li>
+          <li>Dicle</li>
+          <li>Zagros</li>
+          <li>Munzur</li>
+          <li>Nemrut</li>
+          <li>Van</li>
+          <li>Bitlis</li>
+          <li>Mardin</li>
+          <li>Siirt</li>
+          <li>Şırnak</li>
+          <li>Hakkari</li>
+          <li>Erciş</li>
+          <li>Ardil</li>
+          <li>Cizre</li>
+          <li>Midyat</li>
+          <li>Kurtalan</li>
+          <li>Hasankeyf</li>
+          <li>Lice</li>
+        </ul>
         <div id="koyIncelemePagination"></div>
       </div>
       <div id="trenSeyahatBox">
         <h3>Trenle Seyehat</h3>
-        <ul id="trenList"></ul>
+        <ul id="trenList">
+          <!-- Aynı 31 köy ismi, noktalı -->
+          <li><span class="trainDot"></span>Asman</li>
+          <li><span class="trainDot"></span>Mizrin</li>
+          <li><span class="trainDot"></span>Qeruk</li>
+          <li><span class="trainDot"></span>Derin</li>
+          <li><span class="trainDot"></span>Ravin</li>
+          <li><span class="trainDot"></span>Zal</li>
+          <li><span class="trainDot"></span>Şevin</li>
+          <li><span class="trainDot"></span>Hazar</li>
+          <li><span class="trainDot"></span>Cewl</li>
+          <li><span class="trainDot"></span>Nûrî</li>
+          <li><span class="trainDot"></span>Gever</li>
+          <li><span class="trainDot"></span>Berfin</li>
+          <li><span class="trainDot"></span>Botan</li>
+          <li><span class="trainDot"></span>Dicle</li>
+          <li><span class="trainDot"></span>Zagros</li>
+          <li><span class="trainDot"></span>Munzur</li>
+          <li><span class="trainDot"></span>Nemrut</li>
+          <li><span class="trainDot"></span>Van</li>
+          <li><span class="trainDot"></span>Bitlis</li>
+          <li><span class="trainDot"></span>Mardin</li>
+          <li><span class="trainDot"></span>Siirt</li>
+          <li><span class="trainDot"></span>Şırnak</li>
+          <li><span class="trainDot"></span>Hakkari</li>
+          <li><span class="trainDot"></span>Erciş</li>
+          <li><span class="trainDot"></span>Ardil</li>
+          <li><span class="trainDot"></span>Cizre</li>
+          <li><span class="trainDot"></span>Midyat</li>
+          <li><span class="trainDot"></span>Kurtalan</li>
+          <li><span class="trainDot"></span>Hasankeyf</li>
+          <li><span class="trainDot"></span>Lice</li>
+        </ul>
         <div id="trenPagination"></div>
       </div>
     </div>
