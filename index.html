@@ -14,7 +14,7 @@
     .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; }
     #money { color:lime; }
 
-    /* SOL PANEL - 11 sekme için daraltıldı */
+    /* SOL PANEL - 12 sekme için daraltıldı */
     #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; }
     .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; }
     .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; }
@@ -68,6 +68,7 @@
   </header>
 
   <div id="leftPanel">
+    <!-- 1 Durumum -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
       <div id="durumum" class="tab-content">
@@ -92,7 +93,7 @@
         <div>Köy: <span id="currentVillageDisplay">Asman</span></div>
       </div>
     </div>
-
+    <!-- 2 Tüccar -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2>
       <div id="tuccar" class="tab-content">
@@ -105,42 +106,42 @@
         </ul>
       </div>
     </div>
-
+    <!-- 3 Davet Et -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('davet')">Davet Et ↓</h2>
       <div id="davet" class="tab-content">
         <ul><li>Davet bağlantınızı ekleyin.</li></ul>
       </div>
     </div>
-
+    <!-- 4 Ailem -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('ailem')">Ailem ↓</h2>
       <div id="ailem" class="tab-content">
         <ul><li>Aile üyeleri burada.</li></ul>
       </div>
     </div>
-
+    <!-- 5 Mesajlarım -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2>
       <div id="mesajlar" class="tab-content">
         <ul><li>Yeni mesaj yok.</li></ul>
       </div>
     </div>
-
+    <!-- 6 Avlan -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('avlan')">Avlan ↓</h2>
       <div id="avlan" class="tab-content">
         <ul><li>Avlanma görevleri.</li></ul>
       </div>
     </div>
-
+    <!-- 7 Açık Artırma -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2>
       <div id="acikArttirma" class="tab-content">
         <ul><li>Müzayede içerikleri.</li></ul>
       </div>
     </div>
-
+    <!-- 8 Kaçakçılık -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('kacakcilikContent')">Kaçakçılık ↓</h2>
       <div id="kacakcilikContent" class="tab-content">
@@ -150,25 +151,32 @@
         </ul>
       </div>
     </div>
-
+    <!-- 9 At Yarışı -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('atayarisi')">At Yarışı ↓</h2>
       <div id="atayarisi" class="tab-content">
         <ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul>
       </div>
     </div>
-
+    <!-- 10 At Bilgiler -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2>
       <div id="atBilgiler" class="tab-content">
         <ul><li>Atların detaylı bilgileri burada.</li></ul>
       </div>
     </div>
-
+    <!-- 11 Oyun içi Bilgiler -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2>
       <div id="oyunIci" class="tab-content">
         <ul><li>Oyun içi rehber ve ipuçları.</li></ul>
+      </div>
+    </div>
+    <!-- 12 Arananlar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2>
+      <div id="arananlar" class="tab-content">
+        <ul><li>Şu anda arananlar listesi boş.</li></ul>
       </div>
     </div>
   </div>
@@ -205,7 +213,6 @@
       "Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej",
       "Cembel"
     ];
-
     // ALT SEKME OLUŞTUR
     function initSubTabs(tabContainerId, pageContainerId, actionFn){
       const tabs = document.getElementById(tabContainerId);
@@ -233,18 +240,15 @@
       }
       show(0);
     }
-
     window.onload = ()=>{
       updateMoneyUI(); updateProfileInfo();
       initSubTabs('koyTabs','koyPages','inceleKoy');
       initSubTabs('trenTabs','trenPages','travelToTrain');
     };
-
     // TABLAR
     function toggleTab(id){
       document.getElementById(id).classList.toggle('active');
     }
-
     // GENEL
     let money=500000, currentVillage="Asman";
     function updateMoneyUI(){ document.getElementById('money').innerText='$'+money; }
