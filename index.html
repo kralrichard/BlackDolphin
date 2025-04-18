@@ -2,223 +2,48 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <!-- Mobil uyumluluğu sağlamak için viewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
     /* GENEL STİLLER */
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background: #888;
-      color: #f1f1f1;
-      min-height: 100vh;
-      position: relative;
-      font-size: 0.9rem;
-      padding-top: 70px; /* header yüksekliği kadar boşluk */
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body { background:#888; color:#f1f1f1; min-height:100vh; position:relative; font-size:0.9rem; padding-top:60px; }
 
     /* HEADER */
     header {
-      background: rgba(0,0,0,0.85);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2rem;
-      position: fixed; top: 0; left: 0; width: 100%; z-index: 999;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      background:rgba(0,0,0,0.85); position:fixed; top:0; left:0; width:100%; height:60px;
+      display:flex; align-items:center; justify-content:space-between; padding:0 1rem; z-index:1000;
     }
-    .logo { font-size: 2rem; font-weight: bold; text-transform: uppercase; color: #fff; display: flex; align-items: center; }
-    .logo-dolphin { margin-left: 10px; width: 50px; }
-    .logo-dolphin svg { width:100%; height:auto; fill:#00cc66; stroke:#fff; stroke-width:2; }
-    .money {
-      font-size: 1rem; background: #222; padding: 0.5rem 1rem;
-      border-radius: 5px; border: 1px solid #333;
-    }
-    #money { color: green !important; }
+    .logo { font-size:1.5rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; }
+    .logo-dolphin { margin-left:10px; width:30px; }
+    .logo-dolphin svg { width:100%; height:auto; fill:#0c6; stroke:#fff; stroke-width:1; }
+    .money { background:#222; padding:.3rem .6rem; border-radius:4px; border:1px solid #333; }
+    #money { color:lime; }
 
-    /* ANA SAYFA */
-    #mainPage { width:100%; min-height:100vh; position:relative; }
-
-    /* SOL PANEL - sekmeler yukarı taşındı */
+    /* SOL PANEL */
     #leftPanel {
-      position: fixed;
-      top: 80px;       /* artık tren yok, header altı */
-      left: 20px;
-      width: 280px;
-      z-index: 1000;
+      position:fixed; top:60px; left:10px; width:200px; z-index:900;
     }
     .sectionBox {
-      background: rgba(0,0,0,0.6);
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      padding: 1rem;
+      background:rgba(0,0,0,0.6); margin-bottom:1rem; border-radius:8px; overflow:hidden;
     }
     .sectionBox h2 {
-      text-align: center;
-      color: #ffcc00;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      font-size: 1.2rem;
+      background:#111; padding:.6rem; cursor:pointer; font-size:1rem; color:#ffcc00;
+      text-align:center;
     }
-    .tab-content {
-      display: none;
-      background: rgba(0,0,0,0.4);
-      border-radius: 5px;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
+    .sectionBox .tab-content {
+      display:none; padding:.5rem; background:rgba(0,0,0,0.4);
     }
-    .tab-content.active { display: block; }
-
-    /* DURUMUM */
-    .stat-bar { margin-bottom:0.7rem; background:#444; border-radius:5px; overflow:hidden; padding:5px; }
-    .stat-label { margin-bottom:3px; font-weight:bold; font-size:0.85rem; }
-    #vakurStat .stat-label { color:blue; }
-    #hatipStat .stat-label { color:orange; }
-    #baronStat .stat-label { color:red; }
-    .stat-fill { height:18px; background:#00bfff; width:0%; transition:width 1s ease; }
-    .stat-text { margin-top:3px; font-size:0.8rem; }
-    .lockedStat { opacity:0.4; }
-    .badge-indicator { text-align:center; font-size:0.8rem; margin-top:3px; color:#ffcc00; }
-
-    /* TÜCCAR */
-    #tuccarContent ul { list-style:none; margin:0; padding:0; }
-    #tuccarContent li {
-      display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;
-    }
-    #tuccarContent li button {
-      background:#ff4444; border:none; border-radius:5px;
-      color:#fff; cursor:pointer; padding:0.3rem 0.5rem; font-size:0.8rem;
-    }
-
-    /* DAVET ET & AİLEM */
-    /* .sectionBox ve .tab-content zaten yukarıdan geliyor */
-
-    /* SAĞ PANEL */
-    #rightContainer {
-      position: fixed;
-      right: 20px;
-      top: 80px;   /* yukarı taşındı */
-      width: 280px;
-      z-index: 1000;
-    }
-    #koyIncelemeBox, #trenSeyahatBox {
-      background: rgba(0,0,0,0.7);
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-    }
-    #koyIncelemeBox h3, #trenSeyahatBox h3 {
-      text-align: center; color:#ffcc00; margin-bottom:0.5rem; font-size:1rem;
-    }
-    #koyIncelemeBox ul, #trenSeyehatBox ul {
-      list-style:none; padding:0; margin:0; font-size:0.85rem;
-    }
-    #koyIncelemeBox li, #trenSeyehatBox li {
-      display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;
-    }
-    #koyIncelemePagination, #trenPagination {
-      text-align:center; margin-top:0.5rem;
-    }
-    #koyIncelemePagination span, #trenPagination span {
-      display:inline-block; padding:0.3rem 0.6rem; margin:0 0.2rem;
-      background:#444; border-radius:3px; cursor:pointer; color:#ffcc00;
-    }
-    #koyIncelemePagination span.active, #trenPagination span.active { background:#555; }
-
-    /* ORTA PANEL */
-    #centerRanks {
-      position: absolute;
-      top: 80px;      /* yukarı taşındı */
-      left: 50%; transform: translateX(-50%);
-      display:flex; gap:20px;
-      z-index:900; background:grey; padding:10px; border-radius:10px;
-    }
-    .card {
-      background:rgba(255,255,255,0.05);
-      backdrop-filter: blur(4px);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:10px; width:250px; padding:2rem;
-      text-align:center; transition:transform 0.3s ease;
-      box-shadow:0 2px 5px rgba(0,0,0,0.3); cursor:pointer;
-    }
-    .card:hover { transform: translateY(-5px); }
-    .card h2 { text-transform:uppercase; margin:-10px 0 15px; font-size:1.5rem; }
-    .card button {
-      padding:0.6rem 1.2rem; background:black; border:none;
-      border-radius:5px; color:white; cursor:pointer; transition:background 0.3s; margin-top:15px;
-    }
-    .card button:hover { background:#333; }
+    .sectionBox .tab-content.active { display:block; }
 
     /* ALT SOL KÖY BİLGİSİ */
     #bottomLeft {
-      position: fixed; bottom:20px; left:20px;
-      font-size:1.2rem; background:#0288d1; padding:0.5rem 1rem;
-      border-radius:8px; box-shadow:0 4px 6px rgba(0,0,0,0.3);
-      z-index:1000;
-    }
-
-    /* GÖREV SAYFASI (Overlay) */
-    #gorevPage {
-      display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-      background:#000; color:#fff; z-index:3000; padding:2rem; overflow-y:auto;
-    }
-    #gorevPage h1 { text-align:center; margin-bottom:1rem; }
-    #tasksContainerWrapper {
-      position:relative; overflow:hidden; padding:0 40px;
-    }
-    #tasksContainer {
-      display:flex; gap:20px; overflow-x:auto; scroll-behavior:smooth; padding-bottom:10px;
-    }
-    .rankSection {
-      flex:0 0 300px; border:1px solid #888; padding:1rem;
-      border-radius:10px; background:rgba(255,255,255,0.07);
-    }
-    .taskItem {
-      background:#222; border-radius:5px; padding:0.5rem;
-      margin-bottom:0.5rem; display:flex; justify-content:space-between; align-items:center;
-    }
-    .taskItem span {
-      max-width:80%; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
-      display:inline-block;
-    }
-    .taskItem button {
-      background:#ff4444; border:none; border-radius:5px;
-      color:#fff; cursor:pointer; padding:0.3rem 0.5rem; margin-left:10px; font-size:0.8rem;
-    }
-    .completedTask span::after {
-      content:" ✅"; color:#0f0; margin-left:5px;
-    }
-    .lockedDifficulty { opacity:0.3; pointer-events:none; }
-    .difficultyProgressBar {
-      background:#444; height:18px; border-radius:5px; overflow:hidden; margin-top:0.5rem;
-    }
-    .difficultyProgressFill {
-      background:#00bfff; width:0%; height:100%; transition:width 0.3s ease;
-    }
-    .progressText { text-align:right; font-size:0.8rem; margin-top:2px; }
-
-    /* Ok butonları */
-    .arrow-button {
-      position:absolute; top:50%; transform:translateY(-50%);
-      background:rgba(0,0,0,0.5); border:none; color:#fff;
-      font-size:1.5rem; padding:0.3rem 0.6rem; cursor:pointer; z-index:101; transition:background 0.3s;
-    }
-    .arrow-button:hover { background:rgba(0,0,0,0.7); }
-    #leftArrow { left:5px; } #rightArrow { right:5px; }
-
-    /* Responsive Ayarlar */
-    @media (max-width:768px) {
-      #leftPanel,#rightContainer,#centerRanks {
-        position:static !important; width:100%; margin-bottom:20px;
-      }
-      #centerRanks { transform:none; margin:10px auto; flex-wrap:wrap; justify-content:center; }
-      .card { width:90%; margin:10px 0; }
+      position:fixed; bottom:20px; left:10px; background:#0288d1;
+      padding:.5rem 1rem; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header>
     <div class="logo">
       BLACK DOLPHINE
@@ -231,74 +56,54 @@
     <div class="money"><span id="money">$500000</span></div>
   </header>
 
-  <!-- ANA SAYFA -->
-  <div id="mainPage">
-    <!-- SOL PANEL: Durumum, Tüccar, Davet Et, Ailem -->
-    <div id="leftPanel">
-      <div class="sectionBox">
-        <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
-        <div id="durumumContent" class="tab-content">
-          <!-- Durumum içeriği -->
-        </div>
-      </div>
-      <div class="sectionBox">
-        <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
-        <div id="tuccarContent" class="tab-content">
-          <!-- Tüccar içeriği -->
-        </div>
-      </div>
-      <div class="sectionBox">
-        <h2 onclick="toggleDavet()">Davet Et &#9660;</h2>
-        <div id="davetContent" class="tab-content">
-          <!-- Davet Et içeriği -->
-        </div>
-      </div>
-      <div class="sectionBox">
-        <h2 onclick="toggleAilem()">Ailem &#9660;</h2>
-        <div id="ailemContent" class="tab-content">
-          <!-- Ailem içeriği -->
-        </div>
+  <div id="leftPanel">
+    <!-- Durumum -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('durumum')">Durumum</h2>
+      <div id="durumum" class="tab-content">
+        <p>Koruma, nüfus, etki barları burada gösterilecek.</p>
       </div>
     </div>
-
-    <!-- SAĞ PANEL: Köy İncelemesi & Trenle Seyehat -->
-    <div id="rightContainer">
-      <div id="koyIncelemeBox">
-        <h3>Köy İncelemesi</h3>
-        <ul id="koyIncelemeList"></ul>
-        <div id="koyIncelemePagination"></div>
-      </div>
-      <div id="trenSeyehatBox">
-        <h3>Trenle Seyehat</h3>
-        <ul id="trenList"></ul>
-        <div id="trenPagination"></div>
+    <!-- Tüccar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('tuccar')">Tüccar</h2>
+      <div id="tuccar" class="tab-content">
+        <ul>
+          <li>Silah (2500$) <button>Satın Al</button></li>
+          <li>Bomba (1000$) <button>Satın Al</button></li>
+        </ul>
       </div>
     </div>
-
-    <!-- ORTA PANEL: Rank Kartları -->
-    <div id="centerRanks">
-      <div class="card" id="cardVakur"><h2 class="vakur-color">VAKUR</h2><button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button></div>
-      <div class="card locked" id="cardHatip"><h2 class="hatip-color">HATİP</h2><button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button></div>
-      <div class="card locked" id="cardBaron"><h2 class="baron-color">BARON</h2><button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button></div>
+    <!-- Davet Et -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('davet')">Davet Et</h2>
+      <div id="davet" class="tab-content">
+        <p>Kullanıcı davet linki ve butonları burada olacak.</p>
+      </div>
+    </div>
+    <!-- Ailem -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('ailem')">Ailem</h2>
+      <div id="ailem" class="tab-content">
+        <p>Aile bireyleri listesi ve sohbet alanı.</p>
+      </div>
+    </div>
+    <!-- Mesajlarım -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('mesajlar')">Mesajlarım</h2>
+      <div id="mesajlar" class="tab-content">
+        <p>Gelen/giden mesajlarınız burada görünecek.</p>
+      </div>
     </div>
   </div>
 
-  <!-- GÖREV SAYFASI (Overlay) -->
-  <div id="gorevPage">
-    <!-- ...mevcut görev sayfası içeriği... -->
-  </div>
-
-  <!-- ALT SOL KÖY BİLGİSİ -->
-  <div id="bottomLeft">Asman</div>
+  <div id="bottomLeft">Köy: Asman</div>
 
   <script>
-    // Toggle fonksiyonları
-    function toggleDurumum() { document.getElementById('durumumContent').classList.toggle('active'); }
-    function toggleTuccar()  { document.getElementById('tuccarContent').classList.toggle('active'); }
-    function toggleDavet()   { document.getElementById('davetContent').classList.toggle('active'); }
-    function toggleAilem()   { document.getElementById('ailemContent').classList.toggle('active'); }
-
-    // Diğer mevcut JS kodlarınız (para, köy inceleme, seyahat, görev vs.) değişmedi.
+    function toggleTab(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('active');
+    }
   </script>
 </body>
 </html>
