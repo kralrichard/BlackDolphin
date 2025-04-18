@@ -1,1 +1,214 @@
-You said: <!DOCTYPE html> <html lang="tr"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Black Dolphine - Mafia Oyunu</title> <style> /* GENEL */ * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; } body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; } header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:999; } .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; } .logo svg { width:40px; margin-left:8px; fill:#00cc66; stroke:#fff; stroke-width:2; } .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; } #money { color:lime; } /* SOL PANEL - 13 sekme */ #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; } .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; } .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; } .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.85rem; } .sectionBox .tab-content.active { display:block; } .stat-bar { background:#444; border-radius:4px; padding:4px; margin-bottom:0.4rem; } .stat-label { font-weight:bold; margin-bottom:2px; } #vakurStat .stat-label { color:blue; } #hatipStat .stat-label { color:orange; } #baronStat .stat-label { color:red; } .stat-fill { height:14px; background:#00bfff; width:0; transition:width 0.8s; } .stat-text { font-size:0.75rem; margin-top:2px; } .badge-indicator { text-align:center; color:#ffcc00; font-size:0.75rem; margin-top:2px; } ul { list-style:none; } li { display:flex; justify-content:space-between; margin-bottom:0.4rem; } button { background:#333; border:none; padding:0.25rem 0.5rem; border-radius:3px; cursor:pointer; color:#fff; font-size:0.75rem; } /* SAĞ PANEL */ #rightContainer { margin-left:17%; margin-right:20px; flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem; } .box { background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem; width:160px; } .box h3 { text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:0.9rem; } .sub-tabs { text-align:center; margin-bottom:0.4rem; } .sub-tabs button { background:#444; border:none; margin:0 0.15rem; padding:0.25rem 0.4rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; } .sub-tabs button.active { background:#666; } .sub-content { display:none; } .sub-content.active { display:block; } /* ORTA RANK */ #centerRanks { position:fixed; top:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px; display:flex; gap:6px; } .card { background:rgba(255,255,255,0.05); padding:0.5rem; border-radius:5px; text-align:center; width:90px; font-size:0.8rem; } .card h2 { margin-bottom:0.3rem; font-size:0.9rem; text-transform:uppercase; } .card button { background:#000; border:none; padding:0.3rem; border-radius:3px; color:#fff; font-size:0.75rem; cursor:pointer; } /* ALT SOL KÖY */ #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; } @media(max-width:768px){ #leftPanel{position:static;width:100%;margin-bottom:1rem;} #rightContainer{margin-left:0;align-items:center;} #centerRanks{position:static;transform:none;margin:1rem auto;} .box{width:90%;} } </style> </head> <body> <header> <div class="logo">BLACK DOLPHINE <svg viewBox="0 0 100 50"><path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/></svg> </div> <div class="money"><span id="money">$500000</span></div> </header> <div id="leftPanel"> <!-- 1 Durumum --> <div class="sectionBox"> <h2 onclick="toggleTab('durumum')">Durumum ↓</h2> <div id="durumum" class="tab-content"> <div class="stat-bar" id="vakurStat"> <div class="stat-label vakur-color">VAKUR 🛡️</div> <div class="stat-fill" id="vakurFill"></div> <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div> <div class="badge-indicator">• R</div> </div> <div class="stat-bar lockedStat" id="hatipStat"> <div class="stat-label hatip-color">HATİP 👥</div> <div class="stat-fill" id="hatipFill"></div> <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div> <div class="badge-indicator">• R</div> </div> <div class="stat-bar lockedStat" id="baronStat"> <div class="stat-label baron-color">BARON ♛</div> <div class="stat-fill" id="baronFill"></div> <div class="stat-text" id="baronText">Etki: 0 (0%)</div> <div class="badge-indicator">• R</div> </div> <div>Köy: <span id="currentVillageDisplay">Asman</span></div> </div> </div> <!-- 2 Tüccar --> <div class="sectionBox"> <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2> <div id="tuccar" class="tab-content"> <ul> <li>Silah (2500$) <button onclick="buyItem('Silah',2500)">Satın Al</button></li> <li>Bomba (1000$) <button onclick="buyItem('Bomba',1000)">Satın Al</button></li> <li>C4 (1500$) <button onclick="buyItem('C4',1500)">Satın Al</button></li> <li>Villa (15000$) <button onclick="buyItem('Villa',15000)">Satın Al</button></li> <li>Ev (10000$) <button onclick="buyItem('Ev',10000)">Satın Al</button></li> </ul> </div> </div> <!-- 3 Davet Et --> <div class="sectionBox"> <h2 onclick="toggleTab('davet')">Davet Et ↓</h2> <div id="davet" class="tab-content"> <ul><li>Davet bağlantınızı ekleyin.</li></ul> </div> </div> <!-- 4 Ailem --> <div class="sectionBox"> <h2 onclick="toggleTab('ailem')">Ailem ↓</h2> <div id="ailem" class="tab-content"> <ul><li>Aile üyeleri burada.</li></ul> </div> </div> <!-- 5 Mesajlarım --> <div class="sectionBox"> <h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2> <div id="mesajlar" class="tab-content"> <ul><li>Yeni mesaj yok.</li></ul> </div> </div> <!-- 6 Avlan --> <div class="sectionBox"> <h2 onclick="toggleTab('avlan')">Avlan ↓</h2> <div id="avlan" class="tab-content"> <ul><li>Avlanma görevleri.</li></ul> </div> </div> <!-- 7 Açık Artırma --> <div class="sectionBox"> <h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2> <div id="acikArttirma" class="tab-content"> <ul><li>Müzayede içerikleri.</li></ul> </div> </div> <!-- 8 Kaçakçılık --> <div class="sectionBox"> <h2 onclick="toggleTab('kacakcilikContent')">Kaçakçılık ↓</h2> <div id="kacakcilikContent" class="tab-content"> <ul> <li>Kaçakçılık görevleri.</li> <li>At Yarışı <button onclick="toggleTab('atayarisi')">→</button></li> </ul> </div> </div> <!-- 9 At Yarışı --> <div class="sectionBox"> <h2 onclick="toggleTab('atayarisi')">At Yarışı ↓</h2> <div id="atayarisi" class="tab-content"> <ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul> </div> </div> <!-- 10 At Bilgiler --> <div class="sectionBox"> <h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2> <div id="atBilgiler" class="tab-content"> <ul><li>Atların detaylı bilgileri burada.</li></ul> </div> </div> <!-- 11 Oyun içi Bilgiler --> <div class="sectionBox"> <h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2> <div id="oyunIci" class="tab-content"> <ul><li>Oyun içi rehber ve ipuçları.</li></ul> </div> </div> <!-- 12 Arananlar --> <div class="sectionBox"> <h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2> <div id="arananlar" class="tab-content"> <ul><li>Şu anda arananlar listesi boş.</li></ul> </div> </div> <!-- 13 Oyunlar --> <div class="sectionBox"> <h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2> <div id="oyunlar" class="tab-content"> <ul> <li>Mevcut oyunlar listesi</li> </ul> </div> </div> </div> <div id="rightContainer"> <div class="box"> <h3>Köy İncelemesi</h3> <div class="sub-tabs" id="koyTabs"></div> <div id="koyPages"></div> </div> <div class="box"> <h3>Trenle Seyehat</h3> <div class="sub-tabs" id="trenTabs"></div> <div id="trenPages"></div> </div> </div> <div id="centerRanks"> <div class="card"><h2 class="vakur-color">VAKUR</h2><button>Serüven</button></div> <div class="card"><h2 class="hatip-color">HATİP</h2><button>Serüven</button></div> <div class="card"><h2 class="baron-color">BARON</h2><button>Serüven</button></div> </div> <div id="bottomLeft">Asman</div> <script> // VERİ const villageData = [ "Asman","Mizrin","Qeruk","Twılveser","Ashma", "Ogean","Karuk","Tilkarut","Midep","Ömerk", "Tilal","Olik","Mıshecerk","Mızelb","Kergü", "Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan", "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker", "Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej", "Cembel" ]; // ALT SEKME OLUŞTUR function initSubTabs(tabContainerId, pageContainerId, actionFn){ const tabs = document.getElementById(tabContainerId); const pages = document.getElementById(pageContainerId); const perPage = Math.ceil(villageData.length/7); for(let i=0;i<7;i++){ let btn = document.createElement('button'); btn.innerText = i+1; btn.onclick = ()=>show(i); tabs.appendChild(btn); let div = document.createElement('div'); div.className='sub-content'; let ul = document.createElement('ul'); villageData.slice(i*per bu kodlara köyleri de ekler misin toplam 31 köy var ve sağ tarafa ekle ChatGPT said: You said: You said: <!DOCTYPE html> <html lang="tr"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>Black Dolphine - Mafia Oyunu</title> <style> /* GENEL */ * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; } body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; } header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:999; } .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; } .logo svg { width:40px; margin-left:8px; fill:#00cc66; stroke:#fff; stroke-width:2; } .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; } #money { color:lime; } /* SOL PANEL - 13 sekme */ #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; } .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; } .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; } .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.85rem; } .sectionBox .tab-content.active { display:block; } .stat-bar { background:#444; border-radius:4px; padding:4px; margin-bottom:0.4rem; } .stat-label { font-weight:bold; margin-bottom:2px; } #vakurStat .stat-label { color:blue; } #hatipStat .stat-label { color:orange; } #baronStat .stat-label { color:red; } .stat-fill { height:14px; background:#00bfff; width:0; transition:width 0.8s; } .stat-text { font-size:0.75rem; margin-top:2px; } .badge-indicator { text-align:center; color:#ffcc00; font-size:0.75rem; margin-top:2px; } ul { list-style:none; } li { display:flex; justify-content:space-between; margin-bottom:0.4rem; } button { background:#333; border:none; padding:0.25rem 0.5rem; border-radius:3px; cursor:pointer; color:#fff; font-size:0.75rem; } /* SAĞ PANEL */ #rightContainer { margin-left:17%; margin-right:20px; flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem; } .box { background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem; width:160px; } .box h3 { text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:0.9rem; } .sub-tabs { text-align:center; margin-bottom:0.4rem; } .sub-tabs button { background:#444; border:none; margin:0 0.15rem; padding:0.25rem 0.4rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; } .sub-tabs button.active { background:#666; } .sub-content { display:none; } .sub-content.active { display:block; } /* ORTA RANK */ #centerRanks { position:fixed; top:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px; display:flex; gap:6px; } .card { background:rgba(255,255,255,0.05); padding:0.5rem; border-radius:5px; text-align:center; width:90px; font-size:0.8rem; } .card h2 { margin-bottom:0.3rem; font-size:0.9rem; text-transform:uppercase; } .card button { background:#000; border:none; padding:0.3rem; border-radius:3px; color:#fff; font-size:0.75rem; cursor:pointer; } /* ALT SOL KÖY */ #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; } @media(max-width:768px){ #leftPanel{position:static;width:100%;margin-bottom:1rem;} #rightContainer{margin-left:0;align-items:center;} #centerRanks{position:static;transform:none;margin:1rem auto;} .box{width:90%;} } </style> </head> <body> <header> <div class="logo">BLACK DOLPHINE <svg viewBox="0 0 100 50"><path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/></svg> </div> <div class="money"><span id="money">$500000</span></div> </header> <div id="leftPanel"> <!-- 1 Durumum --> <div class="sectionBox"> <h2 onclick="toggleTab('durumum')">Durumum ↓</h2> <div id="durumum" class="tab-content"> <div class="stat-bar" id="vakurStat"> <div class="stat-label vakur-color">VAKUR 🛡️</div> <div class="stat-fill" id="vakurFill"></div> <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div> <div class="badge-indicator">• R</div> </div> <div class="stat-bar lockedStat" id="hatipStat"> <div class="stat-label hatip-color">HATİP 👥</div> <div class="stat-fill" id="hatipFill"></div> <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div> <div class="badge-indicator">• R</div> </div> <div class="stat-bar lockedStat" id="baronStat"> <div class="stat-label baron-color">BARON ♛</div> <div class="stat-fill" id="baronFill"></div> <div class="stat-text" id="baronText">Etki: 0 (0%)</div> <div class="badge-indicator">• R</div> </div> <div>Köy: <span id="currentVillageDisplay">Asman</span></div> </div> </div> <!-- 2 Tüccar --> <div class="sectionBox"> <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2> <div id="tuccar" class="tab-content"> <ul> <li>Silah (2500$) <button onclick="buyItem('Silah',2500)">Satın Al</button></li> <li>Bomba (1000$) <button onclick="buyItem('Bomba',1000)">Satın Al</button></li> <li>C4 (1500$) <button onclick="buyItem('C4',1500)">Satın Al</button></li> <li>Villa (15000$) <button onclick="buyItem('Villa',15000)">Satın Al</button></li> <li>Ev (10000$) <button onclick="buyItem('Ev',10000)">Satın Al</button></li> </ul> </div> </div> <!-- 3 Davet Et --> <div class="sectionBox"> <h2 onclick="toggleTab('davet')">Davet Et ↓</h2> <div id="davet" class="tab-content"> <ul><li>Davet bağlantınızı ekleyin.</li></ul> </div> </div> <!-- 4 Ailem --> <div class="sectionBox"> <h2 onclick="toggleTab('ailem')">Ailem ↓</h2> <div id="ailem" class="tab-content"> <ul><li>Aile üyeleri burada.</li></ul> </div> </div> <!-- 5 Mesajlarım --> <div class="sectionBox"> <h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2> <div id="mesajlar" class="tab-content"> <ul><li>Yeni mesaj yok.</li></ul> </div> </div> <!-- 6 Avlan --> <div class="sectionBox"> <h2 onclick="toggleTab('avlan')">Avlan ↓</h2> <div id="avlan" class="tab-content"> <ul><li>Avlanma görevleri.</li></ul> </div> </div> <!-- 7 Açık Artırma --> <div class="sectionBox"> <h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2> <div id="acikArttirma" class="tab-content"> <ul><li>Müzayede içerikleri.</li></ul> </div> </div> <!-- 8 Kaçakçılık --> <div class="sectionBox"> <h2 onclick="toggleTab('kacakcilikContent')">Kaçakçılık ↓</h2> <div id="kacakcilikContent" class="tab-content"> <ul> <li>Kaçakçılık görevleri.</li> <li>At Yarışı <button onclick="toggleTab('atayarisi')">→</button></li> </ul> </div> </div> <!-- 9 At Yarışı --> <div class="sectionBox"> <h2 onclick="toggleTab('atayarisi')">At Yarışı ↓</h2> <div id="atayarisi" class="tab-content"> <ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul> </div> </div> <!-- 10 At Bilgiler --> <div class="sectionBox"> <h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2> <div id="atBilgiler" class="tab-content"> <ul><li>Atların detaylı bilgileri burada.</li></ul> </div> </div> <!-- 11 Oyun içi Bilgiler --> <div class="sectionBox"> <h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2> <div id="oyunIci" class="tab-content"> <ul><li>Oyun içi rehber ve ipuçları.</li></ul> </div> </div> <!-- 12 Arananlar --> <div class="sectionBox"> <h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2> <div id="arananlar" class="tab-content"> <ul><li>Şu anda arananlar listesi boş.</li></ul> </div> </div> <!-- 13 Oyunlar --> <div class="sectionBox"> <h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2> <div id="oyunlar" class="tab-content"> <ul> <li>Mevcut oyunlar listesi</li> </ul> </div> </div> </div> <div id="rightContainer"> <div class="box"> <h3>Köy İncelemesi</h3> <div class="sub-tabs" id="koyTabs"></div> <div id="koyPages"></div> </div> <div class="box"> <h3>Trenle Seyehat</h3> <div class="sub-tabs" id="trenTabs"></div> <div id="trenPages"></div> </div> </div> <div id="centerRanks"> <div class="card"><h2 class="vakur-color">VAKUR</h2><button>Serüven</button></div> <div class="card"><h2 class="hatip-color">HATİP</h2><button>Serüven</button></div> <div class="card"><h2 class="baron-color">BARON</h2><button>Serüven</button></div> </div> <div id="bottomLeft">Asman</div> <script> // VERİ const villageData = [ "Asman","Mizrin","Qeruk","Twılveser","Ashma", "Ogean","Karuk","Tilkarut","Midep","Ömerk", "Tilal","Olik","Mıshecerk","Mızelb","Kergü", "Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan", "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker", "Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej", "Cembel" ]; // ALT SEKME OLUŞTUR function initSubTabs(tabContainerId, pageContainerId, actionFn){ const tabs = document.getElementById(tabContainerId); const pages = document.getElementById(pageContainerId); const perPage = Math.ceil(villageData.length/7); for(let i=0;i<7;i++){ let btn = document.createElement('button'); btn.innerText = i+1; btn.onclick = ()=>show(i); tabs.appendChild(btn); let div = document.createElement('div'); div.className='sub-content'; let ul = document.createElement('ul'); villageData.slice(i*per
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Black Dolphine - Mafia Oyunu</title>
+  <style>
+    /* GENEL */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; }
+    header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:999; }
+    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; }
+    .logo svg { width:40px; margin-left:8px; fill:#00cc66; stroke:#fff; stroke-width:2; }
+    .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; }
+    #money { color:lime; }
+
+    /* SOL PANEL */
+    #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; }
+    .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; }
+    .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; }
+    .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.85rem; }
+    .sectionBox .tab-content.active { display:block; }
+    ul { list-style:none; }
+    li { display:flex; justify-content:space-between; margin-bottom:0.4rem; }
+    button { background:#333; border:none; padding:0.25rem 0.5rem; border-radius:3px; cursor:pointer; color:#fff; font-size:0.75rem; }
+
+    /* ORTA RANK */
+    #centerRanks { position:fixed; top:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px; display:flex; gap:6px; }
+    .card { background:rgba(255,255,255,0.05); padding:0.5rem; border-radius:5px; text-align:center; width:90px; font-size:0.8rem; }
+    .card h2 { margin-bottom:0.3rem; font-size:0.9rem; text-transform:uppercase; }
+    .card button { background:#000; border:none; padding:0.3rem; border-radius:3px; color:#fff; font-size:0.75rem; cursor:pointer; }
+
+    /* SAĞ PANEL */
+    #rightContainer { margin-left:17%; margin-right:20px; flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem; }
+    .box { background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem; width:160px; }
+    .box h3 { text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:0.9rem; }
+    .sub-tabs { text-align:center; margin-bottom:0.4rem; }
+    .sub-tabs button { background:#444; border:none; margin:0 0.15rem; padding:0.25rem 0.4rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; }
+    .sub-tabs button.active { background:#666; }
+    .sub-content { display:none; }
+    .sub-content.active { display:block; }
+
+    /* ALT SOL KÖY */
+    #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; }
+
+    /* CHAT & MESAJ İKONU */
+    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; max-width:80%; background:rgba(0,0,0,0.7); padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem; }
+    #messageIcon { position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.7); padding:0.6rem; border-radius:50%; font-size:1.2rem; cursor:pointer; }
+
+    @media(max-width:768px){
+      #leftPanel{position:static;width:100%;margin-bottom:1rem;}
+      #centerRanks{position:static;transform:none;margin:1rem auto;}
+      #rightContainer{margin-left:0;align-items:center;}
+      .box{width:90%;}
+      #chatBox, #bottomLeft, #messageIcon { bottom:10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">BLACK DOLPHINE <svg viewBox="0 0 100 50"><path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/></svg></div>
+    <div class="money"><span id="money">$500000</span></div>
+  </header>
+
+  <div id="leftPanel">
+    <!-- 1 Durumum -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
+      <div id="durumum" class="tab-content">
+        <!-- Vakur, Hatip, Baron barları vb. buraya -->
+      </div>
+    </div>
+    <!-- diğer 11 sekme -->
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul><li>Mevcut oyunlar listesi</li></ul></div></div>
+    <!-- 14 Kullanıcı Arama -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2>
+      <div id="kullaniciArama" class="tab-content">
+        <input type="text" placeholder="Kullanıcı Ara..." style="width:100%;padding:0.5rem;border:1px solid #333;border-radius:3px;background:#222;color:#fff;" />
+      </div>
+    </div>
+  </div>
+
+  <div id="rightContainer">
+    <div class="box"><h3>Köy İncelemesi</h3><div class="sub-tabs" id="koyTabs"></div><div id="koyPages"></div></div>
+    <div class="box"><h3>Trenle Seyehat</h3><div class="sub-tabs" id="trenTabs"></div><div id="trenPages"></div></div>
+  </div>
+
+  <div id="centerRanks">
+    <div class="card"><h2>VAKUR</h2><button>Serüven</button></div>
+    <div class="card"><h2>HATİP</h2><button>Serüven</button></div>
+    <div class="card"><h2>BARON</h2><button>Serüven</button></div>
+  </div>
+
+  <div id="bottomLeft">Asman</div>
+  <div id="chatBox">CHAT</div>
+  <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
+
+  <script>
+    function toggleTab(id) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const tab = document.getElementById(id);
+      tab.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Black Dolphine - Mafia Oyunu</title>
+  <style>
+    /* GENEL */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; }
+    header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:999; }
+    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; }
+    .logo svg { width:40px; margin-left:8px; fill:#00cc66; stroke:#fff; stroke-width:2; }
+    .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; }
+    #money { color:lime; }
+
+    /* SOL PANEL */
+    #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; }
+    .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; }
+    .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; }
+    .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.85rem; }
+    .sectionBox .tab-content.active { display:block; }
+    ul { list-style:none; }
+    li { display:flex; justify-content:space-between; margin-bottom:0.4rem; }
+    button { background:#333; border:none; padding:0.25rem 0.5rem; border-radius:3px; cursor:pointer; color:#fff; font-size:0.75rem; }
+
+    /* ORTA RANK */
+    #centerRanks { position:fixed; top:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px; display:flex; gap:6px; }
+    .card { background:rgba(255,255,255,0.05); padding:0.5rem; border-radius:5px; text-align:center; width:90px; font-size:0.8rem; }
+    .card h2 { margin-bottom:0.3rem; font-size:0.9rem; text-transform:uppercase; }
+    .card button { background:#000; border:none; padding:0.3rem; border-radius:3px; color:#fff; font-size:0.75rem; cursor:pointer; }
+
+    /* SAĞ PANEL */
+    #rightContainer { margin-left:17%; margin-right:20px; flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem; }
+    .box { background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem; width:160px; }
+    .box h3 { text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:0.9rem; }
+    .sub-tabs { text-align:center; margin-bottom:0.4rem; }
+    .sub-tabs button { background:#444; border:none; margin:0 0.15rem; padding:0.25rem 0.4rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; }
+    .sub-tabs button.active { background:#666; }
+    .sub-content { display:none; }
+    .sub-content.active { display:block; }
+
+    /* ALT SOL KÖY */
+    #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; }
+
+    /* CHAT & MESAJ İKONU */
+    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; max-width:80%; background:rgba(0,0,0,0.7); padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem; }
+    #messageIcon { position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.7); padding:0.6rem; border-radius:50%; font-size:1.2rem; cursor:pointer; }
+
+    @media(max-width:768px){
+      #leftPanel{position:static;width:100%;margin-bottom:1rem;}
+      #centerRanks{position:static;transform:none;margin:1rem auto;}
+      #rightContainer{margin-left:0;align-items:center;}
+      .box{width:90%;}
+      #chatBox, #bottomLeft, #messageIcon { bottom:10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">BLACK DOLPHINE <svg viewBox="0 0 100 50"><path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/></svg></div>
+    <div class="money"><span id="money">$500000</span></div>
+  </header>
+
+  <div id="leftPanel">
+    <!-- 1 Durumum -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
+      <div id="durumum" class="tab-content">
+        <!-- Vakur, Hatip, Baron barları vb. buraya -->
+      </div>
+    </div>
+    <!-- diğer 11 sekme -->
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul><li>Mevcut oyunlar listesi</li></ul></div></div>
+    <!-- 14 Kullanıcı Arama -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2>
+      <div id="kullaniciArama" class="tab-content">
+        <input type="text" placeholder="Kullanıcı Ara..." style="width:100%;padding:0.5rem;border:1px solid #333;border-radius:3px;background:#222;color:#fff;" />
+      </div>
+    </div>
+  </div>
+
+  <div id="rightContainer">
+    <div class="box"><h3>Köy İncelemesi</h3><div class="sub-tabs" id="koyTabs"></div><div id="koyPages"></div></div>
+    <div class="box"><h3>Trenle Seyehat</h3><div class="sub-tabs" id="trenTabs"></div><div id="trenPages"></div></div>
+  </div>
+
+  <div id="centerRanks">
+    <div class="card"><h2>VAKUR</h2><button>Serüven</button></div>
+    <div class="card"><h2>HATİP</h2><button>Serüven</button></div>
+    <div class="card"><h2>BARON</h2><button>Serüven</button></div>
+  </div>
+
+  <div id="bottomLeft">Asman</div>
+  <div id="chatBox">CHAT</div>
+  <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
+
+  <script>
+    function toggleTab(id) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const tab = document.getElementById(id);
+      tab.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
