@@ -18,9 +18,10 @@
       color: #f1f1f1;
       min-height: 100vh;
       position: relative;
-      padding-top: 120px;
       font-size: 0.9rem;
+      /* Bu örnekte body üzerindeki padding-top kaldırıldı */
     }
+
     /* HEADER */
     header {
       background: rgba(0,0,0,0.85);
@@ -66,55 +67,122 @@
     /* Sağ üstteki para göstergesinin rengi yeşil */
     #money { color: green !important; }
 
-    /* SOL PANEL */
+    /* Renk Sınıfları */
+    .vakur-color { color: blue !important; }
+    .hatip-color { color: orange !important; }
+    .baron-color { color: red !important; }
+
+    /********************************************************
+     *     TREN RAYI BÖLÜMÜ + ÜST ve ALT BUTON ALANLARI     *
+     ********************************************************/
+    #trainTrackSection {
+      position: fixed;
+      top: 60px; /* Header yüksekliği + biraz boşluk */
+      left: 0;
+      width: 100%;
+      background: #ccc;
+      padding: 10px 0;
+      z-index: 998; /* Header'ın hemen altında */
+      display: flex;
+      flex-direction: column; /* Dikeyde üst buton - tren listesi - alt buton */
+      align-items: center;
+    }
+
+    /* Butonları ortalamak için iki ayrı sarmalayıcı (üst ve alt) */
+    #trainToggleWrapper, 
+    #trainToggleBottomWrapper {
+      width: 100%;
+      text-align: center; 
+      margin: 5px 0;
+    }
+    /* Siyah arka planlı butonun ortak stili */
+    #trainToggleBtnTop,
+    #trainToggleBtnBottom {
+      background: #000;
+      color: #fff;
+      border: none;
+      font-size: 1rem;
+      padding: 0.8rem 1.2rem;
+      cursor: pointer;
+      border-radius: 5px;
+      display: inline-block;
+      width: 160px;  /* Geniş dikdörtgen */
+      text-align: center;
+      font-weight: bold;
+    }
+    #trainToggleBtnTop:hover,
+    #trainToggleBtnBottom:hover {
+      background: #333;
+    }
+    /* Tren rayının kendisi (köy noktaları) */
+    #trainTrack {
+      margin: 10px 0;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: 90%;
+    }
+    #trainTrack ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    #trainTrack li {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      color: #333;
+    }
+    .trainDot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #000;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    .hiddenRail { display: none; }
+
+    /* ANA SAYFA KAPSAYICI */
+    #mainPage {
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /**************************************************************
+     * SOL PANEL - Durumum & Tüccar
+     *  VAKUR–HATİP–BARON ile AYNI HİZADA olması için top: 260px;
+     **************************************************************/
     #leftPanel {
       position: fixed;
-      top: 120px;
+      top: 260px;
       left: 20px;
       width: 280px;
       z-index: 1000;
     }
-    /* Tab başlıkları */
-    #leftTabs {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .left-tab {
-      flex: 0 0 calc(100% / 12);
-      text-align: center;
-      background: rgba(0,0,0,0.6);
-      color: #ffcc00;
-      padding: 0.5rem 0;
-      cursor: pointer;
-      border: 1px solid #333;
-      border-bottom: none;
-      font-size: 0.8rem;
-    }
-    .left-tab.active {
-      background: rgba(0,0,0,0.85);
-    }
-    /* Tab içerikleri */
-    #tabContents > .left-tab-content {
-      display: none;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid #333;
-      border-radius: 0 0 10px 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-    #tabContents > .left-tab-content.active {
-      display: block;
-    }
     .sectionBox {
-      background: transparent;
-      padding: 0;
-      margin: 0;
+      background: rgba(0,0,0,0.6);
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      padding: 1rem;
     }
     .sectionBox h2 {
-      font-size: 1.2rem;
+      text-align: center;
       color: #ffcc00;
       margin-bottom: 1rem;
-      text-align: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .tab-content {
+      display: none;
+      background: rgba(0,0,0,0.4);
+      border-radius: 5px;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .tab-content.active {
+      display: block;
     }
 
     /* DURUMUM İÇERİĞİ */
@@ -125,44 +193,322 @@
       overflow: hidden;
       padding: 5px;
     }
-    .stat-label { margin-bottom: 3px; font-weight: bold; font-size: 0.85rem; }
+    .stat-label {
+      margin-bottom: 3px;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
     #vakurStat .stat-label { color: blue; }
     #hatipStat .stat-label { color: orange; }
     #baronStat .stat-label { color: red; }
+
     .stat-fill {
       height: 18px;
       background: #00bfff;
       width: 0%;
       transition: width 1s ease;
     }
-    .stat-text { margin-top: 3px; font-size: 0.8rem; }
-    .lockedStat { opacity: 0.4; }
+    .stat-text {
+      margin-top: 3px;
+      font-size: 0.8rem;
+    }
+    .lockedStat {
+      opacity: 0.4;
+    }
     .badge-indicator {
-      text-align: center; font-size: 0.8rem; margin-top: 3px; color: #ffcc00;
+      text-align: center;
+      font-size: 0.8rem;
+      margin-top: 3px;
+      color: #ffcc00;
     }
 
     /* TÜCCAR İÇERİĞİ */
-    #tuccarList { list-style: none; padding: 0; margin: 0; }
-    #tuccarList li {
-      display: flex; justify-content: space-between; align-items: center;
+    #tuccarContent ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    #tuccarContent li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 0.5rem;
     }
-    #tuccarList li button {
-      background: #ff4444; border: none; border-radius: 5px;
-      color: #fff; cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.8rem;
+    #tuccarContent li button {
+      background: #ff4444;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      font-size: 0.8rem;
     }
 
-    /* Placeholder içerikler için basit stil */
-    .placeholder {
-      color: #ccc;
-      font-size: 0.9rem;
+    /**************************************************************
+     * SAĞ PANEL - Köy İncelemesi & Tren Seyehat
+     *  VAKUR–HATİP–BARON ile AYNI HİZADA olması için top: 260px;
+     **************************************************************/
+    #rightContainer {
+      position: fixed;
+      right: 20px;
+      top: 260px;
+      width: 280px;
+      z-index: 1000;
+    }
+    #koyIncelemeBox, #trenSeyahatBox {
+      background: rgba(0,0,0,0.7);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    #koyIncelemeBox h3, #trenSeyahatBox h3 {
       text-align: center;
-      padding: 2rem 0;
+      color: #ffcc00;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    #koyIncelemeBox ul, #trenSeyahatBox ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.85rem;
+    }
+    #koyIncelemeBox li, #trenSeyahatBox li {
+      margin-bottom: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #koyIncelemeBox li button, #trenSeyahatBox li button {
+      padding: 0.3rem 0.5rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    /* Sayfalama */
+    #koyIncelemePagination, #trenPagination {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    #koyIncelemePagination span, #trenPagination span {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      margin: 0 0.2rem;
+      background: #444;
+      border-radius: 3px;
+      cursor: pointer;
+      color: #ffcc00;
+    }
+    #koyIncelemePagination span.active, #trenPagination span.active {
+      background: #555;
     }
 
-    /* SAĞ PANEL ve ORTA PANEL, TREN, GÖREV vb. kodlar aynı kaldı... */
-    /* (Burada daha önceki sağ panel, tren, görev vs. CSS'inizi ekleyebilirsiniz) */
+    /**************************************************************
+     * ORTA PANEL: Rank Kartları (VAKUR, HATİP, BARON)
+     *  Doğru konumda dendiğinden top: 260px olarak ayarlıyoruz.
+     **************************************************************/
+    #centerRanks {
+      position: absolute;
+      top: 260px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 900;
+      background: grey;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    /* Kart başlık renkleri */
+    #cardVakur h2 { color: blue; }
+    #cardHatip h2 { color: orange; }
+    #cardBaron h2 { color: red; }
+    .card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      width: 250px;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .card:hover { transform: translateY(-5px); }
+    /* Kartlardaki rol isimleri */
+    #cardVakur h2,
+    #cardHatip h2,
+    #cardBaron h2 {
+      text-transform: uppercase;
+      margin-top: -10px;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    /* Epistemolojik Serüven butonları */
+    .card button {
+      padding: 0.6rem 1.2rem;
+      background: black;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 15px;
+    }
+    .card button:hover { background: #333; }
 
+    /* ALT SOL KÖY BİLGİSİ */
+    #bottomLeft {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 1.2rem;
+      background: #0288d1;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    /* GÖREV SAYFASI (Overlay) */
+    #gorevPage {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      z-index: 3000;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    #gorevPage h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    /* Görev kutucuklarını yatay sıralamak için wrapper */
+    #tasksContainerWrapper {
+      position: relative;
+      overflow: hidden;
+      padding: 0 40px;
+    }
+    #tasksContainer {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 10px;
+    }
+    .rankSection {
+      flex: 0 0 300px;
+      border: 1px solid #888;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.07);
+    }
+    .rankSection h2 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .taskItem {
+      background: #222;
+      border-radius: 5px;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .taskItem span {
+      max-width: 80%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .taskItem button {
+      background: #ff4444;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      margin-left: 10px;
+      font-size: 0.8rem;
+    }
+    .completedTask span::after {
+      content: " ✅";
+      color: #0f0;
+      margin-left: 5px;
+    }
+    .lockedDifficulty {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    .difficultyProgressBar {
+      background: #444;
+      height: 18px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .difficultyProgressFill {
+      background: #00bfff;
+      width: 0%;
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    .progressText {
+      text-align: right;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    /* Ok butonları */
+    .arrow-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      z-index: 101;
+      transition: background 0.3s;
+    }
+    .arrow-button:hover {
+      background: rgba(0,0,0,0.7);
+    }
+    #leftArrow { left: 5px; }
+    #rightArrow { right: 5px; }
+
+    /* Responsive Ayarlar (Mobil) */
+    @media (max-width: 768px) {
+      #leftPanel, #rightContainer, #centerRanks {
+        position: static;
+        top: auto !important;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      #centerRanks {
+        transform: none;
+        margin: 10px auto;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .card {
+        width: 90%;
+        margin: 10px 0;
+      }
+      #trainTrack {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -178,132 +524,435 @@
     </div>
     <div class="money"><span id="money">$500000</span></div>
   </header>
+  
+  <!-- TREN RAYI BÖLÜMÜ -->
+  <div id="trainTrackSection">
+    <!-- ÜST BUTON (Ortada, Geniş Dikdörtgen) -->
+    <div id="trainToggleWrapper">
+      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">
+        TREN ROTASI
+        <br>
+        &larr;
+      </button>
+    </div>
 
+    <!-- Tren Rayı (Köyler Nokta Halinde) -->
+    <div id="trainTrack">
+      <ul id="trainTrackList">
+        <li><span class="trainDot"></span>Asman</li>
+        <li><span class="trainDot"></span>Mizrin</li>
+        <li><span class="trainDot"></span>Qeruk</li>
+        <li><span class="trainDot"></span>Twılveser</li>
+        <li><span class="trainDot"></span>Ashma</li>
+        <li><span class="trainDot"></span>Ogean</li>
+        <li><span class="trainDot"></span>Karuk</li>
+        <li><span class="trainDot"></span>Tilkarut</li>
+        <li><span class="trainDot"></span>Midep</li>
+        <li><span class="trainDot"></span>Ömerk</li>
+        <li><span class="trainDot"></span>Tilal</li>
+        <li><span class="trainDot"></span>Olik</li>
+        <li><span class="trainDot"></span>Mıshecerk</li>
+        <li><span class="trainDot"></span>Mızelb</li>
+        <li><span class="trainDot"></span>Kergü</li>
+        <li><span class="trainDot"></span>Bozdepe</li>
+        <li><span class="trainDot"></span>Cinnık</li>
+        <li><span class="trainDot"></span>Bostancı</li>
+        <li><span class="trainDot"></span>Masucark</li>
+        <li><span class="trainDot"></span>Kırıkan</li>
+        <li><span class="trainDot"></span>Kuzluk</li>
+        <li><span class="trainDot"></span>Qeremsal</li>
+        <li><span class="trainDot"></span>Medırbaz</li>
+        <li><span class="trainDot"></span>Hecuk</li>
+        <li><span class="trainDot"></span>Zebeşker</li>
+        <li><span class="trainDot"></span>Mirğan</li>
+        <li><span class="trainDot"></span>Dideri</li>
+        <li><span class="trainDot"></span>Kazıka</li>
+        <li><span class="trainDot"></span>Nehlnehli</li>
+        <li><span class="trainDot"></span>Birdirej</li>
+        <li><span class="trainDot"></span>Cembel</li>
+      </ul>
+    </div>
+
+    <!-- ALT BUTON (Ortada, Geniş Dikdörtgen)
+         Yön oku sağa bakacak şekilde &rarr; -->
+    <div id="trainToggleBottomWrapper">
+      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">
+        TREN ROTASI
+        <br>
+        &rarr;
+      </button>
+    </div>
+  </div>
+  
   <!-- ANA SAYFA -->
   <div id="mainPage">
-    <!-- SOL PANEL -->
+    <!-- SOL PANEL: Durumum & Tüccar -->
     <div id="leftPanel">
-      <div id="leftTabs">
-        <div class="left-tab active" data-tab="1">Durumum</div>
-        <div class="left-tab" data-tab="2">Tüccar</div>
-        <div class="left-tab" data-tab="3">Davet Et</div>
-        <div class="left-tab" data-tab="4">Sekme 4</div>
-        <div class="left-tab" data-tab="5">Sekme 5</div>
-        <div class="left-tab" data-tab="6">Sekme 6</div>
-        <div class="left-tab" data-tab="7">Sekme 7</div>
-        <div class="left-tab" data-tab="8">Sekme 8</div>
-        <div class="left-tab" data-tab="9">Sekme 9</div>
-        <div class="left-tab" data-tab="10">Sekme 10</div>
-        <div class="left-tab" data-tab="11">Sekme 11</div>
-        <div class="left-tab" data-tab="12">Sekme 12</div>
+      <!-- Durumum Sekmesi -->
+      <div class="sectionBox">
+        <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
+        <div id="durumumContent" class="tab-content">
+          <div class="stat-bar" id="vakurStat">
+            <div class="stat-label vakur-color">VAKUR 🛡️</div>
+            <div class="stat-fill" id="vakurFill"></div>
+            <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
+            <div class="badge-indicator">
+              <span style="display:inline-block; width:15px; height:15px; background:blue; border-radius:50%; margin-right:5px;"></span>
+              R
+            </div>
+          </div>
+          <div class="stat-bar lockedStat" id="hatipStat">
+            <div class="stat-label hatip-color">HATİP 👥</div>
+            <div class="stat-fill" id="hatipFill"></div>
+            <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
+            <div class="badge-indicator">
+              <span style="display:inline-block; width:15px; height:15px; background:orange; border-radius:50%; margin-right:5px;"></span>
+              R
+            </div>
+          </div>
+          <div class="stat-bar lockedStat" id="baronStat">
+            <div class="stat-label baron-color">BARON ♛</div>
+            <div class="stat-fill" id="baronFill"></div>
+            <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
+            <div class="badge-indicator">
+              <span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; margin-right:5px;"></span>
+              R
+            </div>
+          </div>
+          <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
+        </div>
       </div>
-      <div id="tabContents">
-        <!-- 1: Durumum -->
-        <div class="left-tab-content active" data-tab="1">
-          <div class="sectionBox">
-            <h2>Durumum</h2>
-            <div class="stat-bar" id="vakurStat">
-              <div class="stat-label vakur-color">VAKUR 🛡️</div>
-              <div class="stat-fill" id="vakurFill"></div>
-              <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
-              <div class="badge-indicator">
-                <span style="display:inline-block; width:15px; height:15px; background:blue; border-radius:50%; margin-right:5px;"></span>R
-              </div>
-            </div>
-            <div class="stat-bar lockedStat" id="hatipStat">
-              <div class="stat-label hatip-color">HATİP 👥</div>
-              <div class="stat-fill" id="hatipFill"></div>
-              <div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div>
-              <div class="badge-indicator">
-                <span style="display:inline-block; width:15px; height:15px; background:orange; border-radius:50%; margin-right:5px;"></span>R
-              </div>
-            </div>
-            <div class="stat-bar lockedStat" id="baronStat">
-              <div class="stat-label baron-color">BARON ♛</div>
-              <div class="stat-fill" id="baronFill"></div>
-              <div class="stat-text" id="baronText">Etki: 0 (0%)</div>
-              <div class="badge-indicator">
-                <span style="display:inline-block; width:15px; height:15px; background:red; border-radius:50%; margin-right:5px;"></span>R
-              </div>
-            </div>
-            <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
-          </div>
+
+      <!-- Tüccar Sekmesi -->
+      <div class="sectionBox">
+        <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
+        <div id="tuccarContent" class="tab-content">
+          <ul>
+            <li><span>Silah (2500$)</span> <button onclick="buyItem('Silah',2500)">Satın Al</button></li>
+            <li><span>Bomba (1000$)</span> <button onclick="buyItem('Bomba',1000)">Satın Al</button></li>
+            <li><span>C4 (1500$)</span> <button onclick="buyItem('C4',1500)">Satın Al</button></li>
+            <li><span>Villa (15000$)</span> <button onclick="buyItem('Villa',15000)">Satın Al</button></li>
+            <li><span>Ev (10000$)</span> <button onclick="buyItem('Ev',10000)">Satın Al</button></li>
+          </ul>
         </div>
-        <!-- 2: Tüccar -->
-        <div class="left-tab-content" data-tab="2">
-          <div class="sectionBox">
-            <h2>Tüccar</h2>
-            <ul id="tuccarList">
-              <li><span>Silah (2500$)</span><button onclick="buyItem('Silah',2500)">Satın Al</button></li>
-              <li><span>Bomba (1000$)</span><button onclick="buyItem('Bomba',1000)">Satın Al</button></li>
-              <li><span>C4 (1500$)</span><button onclick="buyItem('C4',1500)">Satın Al</button></li>
-              <li><span>Villa (15000$)</span><button onclick="buyItem('Villa',15000)">Satın Al</button></li>
-              <li><span>Ev (10000$)</span><button onclick="buyItem('Ev',10000)">Satın Al</button></li>
-            </ul>
-          </div>
-        </div>
-        <!-- 3: Davet Et -->
-        <div class="left-tab-content" data-tab="3">
-          <div class="sectionBox">
-            <h2>Davet Et</h2>
-            <div class="placeholder">Buraya davet etme işlemiyle ilgili içeriğinizi ekleyebilirsiniz.</div>
-          </div>
-        </div>
-        <!-- 4–12: Placeholder -->
-        <div class="left-tab-content" data-tab="4"><div class="placeholder">Sekme 4 içeriği</div></div>
-        <div class="left-tab-content" data-tab="5"><div class="placeholder">Sekme 5 içeriği</div></div>
-        <div class="left-tab-content" data-tab="6"><div class="placeholder">Sekme 6 içeriği</div></div>
-        <div class="left-tab-content" data-tab="7"><div class="placeholder">Sekme 7 içeriği</div></div>
-        <div class="left-tab-content" data-tab="8"><div class="placeholder">Sekme 8 içeriği</div></div>
-        <div class="left-tab-content" data-tab="9"><div class="placeholder">Sekme 9 içeriği</div></div>
-        <div class="left-tab-content" data-tab="10"><div class="placeholder">Sekme 10 içeriği</div></div>
-        <div class="left-tab-content" data-tab="11"><div class="placeholder">Sekme 11 içeriği</div></div>
-        <div class="left-tab-content" data-tab="12"><div class="placeholder">Sekme 12 içeriği</div></div>
       </div>
-    </div>
+    </div><!-- /#leftPanel -->
 
     <!-- SAĞ PANEL: Köy İncelemesi & Trenle Seyehat -->
     <div id="rightContainer">
-      <!-- ... (eski sağ panel kodları buraya) ... -->
+      <div id="koyIncelemeBox">
+        <h3>Köy İncelemesi</h3>
+        <ul id="koyIncelemeList"></ul>
+        <div id="koyIncelemePagination"></div>
+      </div>
+      <div id="trenSeyahatBox">
+        <h3>Trenle Seyehat</h3>
+        <ul id="trenList"></ul>
+        <div id="trenPagination"></div>
+      </div>
     </div>
 
-    <!-- ORTA PANEL, GÖREV SAYFASI vb. -->
-    <!-- ... (eski orta panel ve görev sayfası kodları buraya) ... -->
-
+    <!-- ORTA PANEL: Rank Kartları (VAKUR, HATİP, BARON) -->
+    <div id="centerRanks">
+      <div class="card" id="cardVakur">
+        <h2 class="vakur-color">VAKUR</h2>
+        <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
+      </div>
+      <div class="card locked" id="cardHatip">
+        <h2 class="hatip-color">HATİP</h2>
+        <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
+      </div>
+      <div class="card locked" id="cardBaron">
+        <h2 class="baron-color">BARON</h2>
+        <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
+      </div>
+    </div>
   </div><!-- /#mainPage -->
+
+  <!-- GÖREV SAYFASI (Overlay) -->
+  <div id="gorevPage">
+    <button onclick="closeGorevPage()">Geri Dön</button>
+    <h1 id="gorevHeader"></h1>
+    <!-- Görev kutucuklarını yatay sıralamak için wrapper -->
+    <div id="tasksContainerWrapper">
+      <button id="leftArrow" class="arrow-button" onclick="scrollTasks(-1)">&#x276E;</button>
+      <div id="tasksContainer"></div>
+      <button id="rightArrow" class="arrow-button" onclick="scrollTasks(1)">&#x276F;</button>
+    </div>
+  </div>
 
   <!-- ALT SOL KÖY BİLGİSİ -->
   <div id="bottomLeft">Asman</div>
 
   <script>
-    // TAB GEÇİŞ İŞLEVLERİ
-    document.querySelectorAll('.left-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const idx = tab.getAttribute('data-tab');
-        // Tab başlıklarını güncelle
-        document.querySelectorAll('.left-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        // İçerikleri güncelle
-        document.querySelectorAll('#tabContents > .left-tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelector('#tabContents > .left-tab-content[data-tab="' + idx + '"]').classList.add('active');
-      });
-    });
-
     /********************* GENEL DEĞİŞKENLER *********************/
     let money = 500000;
     let currentVillage = "Asman";
+    
     let vakurTaskCount = 0, hatipTaskCount = 0, baronTaskCount = 0;
     let isHatipUnlocked = false, isBaronUnlocked = false;
-    const pageSizes = [3,3,5,5,5,5,5];
+    
+    const pageSizes = [3, 3, 5, 5, 5, 5, 5];
     const totalPages = pageSizes.length;
+    
+    /* 31 köy */
     const allKoyler = [
-      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
-      "Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe",
-      "Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz",
-      "Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel"
+      "Asman", "Mizrin", "Qeruk", "Twılveser", "Ashma",
+      "Ogean", "Karuk", "Tilkarut", "Midep", "Ömerk",
+      "Tilal", "Olik", "Mıshecerk", "Mızelb", "Kergü",
+      "Bozdepe", "Cinnık", "Bostancı", "Masucark", "Kırıkan",
+      "Kuzluk", "Qeremsal", "Medırbaz", "Hecuk", "Zebeşker",
+      "Mirğan", "Dideri", "Kazıka", "Nehlnehli", "Birdirej",
+      "Cembel"
     ];
-    /* (diğer tüm fonksiyonlarınız aynı şekilde buraya) */
-
+    
+    /********** Rastgele Köy Özellikleri **********/
+    function randomMalikane() { 
+      return [5,10,15][Math.floor(Math.random()*3)]; 
+    }
+    function randomSiginak() { 
+      return [50,75,100][Math.floor(Math.random()*3)]; 
+    }
+    function randomVilla() { 
+      return [25,50,75][Math.floor(Math.random()*3)]; 
+    }
+    const villageData = allKoyler.map(k => ({
+      name: k,
+      malikane: randomMalikane(),
+      siginak: randomSiginak(),
+      villa: randomVilla()
+    }));
+    
+    /********** GÖREV LİSTELERİ **********/
+    const vakurDifficulties = [
+      {
+        title: "ÇIRAK VAKUR I", locked: false,
+        tasks: [
+          "Bir çocuğun okul çantası almasına yardımcı ol.",
+          "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
+          "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
+          "Arkadaşına ufak bir hediye vererek moralini yükselt.",
+          "İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",
+          "Kütüphanede eski kitapları düzenlemeye gönüllü ol.",
+          "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
+          "Otobüste yaşlı veya hamile birine yer ver.",
+          "Mahalle parkında çöp toplama etkinliğine katıl.",
+          "Arkadaşına küçük bir sürpriz parti düzenle."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "USTA VAKUR II", locked: true,
+        tasks: [
+          "Aile içinde tartışan iki akrabayı barıştır.",
+          "Mahallede yardım kermesi veya etkinlik organize et.",
+          "Maddi durumu kötü bir öğrenciye burs ayarla.",
+          "Bir STK’nın etkinliğinde aktif rol al.",
+          "Bakımsız parkı onarmak için gönüllüler topla.",
+          "Kan bağışı kampanyasına katkıda bulun.",
+          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
+          "Zorbalığa uğrayan birine çevrimiçi destek bul.",
+          "Engelliler için kamu binalarına erişim kolaylığı sağla.",
+          "Sokak hayvanları için geçici barınak oluştur."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "UZMAN VAKUR III", locked: true,
+        tasks: [
+          "Afet bölgesine yardım ekibi olarak katıl.",
+          "Kronik bir sorun için belediyeyle görüşüp çözüm talep et.",
+          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
+          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
+          "Küs olan iki arkadaşın barışmasına aracılık et.",
+          "Toplum dışlanmış birini etkinliklere dahil et.",
+          "Küçük çaplı bağış kampanyası düzenle.",
+          "Yerel hastanede gönüllü refakat programına katıl.",
+          "Belediye ile iş birliği yaparak gençlik merkezi aç.",
+          "Maddi sıkıntı yaşayan aileler için erzak paketi dağıtımı yap."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "EFSANE VAKUR IV", locked: true,
+        tasks: [
+          "Büyük ölçekli yardım projesine liderlik et.",
+          "Gençlere yönelik mentorluk programı başlat.",
+          "Meslek edindirme kursu organize et.",
+          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
+          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
+          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
+          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
+          "Ücretsiz terapi/rehberlik günü organize et.",
+          "Üniversite öğrencilerine staj imkânları sunan platform oluştur.",
+          "Çevre koruma amaçlı ağaçlandırma kampanyası düzenle."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "YÜCE VAKUR V", locked: true,
+        tasks: ([ 
+          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
+          "Büyük bağış konseri/festival düzenle.",
+          "Gönüllüleri bir araya getiren platform kur.",
+          "Eğitim bursu fonu başlat.",
+          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
+          "Yardım vakfı kurarak sürekli yardım yürüt.",
+          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
+          "Yurt çapında geri dönüşüm projesi başlat.",
+          "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
+          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
+        ]).map(t => ({ text: t, done: false }))
+        .concat([{ text:"🎖️ Tebrikler! Vakur oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
+      }
+    ];
+    
+    const hatipDifficulties = [
+      {
+        title: "ÇIRAK HATİP I", locked: false,
+        tasks: [
+          "Sokak kavgasını tatlı dille sakinleştir.",
+          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
+          "Aile içi gerginliği dinleyerek gider.",
+          "Sosyal medyada tartışmayı tatlıya bağla.",
+          "Yanlış bilgiyi doğru kaynakla düzelt.",
+          "Dedikoduyu kaynağından çürüterek sakinleştir.",
+          "Okul/kulüp etkinliğinde kısa konuşma yap.",
+          "Ufak grupta hitabet pratiği yap.",
+          "Arkadaş grubuna moral verici konuşma yap.",
+          "Sosyal medya üzerinden küçük bilgilendirici yayın düzenle."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "USTA HATİP II", locked: true,
+        tasks: [
+          "Komşular arasındaki sorunu toplantı ile çöz.",
+          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
+          "Yerel hayır kurumuna bağış toplamak için ikna et.",
+          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
+          "Aile şirketinde tartışmada hakemlik yap.",
+          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
+          "Mahalle muhtarıyla imza kampanyası başlat.",
+          "Gönüllü ekiple sokak sanatçılarına destek sağla.",
+          "Mahallede çevre bilinci semineri düzenle.",
+          "Gençlere yönelik küçük münazara yarışmaları organize et."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "UZMAN HATİP III", locked: true,
+        tasks: [
+          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
+          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
+          "Mahalle halkının taleplerini dile getirip sonuç al.",
+          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
+          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
+          "Binlerce kişilik tartışmayı sakinleştir.",
+          "Sivil toplum zirvesinde temsilci olarak konuş.",
+          "Yerel basında toplumsal sorunlar üzerine köşe yazısı yayınla.",
+          "İşsizlere yönelik motivasyon konuşması gerçekleştir."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "EFSANE HATİP IV", locked: true,
+        tasks: [
+          "Bölgesel toplum hareketine önderlik et.",
+          "Ulusal konferansta çözüm önerileri sun.",
+          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
+          "Barış çalıştayında moderatörlük yap.",
+          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
+          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
+          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
+          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver.",
+          "Kamu kurumlarında iletişim eğitimi ver.",
+          "Şiddetsiz iletişim üzerine farkındalık kampanyası başlat."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "YÜCE HATİP V", locked: true,
+        tasks: ([ 
+          "Yerel topluluklarda barış kültürü aşıla.",
+          "Sosyal medya üzerinden olumlu mesajlar yay.",
+          "Yerel liderlerle yakın işbirliği kur.",
+          "Eski çatışmaları unut, yeni başlangıçlar yap.",
+          "Kriz zamanlarında destek ağı oluştur.",
+          "Halk arasında iletişimi güçlendir.",
+          "Barış temalı etkinlikler düzenle.",
+          "Toplumu huzura kavuşturan projeler geliştir.",
+          "Mafya aileleri arasında dayanışmayı sağla.",
+          "Etkinliklerle sosyal dengeyi koru."
+        ]).map(t => ({ text: t, done: false }))
+        .concat([{ text:"🎖️ Tebrikler! Hatip oldunuz! Ana menüye dönüyorsunuz.", done: false, hidden: true }])
+      }
+    ];
+    
+    const baronDifficulties = [
+      {
+        title: "ÇIRAK BARON I", locked: false,
+        tasks: [
+          "Ufak çapta uyuşturucu satmayı dene.",
+          "Mahallede küçük 'koruma ücreti' topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
+          "Sahte marka ürünlerin satış ağını oluştur.",
+          "Şantaj veya tehditle rakibi sustur.",
+          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
+          "Kaçak içki satışı yapan ekibe arka çık.",
+          "Mahallede gizli bilgi toplama operasyonu düzenle.",
+          "Rakip küçük çete operasyonlarını sabote et."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "USTA BARON II", locked: true,
+        tasks: [
+          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
+          "Yasadışı kumar organizasyonu başlat.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
+          "Kara para aklama için küçük sermaye oluştur.",
+          "Gece kulübünün 'gizli ortak' statüsünü al.",
+          "Yerel medyada yalan haberler yayıp rakip imajını zedele.",
+          "Rakip operasyonlarına ince müdahaleler yaparak zayıflıkları ortaya çıkar."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "UZMAN BARON III", locked: true,
+        tasks: [
+          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Polis ve siyasi bağlantıları güçlendir.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüplerinde yatırımın tekeli olsun.",
+          "Rakip çetenin liderini korkutarak saflarına katıl.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
+          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır.",
+          "Rakip çetenin üslerini gizlice ele geçir.",
+          "Organize suikast girişimleri düzenleyerek rakip liderleri sars."
+        ].map(t => ({ text: t, done: false }))
+      },
+      {
+        title: "EFSANE BARON IV", locked: true,
+        tasks: [
+          "Mafya Aileleri Arası Barışı Sağla",
+          "12 Aşiret Kavgasını Uzlaştır",
+          "Çatışan Taraflar Arasında Arabuluculuk Yap",
+          "Kriz Yönetimi İçin Toplantı Düzenle",
+          "İttifaklar Kurarak Denge Sağla",
+          "Gizli Müzakere Kanalları Oluştur",
+          "Eski Husumetleri Gidererek Yeni İttifaklar Kur",
+          "Ani Gerilimlerde Soğukkanlı Müdahale Et",
+          "Kapsamlı İttifak Çalışmaları Yürüt",
+          "Sürekli Barış Süreçlerini Organize Et"
+        ].map(t => ({ text: t, done: false }))
+        .concat([{ text:"🎖️ Tebrikler! Tüm görevleri tamamladınız!", done: false, hidden: true }])
+      }
+    ];
+    
+    const rankData = {
+      "Vakur": vakurDifficulties,
+      "Hatip": hatipDifficulties,
+      "Baron": baronDifficulties
+    };
+    
+    /****************** ONLOAD ******************/
     window.onload = function() {
       updateMoneyUI();
       updateProfileInfo();
@@ -312,7 +961,326 @@
       displayTrenPage(1);
       updateArrowVisibility();
     };
-    // ... (geri kalan JS kodlarınız) ...
+
+    /****************** SATIN ALMA ******************/
+    function buyItem(itemName, cost) {
+      if(money < cost) {
+        alert("Yetersiz bakiye!");
+        return;
+      }
+      if (itemName === "Silah" || itemName === "Bomba" || itemName === "Villa") {
+        let costPercent = ((cost / money) * 100).toFixed(2);
+        if (!confirm(itemName + " satın almak istediğinize emin misiniz? (Maliyet: $" + cost + " - Bu, bakiyenizin %" + costPercent + "si)")) {
+          return;
+        }
+      }
+      money -= cost;
+      updateMoneyUI();
+      alert(itemName + " satın alındı! (-" + cost + "$)");
+    }
+
+    /****************** DURUMUM & TÜCCAR AÇ/KAPA ******************/
+    function toggleDurumum(){
+      const elem = document.getElementById("durumumContent");
+      elem.classList.toggle("active");
+    }
+    function toggleTuccar(){
+      const elem = document.getElementById("tuccarContent");
+      elem.classList.toggle("active");
+    }
+
+    /****************** KÖY INCELEME ******************/
+    let currentIncelemePage = 1;
+    function displayKoyIncelemePage(page) {
+      currentIncelemePage = page;
+      const pageSize = pageSizes[page-1];
+      let start = 0;
+      for(let i = 0; i < page-1; i++){
+        start += pageSizes[i];
+      }
+      let end = start + pageSize;
+      const ul = document.getElementById("koyIncelemeList");
+      ul.innerHTML = "";
+      for(let i = start; i < end; i++){
+        if(i >= villageData.length) break;
+        const v = villageData[i];
+        let li = document.createElement("li");
+        li.innerHTML = `<span>${v.name} (6 At)</span>
+                        <button onclick="inceleKoy('${v.name}')">İncele</button>`;
+        ul.appendChild(li);
+      }
+      renderKoyIncelemePagination();
+    }
+    function renderKoyIncelemePagination() {
+      const pag = document.getElementById("koyIncelemePagination");
+      pag.innerHTML = "";
+      for(let p = 1; p <= totalPages; p++){
+        let sp = document.createElement("span");
+        sp.innerText = p;
+        if(p === currentIncelemePage) sp.classList.add("active");
+        sp.onclick = () => displayKoyIncelemePage(p);
+        pag.appendChild(sp);
+      }
+    }
+    function inceleKoy(koyName){
+      let found = villageData.find(v => v.name === koyName);
+      if(!found) return;
+      alert(
+        "Köy: " + koyName + "\\n" +
+        "Malikane: " + found.malikane + "\\n" +
+        "Sığınak: " + found.siginak + "\\n" +
+        "Villa: " + found.villa
+      );
+    }
+
+    /****************** TREN SEYEHAT ******************/
+    let currentTrenPage = 1;
+    function displayTrenPage(page) {
+      currentTrenPage = page;
+      const pageSize = pageSizes[page-1];
+      let start = 0;
+      for(let i = 0; i < page-1; i++){
+        start += pageSizes[i];
+      }
+      let end = start + pageSize;
+      const trenList = document.getElementById("trenList");
+      trenList.innerHTML = "";
+      for(let i = start; i < end; i++){
+        if(i >= allKoyler.length) break;
+        let li = document.createElement("li");
+        li.innerHTML = `<span>${allKoyler[i]}</span>
+                        <button onclick="travelToTrain('${allKoyler[i]}')">Seyahat Et</button>`;
+        trenList.appendChild(li);
+      }
+      renderTrenPagination();
+    }
+    function renderTrenPagination(){
+      const pag = document.getElementById("trenPagination");
+      pag.innerHTML = "";
+      for(let p = 1; p <= totalPages; p++){
+        let sp = document.createElement("span");
+        sp.innerText = p;
+        if(p === currentTrenPage) sp.classList.add("active");
+        sp.onclick = () => displayTrenPage(p);
+        pag.appendChild(sp);
+      }
+    }
+    function travelToTrain(village){
+      if(currentVillage === village) return;
+      if(money < 500){
+        alert("Tren bileti için yeterli paranız yok!");
+        return;
+      }
+      if (!confirm(village + " köyüne gitmek istediğinize emin misiniz? ($500)")){
+        return;
+      }
+      money -= 500;
+      updateMoneyUI();
+      currentVillage = village;
+      updateProfileInfo();
+      alert("Trenle " + village + " köyüne geldiniz!");
+    }
+
+    /****************** PARA & KÖY ADI ******************/
+    function updateMoneyUI(){
+      document.getElementById("money").innerText = "$" + money;
+    }
+    function updateProfileInfo(){
+      document.getElementById("currentVillageDisplay").innerText = currentVillage;
+      document.getElementById("bottomLeft").innerText = currentVillage;
+    }
+
+    /****************** STAT BAR’LARI ******************/
+    function getVakurKoruma(){
+      let koruma = Math.floor(vakurTaskCount / 22);
+      return (koruma % 661 === 0 && koruma > 0) ? 660 : koruma % 661;
+    }
+    function getHatipNufus(){
+      let nufus = Math.floor(hatipTaskCount / 40) * 5;
+      return (nufus % 201 === 0 && nufus > 0) ? 200 : nufus % 201;
+    }
+    function getBaronEtki(){
+      let etki = Math.floor(baronTaskCount * 2);
+      return (etki % 501 === 0 && etki > 0) ? 500 : etki % 501;
+    }
+    function updateStatBars(){
+      let vakVal = getVakurKoruma();
+      let vakPct = Math.floor((vakVal / 660) * 100);
+      document.getElementById("vakurText").innerText = "Koruma: " + vakVal + " (" + vakPct + "%)";
+      document.getElementById("vakurFill").style.width = vakPct + "%";
+      
+      if(isHatipUnlocked){
+        document.getElementById("hatipStat").classList.remove("lockedStat");
+        let hatVal = getHatipNufus();
+        let hatPct = Math.floor((hatVal / 200) * 100);
+        document.getElementById("hatipText").innerText = "Nüfus: " + hatVal + " (" + hatPct + "%)";
+        document.getElementById("hatipFill").style.width = hatPct + "%";
+      } else {
+        document.getElementById("hatipStat").classList.add("lockedStat");
+      }
+      
+      if(isBaronUnlocked){
+        document.getElementById("baronStat").classList.remove("lockedStat");
+        let barVal = getBaronEtki();
+        let barPct = Math.floor((barVal / 500) * 100);
+        document.getElementById("baronText").innerText = "Etki: " + barVal + " (" + barPct + "%)";
+        document.getElementById("baronFill").style.width = barPct + "%";
+      } else {
+        document.getElementById("baronStat").classList.add("lockedStat");
+      }
+    }
+
+    /****************** GÖREV SAYFASI ******************/
+    let currentRank = "";
+    function openGorevPage(rank){
+      if(rank === "Hatip" && !isHatipUnlocked) return;
+      if(rank === "Baron" && !isBaronUnlocked) return;
+      
+      currentRank = rank;
+      document.getElementById("mainPage").style.display = "none";
+      let gp = document.getElementById("gorevPage");
+      gp.style.display = "block";
+      document.getElementById("gorevHeader").innerText = "BAŞLANGIÇ - KEŞİF YOLCUĞU";
+      loadRankTasks(rank);
+      updateArrowVisibility();
+    }
+    function closeGorevPage(){
+      document.getElementById("gorevPage").style.display = "none";
+      document.getElementById("mainPage").style.display = "block";
+    }
+    function loadRankTasks(rank){
+      let container = document.getElementById("tasksContainer");
+      container.innerHTML = "";
+      let diffs = rankData[rank];
+      diffs.forEach((diffObj, diffIndex) => {
+        let section = document.createElement("div");
+        section.className = "rankSection";
+        if(diffObj.locked) section.classList.add("lockedDifficulty");
+        
+        let h2 = document.createElement("h2");
+        h2.innerText = diffObj.title;
+        if(rank === "Vakur") {
+          h2.classList.add("vakur-color");
+        } else if(rank === "Hatip") {
+          h2.classList.add("hatip-color");
+        } else if(rank === "Baron") {
+          h2.classList.add("baron-color");
+        }
+        section.appendChild(h2);
+        
+        diffObj.tasks.forEach((task, taskIndex) => {
+          let divT = document.createElement("div");
+          divT.className = "taskItem";
+          if(task.done) divT.classList.add("completedTask");
+          if(task.hidden) divT.style.display = "none";
+          divT.innerHTML = `<span>${task.text}</span>
+            <button onclick="completeTask('${rank}', ${diffIndex}, ${taskIndex})">Tamamla</button>`;
+          section.appendChild(divT);
+        });
+        
+        let pBar = document.createElement("div");
+        pBar.className = "difficultyProgressBar";
+        let pFill = document.createElement("div");
+        pFill.className = "difficultyProgressFill";
+        pBar.appendChild(pFill);
+        section.appendChild(pBar);
+        
+        let pText = document.createElement("div");
+        pText.className = "progressText";
+        section.appendChild(pText);
+        
+        document.getElementById("tasksContainer").appendChild(section);
+        updateDifficultyProgress(rank, diffIndex);
+      });
+    }
+    function completeTask(rank, diffIndex, taskIndex){
+      let diffs = rankData[rank];
+      let diffObj = diffs[diffIndex];
+      if(diffObj.locked){
+        alert("Bu görev bölümü kilitli!");
+        return;
+      }
+      let taskItem = diffObj.tasks[taskIndex];
+      if(taskItem.done){
+        alert("Zaten tamamladınız!");
+        return;
+      }
+      taskItem.done = true;
+      
+      if(rank === "Vakur"){
+        vakurTaskCount++;
+      } else if(rank === "Hatip"){
+        hatipTaskCount++;
+      } else if(rank === "Baron"){
+        baronTaskCount++;
+      }
+      updateStatBars();
+      
+      let allDone = diffObj.tasks.filter(t => !t.hidden).every(t => t.done === true);
+      if(allDone){
+        if(diffIndex < diffs.length - 1){
+          diffs[diffIndex + 1].locked = false;
+          alert(diffObj.title + " bitti! '" + diffs[diffIndex + 1].title + "' açıldı.");
+        } else {
+          alert(rank + " rankındaki tüm görevleri tamamladınız!");
+          closeGorevPage();
+          if(rank === "Vakur" && !isHatipUnlocked){
+            isHatipUnlocked = true;
+            document.getElementById("cardHatip").classList.remove("locked");
+            alert("Tebrikler! Hatip kilidi açıldı, ana menüye dönüyorsunuz.");
+          } else if(rank === "Hatip" && !isBaronUnlocked){
+            isBaronUnlocked = true;
+            document.getElementById("cardBaron").classList.remove("locked");
+            alert("Tebrikler! Baron kilidi açıldı, ana menüye dönüyorsunuz.");
+          }
+        }
+      }
+      loadRankTasks(rank);
+      updateArrowVisibility();
+    }
+    function updateDifficultyProgress(rank, diffIndex){
+      let diffs = rankData[rank];
+      let diffObj = diffs[diffIndex];
+      let doneCount = diffObj.tasks.filter(t => !t.hidden && t.done).length;
+      let totalCount = diffObj.tasks.filter(t => !t.hidden).length;
+      let percent = Math.floor((doneCount / totalCount) * 100);
+      
+      let sections = document.getElementById("tasksContainer").getElementsByClassName("rankSection");
+      if(!sections[diffIndex]) return;
+      let fill = sections[diffIndex].getElementsByClassName("difficultyProgressFill")[0];
+      let txt = sections[diffIndex].getElementsByClassName("progressText")[0];
+      fill.style.width = percent + "%";
+      txt.innerText = doneCount + " / " + totalCount + " (" + percent + "%)";
+    }
+
+    /* Ok butonları ile yatay kaydırma */
+    function scrollTasks(direction) {
+      const container = document.getElementById("tasksContainer");
+      container.scrollBy({ left: direction * 310, behavior: "smooth" });
+      setTimeout(updateArrowVisibility, 350);
+    }
+    function updateArrowVisibility() {
+      const container = document.getElementById("tasksContainer");
+      const leftArrow = document.getElementById("leftArrow");
+      const rightArrow = document.getElementById("rightArrow");
+      if(container.scrollLeft === 0) {
+        leftArrow.style.display = "none";
+      } else {
+        leftArrow.style.display = "block";
+      }
+      if(container.scrollWidth - container.clientWidth - container.scrollLeft < 5) {
+        rightArrow.style.display = "none";
+      } else {
+        rightArrow.style.display = "block";
+      }
+    }
+    
+    /******************** TREN RAYINI GİZLE/GÖSTER ********************/
+    function toggleTrainRail(){
+      const rail = document.getElementById("trainTrack");
+      rail.classList.toggle("hiddenRail");
+      // Butonun metnini de değişebilirsiniz, isterseniz.
+    }
   </script>
 </body>
 </html>
