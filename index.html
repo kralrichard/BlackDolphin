@@ -2,343 +2,175 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <!-- Mobil uyumluluğu sağlamak için viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Black Dolphine - Mafia Oyunu</title>
+  <title>Black Dolphine - Sol Panel Menü</title>
   <style>
-    /* ================= GENEL STİLLER ================= */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background: #888;
-      color: #f1f1f1;
-      min-height: 100vh;
-      position: relative;
-      font-size: 0.9rem;
-      padding-top: 120px; /* header + tren rayı alanı için boşluk */
-    }
-
-    /* ================= HEADER ================= */
-    header {
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      z-index: 999;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    }
-    .logo { font-size: 2rem; font-weight: bold; text-transform: uppercase; color: #fff; }
-    .logo-dolphin { margin-left: 10px; width: 50px; }
-    .money { background: #222; padding: 0.5rem 1rem; border-radius: 5px; }
-    #money { color: green; }
-
-    /* ================= TREN RAYI ================= */
-    #trainTrackSection {
-      position: fixed; top: 60px; left: 0; width: 100%;
-      background: #ccc; padding: 10px 0;
-      display: flex; flex-direction: column; align-items: center;
-      z-index: 998;
-    }
-    #trainToggleWrapper, #trainToggleBottomWrapper {
-      width: 100%; text-align: center; margin: 5px 0;
-    }
-    #trainToggleBtnTop, #trainToggleBtnBottom {
-      background: #000; color: #fff;
-      border: none; border-radius: 5px;
-      padding: 0.8rem 1.2rem; width: 160px;
-      cursor: pointer; font-weight: bold;
-    }
-    /* (isteğe bağlı) gizle/göster için */
-    .hiddenRail #trainTrack { display: none; }
-
-    /* ================= ANA SAYFA ================= */
-    #mainPage { position: relative; }
-
-    /* ----------------- SOL PANEL ----------------- */
+    /* SOL PANEL GENEL */
     #leftPanel {
-      position: fixed; top: 260px; left: 20px;
-      width: 280px; z-index: 1000;
+      position: fixed;
+      top: 260px;
+      left: 20px;
+      width: 20%;
+      min-width: 180px;
+      z-index: 1000;
     }
     .sectionBox {
       background: rgba(0,0,0,0.6);
-      margin-bottom: 1rem; border-radius: 10px; padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      padding: 0.5rem;
+      width: 100%;
+      font-size: 0.75rem;
     }
     .sectionBox h2 {
-      cursor: pointer; color: #ffcc00; margin-bottom: 1rem;
-      text-align: center; font-size: 1.2rem;
+      cursor: pointer;
+      color: #ffcc00;
+      text-align: center;
+      margin: 0.3rem 0;
+      font-size: 1rem;
+      line-height: 1.2;
     }
-    .tab-content {
-      display: none; background: rgba(0,0,0,0.4);
-      padding: 0.5rem; border-radius: 5px;
+    .sectionBox .tab-content {
+      display: none;
+      background: rgba(0,0,0,0.4);
+      border-radius: 5px;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
     }
-    .tab-content.active { display: block; }
-
-    /* ------ DURUMUM İÇERİĞİ ------ */
-    .stat-bar {
-      background: #444; border-radius: 5px; overflow: hidden;
-      padding: 5px; margin-bottom: 0.7rem;
+    .sectionBox .tab-content.active {
+      display: block;
     }
-    .stat-label { font-weight: bold; font-size: 0.85rem; margin-bottom: 3px; }
-    .vakur-color { color: blue; }
-    .hatip-color { color: orange; }
-    .baron-color { color: red; }
-    .stat-fill {
-      background: #00bfff; height: 18px;
-      width: 0; transition: width 1s ease;
+    /* Tüm butonlar aynı genişlikte ve küçültülmüş */
+    .sectionBox button {
+      display: block;
+      width: 100%;
+      margin: 0.2rem 0;
+      padding: 0.4rem;
+      font-size: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      background: #333;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
     }
-    .stat-text { font-size: 0.8rem; margin-top: 3px; }
-    .badge-indicator { color: #ffcc00; font-size: 0.8rem; text-align: center; }
-
-    /* ------ TÜCCAR İÇERİĞİ ------ */
-    #tuccarContent ul { list-style: none; padding-left: 0; }
-    #tuccarContent li {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 0.5rem;
+    .sectionBox button:hover { background: #444; }
+    /* İç içe listeler */
+    .sectionBox ul {
+      list-style: none;
+      margin: 0.3rem 0 0 0.5rem;
+      padding: 0;
     }
-    #tuccarContent li button {
-      border: none; border-radius: 5px;
-      padding: 0.3rem 0.5rem; cursor: pointer;
-      font-size: 0.8rem; width: 45%;
-      background: #ff4444;
-    }
-    #tuccarContent ul li:nth-child(n+6) button {
-      width: 100%; margin-top: 4px; background: #0066cc;
-    }
-
-    /* ----------------- SAĞ PANEL ----------------- */
-    #rightContainer {
-      position: fixed; top: 260px; right: 20px;
-      width: 300px; z-index: 1000;
-    }
-    #koyIncelemeBox, #trenSeyahatBox {
-      background: rgba(0,0,0,0.7); padding: 1rem;
-      border-radius: 10px; margin-bottom: 1rem;
-    }
-    #koyIncelemeBox h3, #trenSeyahatBox h3 {
-      color: #ffcc00; text-align: center; margin-bottom: 0.5rem;
-    }
-    /* numaralı yatay liste */
-    #koyIncelemeList, #trenList {
-      list-style: decimal inside;
-      display: flex;
-      gap: 1rem;
-      padding-left: 0;
-      margin: 0;
-    }
-    #koyIncelemeList li {
-      color: #f1f1f1;
-      white-space: nowrap;
-      font-size: 0.9rem;
-    }
-    #trenList {
-      color: #00bfff;
-    }
-    #trenList li {
-      white-space: nowrap;
-      font-size: 0.9rem;
-    }
-
-    /* ----------------- ORTA PANEL ----------------- */
-    #centerRanks {
-      position: absolute; top: 260px; left: 50%;
-      transform: translateX(-50%);
-      display: flex; gap: 20px;
-      background: grey; padding: 10px; border-radius: 10px;
-      z-index: 900;
-    }
-    .card {
-      background: rgba(255,255,255,0.05); backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px; width: 250px; padding: 2rem;
-      text-align: center; cursor: pointer;
-    }
-    .card h2 { text-transform: uppercase; margin-bottom: 15px; }
-    .card button {
-      margin-top: 15px; padding: 0.6rem 1.2rem;
-      background: black; color: white; border: none;
-      border-radius: 5px; cursor: pointer;
-    }
-
-    /* ----------------- ALT SOL KÖY BİLGİSİ ----------------- */
-    #bottomLeft {
-      position: fixed; bottom: 20px; left: 20px;
-      background: #0288d1; padding: 0.5rem 1rem;
-      border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      font-size: 1.2rem; z-index: 1000;
-    }
-
-    /* ----------------- KULLANICI ARA ----------------- */
-    #userSearchBox {
-      position: fixed; bottom: 60px; left: 20px;
-      width: 200px; padding: 0.4rem 0.6rem;
-      border: none; border-radius: 5px;
-      font-size: 0.9rem; z-index: 1000;
-    }
-
-    /* ----------------- CHAT GİRİŞİ ----------------- */
-    #chatBox {
-      position: fixed; bottom: 20px;
-      left: 50%; transform: translateX(-50%);
-      width: 300px; padding: 0.5rem 1rem;
-      border: none; border-radius: 5px;
-      font-size: 0.9rem; z-index: 1000;
-    }
-
-    /* ----------------- MESAJ BİLDİRİM ----------------- */
-    #messageNotification {
-      position: fixed; bottom: 20px; right: 20px;
-      background: rgba(255,165,0,0.9);
-      padding: 0.5rem 1rem; border-radius: 5px;
-      font-size: 0.9rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
-
-    /* ================= RESPONSIVE ================= */
-    @media (max-width: 768px) {
-      #leftPanel, #rightContainer, #centerRanks {
-        position: static; width: 100%; margin-bottom: 20px;
-      }
-      #centerRanks { transform: none; justify-content: center; flex-wrap: wrap; }
-      .card { width: 90%; margin: 10px 0; }
-      #trainTrack { width: 100%; }
+    .sectionBox ul ul {
+      margin-left: 0.5rem;
     }
   </style>
 </head>
 <body>
-
-  <!-- ======== HEADER ======== -->
-  <header>
-    <div class="logo">BLACK DOLPHINE
-      <div class="logo-dolphin">
-        <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/>
-        </svg>
+  <!-- SOL PANEL -->
+  <div id="leftPanel">
+    <!-- Durumum -->
+    <div class="sectionBox">
+      <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
+      <div id="durumumContent" class="tab-content">
+        <!-- Mevcut Durumum içeriği -->
       </div>
     </div>
-    <div class="money"><span id="money">$500000</span></div>
-  </header>
-
-  <!-- ======== TREN RAYI ======== -->
-  <div id="trainTrackSection">
-    <div id="trainToggleWrapper">
-      <button id="trainToggleBtnTop" onclick="toggleTrainRail()">TREN &larr;</button>
-    </div>
-    <div id="trainTrack">
-      <!-- isterseniz burada <ul> ile rota gösterimi bırakabilirsiniz -->
-    </div>
-    <div id="trainToggleBottomWrapper">
-      <button id="trainToggleBtnBottom" onclick="toggleTrainRail()">TREN &rarr;</button>
-    </div>
-  </div>
-
-  <!-- ======== ANA SAYFA ======== -->
-  <div id="mainPage">
-    <!-- ---- SOL PANEL ---- -->
-    <div id="leftPanel">
-      <div class="sectionBox">
-        <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
-        <div id="durumumContent" class="tab-content">
-          <!-- … -->
-        </div>
-      </div>
-      <div class="sectionBox">
-        <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
-        <div id="tuccarContent" class="tab-content">
-          <!-- … -->
-        </div>
-      </div>
-      <div class="sectionBox">
-        <h2 onclick="toggleDavet()">Davet Et &#9660;</h2>
-        <div id="inviteContent" class="tab-content">
-          <button onclick="invite()">Davet Et</button>
-        </div>
-      </div>
-      <div class="sectionBox">
-        <h2 onclick="toggleAilem()">Ailem &#9660;</h2>
-        <div id="ailemContent" class="tab-content">
-          <button onclick="showFamily()">Ailem</button>
-        </div>
+    <!-- Tüccar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
+      <div id="tuccarContent" class="tab-content">
+        <!-- Mevcut Tüccar içeriği -->
       </div>
     </div>
-
-    <!-- ---- SAĞ PANEL ---- -->
-    <div id="rightContainer">
-      <div id="koyIncelemeBox">
-        <h3>Köy İncelemesi</h3>
-        <ol id="koyIncelemeList">
-          <li>Asman</li>
-          <li>Mizrin, Qeruk, Derin, Ravin, Zal, Şevin</li>
-          <li>Hazar, Cewl, Nûrî, Gever, Berfin, Botan</li>
-          <li>Dicle, Zagros, Munzur, Nemrut, Van, Bitlis</li>
-          <li>Mardin, Siirt, Şırnak, Hakkari, Erciş, Ardil</li>
-          <li>Cizre, Midyat, Kurtalan, Hasankeyf, Lice, Ilısu</li>
-        </ol>
-      </div>
-      <div id="trenSeyahatBox">
-        <h3>Trenle Seyehat</h3>
-        <ol id="trenList">
-          <li>Asman</li>
-          <li>Mizrin, Qeruk, Derin, Ravin, Zal, Şevin</li>
-          <li>Hazar, Cewl, Nûrî, Gever, Berfin, Botan</li>
-          <li>Dicle, Zagros, Munzur, Nemrut, Van, Bitlis</li>
-          <li>Mardin, Siirt, Şırnak, Hakkari, Erciş, Ardil</li>
-          <li>Cizre, Midyat, Kurtalan, Hasankeyf, Lice, Ilısu</li>
-        </ol>
+    <!-- Davet Et -->
+    <div class="sectionBox">
+      <h2 onclick="toggleDavet()">Davet Et &#9660;</h2>
+      <div id="inviteContent" class="tab-content">
+        <button onclick="invite()">Davet Et</button>
       </div>
     </div>
-
-    <!-- ---- ORTA PANEL ---- -->
-    <div id="centerRanks">
-      <div class="card" id="cardVakur">
-        <h2 class="vakur-color">VAKUR</h2>
-        <button onclick="openGorevPage('Vakur')">Epistemolojik Serüven</button>
-      </div>
-      <div class="card locked" id="cardHatip">
-        <h2 class="hatip-color">HATİP</h2>
-        <button onclick="openGorevPage('Hatip')">Epistemolojik Serüven</button>
-      </div>
-      <div class="card locked" id="cardBaron">
-        <h2 class="baron-color">BARON</h2>
-        <button onclick="openGorevPage('Baron')">Epistemolojik Serüven</button>
+    <!-- Ailem ve alt menüler -->
+    <div class="sectionBox">
+      <h2 onclick="toggleAilem()">Ailem &#9660;</h2>
+      <div id="ailemContent" class="tab-content">
+        <ul>
+          <li>
+            <button onclick="showFamily()">Ailem</button>
+            <ul>
+              <li>
+                <button onclick="openMessages()">Mesajlarım</button>
+                <ul>
+                  <li>
+                    <button onclick="hunt()">Avlan</button>
+                    <ul>
+                      <li>
+                        <button onclick="openAuction()">Açık Arttırma</button>
+                        <ul>
+                          <li>
+                            <button onclick="smuggling()">Kaçakçılık</button>
+                            <ul>
+                              <li>
+                                <button onclick="startRace()">At Yarışı</button>
+                                <ul>
+                                  <li>
+                                    <button onclick="horseInfo()">At Bilgileri</button>
+                                    <ul>
+                                      <li>
+                                        <button onclick="gameInfo()">Oyun İçi Bilgiler</button>
+                                        <ul>
+                                          <li>
+                                            <button onclick="hunting()">Avcılık</button>
+                                            <ul>
+                                              <li>
+                                                <button onclick="wantedList()">Arananlar</button>
+                                                <ul>
+                                                  <li>
+                                                    <button onclick="openGambling()">Kumar</button>
+                                                  </li>
+                                                </ul>
+                                              </li>
+                                            </ul>
+                                          </li>
+                                        </ul>
+                                      </li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- ---- EKSTRALAR ---- -->
-  <input type="text" id="userSearchBox" placeholder="Kullanıcı Ara…">
-  <input type="text" id="chatBox" placeholder="Mesaj yaz…">
-  <div id="bottomLeft">Asman</div>
-  <div id="messageNotification">Yeni Mesajınız Var!</div>
-
-  <!-- ======== JAVASCRIPT ======== -->
   <script>
-    let money = 500000,
-        currentVillage = "Asman";
+    function toggleDurumum()   { document.getElementById("durumumContent").classList.toggle("active"); }
+    function toggleTuccar()    { document.getElementById("tuccarContent").classList.toggle("active"); }
+    function toggleDavet()     { document.getElementById("inviteContent").classList.toggle("active"); }
+    function toggleAilem()     { document.getElementById("ailemContent").classList.toggle("active"); }
 
-    function toggleDurumum() { document.getElementById("durumumContent").classList.toggle("active"); }
-    function toggleTuccar()  { document.getElementById("tuccarContent").classList.toggle("active"); }
-    function toggleDavet()   { document.getElementById("inviteContent").classList.toggle("active"); }
-    function toggleAilem()   { document.getElementById("ailemContent").classList.toggle("active"); }
-
-    function invite()     { alert("Davet Et tıklandı"); }
-    function showFamily() { alert("Ailem tıklandı"); }
-    function openGorevPage(lvl) { alert(lvl + " sayfası açılıyor."); }
-
-    function toggleTrainRail() {
-      document.getElementById("trainTrackSection").classList.toggle("hiddenRail");
-    }
-
-    window.onload = function() {
-      document.getElementById("bottomLeft").innerText = currentVillage;
-    };
+    function invite()          { alert("Davet Et tıklandı"); }
+    function showFamily()      { alert("Ailem tıklandı"); }
+    function openMessages()    { alert("Mesajlarım tıklandı"); }
+    function hunt()            { alert("Avlan tıklandı"); }
+    function openAuction()     { alert("Açık Arttırma tıklandı"); }
+    function smuggling()       { alert("Kaçakçılık tıklandı"); }
+    function startRace()       { alert("At Yarışı tıklandı"); }
+    function horseInfo()       { alert("At Bilgileri tıklandı"); }
+    function gameInfo()        { alert("Oyun İçi Bilgiler tıklandı"); }
+    function hunting()         { alert("Avcılık tıklandı"); }
+    function wantedList()      { alert("Arananlar tıklandı"); }
+    function openGambling()    { alert("Kumar tıklandı"); }
   </script>
 </body>
 </html>
