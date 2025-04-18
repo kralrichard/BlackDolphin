@@ -5,85 +5,142 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* GENEL */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; }
-    header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:999; }
-    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; }
-    .logo svg { width:40px; margin-left:8px; fill:#00cc66; stroke:#fff; stroke-width:2; }
-    .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; }
-    #money { color:lime; }
+    /* ======= GENEL ======= */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #888; color: #f1f1f1; padding-top: 80px; font-size: 0.85rem; display: flex; }
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; z-index: 999;
+    }
+    .logo { font-size: 1.8rem; font-weight: bold; text-transform: uppercase; color: #fff; }
+    #money {
+      background: #222; padding: 0.4rem 0.8rem; border-radius: 4px;
+      border: 1px solid #333; font-size: 0.9rem; color: lime;
+    }
 
-    /* SOL PANEL */
-    #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; }
-    .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; }
-    .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; }
-    .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.85rem; }
-    .sectionBox .tab-content.active { display:block; }
-    ul { list-style:none; }
-    li { display:flex; justify-content:space-between; margin-bottom:0.4rem; }
-    button { background:#333; border:none; padding:0.25rem 0.5rem; border-radius:3px; cursor:pointer; color:#fff; font-size:0.75rem; }
+    /* ======= SOL PANEL ======= */
+    #leftPanel {
+      position: fixed; top: 80px; left: 20px;
+      width: 15%; max-width: 180px;
+    }
+    .sectionBox {
+      background: rgba(0,0,0,0.6); margin-bottom: 0.6rem;
+      border-radius: 5px; overflow: hidden;
+    }
+    .sectionBox h2 {
+      background: #222; padding: 0.5rem; color: #ffcc00;
+      cursor: pointer; font-size: 0.9rem; user-select: none;
+    }
+    .sectionBox .tab-content {
+      display: none; padding: 0.5rem;
+      background: rgba(0,0,0,0.4); font-size: 0.85rem;
+    }
+    .sectionBox .tab-content.active { display: block; }
+    .sectionBox input {
+      width: 100%; padding: 0.4rem; border-radius: 3px;
+      border: 1px solid #333; background: #222; color: #fff;
+    }
+    ul { list-style: none; }
+    li { margin-bottom: 0.4rem; }
 
-    /* ORTA RANK */
-    #centerRanks { position:fixed; top:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px; display:flex; gap:6px; }
-    .card { background:rgba(255,255,255,0.05); padding:0.5rem; border-radius:5px; text-align:center; width:90px; font-size:0.8rem; }
-    .card h2 { margin-bottom:0.3rem; font-size:0.9rem; text-transform:uppercase; }
-    .card button { background:#000; border:none; padding:0.3rem; border-radius:3px; color:#fff; font-size:0.75rem; cursor:pointer; }
+    /* ======= ORTA RANK ======= */
+    #centerRanks {
+      position: fixed; top: 80px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.5);
+      padding: 0.4rem; border-radius: 5px;
+      display: flex; gap: 6px;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 0.5rem; border-radius: 5px;
+      text-align: center; width: 90px; font-size: 0.8rem;
+    }
+    .card h2 { margin-bottom: 0.3rem; font-size: 0.9rem; text-transform: uppercase; }
+    .card button {
+      background: #000; border: none; padding: 0.3rem;
+      border-radius: 3px; color: #fff; font-size: 0.75rem;
+      cursor: pointer;
+    }
 
-    /* SAĞ PANEL */
-    #rightContainer { margin-left:17%; margin-right:20px; flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem; }
-    .box { background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem; width:160px; }
-    .box h3 { text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:0.9rem; }
-    .sub-tabs { text-align:center; margin-bottom:0.4rem; }
-    .sub-tabs button { background:#444; border:none; margin:0 0.15rem; padding:0.25rem 0.4rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; }
-    .sub-tabs button.active { background:#666; }
-    .sub-content { display:none; }
-    .sub-content.active { display:block; }
+    /* ======= SAĞ PANEL ======= */
+    #rightContainer {
+      margin-left: 17%; margin-right: 20px;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: flex-end; gap: 0.8rem;
+    }
+    .box {
+      background: rgba(0,0,0,0.7); border-radius: 5px;
+      padding: 0.6rem; width: 160px;
+    }
+    .box h3 {
+      text-align: center; color: #ffcc00;
+      margin-bottom: 0.5rem; font-size: 0.9rem;
+    }
 
-    /* ALT SOL KÖY */
-    #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; }
+    /* ======= ALT SOL KÖY ======= */
+    #bottomLeft {
+      position: fixed; bottom: 20px; left: 20px;
+      background: #0288d1; padding: 0.4rem 0.8rem;
+      border-radius: 5px; font-size: 0.9rem;
+    }
 
-    /* CHAT & MESAJ İKONU */
-    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; max-width:80%; background:rgba(0,0,0,0.7); padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem; }
-    #messageIcon { position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.7); padding:0.6rem; border-radius:50%; font-size:1.2rem; cursor:pointer; }
+    /* ======= CHAT & MESAJ İKONU ======= */
+    #chatBox {
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; max-width: 80%;
+      background: rgba(0,0,0,0.7);
+      padding: 0.5rem; border-radius: 5px;
+      text-align: center; font-size: 0.9rem; cursor: text;
+    }
+    #messageIcon {
+      position: fixed; bottom: 20px; right: 20px;
+      background: rgba(0,0,0,0.7); padding: 0.6rem;
+      border-radius: 50%; font-size: 1.2rem;
+      cursor: pointer;
+    }
 
     @media(max-width:768px){
-      #leftPanel{position:static;width:100%;margin-bottom:1rem;}
-      #centerRanks{position:static;transform:none;margin:1rem auto;}
-      #rightContainer{margin-left:0;align-items:center;}
-      .box{width:90%;}
-      #chatBox, #bottomLeft, #messageIcon { bottom:10px; }
+      #leftPanel { position: static; width: 100%; margin-bottom: 1rem; }
+      #centerRanks { position: static; transform: none; margin: 1rem auto; }
+      #rightContainer { margin-left: 0; align-items: center; }
+      .box { width: 90%; }
+      #chatBox, #bottomLeft, #messageIcon { bottom: 10px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">BLACK DOLPHINE <svg viewBox="0 0 100 50"><path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/></svg></div>
-    <div class="money"><span id="money">$500000</span></div>
+    <div class="logo">BLACK DOLPHINE</div>
+    <div id="money">$500000</div>
   </header>
 
   <div id="leftPanel">
-    <!-- 1 Durumum -->
+    <!-- 1. Durumum -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
       <div id="durumum" class="tab-content">
-        <!-- Vakur, Hatip, Baron barları vb. buraya -->
+        <!-- Vakur/Hatip/Baron barları buraya eklenebilir -->
       </div>
     </div>
-    <!-- diğer 11 sekme -->
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul><li>Mevcut oyunlar listesi</li></ul></div></div>
-    <!-- 14 Kullanıcı Arama -->
+    <!-- ... Diğer orijinal 12 sekme burada ... -->
+    <!-- 13. Oyunlar -->
+    <div class="sectionBox">
+      <h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2>
+      <div id="oyunlar" class="tab-content">
+        <ul><li>Mevcut oyunlar listesi</li></ul>
+      </div>
+    </div>
+    <!-- 14. Kullanıcı Arama -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2>
       <div id="kullaniciArama" class="tab-content">
-        <input type="text" placeholder="Kullanıcı Ara..." style="width:100%;padding:0.5rem;border:1px solid #333;border-radius:3px;background:#222;color:#fff;" />
+        <input type="text" placeholder="Kullanıcı Ara..." />
       </div>
     </div>
-  </div>
-
-  <div id="rightContainer">
-    <div class="box"><h3>Köy İncelemesi</h3><div class="sub-tabs" id="koyTabs"></div><div id="koyPages"></div></div>
-    <div class="box"><h3>Trenle Seyehat</h3><div class="sub-tabs" id="trenTabs"></div><div id="trenPages"></div></div>
   </div>
 
   <div id="centerRanks">
@@ -92,122 +149,25 @@
     <div class="card"><h2>BARON</h2><button>Serüven</button></div>
   </div>
 
-  <div id="bottomLeft">Asman</div>
-  <div id="chatBox">CHAT</div>
-  <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
-
-  <script>
-    function toggleTab(id) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      const tab = document.getElementById(id);
-      tab.classList.toggle('active');
-    }
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Black Dolphine - Mafia Oyunu</title>
-  <style>
-    /* GENEL */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; display:flex; }
-    header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:999; }
-    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; display:flex; align-items:center; }
-    .logo svg { width:40px; margin-left:8px; fill:#00cc66; stroke:#fff; stroke-width:2; }
-    .money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; }
-    #money { color:lime; }
-
-    /* SOL PANEL */
-    #leftPanel { position:fixed; top:80px; left:20px; width:15%; max-width:180px; }
-    .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:0.6rem; border-radius:5px; overflow:hidden; }
-    .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.9rem; user-select:none; }
-    .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.85rem; }
-    .sectionBox .tab-content.active { display:block; }
-    ul { list-style:none; }
-    li { display:flex; justify-content:space-between; margin-bottom:0.4rem; }
-    button { background:#333; border:none; padding:0.25rem 0.5rem; border-radius:3px; cursor:pointer; color:#fff; font-size:0.75rem; }
-
-    /* ORTA RANK */
-    #centerRanks { position:fixed; top:80px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); padding:0.4rem; border-radius:5px; display:flex; gap:6px; }
-    .card { background:rgba(255,255,255,0.05); padding:0.5rem; border-radius:5px; text-align:center; width:90px; font-size:0.8rem; }
-    .card h2 { margin-bottom:0.3rem; font-size:0.9rem; text-transform:uppercase; }
-    .card button { background:#000; border:none; padding:0.3rem; border-radius:3px; color:#fff; font-size:0.75rem; cursor:pointer; }
-
-    /* SAĞ PANEL */
-    #rightContainer { margin-left:17%; margin-right:20px; flex:1; display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem; }
-    .box { background:rgba(0,0,0,0.7); border-radius:5px; padding:0.6rem; width:160px; }
-    .box h3 { text-align:center; color:#ffcc00; margin-bottom:0.5rem; font-size:0.9rem; }
-    .sub-tabs { text-align:center; margin-bottom:0.4rem; }
-    .sub-tabs button { background:#444; border:none; margin:0 0.15rem; padding:0.25rem 0.4rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; }
-    .sub-tabs button.active { background:#666; }
-    .sub-content { display:none; }
-    .sub-content.active { display:block; }
-
-    /* ALT SOL KÖY */
-    #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; }
-
-    /* CHAT & MESAJ İKONU */
-    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; max-width:80%; background:rgba(0,0,0,0.7); padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem; }
-    #messageIcon { position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.7); padding:0.6rem; border-radius:50%; font-size:1.2rem; cursor:pointer; }
-
-    @media(max-width:768px){
-      #leftPanel{position:static;width:100%;margin-bottom:1rem;}
-      #centerRanks{position:static;transform:none;margin:1rem auto;}
-      #rightContainer{margin-left:0;align-items:center;}
-      .box{width:90%;}
-      #chatBox, #bottomLeft, #messageIcon { bottom:10px; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="logo">BLACK DOLPHINE <svg viewBox="0 0 100 50"><path d="M10,30 Q20,10 40,20 T90,30 Q70,40 50,35 T10,30 Z"/></svg></div>
-    <div class="money"><span id="money">$500000</span></div>
-  </header>
-
-  <div id="leftPanel">
-    <!-- 1 Durumum -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
-      <div id="durumum" class="tab-content">
-        <!-- Vakur, Hatip, Baron barları vb. buraya -->
-      </div>
-    </div>
-    <!-- diğer 11 sekme -->
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul><li>Mevcut oyunlar listesi</li></ul></div></div>
-    <!-- 14 Kullanıcı Arama -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2>
-      <div id="kullaniciArama" class="tab-content">
-        <input type="text" placeholder="Kullanıcı Ara..." style="width:100%;padding:0.5rem;border:1px solid #333;border-radius:3px;background:#222;color:#fff;" />
-      </div>
-    </div>
-  </div>
-
   <div id="rightContainer">
-    <div class="box"><h3>Köy İncelemesi</h3><div class="sub-tabs" id="koyTabs"></div><div id="koyPages"></div></div>
-    <div class="box"><h3>Trenle Seyehat</h3><div class="sub-tabs" id="trenTabs"></div><div id="trenPages"></div></div>
-  </div>
-
-  <div id="centerRanks">
-    <div class="card"><h2>VAKUR</h2><button>Serüven</button></div>
-    <div class="card"><h2>HATİP</h2><button>Serüven</button></div>
-    <div class="card"><h2>BARON</h2><button>Serüven</button></div>
+    <div class="box">
+      <h3>Köy İncelemesi</h3>
+      <div class="sub-tabs"> <!-- statik içerik --> </div>
+    </div>
+    <div class="box">
+      <h3>Trenle Seyehat</h3>
+      <div class="sub-tabs"> <!-- statik içerik --> </div>
+    </div>
   </div>
 
   <div id="bottomLeft">Asman</div>
-  <div id="chatBox">CHAT</div>
+  <div id="chatBox" contenteditable="true">CHAT</div>
   <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
 
   <script>
     function toggleTab(id) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      const tab = document.getElementById(id);
-      tab.classList.toggle('active');
+      document.getElementById(id).classList.toggle('active');
     }
   </script>
 </body>
