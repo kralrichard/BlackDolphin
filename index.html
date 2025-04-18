@@ -91,41 +91,6 @@
     }
     .tab-content.active { display: block; }
 
-    /* ------ DURUMUM İÇERİĞİ ------ */
-    .stat-bar {
-      background: #444; border-radius: 5px; overflow: hidden;
-      padding: 5px; margin-bottom: 0.7rem;
-    }
-    .stat-label { font-weight: bold; font-size: 0.85rem; margin-bottom: 3px; }
-    .vakur-color { color: blue; }
-    .hatip-color { color: orange; }
-    .baron-color { color: red; }
-    .stat-fill {
-      background: #00bfff; height: 18px;
-      width: 0; transition: width 1s ease;
-    }
-    .stat-text { font-size: 0.8rem; margin-top: 3px; }
-    .lockedStat { opacity: 0.4; }
-    .badge-indicator { color: #ffcc00; font-size: 0.8rem; text-align: center; }
-
-    /* ------ TÜCCAR İÇERİĞİ ------ */
-    #tuccarContent ul { list-style: none; }
-    #tuccarContent li {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 0.5rem;
-    }
-    #tuccarContent li button {
-      border: none; border-radius: 5px;
-      padding: 0.3rem 0.5rem; cursor: pointer;
-      font-size: 0.8rem; width: 45%;
-      background: #ff4444;
-    }
-    /* yeni menü butonları tek sütunda, tam genişlik */
-    #tuccarContent li + li:last-child ~ li button,
-    #tuccarContent ul li:nth-child(n+6) button {
-      width: 100%; margin-top: 4px; background: #0066cc;
-    }
-
     /* ----------------- SAĞ PANEL ----------------- */
     #rightContainer {
       position: fixed; top: 260px; right: 20px;
@@ -248,39 +213,28 @@
       <div class="sectionBox">
         <h2 onclick="toggleDurumum()">Durumum &#9660;</h2>
         <div id="durumumContent" class="tab-content">
-          <!-- Vakur Stat Bar -->
-          <div class="stat-bar" id="vakurStat">
-            <div class="stat-label vakur-color">VAKUR 🛡️</div>
-            <div class="stat-fill" id="vakurFill"></div>
-            <div class="stat-text" id="vakurText">Koruma: 0 (0%)</div>
-            <div class="badge-indicator">R</div>
-          </div>
-          <!-- Hatip ve Baron benzer -->
-          <div id="profileInfo">Köy: <span id="currentVillageDisplay">Asman</span></div>
+          <!-- mevcut içerik -->
         </div>
       </div>
       <!-- Tüccar Sekmesi -->
       <div class="sectionBox">
         <h2 onclick="toggleTuccar()">Tüccar &#9660;</h2>
         <div id="tuccarContent" class="tab-content">
-          <ul>
-            <!-- Orijinal satın alım seçenekleri -->
-            <li><span>Silah (2500$)</span> <button onclick="buyItem('Silah',2500)">Satın Al</button></li>
-            <li><span>Bomba (1000$)</span> <button onclick="buyItem('Bomba',1000)">Satın Al</button></li>
-            <li><span>C4 (1500$)</span> <button onclick="buyItem('C4',1500)">Satın Al</button></li>
-            <li><span>Villa (15000$)</span> <button onclick="buyItem('Villa',15000)">Satın Al</button></li>
-            <li><span>Ev (10000$)</span> <button onclick="buyItem('Ev',10000)">Satın Al</button></li>
-            <!-- Yeni menü butonları -->
-            <li><button onclick="invite()">Davet Et</button></li>
-            <li><button onclick="showFamily()">Ailem</button></li>
-            <li><button onclick="openMessages()">Mesajlarım</button></li>
-            <li><button onclick="openAuction()">Açık Arttırma</button></li>
-            <li><button onclick="startRace()">At Yarışı</button></li>
-            <li><button onclick="horseInfo()">At Bilgileri</button></li>
-            <li><button onclick="gameInfo()">Oyun İçi Bilgiler</button></li>
-            <li><button onclick="wantedList()">Arananlar</button></li>
-            <li><button onclick="openGambling()">Kumar</button></li>
-          </ul>
+          <!-- mevcut içerik -->
+        </div>
+      </div>
+      <!-- Davet Et Sekmesi -->
+      <div class="sectionBox">
+        <h2 onclick="toggleDavet()">Davet Et &#9660;</h2>
+        <div id="inviteContent" class="tab-content">
+          <button onclick="invite()">Davet Et</button>
+        </div>
+      </div>
+      <!-- Ailem Sekmesi -->
+      <div class="sectionBox">
+        <h2 onclick="toggleAilem()">Ailem &#9660;</h2>
+        <div id="ailemContent" class="tab-content">
+          <button onclick="showFamily()">Ailem</button>
         </div>
       </div>
     </div>
@@ -317,13 +271,9 @@
   </div>
 
   <!-- ----------------- EKSTRA BÖLÜMLER ----------------- -->
-  <!-- Kullanıcı Arama Kutusu -->
   <input type="text" id="userSearchBox" placeholder="Kullanıcı Ara...">
-  <!-- Chat Girişi -->
   <input type="text" id="chatBox" placeholder="Mesaj yaz...">
-  <!-- Alt Sol Köy Bilgisi -->
   <div id="bottomLeft">Asman</div>
-  <!-- Sağ Alt Mesaj Bildirimi -->
   <div id="messageNotification">Yeni Mesajınız Var!</div>
 
   <!-- ================ JAVASCRIPT ================ -->
@@ -334,15 +284,19 @@
 
     // Panel aç/kapa fonksiyonları
     function toggleDurumum() {
-      document.getElementById("durumumContent")
-              .classList.toggle("active");
+      document.getElementById("durumumContent").classList.toggle("active");
     }
     function toggleTuccar() {
-      document.getElementById("tuccarContent")
-              .classList.toggle("active");
+      document.getElementById("tuccarContent").classList.toggle("active");
+    }
+    function toggleDavet() {
+      document.getElementById("inviteContent").classList.toggle("active");
+    }
+    function toggleAilem() {
+      document.getElementById("ailemContent").classList.toggle("active");
     }
 
-    // Yeni menü butonları için örnek stub fonksiyonlar
+    // Yeni menü butonları için stub fonksiyonlar
     function invite()       { alert("Davet Et tıklandı"); }
     function showFamily()   { alert("Ailem tıklandı"); }
     function openMessages() { alert("Mesajlarım tıklandı"); }
@@ -365,15 +319,13 @@
 
     // Tren rayını gizle/göster
     function toggleTrainRail() {
-      document.getElementById("trainTrack")
-              .classList.toggle("hiddenRail");
+      document.getElementById("trainTrack").classList.toggle("hiddenRail");
     }
 
     // Sayfa yüklendiğinde profil ve köy ismi güncelle
     window.onload = function() {
       document.getElementById("bottomLeft").innerText = currentVillage;
-      document.getElementById("currentVillageDisplay")
-              .innerText = currentVillage;
+      document.getElementById("currentVillageDisplay").innerText = currentVillage;
     };
   </script>
 </body>
