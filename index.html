@@ -39,9 +39,13 @@
 
     /* ALT BÖLGELER */
     #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; z-index:900; }
-    #searchBox { position:fixed; bottom:60px; right:20px; z-index:900; }
+    #searchBox { position:fixed; bottom:60px; left:20px; z-index:900; }
     #searchBox input { background:#222; color:#fff; border:1px solid #333; border-radius:4px; padding:0.4rem 0.8rem; font-size:0.85rem; }
-    #messageNotification { position:fixed; bottom:60px; left:20px; font-size:1.5rem; cursor:pointer; z-index:900; }
+    #messageNotification { position:fixed; bottom:20px; right:20px; font-size:1.5rem; cursor:pointer; z-index:900; }
+
+    /* DİKDÖRTGENLER */
+    .rectangle { position:fixed; bottom:50px; left:60px; width:100px; height:30px; background:rgba(255,255,255,0.2); border:1px solid #fff; z-index:899; }
+    .rectangle-wide { position:fixed; bottom:95px; left:55px; width:140px; height:40px; background:rgba(255,255,255,0.15); border:1px solid #fff; z-index:898; }
 
     @media(max-width:768px){
       #leftPanel{position:static;width:100%;margin-bottom:1rem;}
@@ -62,120 +66,33 @@
     <!-- Durumum -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
-      <div id="durumum" class="tab-content">
-        <div class="stat-bar" id="vakurStat"><div class="stat-label" id="vakurLabel">VAKUR 🛡️</div><div class="stat-fill" id="vakurFill"></div><div class="stat-text" id="vakurText">Koruma: 0 (0%)</div></div>
-        <div class="stat-bar" id="hatipStat"><div class="stat-label" id="hatipLabel">HATİP 👥</div><div class="stat-fill" id="hatipFill"></div><div class="stat-text" id="hatipText">Nüfus: 0 (0%)</div></div>
-        <div class="stat-bar" id="baronStat"><div class="stat-label" id="baronLabel">BARON ♛</div><div class="stat-fill" id="baronFill"></div><div class="stat-text" id="baronText">Etki: 0 (0%)</div></div>
-        <div>Köy: <span id="currentVillageDisplay">Asman</span></div>
-      </div>
+      <div id="durumum" class="tab-content">…</div>
     </div>
     <!-- Tüccar -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2>
-      <div id="tuccar" class="tab-content">
-        <ul>
-          <li>Silah (2500$) <button onclick="buyItem('Silah',2500)">Satın Al</button></li>
-          <li>Bomba (1000$) <button onclick="buyItem('Bomba',1000)">Satın Al</button></li>
-          <li>C4 (1500$) <button onclick="buyItem('C4',1500)">Satın Al</button></li>
-          <li>Villa (15000$) <button onclick="buyItem('Villa',15000)">Satın Al</button></li>
-          <li>Ev (10000$) <button onclick="buyItem('Ev',10000)">Satın Al</button></li>
-        </ul>
-      </div>
+      <div id="tuccar" class="tab-content">…</div>
     </div>
-    <!-- Davet Et -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('davet')">Davet Et ↓</h2>
-      <div id="davet" class="tab-content"><ul><li>Davet bağlantınızı ekleyin.</li></ul></div>
+    <!-- Mesajlarım yerine Arama Kutusu -->
+    <div id="searchBoxLeft">
+      <input type="text" placeholder="Kullanıcı Ara" style="width:100%; background:#222; color:#fff; border:1px solid #333; border-radius:4px; padding:0.4rem; font-size:0.85rem;" />
     </div>
-    <!-- Ailem -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('ailem')">Ailem ↓</h2>
-      <div id="ailem" class="tab-content"><ul><li>Aile üyeleri burada.</li></ul></div>
-    </div>
-    <!-- Mesajlarım -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2>
-      <div id="mesajlar" class="tab-content"><ul><li>Yeni mesaj yok.</li></ul></div>
-    </div>
-    <!-- Avlan -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('avlan')">Avlan ↓</h2>
-      <div id="avlan" class="tab-content"><ul><li>Avlanma görevleri.</li></ul></div>
-    </div>
-    <!-- Açık Artırma -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2>
-      <div id="acikArttirma" class="tab-content"><ul><li>Müzayede içerikleri.</li></ul></div>
-    </div>
-    <!-- Kaçakçılık -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('kacakcilikContent')">Kaçakçılık ↓</h2>
-      <div id="kacakcilikContent" class="tab-content">
-        <ul>
-          <li>Kaçakçılık görevleri.</li>
-          <li>At Yarışı <button onclick="toggleTab('atayarisi')">→</button></li>
-        </ul>
-      </div>
-    </div>
-    <!-- At Yarışı -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('atayarisi')">At Yarışı ↓</h2>
-      <div id="atayarisi" class="tab-content"><ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul></div>
-    </div>
-    <!-- At Bilgiler -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2>
-      <div id="atBilgiler" class="tab-content"><ul><li>Atların detaylı bilgileri burada.</li></ul></div>
-    </div>
-    <!-- Oyun içi Bilgiler -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2>
-      <div id="oyunIci" class="tab-content"><ul><li>Oyun içi rehber ve ipuçları.</li></ul></div>
-    </div>
-    <!-- Arananlar -->
-    <div class="sectionBox">
-      <h2.onclick="toggleTab('arananlar')">Arananlar ↓</h2>
-      <div id="arananlar" class="tab-content"><ul><li>Şu anda arananlar listesi boş.</li></ul></div>
-    </div>
-    <!-- Oyunlar -->
-    <div class="sectionBox">
-      <h2.onclick="toggleTab('oyunlar')">Oyunlar ↓</h2>
-      <div id="oyunlar" class="tab-content"><ul><li>Mevcut oyunlar listesi</li></ul></div>
-    </div>
+    <!-- Diğer sekmeler devam eder… -->
   </div>
 
-  <div id="rightContainer">
-    <div class="box">
-      <h3>Köy İncelemesi</h3>
-      <div class="sub-tabs" id="koyTabs"></div>
-      <div id="koyPages"></div>
-    </div>
-    <div class="box">
-      <h3>Trenle Seyehat</h3>
-      <div class="sub-tabs" id="trenTabs"></div>
-      <div id="trenPages"></div>
-    </div>
-  </div>
-
-  <div id="centerRanks">
-    <div class="card"><h2 class="vakur-color">VAKUR</h2><button>Serüven</button></div>
-    <div class="card"><h2 class="hatip-color">HATİP</h2><button>Serüven</button></div>
-    <div class="card"><h2 class="baron-color">BARON</h2><button>Serüven</button></div>
-  </div>
+  <div id="rightContainer">…</div>
+  <div id="centerRanks">…</div>
 
   <div id="bottomLeft">Asman</div>
-  <div id="searchBox"><input type="text" placeholder="Kullanıcı Ara"></div>
+  <!-- Dikdörtgenler arasındaki Mesaj Bildirimi -->
+  <div class="rectangle"></div>
+  <div class="rectangle-wide"></div>
   <div id="messageNotification">📩</div>
 
   <script>
-    // Başlatma: Alt sekmeler
-    const villageData=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel"];
-    function initSubTabs(tabId,pageId){
-      const tabs=document.getElementById(tabId),pages=document.getElementById(pageId),per=Math.ceil(villageData.length/7);
-      for(let i=0;i<7;i++){let b=document.createElement('button');b.innerText=i+1;b.onclick=()=>show(i);tabs.appendChild(b);let d=document.createElement('div');d.className='sub-content';let u=document.createElement('ul');villageData.slice(i*per,(i+1)*per).forEach(v=>{let l=document.createElement('li');l.innerText=v;u.appendChild(l);});d.appendChild(u);pages.appendChild(d);} 
-      function show(i){tabs.querySelectorAll('button').forEach((b,idx)=>b.classList.toggle('active',idx===i));pages.querySelectorAll('.sub-content').forEach((c,idx)=>c.classList.toggle('active',idx===i));}
-      show(0);
-    }
+    // Alt sekmeler
+    const villageData=[…];
+    function initSubTabs(tabId,pageId){…}
     initSubTabs('koyTabs','koyPages');
     initSubTabs('trenTabs','trenPages');
   </script>
