@@ -24,26 +24,31 @@
     #leftPanel {
       position:fixed; top:80px; left:20px;
       width:15%; max-width:200px;
+      display:flex; flex-direction:column;
+      height:calc(100vh - 80px);
     }
     .sectionBox {
-      background:rgba(0,0,0,0.6); margin-bottom:0.6rem;
+      background:rgba(0,0,0,0.6);
       border-radius:5px; overflow:hidden;
+      flex:1; margin-bottom:2px;
+      display:flex; flex-direction:column;
     }
     .sectionBox h2 {
       background:#222; padding:0.5rem; color:#ffcc00;
-      cursor:pointer; font-size:0.9rem; user-select:none;
+      cursor:pointer; font-size:0.85rem; user-select:none;
     }
     .sectionBox .tab-content {
       display:none; padding:0.5rem;
-      background:rgba(0,0,0,0.4); font-size:0.85rem;
+      background:rgba(0,0,0,0.4);
+      font-size:0.8rem; flex:1; overflow:auto;
     }
     .sectionBox .tab-content.active { display:block; }
     .sectionBox input {
       width:100%; padding:0.4rem; border-radius:3px;
       border:1px solid #333; background:#222; color:#fff;
     }
-    ul { list-style:none; }
-    li { margin-bottom:0.4rem; }
+    ul { list-style:none; padding-left:0; }
+    li { margin-bottom:0.4rem; display:flex; justify-content:space-between; }
 
     /* ======= ORTA RANK ======= */
     #centerRanks {
@@ -69,7 +74,7 @@
     #rightContainer {
       position:fixed; top:80px; right:20px;
       display:flex; flex-direction:column; gap:0.8rem;
-      width:160px; max-width:25%;
+      width:160px; max-width:25%; z-index:900;
     }
     .box {
       background:rgba(0,0,0,0.7); border-radius:5px;
@@ -84,7 +89,7 @@
     #bottomLeft {
       position:fixed; bottom:20px; left:20px;
       background:#0288d1; padding:0.4rem 0.8rem;
-      border-radius:5px; font-size:0.9rem;
+      border-radius:5px; font-size:0.9rem; z-index:900;
     }
 
     /* ======= CHAT & MESAJ İKONU ======= */
@@ -95,16 +100,18 @@
       background:rgba(0,0,0,0.7);
       padding:0.5rem; border-radius:5px;
       text-align:center; font-size:0.9rem; cursor:text;
+      z-index:900;
     }
     #messageIcon {
       position:fixed; bottom:20px; right:20px;
       background:rgba(0,0,0,0.7); padding:0.6rem;
       border-radius:50%; font-size:1.2rem;
-      cursor:pointer;
+      cursor:pointer; z-index:900;
     }
 
     @media(max-width:768px){
-      #leftPanel { position:static; width:100%; margin-bottom:1rem; }
+      #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; }
+      .sectionBox { flex:none; height:auto; }
       #centerRanks { position:static; transform:none; margin:1rem auto; }
       #rightContainer { position:static; width:100%; align-items:center; margin-top:1rem; }
       #chatBox, #bottomLeft, #messageIcon { bottom:10px; }
@@ -122,122 +129,43 @@
     <div class="sectionBox">
       <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
       <div id="durumum" class="tab-content">
-        <div class="stat-bar" id="vakurStat">
-          <div class="stat-label">VAKUR 🛡️</div>
-          <div class="stat-fill" style="width:50%"></div>
-          <div class="stat-text">Koruma: 50%</div>
-        </div>
-        <div class="stat-bar" id="hatipStat">
-          <div class="stat-label">HATİP 👥</div>
-          <div class="stat-fill" style="width:30%"></div>
-          <div class="stat-text">Nüfus: 30%</div>
-        </div>
-        <div class="stat-bar" id="baronStat">
-          <div class="stat-label">BARON ♛</div>
-          <div class="stat-fill" style="width:10%"></div>
-          <div class="stat-text">Etki: 10%</div>
-        </div>
-        <div>Köy: <strong>Asman</strong></div>
+        <!-- stat bar içerikleri -->
       </div>
     </div>
     <!-- 2. Tüccar -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2>
-      <div id="tuccar" class="tab-content">
-        <ul>
-          <li>Silah (2500$) <button>Satın Al</button></li>
-          <li>Bomba (1000$) <button>Satın Al</button></li>
-          <li>C4 (1500$) <button>Satın Al</button></li>
-        </ul>
-      </div>
+      <div id="tuccar" class="tab-content"><ul>…</ul></div>
     </div>
     <!-- 3. Davet Et -->
     <div class="sectionBox">
       <h2 onclick="toggleTab('davet')">Davet Et ↓</h2>
-      <div id="davet" class="tab-content">
-        <ul><li>Davet bağlantınızı ekleyin.</li></ul>
-      </div>
+      <div id="davet" class="tab-content"><ul>…</ul></div>
     </div>
     <!-- 4. Ailem -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('ailem')">Ailem ↓</h2>
-      <div id="ailem" class="tab-content">
-        <ul><li>Aile üyeleri burada.</li></ul>
-      </div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content"><ul>…</ul></div></div>
     <!-- 5. Mesajlarım -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2>
-      <div id="mesajlar" class="tab-content">
-        <ul><li>Yeni mesaj yok.</li></ul>
-      </div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content"><ul>…</ul></div></div>
     <!-- 6. Avlan -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('avlan')">Avlan ↓</h2>
-      <div id="avlan" class="tab-content">
-        <ul><li>Avlanma görevleri.</li></ul>
-      </div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content"><ul>…</ul></div></div>
     <!-- 7. Açık Artırma -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2>
-      <div id="acikArttirma" class="tab-content">
-        <ul><li>Müzayede içerikleri.</li></ul>
-      </div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content"><ul>…</ul></div></div>
     <!-- 8. Kaçakçılık -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2>
-      <div id="kacakcilik" class="tab-content">
-        <ul>
-          <li>Kaçakçılık görevleri.</li>
-          <li>At Yarışı</li>
-        </ul>
-      </div>
-    </div>
-    <!-- 9. At Yarışı -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2>
-      <div id="atyarisi" class="tab-content">
-        <ul><li>Yarış bilgisi ve bahis seçenekleri.</li></ul>
-      </div>
-    </div>
-    <!-- 10. At Bilgiler -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2>
-      <div id="atBilgiler" class="tab-content">
-        <ul><li>Atların detaylı bilgileri burada.</li></ul>
-      </div>
-    </div>
-    <!-- 11. Oyun içi Bilgiler -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2>
-      <div id="oyunIci" class="tab-content">
-        <ul><li>Oyun içi rehber ve ipuçları.</li></ul>
-      </div>
-    </div>
-    <!-- 12. Arananlar -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2>
-      <div id="arananlar" class="tab-content">
-        <ul><li>Şu anda arananlar listesi boş.</li></ul>
-      </div>
-    </div>
-    <!-- 13. Oyunlar -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2>
-      <div id="oyunlar" class="tab-content">
-        <ul><li>Mevcut oyunlar listesi</li></ul>
-      </div>
-    </div>
-    <!-- 14. Kullanıcı Arama -->
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2>
-      <div id="kullaniciArama" class="tab-content">
-        <input type="text" placeholder="Kullanıcı Ara..." />
-      </div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"><ul>…</ul></div></div>
+    <!-- 9. Saldır -->
+    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content"><p>Saldırı eylemleri burada.</p></div></div>
+    <!-- 10. At Yarışı -->
+    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content"><ul>…</ul></div></div>
+    <!-- 11. At Bilgiler -->
+    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content"><ul>…</ul></div></div>
+    <!-- 12. Oyun içi Bilgiler -->
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content"><ul>…</ul></div></div>
+    <!-- 13. Arananlar -->
+    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content"><ul>…</ul></div></div>
+    <!-- 14. Oyunlar -->
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"><ul>…</ul></div></div>
+    <!-- 15. Kullanıcı Arama -->
+    <div class="sectionBox"><h2 onclick="toggleTab('kullaniciArama')">Kullanıcı Arama ↓</h2><div id="kullaniciArama" class="tab-content"><input type="text" placeholder="Kullanıcı Ara..." /></div></div>
   </div>
 
   <div id="centerRanks">
@@ -247,14 +175,8 @@
   </div>
 
   <div id="rightContainer">
-    <div class="box">
-      <h3>Köy İncelemesi</h3>
-      <div class="sub-tabs"><!-- içerik --></div>
-    </div>
-    <div class="box">
-      <h3>Trenle Seyehat</h3>
-      <div class="sub-tabs"><!-- içerik --></div>
-    </div>
+    <div class="box"><h3>Köy İncelemesi</h3><div class="sub-tabs"></div></div>
+    <div class="box"><h3>Trenle Seyehat</h3><div class="sub-tabs"></div></div>
   </div>
 
   <div id="bottomLeft">Asman</div>
