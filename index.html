@@ -7,13 +7,13 @@
   <style>
     /* ======= GENEL ======= */
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-    body{background:#888;color:#f1f1f1;padding-top:80px;font-size:0.85rem;display:flex;}
+    body{background:#888;color:#f1f1f1;padding-top:80px;font-size:0.85rem;}
     header{position:fixed;top:0;left:0;width:100%;background:rgba(0,0,0,0.85);display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;z-index:1000;}
     .logo{font-size:1.8rem;font-weight:bold;text-transform:uppercase;color:#fff;}
     #money{background:#222;padding:0.4rem 0.8rem;border-radius:4px;border:1px solid #333;font-size:0.9rem;color:lime;}
 
     /* ======= SOL PANEL ======= */
-    #leftPanel{position:fixed;top:80px;left:20px;width:200px;height:calc(100vh-80px);overflow:auto;}
+    #leftPanel{position:fixed;top:80px;left:20px;width:200px;height:calc(100vh - 80px);overflow:auto;}
     .sectionBox{background:rgba(0,0,0,0.6);border-radius:5px;margin-bottom:4px;}
     .sectionBox h2{background:#222;padding:0.5rem;color:#ffcc00;cursor:pointer;font-size:0.85rem;}
     .sectionBox .tab-content{display:none;padding:0.5rem;background:rgba(0,0,0,0.4);font-size:0.8rem;}
@@ -36,18 +36,7 @@
     .sub-content.active{display:block;}
 
     /* ======= TREN RAYI ======= */
-    #trainTrackCanvas {
-      position: fixed;
-      top: 300px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 160px;
-      background: #333;
-      border: 4px solid #555;
-      border-radius: 10px;
-      z-index: 800;
-    }
+    #trainTrackCanvas{position:fixed;top:300px;left:50%;transform:translateX(-50%);width:80%;height:160px;background:#333;border:4px solid #555;border-radius:10px;z-index:800;}
 
     /* ======= ALT ARAMA & BILGI ======= */
     #searchBoxBottom{position:fixed;bottom:60px;left:20px;width:200px;z-index:900;}
@@ -58,7 +47,24 @@
     #chatBox{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:300px;max-width:80%;background:rgba(0,0,0,0.7);padding:0.5rem;border-radius:5px;text-align:center;font-size:0.9rem;cursor:text;z-index:900;}
     #messageIcon{position:fixed;bottom:20px;right:20px;background:rgba(0,0,0,0.7);padding:0.6rem;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:900;}
 
-    @media(max-width:768px){#leftPanel{position:static;width:100%;height:auto;margin-bottom:1rem;} .sectionBox{margin-bottom:1rem;}#centerRanks{position:static;transform:none;margin:1rem auto;}#travelBox,#villageBox,#searchBoxBottom,#bottomLeft,#chatBox,#messageIcon{position:static;transform:none;margin:1rem auto;}}
+    /* ======= MOBİL UYUMLULUK ======= */
+    @media(max-width:768px){
+      /* Sol paneli alta al, tam genişlik yap */
+      #leftPanel{position:static;width:100%;height:auto;margin-bottom:1rem;padding:0 10px;}
+      .sectionBox{margin-bottom:8px;}
+      /* Rank kartları alta al, ortala */
+      #centerRanks{position:static;transform:none;margin:1rem auto;flex-wrap:wrap;gap:4px;}
+      /* Üst sağ paneller tam genişlik */
+      #travelBox,#villageBox{position:static;width:calc(100% - 20px);margin:1rem 10px;}
+      /* Tren ray grafiğini daralt */
+      #trainTrackCanvas{position:static;width:100%;height:120px;margin:1rem 0;}
+      /* Arama kutusu ve köy bilgisi tam genişlik */
+      #searchBoxBottom,#bottomLeft{position:static;width:100%;margin:0.5rem 10px;text-align:center;}
+      /* Chat ve mesaj ikonunu alta al */
+      #chatBox,#messageIcon{position:static;transform:none;width:90%;margin:0.5rem auto;}
+      /* Küçük ekranlarda yazı puntoları */
+      header, .sectionBox h2, .box h3 {font-size:0.9rem;}
+    }
   </style>
 </head>
 <body>
@@ -69,62 +75,20 @@
 
   <!-- Sol Panel (15 Sekme) -->
   <div id="leftPanel">
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
-      <div id="durumum" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2>
-      <div id="tuccar" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('davet')">Davet Et ↓</h2>
-      <div id="davet" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('ailem')">Ailem ↓</h2>
-      <div id="ailem" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2>
-      <div id="mesajlar" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('avlan')">Avlan ↓</h2>
-      <div id="avlan" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2>
-      <div id="acikArttirma" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2>
-      <div id="kacakcilik" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('saldir')">Saldır ↓</h2>
-      <div id="saldir" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2>
-      <div id="atyarisi" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2>
-      <div id="atBilgiler" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2>
-      <div id="oyunIci" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2>
-      <div id="arananlar" class="tab-content">...</div>
-    </div>
-    <div class="sectionBox">
-      <h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2>
-      <div id="oyunlar" class="tab-content">...</div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('durumum')">Durumum ↓</h2><div id="durumum" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content">…</div></div>
   </div>
 
   <!-- Orta Rank Kartları -->
@@ -140,7 +104,6 @@
     <div class="sub-tabs" id="travelTabs"></div>
     <div id="travelPages"></div>
   </div>
-
   <div id="villageBox" class="box">
     <h3>Köy İncelemesi</h3>
     <div class="sub-tabs" id="villageTabs"></div>
@@ -150,25 +113,83 @@
   <!-- Tren Rayı -->
   <canvas id="trainTrackCanvas"></canvas>
 
-  <!-- Alt Arama -->
+  <!-- Alt Arama & Bilgi -->
   <div id="searchBoxBottom"><input type="text" placeholder="Kullanıcı Ara..." /></div>
-
-  <!-- Alt Sol Köy -->
   <div id="bottomLeft">Asman</div>
 
-  <!-- Chat ve Mesaj -->
+  <!-- Chat & Mesaj -->
   <div id="chatBox" contenteditable="true">CHAT</div>
   <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
 
   <script>
-    // 31 köy verisi
+    // Sekme toggle
+    function toggleTab(id){
+      document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+      document.getElementById(id).classList.toggle('active');
+    }
+
+    // 31 köyü 1–7 sekmeye bölerek başlat
     const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel"];
-    function initTabs(tabId,pageId){const tabs=document.getElementById(tabId),pages=document.getElementById(pageId),per=7;for(let i=0;i<7;i++){let btn=document.createElement('button');btn.innerText=i+1;btn.onclick=()=>showPage(i,tabId,pageId);tabs.appendChild(btn);let div=document.createElement('div');div.className='sub-content';let ul=document.createElement('ul');villages.slice(i*per,(i+1)*per).forEach(v=>{let li=document.createElement('li');li.innerText=v;ul.appendChild(li);});div.appendChild(ul);pages.appendChild(div);}showPage(0,tabId,pageId);}function showPage(idx,tabId,pageId){document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));document.querySelectorAll(`#${pageId} .sub-content`).forEach(pc=>pc.classList.remove('active'));document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');document.querySelectorAll(`#${pageId} .sub-content`)[idx].classList.add('active');}
+    function initTabs(tabId,pageId){
+      const tabs=document.getElementById(tabId),
+            pages=document.getElementById(pageId),
+            per=7;
+      for(let i=0;i<7;i++){
+        let btn=document.createElement('button');
+        btn.innerText=i+1;
+        btn.onclick=()=>showPage(i,tabId,pageId);
+        tabs.appendChild(btn);
+        let div=document.createElement('div');
+        div.className='sub-content';
+        let ul=document.createElement('ul');
+        villages.slice(i*per,(i+1)*per).forEach(v=>{
+          let li=document.createElement('li'); li.innerText=v; ul.appendChild(li);
+        });
+        div.appendChild(ul);
+        pages.appendChild(div);
+      }
+      showPage(0,tabId,pageId);
+    }
+    function showPage(idx,tabId,pageId){
+      document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(pc=>pc.classList.remove('active'));
+      document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[idx].classList.add('active');
+    }
     initTabs('travelTabs','travelPages');
     initTabs('villageTabs','villagePages');
 
-    function toggleTab(id){document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));document.getElementById(id).classList.toggle('active');}
-    const canvas=document.getElementById('trainTrackCanvas'),ctx=canvas.getContext('2d');function resizeCanvas(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;drawTrack();}window.addEventListener('resize',resizeCanvas);function drawTrack(){const w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#aaa';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(20,20);ctx.lineTo(20,h-20);ctx.moveTo(w-20,20);ctx.lineTo(w-20,h-20);ctx.stroke();ctx.strokeStyle='#666';ctx.lineWidth=2;const step=(h-40)/7;const icons=['🚂','🏠','💰','🛒','⚓','🎲','🔒','🔑'];icons.forEach((ic,i)=>{const y=20+i*step;ctx.beginPath();ctx.moveTo(20,y);ctx.lineTo(w-20,y);ctx.stroke();ctx.font='20px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(ic,w/2,y);});}resizeCanvas();
+    // Canvas tren rayı çizimi
+    const canvas=document.getElementById('trainTrackCanvas'),
+          ctx=canvas.getContext('2d');
+    function resizeCanvas(){
+      canvas.width=canvas.offsetWidth;
+      canvas.height=canvas.offsetHeight;
+      drawTrack();
+    }
+    window.addEventListener('resize',resizeCanvas);
+    function drawTrack(){
+      const w=canvas.width, h=canvas.height;
+      ctx.clearRect(0,0,w,h);
+      ctx.strokeStyle='#aaa'; ctx.lineWidth=4;
+      ctx.beginPath();
+      ctx.moveTo(20,20); ctx.lineTo(20,h-20);
+      ctx.moveTo(w-20,20); ctx.lineTo(w-20,h-20);
+      ctx.stroke();
+      ctx.strokeStyle='#666'; ctx.lineWidth=2;
+      const step=(h-40)/7;
+      ['🚂','🏠','💰','🛒','⚓','🎲','🔒','🔑'].forEach((icon,i)=>{
+        const y=20+i*step;
+        ctx.beginPath();
+        ctx.moveTo(20,y); ctx.lineTo(w-20,y);
+        ctx.stroke();
+        ctx.font='20px sans-serif';
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        ctx.fillText(icon,w/2,y);
+      });
+    }
+    resizeCanvas();
   </script>
 </body>
 </html>
