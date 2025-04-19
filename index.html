@@ -23,7 +23,8 @@
     /* ======= SOL PANEL ======= */
     #leftPanel {
       position:fixed; top:80px; left:20px;
-      width:200px; height:calc(100vh - 80px); overflow:auto; z-index:900;
+      width:200px; height:calc(100vh - 80px); overflow:auto;
+      z-index:900;
     }
     .sectionBox {
       background:rgba(0,0,0,0.6); border-radius:5px; margin-bottom:4px;
@@ -41,7 +42,7 @@
     #centerRanks {
       position:fixed;
       top:50%; left:50%;
-      transform:translate(-50%,-50%);
+      transform:translate(-50%, -50%);
       display:flex;
       justify-content:space-between;
       width:320px; /* üç buton için eşit aralık */
@@ -56,7 +57,6 @@
       color:#ffcc00;
       cursor:pointer;
       user-select:none;
-      transform-origin:center center;
     }
 
     /* ======= ÜST SAĞ PANEL ======= */
@@ -97,6 +97,7 @@
       height: 180px;
       z-index:800;
     }
+    /* top/bottom konumları JS ile ayarlanıyor */
 
     /* ======= ALT ARAMA & BİLGİ ======= */
     #searchBoxBottom {
@@ -165,9 +166,9 @@
 
   <!-- TAM ORTA BUTONLAR -->
   <div id="centerRanks">
-    <div class="card" id="vakur">VAKUR</div>
-    <div class="card" id="hatip">HATİP</div>
-    <div class="card" id="baron">BARON</div>
+    <div class="card">VAKUR</div>
+    <div class="card">HATİP</div>
+    <div class="card">BARON</div>
   </div>
 
   <!-- ÜST SAĞ PANELLER -->
@@ -223,20 +224,17 @@
       showPage(0,tabId,pageId);
     }
     function showPage(i,tabId,pageId){
-      document.querySelectorAll(#${tabId} button).forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll(#${pageId} .sub-content).forEach(c=>c.classList.remove('active'));
-      document.querySelectorAll(#${tabId} button)[i].classList.add('active');
-      document.querySelectorAll(#${pageId} .sub-content)[i].classList.add('active');
+      document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.classList.remove('active'));
+      document.querySelectorAll(`#${tabId} button`)[i].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[i].classList.add('active');
     }
     initTabs('travelTabs','travelPages');
     initTabs('villageTabs','villagePages');
 
-    // tren rayı çizimi ve buton ayarı
-    const rails=['trainTrackTop','trainTrackBottom'],
-          vakurBtn=document.getElementById('vakur'),
-          hatipBtn=document.getElementById('hatip'),
-          baronBtn=document.getElementById('baron');
-    function drawRail(id){
+    // tren rayı çizimi & konumlama
+    const rails=['trainTrackTop','trainTrackBottom'];
+    function draw(id){
       const c=document.getElementById(id),ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
       // çift ince gri yatay çizgi
@@ -256,33 +254,22 @@
           ctx.stroke();
         });
       }
-      return sp;
     }
-    function adjust(){
-      // çizimleri yap, en son spacing değeri
-      let spacing=0;
-      rails.forEach(id=>{ spacing = drawRail(id); });
-      // rail konum
-      const cr=document.getElementById('centerRanks').getBoundingClientRect(),
-            railH=document.getElementById('trainTrackTop').offsetHeight,
-            gap=cr.height;
-      document.getElementById('trainTrackTop').style.top=${cr.top - railH - gap + window.scrollY}px;
-      document.getElementById('trainTrackBottom').style.top=${cr.bottom + gap + window.scrollY}px;
-      // VAKUR'u HATİP pozisyonuna
-      const baronX = spacing * 5;
-      const hatipOrigX = ( -spacing*22 + baronX )/2; // önceki ortalama
-      vakurBtn.style.transform = translateX(${hatipOrigX}px) scale(2.5);
-      vakurBtn.style.color = '#ffcc00';
-      // BARON sabit
-      baronBtn.style.transform = translateX(${baronX}px) scale(2.5);
-      baronBtn.style.color = 'red';
-      // HATİP'i VAKUR ve BARON arasına ortala
-      const newHatipX = (hatipOrigX + baronX)/2;
-      hatipBtn.style.transform = translateX(${newHatipX}px) scale(2.5);
-      hatipBtn.style.color = 'blue';
+    function positionRails(){
+      const cr=document.getElementById('centerRanks').getBoundingClientRect();
+      const railH=document.getElementById('trainTrackTop').offsetHeight;
+      const gap=cr.height;
+      document.getElementById('trainTrackTop').style.top
+        = `${cr.top - railH - gap + window.scrollY}px`;
+      document.getElementById('trainTrackBottom').style.top
+        = `${cr.bottom + gap + window.scrollY}px`;
     }
-    window.addEventListener('resize',adjust);
-    window.addEventListener('load',adjust);
+    function redraw(){
+      rails.forEach(draw);
+      positionRails();
+    }
+    window.addEventListener('resize',redraw);
+    window.addEventListener('load',redraw);
   </script>
 </body>
 </html>
