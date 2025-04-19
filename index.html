@@ -42,7 +42,7 @@
     #centerRanks {
       position:fixed;
       top:50%; left:50%;
-      transform:translate(-50%,-50%);
+      transform:translate(-50%, -50%);
       display:flex;
       justify-content:space-between;
       width:320px; /* üç buton için eşit aralık */
@@ -98,7 +98,6 @@
       height: 180px;
       z-index:800;
     }
-    /* top/bottom konumları JS ile ayarlanıyor */
 
     /* ======= ALT ARAMA & BİLGİ ======= */
     #searchBoxBottom {
@@ -167,9 +166,9 @@
 
   <!-- TAM ORTA BUTONLAR -->
   <div id="centerRanks">
-    <div class="card">VAKUR</div>
-    <div class="card">HATİP</div>
-    <div class="card">BARON</div>
+    <div class="card" id="vakur">VAKUR</div>
+    <div class="card" id="hatip">HATİP</div>
+    <div class="card" id="baron">BARON</div>
   </div>
 
   <!-- ÜST SAĞ PANELLER -->
@@ -234,7 +233,10 @@
     initTabs('villageTabs','villagePages');
 
     // tren rayı çizimi ve buton ayarı
-    const rails=['trainTrackTop','trainTrackBottom'], cards=document.querySelectorAll('#centerRanks .card');
+    const rails=['trainTrackTop','trainTrackBottom'],
+          vakurBtn=document.getElementById('vakur'),
+          hatipBtn=document.getElementById('hatip'),
+          baronBtn=document.getElementById('baron');
     function drawRail(id){
       const c=document.getElementById(id),ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
@@ -258,25 +260,26 @@
       return sp;
     }
     function adjust(){
-      // çizimler
-      let spacing = rails.reduce((last, id)=>{
-        const s = drawRail(id);
-        return s;
-      },0);
-      // konumlama ray
-      const cr=document.getElementById('centerRanks').getBoundingClientRect();
-      const railH=document.getElementById('trainTrackTop').offsetHeight;
-      const gap=cr.height;
+      // çizimleri yap, son spacing'i al
+      let spacing=0;
+      rails.forEach(id=>{ spacing = drawRail(id); });
+      // ray konum
+      const cr=document.getElementById('centerRanks').getBoundingClientRect(),
+            railH=document.getElementById('trainTrackTop').offsetHeight,
+            gap=cr.height;
       document.getElementById('trainTrackTop').style.top=`${cr.top - railH - gap + window.scrollY}px`;
       document.getElementById('trainTrackBottom').style.top=`${cr.bottom + gap + window.scrollY}px`;
       // butonları ölçekle
-      cards.forEach(c=>c.style.transform='scale(2.5)');
-      // HATİP mavi sola 5 çizgi
-      cards[1].style.color='blue';
-      cards[1].style.transform=`translateX(-${spacing*5}px) scale(2.5)`;
-      // BARON kırmızı sağa 5 çizgi
-      cards[2].style.color='red';
-      cards[2].style.transform=`translateX(${spacing*5}px) scale(2.5)`;
+      vakurBtn.style.transform=`translateX(-${spacing*22}px) scale(2.5)`;
+      vakurBtn.style.color='#ffcc00';
+      baronBtn.style.transform=`translateX(${spacing*5}px) scale(2.5)`;
+      baronBtn.style.color='red';
+      // hatip ortalaması
+      const vakurX = -spacing*22,
+            baronX = spacing*5,
+            hatipX = (vakurX + baronX)/2;
+      hatipBtn.style.transform=`translateX(${hatipX}px) scale(2.5)`;
+      hatipBtn.style.color='blue';
     }
     window.addEventListener('resize',adjust);
     window.addEventListener('load',adjust);
