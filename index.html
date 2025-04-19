@@ -42,7 +42,7 @@
     #centerRanks {
       position:fixed;
       top:50%; left:50%;
-      transform:translate(-50%, -50%);
+      transform:translate(-50%,-50%);
       display:flex;
       justify-content:space-between;
       width:320px; /* üç buton için eşit aralık */
@@ -57,6 +57,7 @@
       color:#ffcc00;
       cursor:pointer;
       user-select:none;
+      transform-origin:center center;
     }
 
     /* ======= ÜST SAĞ PANEL ======= */
@@ -232,9 +233,9 @@
     initTabs('travelTabs','travelPages');
     initTabs('villageTabs','villagePages');
 
-    // tren rayı çizimi & konumlama
-    const rails=['trainTrackTop','trainTrackBottom'];
-    function draw(id){
+    // tren rayı çizimi ve buton ayarı
+    const rails=['trainTrackTop','trainTrackBottom'], cards=document.querySelectorAll('#centerRanks .card');
+    function drawRail(id){
       const c=document.getElementById(id),ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
       // çift ince gri yatay çizgi
@@ -254,22 +255,31 @@
           ctx.stroke();
         });
       }
+      return sp;
     }
-    function positionRails(){
+    function adjust(){
+      // çizimler
+      let spacing = rails.reduce((last, id)=>{
+        const s = drawRail(id);
+        return s;
+      },0);
+      // konumlama ray
       const cr=document.getElementById('centerRanks').getBoundingClientRect();
       const railH=document.getElementById('trainTrackTop').offsetHeight;
       const gap=cr.height;
-      document.getElementById('trainTrackTop').style.top
-        = `${cr.top - railH - gap + window.scrollY}px`;
-      document.getElementById('trainTrackBottom').style.top
-        = `${cr.bottom + gap + window.scrollY}px`;
+      document.getElementById('trainTrackTop').style.top=`${cr.top - railH - gap + window.scrollY}px`;
+      document.getElementById('trainTrackBottom').style.top=`${cr.bottom + gap + window.scrollY}px`;
+      // butonları ölçekle
+      cards.forEach(c=>c.style.transform='scale(2.5)');
+      // HATİP mavi sola 5 çizgi
+      cards[1].style.color='blue';
+      cards[1].style.transform=`translateX(-${spacing*5}px) scale(2.5)`;
+      // BARON kırmızı sağa 5 çizgi
+      cards[2].style.color='red';
+      cards[2].style.transform=`translateX(${spacing*5}px) scale(2.5)`;
     }
-    function redraw(){
-      rails.forEach(draw);
-      positionRails();
-    }
-    window.addEventListener('resize',redraw);
-    window.addEventListener('load',redraw);
+    window.addEventListener('resize',adjust);
+    window.addEventListener('load',adjust);
   </script>
 </body>
 </html>
