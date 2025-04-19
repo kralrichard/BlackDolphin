@@ -42,8 +42,9 @@
       position:fixed;
       top:50%; left:50%;
       transform:translate(-50%,-50%);
-      display:flex; justify-content:space-between;
-      width:360px; /* Yeterli genişlik, butonlar eşit aralıkta */
+      display:flex;
+      justify-content:space-between;
+      width:320px; /* üç buton için eşit aralık */
       z-index:950;
     }
     .card {
@@ -51,14 +52,12 @@
       padding:0.6rem 1rem;
       border-radius:5px;
       text-align:center;
-      font-size:1rem;
+      font-size:0.9rem;
       color:#ffcc00;
       cursor:pointer;
       user-select:none;
       transform-origin:center center;
     }
-    #hatip { color:blue; }
-    #baron { color:red; }
 
     /* ======= ÜST SAĞ PANEL ======= */
     #travelBox {
@@ -75,16 +74,16 @@
       padding:0.6rem; text-align:center; color:#ffcc00;
       border-bottom:1px solid #333;
     }
-    .sub-tabs {
+    .box .sub-tabs {
       display:flex; justify-content:center; gap:4px;
       padding:0.4rem; flex-wrap:wrap;
     }
-    .sub-tabs button {
+    .box .sub-tabs button {
       background:#444; border:none; padding:0.3rem 0.5rem;
       color:#ffcc00; border-radius:3px; font-size:0.75rem;
       cursor:pointer;
     }
-    .sub-tabs button.active { background:#666; }
+    .box .sub-tabs button.active { background:#666; }
     .sub-content {
       display:none; padding:0.5rem; height:120px; overflow:auto;
     }
@@ -132,7 +131,7 @@
     @media(max-width:768px){
       #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; padding:0 10px; }
       .sectionBox { margin-bottom:8px; }
-      #centerRanks { position:static; transform:none; margin:1rem auto; flex-wrap:wrap; gap:10px; width:auto; justify-content:center; }
+      #centerRanks { position:static; transform:none; margin:1rem auto; flex-wrap:wrap; gap:6px; width:auto; justify-content:center; }
       #travelBox, #villageBox { position:static; width:calc(100% - 20px); margin:1rem 10px; }
       .trainTrack { position:static; width:100%; height:120px; margin:1rem 0; }
       #searchBoxBottom, #bottomLeft { position:static; width:100%; margin:0.5rem 10px; text-align:center; }
@@ -148,13 +147,20 @@
 
   <!-- SOL PANEL -->
   <div id="leftPanel">
-    <div class="sectionBox"><h2 onclick="toggleTab('durumum')">Durumum ↓</h2>
-      <div id="durumum" class="tab-content">…</div>
-    </div>
-    <!-- … diğer sekmeler … -->
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2>
-      <div id="oyunlar" class="tab-content">…</div>
-    </div>
+    <div class="sectionBox"><h2 onclick="toggleTab('durumum')">Durumum ↓</h2><div id="durumum" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content">…</div></div>
   </div>
 
   <!-- TAM ORTA BUTONLAR -->
@@ -195,55 +201,88 @@
       document.getElementById(id).classList.toggle('active');
     }
 
-    // köy sekmeleri (initTabs fonksiyonu burada)
-    // …
-
-    // tren rayı çizimi
-    ['trainTrackTop','trainTrackBottom'].forEach(id=>{
-      const c=document.getElementById(id), ctx=c.getContext('2d');
-      function resize(){
-        c.width=c.offsetWidth; c.height=c.offsetHeight;
-        ctx.clearRect(0,0,c.width,c.height);
-        // gri yatay çizgiler
-        ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
-        [10,12,c.height-10,c.height-12].forEach(y=>{
-          ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
+    // köy sekmeleri
+    const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk",
+      "Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü",
+      "Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal",
+      "Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
+      "Birdirej","Cembel"];
+    function initTabs(tabId,pageId){
+      const t=document.getElementById(tabId), p=document.getElementById(pageId), per=7;
+      for(let i=0;i<7;i++){
+        let b=document.createElement('button'); b.innerText=i+1;
+        b.onclick=()=>showPage(i,tabId,pageId);
+        t.appendChild(b);
+        let d=document.createElement('div'); d.className='sub-content';
+        let u=document.createElement('ul');
+        villages.slice(i*per,(i+1)*per).forEach(v=>{
+          let li=document.createElement('li'); li.innerText=v; u.appendChild(li);
         });
-        // kırmızı dikey çizgiler
-        ctx.strokeStyle='#ff0000'; ctx.lineWidth=1;
-        const count=25, sp=c.width/(count+1);
-        for(let i=1;i<=count;i++){
-          [0,1].forEach(o=>{
-            ctx.beginPath();
-            ctx.moveTo(sp*i+o,12);
-            ctx.lineTo(sp*i+o,c.height-12);
-            ctx.stroke();
-          });
-        }
+        d.appendChild(u); p.appendChild(d);
       }
-      window.addEventListener('resize',resize);
-      resize();
-    });
+      showPage(0,tabId,pageId);
+    }
+    function showPage(i,tabId,pageId){
+      document.querySelectorAll(#${tabId} button).forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll(#${pageId} .sub-content).forEach(c=>c.classList.remove('active'));
+      document.querySelectorAll(#${tabId} button)[i].classList.add('active');
+      document.querySelectorAll(#${pageId} .sub-content)[i].classList.add('active');
+    }
+    initTabs('travelTabs','travelPages');
+    initTabs('villageTabs','villagePages');
 
-    // butonları eşit 4-ray aralıkla ortala
-    window.addEventListener('load',()=>{
-      const cards = {
-        vakur: document.getElementById('vakur'),
-        hatip: document.getElementById('hatip'),
-        baron: document.getElementById('baron')
-      };
-      // spacing: canvas üzerindeki ilk kırmızı dikey çizgi aralığı
-      const tmp = document.getElementById('trainTrackTop');
-      const sp = tmp.offsetWidth / 26; // count+1
-      const offset = sp * 4;
-      // ölçek
-      Object.values(cards).forEach(c => c.style.transform = 'scale(2.5)');
-      // pozisyon
-      cards.vakur.style.transform += ` translateX(${-offset}px)`;
-      cards.hatip.style.transform += ` translateX(0px)`;
-      cards.baron.style.transform += ` translateX(${offset}px)`;
-      // renklar zaten tanımlı #hatip=blue #baron=red
-    });
+    // tren rayı çizimi ve buton ayarı
+    const rails=['trainTrackTop','trainTrackBottom'],
+          vakurBtn=document.getElementById('vakur'),
+          hatipBtn=document.getElementById('hatip'),
+          baronBtn=document.getElementById('baron');
+    function drawRail(id){
+      const c=document.getElementById(id),ctx=c.getContext('2d');
+      c.width=c.offsetWidth; c.height=c.offsetHeight;
+      // çift ince gri yatay çizgi
+      ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
+      [10,12,c.height-10,c.height-12].forEach(y=>{
+        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
+      });
+      // 25 çift ince kırmızı dikey çizgi
+      ctx.strokeStyle='#ff0000'; ctx.lineWidth=1;
+      const count=25,sp=c.width/(count+1);
+      for(let i=1;i<=count;i++){
+        const x=sp*i;
+        [0,1].forEach(o=>{
+          ctx.beginPath();
+          ctx.moveTo(x+o,12);
+          ctx.lineTo(x+o,c.height-12);
+          ctx.stroke();
+        });
+      }
+      return sp;
+    }
+    function adjust(){
+      // çizimleri yap, en son spacing değeri
+      let spacing=0;
+      rails.forEach(id=>{ spacing = drawRail(id); });
+      // rail konum
+      const cr=document.getElementById('centerRanks').getBoundingClientRect(),
+            railH=document.getElementById('trainTrackTop').offsetHeight,
+            gap=cr.height;
+      document.getElementById('trainTrackTop').style.top=${cr.top - railH - gap + window.scrollY}px;
+      document.getElementById('trainTrackBottom').style.top=${cr.bottom + gap + window.scrollY}px;
+      // VAKUR'u HATİP pozisyonuna
+      const baronX = spacing * 5;
+      const hatipOrigX = ( -spacing*22 + baronX )/2; // önceki ortalama
+      vakurBtn.style.transform = translateX(${hatipOrigX}px) scale(2.5);
+      vakurBtn.style.color = '#ffcc00';
+      // BARON sabit
+      baronBtn.style.transform = translateX(${baronX}px) scale(2.5);
+      baronBtn.style.color = 'red';
+      // HATİP'i VAKUR ve BARON arasına ortala
+      const newHatipX = (hatipOrigX + baronX)/2;
+      hatipBtn.style.transform = translateX(${newHatipX}px) scale(2.5);
+      hatipBtn.style.color = 'blue';
+    }
+    window.addEventListener('resize',adjust);
+    window.addEventListener('load',adjust);
   </script>
 </body>
 </html>
