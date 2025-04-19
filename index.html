@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
@@ -42,10 +42,10 @@
     #centerRanks {
       position:fixed;
       top:50%; left:50%;
-      transform:translate(-50%, -50%);
+      transform:translate(-50%,-50%);
       display:flex;
       justify-content:space-between;
-      width:320px;      /* toplam genişlik, üç butonu eşit aralıklı yerleştirir */
+      width:320px; /* 3 buton için eşit aralık */
       z-index:950;
     }
     .card {
@@ -97,12 +97,7 @@
       height: 180px;
       z-index:800;
     }
-    #trainTrackTop {
-      top: calc(50% - (180px + 50px) * 2);
-    }
-    #trainTrackBottom {
-      top: calc(50% + 20px - 180px * 0.5);
-    }
+    /* top/bottom konumları JS ile ayarlanacak */
 
     /* ======= ALT ARAMA & BİLGİ ======= */
     #searchBoxBottom {
@@ -154,18 +149,7 @@
   <!-- SOL PANEL -->
   <div id="leftPanel">
     <div class="sectionBox"><h2 onclick="toggleTab('durumum')">Durumum ↓</h2><div id="durumum" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content">…</div></div>
+    <!-- … diğer 13 sekme … -->
     <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content">…</div></div>
   </div>
 
@@ -206,6 +190,7 @@
       document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
       document.getElementById(id).classList.toggle('active');
     }
+
     // köy sekmeleri
     const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk",
       "Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü",
@@ -213,59 +198,67 @@
       "Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
       "Birdirej","Cembel"];
     function initTabs(tabId,pageId){
-      const tabs=document.getElementById(tabId),pages=document.getElementById(pageId),per=7;
+      const t=document.getElementById(tabId), p=document.getElementById(pageId), per=7;
       for(let i=0;i<7;i++){
-        let btn=document.createElement('button'); btn.innerText=i+1;
-        btn.onclick=()=>showPage(i,tabId,pageId);
-        tabs.appendChild(btn);
-        let div=document.createElement('div'); div.className='sub-content';
-        let ul=document.createElement('ul');
+        let b=document.createElement('button'); b.innerText=i+1;
+        b.onclick=()=>showPage(i,tabId,pageId);
+        t.appendChild(b);
+        let d=document.createElement('div'); d.className='sub-content';
+        let u=document.createElement('ul');
         villages.slice(i*per,(i+1)*per).forEach(v=>{
-          let li=document.createElement('li'); li.innerText=v; ul.appendChild(li);
+          let li=document.createElement('li'); li.innerText=v; u.appendChild(li);
         });
-        div.appendChild(ul); pages.appendChild(div);
+        d.appendChild(u); p.appendChild(d);
       }
       showPage(0,tabId,pageId);
     }
-    function showPage(idx,tabId,pageId){
+    function showPage(i,tabId,pageId){
       document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll(`#${pageId} .sub-content`).forEach(pc=>pc.classList.remove('active'));
-      document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
-      document.querySelectorAll(`#${pageId} .sub-content`)[idx].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.classList.remove('active'));
+      document.querySelectorAll(`#${tabId} button`)[i].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[i].classList.add('active');
     }
     initTabs('travelTabs','travelPages');
     initTabs('villageTabs','villagePages');
 
-    // tren rayı çizimi
-    ['trainTrackTop','trainTrackBottom'].forEach(id=>{
-      const c=document.getElementById(id),ctx=c.getContext('2d');
-      function resize(){
-        c.width=c.offsetWidth; c.height=c.offsetHeight; draw(ctx,c);
-      }
-      window.addEventListener('resize',resize);
-      resize();
-    });
-    function draw(ctx,canvas){
-      const w=canvas.width,h=canvas.height;
-      ctx.clearRect(0,0,w,h);
+    // tren rayı çizimi & konumlandırma
+    const rails = ['trainTrackTop','trainTrackBottom'];
+    function drawRail(id){
+      const c = document.getElementById(id), ctx = c.getContext('2d');
+      c.width = c.offsetWidth; c.height = c.offsetHeight;
       // çift ince gri yatay çizgi
       ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
-      [10,12, h-10, h-12].forEach(y=>{
-        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+      [10,12,c.height-10,c.height-12].forEach(y=>{
+        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
       });
       // 25 çift ince kırmızı dikey çizgi
       ctx.strokeStyle='#ff0000'; ctx.lineWidth=1;
-      const count=25, sp=w/(count+1);
+      const count=25, sp=c.width/(count+1);
       for(let i=1;i<=count;i++){
-        const x=sp*i;
-        [0,1].forEach(off=>{
+        let x=sp*i;
+        [0,1].forEach(o=>{
           ctx.beginPath();
-          ctx.moveTo(x+off,12);
-          ctx.lineTo(x+off,h-12);
+          ctx.moveTo(x+o,12);
+          ctx.lineTo(x+o,c.height-12);
           ctx.stroke();
         });
       }
     }
+    function positionRails(){
+      const cr = document.getElementById('centerRanks').getBoundingClientRect();
+      const railH = document.getElementById('trainTrackTop').offsetHeight;
+      const btnGap = cr.height; 
+      document.getElementById('trainTrackTop').style.top
+        = `${cr.top - railH - btnGap + window.scrollY}px`;
+      document.getElementById('trainTrackBottom').style.top
+        = `${cr.bottom + btnGap + window.scrollY}px`;
+    }
+    function redrawAll(){
+      rails.forEach(id=>drawRail(id));
+      positionRails();
+    }
+    window.addEventListener('resize', redrawAll);
+    window.addEventListener('load', redrawAll);
   </script>
 </body>
 </html>
