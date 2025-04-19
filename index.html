@@ -23,8 +23,7 @@
     /* ======= SOL PANEL ======= */
     #leftPanel {
       position:fixed; top:80px; left:20px;
-      width:200px; height:calc(100vh - 80px); overflow:auto;
-      z-index:900;
+      width:200px; height:calc(100vh - 80px); overflow:auto; z-index:900;
     }
     .sectionBox {
       background:rgba(0,0,0,0.6); border-radius:5px; margin-bottom:4px;
@@ -42,7 +41,7 @@
     #centerRanks {
       position:fixed;
       top:50%; left:50%;
-      transform:translate(-50%, -50%);
+      transform:translate(-50%,-50%);
       display:flex;
       justify-content:space-between;
       width:320px; /* üç buton için eşit aralık */
@@ -260,26 +259,27 @@
       return sp;
     }
     function adjust(){
-      // çizimleri yap, son spacing'i al
+      // çizimleri yap, en son spacing değeri
       let spacing=0;
       rails.forEach(id=>{ spacing = drawRail(id); });
-      // ray konum
+      // rail konum
       const cr=document.getElementById('centerRanks').getBoundingClientRect(),
             railH=document.getElementById('trainTrackTop').offsetHeight,
             gap=cr.height;
       document.getElementById('trainTrackTop').style.top=`${cr.top - railH - gap + window.scrollY}px`;
       document.getElementById('trainTrackBottom').style.top=`${cr.bottom + gap + window.scrollY}px`;
-      // butonları ölçekle
-      vakurBtn.style.transform=`translateX(-${spacing*22}px) scale(2.5)`;
-      vakurBtn.style.color='#ffcc00';
-      baronBtn.style.transform=`translateX(${spacing*5}px) scale(2.5)`;
-      baronBtn.style.color='red';
-      // hatip ortalaması
-      const vakurX = -spacing*22,
-            baronX = spacing*5,
-            hatipX = (vakurX + baronX)/2;
-      hatipBtn.style.transform=`translateX(${hatipX}px) scale(2.5)`;
-      hatipBtn.style.color='blue';
+      // VAKUR'u HATİP pozisyonuna
+      const baronX = spacing * 5;
+      const hatipOrigX = ( -spacing*22 + baronX )/2; // önceki ortalama
+      vakurBtn.style.transform = `translateX(${hatipOrigX}px) scale(2.5)`;
+      vakurBtn.style.color = '#ffcc00';
+      // BARON sabit
+      baronBtn.style.transform = `translateX(${baronX}px) scale(2.5)`;
+      baronBtn.style.color = 'red';
+      // HATİP'i VAKUR ve BARON arasına ortala
+      const newHatipX = (hatipOrigX + baronX)/2;
+      hatipBtn.style.transform = `translateX(${newHatipX}px) scale(2.5)`;
+      hatipBtn.style.color = 'blue';
     }
     window.addEventListener('resize',adjust);
     window.addEventListener('load',adjust);
