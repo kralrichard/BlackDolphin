@@ -44,7 +44,7 @@
       transform:translate(-50%,-50%);
       display:flex;
       justify-content:space-between;
-      width:360px; /* Yeterli genişlik, butonlar eşit aralıkla */
+      width:360px; /* Yeterli genişlik, butonlar eşit aralıkta */
       z-index:950;
     }
     .card {
@@ -52,11 +52,10 @@
       padding:0.6rem 1rem;
       border-radius:5px;
       text-align:center;
-      font-size:0.9rem;
+      font-size:1rem;
       color:#ffcc00;
       cursor:pointer;
       user-select:none;
-      transform-origin:center center;
     }
     #hatip { color:blue; }
     #baron { color:red; }
@@ -133,7 +132,7 @@
     @media(max-width:768px){
       #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; padding:0 10px; }
       .sectionBox { margin-bottom:8px; }
-      #centerRanks { position:static; transform:none; margin:1rem auto; flex-wrap:wrap; gap:6px; width:auto; justify-content:center; }
+      #centerRanks { position:static; transform:none; margin:1rem auto; flex-wrap:wrap; gap:10px; width:auto; justify-content:center; }
       #travelBox, #villageBox { position:static; width:calc(100% - 20px); margin:1rem 10px; }
       .trainTrack { position:static; width:100%; height:120px; margin:1rem 0; }
       #searchBoxBottom, #bottomLeft { position:static; width:100%; margin:0.5rem 10px; text-align:center; }
@@ -238,8 +237,8 @@
       const c=document.getElementById(id), ctx=c.getContext('2d');
       function resize(){
         c.width=c.offsetWidth; c.height=c.offsetHeight;
-        // gri yatay
         ctx.clearRect(0,0,c.width,c.height);
+        // gri yatay
         ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
         [10,12,c.height-10,c.height-12].forEach(y=>{
           ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
@@ -259,13 +258,6 @@
       window.addEventListener('resize',resize);
       resize();
     });
-
-    // butonları eşit aralıklı bırak, sadece ölçekle
-    window.addEventListener('load',()=>{
-      document.querySelectorAll('#centerRanks .card')
-        .forEach(c=>c.style.transform='scale(2.5)');
-    });
-
   </script>
 </body>
 </html>
