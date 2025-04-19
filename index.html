@@ -259,10 +259,10 @@
       return sp;
     }
     function adjust(){
-      // çizimleri yap, en son spacing değeri
+      // çizimleri yap, son spacing'i al
       let spacing=0;
       rails.forEach(id=>{ spacing = drawRail(id); });
-      // rail konum
+      // ray konum
       const cr=document.getElementById('centerRanks').getBoundingClientRect(),
             railH=document.getElementById('trainTrackTop').offsetHeight,
             gap=cr.height;
@@ -270,15 +270,15 @@
       document.getElementById('trainTrackBottom').style.top=`${cr.bottom + gap + window.scrollY}px`;
       // VAKUR'u HATİP pozisyonuna
       const baronX = spacing * 5;
-      const hatipOrigX = ( -spacing*22 + baronX )/2; // önceki ortalama
-      vakurBtn.style.transform = `translateX(${hatipOrigX}px) scale(2.5)`;
+      const vakurX = baronX; // VAKUR artık HATİP'in eski pozisyonunda
+      vakurBtn.style.transform = `translateX(${vakurX}px) scale(2.5)`;
       vakurBtn.style.color = '#ffcc00';
       // BARON sabit
       baronBtn.style.transform = `translateX(${baronX}px) scale(2.5)`;
       baronBtn.style.color = 'red';
       // HATİP'i VAKUR ve BARON arasına ortala
-      const newHatipX = (hatipOrigX + baronX)/2;
-      hatipBtn.style.transform = `translateX(${newHatipX}px) scale(2.5)`;
+      const hatipX = (vakurX + baronX)/2;
+      hatipBtn.style.transform = `translateX(${hatipX}px) scale(2.5)`;
       hatipBtn.style.color = 'blue';
     }
     window.addEventListener('resize',adjust);
