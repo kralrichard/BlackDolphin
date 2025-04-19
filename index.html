@@ -85,20 +85,21 @@
       position:fixed;
       left: calc(20px + 200px);
       width: calc(100% - 440px);
-      height: 90px;
+      height: 180px;      /* 2× yüksekliğe çıkarıldı */
       z-index:800;
     }
     #trainTrackTop {
-      top: calc(50% - 50px - 90px);
+      /* Merkezin 2× yukarısına taşındı */
+      top: calc(50% - (180px + 50px) * 2);
     }
     #trainTrackBottom {
-      top: calc(50% + 20px + 90px);
+      /* Merkezin 0.5× yukarısına taşındı */
+      top: calc(50% + 20px - 180px * 0.5);
     }
 
     /* ======= ALT ARAMA & BİLGİ ======= */
     #searchBoxBottom {
-      position:fixed; bottom:60px; left:20px;
-      width:200px; z-index:900;
+      position:fixed; bottom:60px; left:20px; width:200px; z-index:900;
     }
     #searchBoxBottom input {
       width:100%; padding:0.4rem; border-radius:3px;
@@ -131,7 +132,7 @@
       .sectionBox { margin-bottom:8px; }
       #centerRanks { position:static; transform:none; margin:1rem auto; flex-wrap:wrap; gap:6px; }
       #travelBox, #villageBox { position:static; width:calc(100% - 20px); margin:1rem 10px; }
-      .trainTrack { position:static; width:100%; height:60px; margin:1rem 0; }
+      .trainTrack { position:static; width:100%; height:120px; margin:1rem 0; }
       #searchBoxBottom, #bottomLeft { position:static; width:100%; margin:0.5rem 10px; text-align:center; }
       #chatBox, #messageIcon { position:static; transform:none; width:90%; margin:0.5rem auto; }
     }
@@ -193,36 +194,29 @@
   <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
 
   <script>
-    // Sekme toggle
+    // tab toggle
     function toggleTab(id){
       document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
       document.getElementById(id).classList.toggle('active');
     }
-
-    // 31 köyü 7 sekmede başlat
-    const villages = ["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk",
+    // köy sekmeleri
+    const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk",
       "Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü",
       "Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal",
       "Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
-      "Birdirej","Cembel"
-    ];
+      "Birdirej","Cembel"];
     function initTabs(tabId,pageId){
-      const tabs=document.getElementById(tabId),
-            pages=document.getElementById(pageId),
-            per=7;
+      const tabs=document.getElementById(tabId),pages=document.getElementById(pageId),per=7;
       for(let i=0;i<7;i++){
-        let btn=document.createElement('button');
-        btn.innerText=i+1;
+        let btn=document.createElement('button'); btn.innerText=i+1;
         btn.onclick=()=>showPage(i,tabId,pageId);
         tabs.appendChild(btn);
-        let div=document.createElement('div');
-        div.className='sub-content';
+        let div=document.createElement('div'); div.className='sub-content';
         let ul=document.createElement('ul');
         villages.slice(i*per,(i+1)*per).forEach(v=>{
           let li=document.createElement('li'); li.innerText=v; ul.appendChild(li);
         });
-        div.appendChild(ul);
-        pages.appendChild(div);
+        div.appendChild(ul); pages.appendChild(div);
       }
       showPage(0,tabId,pageId);
     }
@@ -235,36 +229,34 @@
     initTabs('travelTabs','travelPages');
     initTabs('villageTabs','villagePages');
 
-    // Tren rayı çizimi
+    // tren rayları
     ['trainTrackTop','trainTrackBottom'].forEach(id=>{
-      const canvas = document.getElementById(id),
-            ctx = canvas.getContext('2d');
+      const c=document.getElementById(id),ctx=c.getContext('2d');
       function resize(){
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        draw(ctx, canvas);
+        c.width=c.offsetWidth; c.height=c.offsetHeight; draw(ctx,c);
       }
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize',resize);
       resize();
     });
-    function draw(ctx, canvas){
-      const w = canvas.width, h = canvas.height;
+    function draw(ctx,canvas){
+      const w=canvas.width,h=canvas.height;
       ctx.clearRect(0,0,w,h);
-      // Canlı gri yatay raylar
-      ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(0, 10); ctx.lineTo(w, 10);
-      ctx.moveTo(0, h-10); ctx.lineTo(w, h-10);
-      ctx.stroke();
-      // Canlı kırmızı 25 adet dikey çizgi
-      ctx.strokeStyle = '#ff0000'; ctx.lineWidth = 2;
-      const count = 25, spacing = w / (count + 1);
-      for(let i=1; i<=count; i++){
-        const x = spacing * i;
-        ctx.beginPath();
-        ctx.moveTo(x, 10);
-        ctx.lineTo(x, h-10);
-        ctx.stroke();
+      // çift ince gri yatay çizgi
+      ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
+      [10,12,h-10,h-12].forEach(y=>{
+        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+      });
+      // 25 çift ince kırmızı dikey çizgi
+      ctx.strokeStyle='#ff0000'; ctx.lineWidth=1;
+      const count=25,sp=w/(count+1);
+      for(let i=1;i<=count;i++){
+        const x=sp*i;
+        [0,1].forEach(offset=>{
+          ctx.beginPath();
+          ctx.moveTo(x+offset,12);
+          ctx.lineTo(x+offset,h-12);
+          ctx.stroke();
+        });
       }
     }
   </script>
