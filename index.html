@@ -44,7 +44,7 @@
       transform:translate(-50%,-50%);
       display:flex;
       justify-content:space-between;
-      width:320px; /* üç buton için eşit aralık */
+      width:360px; /* Yeterli genişlik, butonlar eşit aralıkla */
       z-index:950;
     }
     .card {
@@ -58,6 +58,8 @@
       user-select:none;
       transform-origin:center center;
     }
+    #hatip { color:blue; }
+    #baron { color:red; }
 
     /* ======= ÜST SAĞ PANEL ======= */
     #travelBox {
@@ -74,16 +76,16 @@
       padding:0.6rem; text-align:center; color:#ffcc00;
       border-bottom:1px solid #333;
     }
-    .box .sub-tabs {
+    .sub-tabs {
       display:flex; justify-content:center; gap:4px;
       padding:0.4rem; flex-wrap:wrap;
     }
-    .box .sub-tabs button {
+    .sub-tabs button {
       background:#444; border:none; padding:0.3rem 0.5rem;
       color:#ffcc00; border-radius:3px; font-size:0.75rem;
       cursor:pointer;
     }
-    .box .sub-tabs button.active { background:#666; }
+    .sub-tabs button.active { background:#666; }
     .sub-content {
       display:none; padding:0.5rem; height:120px; overflow:auto;
     }
@@ -231,58 +233,39 @@
     initTabs('travelTabs','travelPages');
     initTabs('villageTabs','villagePages');
 
-    // tren rayı çizimi ve buton ayarı
-    const rails=['trainTrackTop','trainTrackBottom'],
-          vakurBtn=document.getElementById('vakur'),
-          hatipBtn=document.getElementById('hatip'),
-          baronBtn=document.getElementById('baron');
-    function drawRail(id){
-      const c=document.getElementById(id),ctx=c.getContext('2d');
-      c.width=c.offsetWidth; c.height=c.offsetHeight;
-      // çift ince gri yatay çizgi
-      ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
-      [10,12,c.height-10,c.height-12].forEach(y=>{
-        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
-      });
-      // 25 çift ince kırmızı dikey çizgi
-      ctx.strokeStyle='#ff0000'; ctx.lineWidth=1;
-      const count=25,sp=c.width/(count+1);
-      for(let i=1;i<=count;i++){
-        const x=sp*i;
-        [0,1].forEach(o=>{
-          ctx.beginPath();
-          ctx.moveTo(x+o,12);
-          ctx.lineTo(x+o,c.height-12);
-          ctx.stroke();
+    // tren rayı çizimi
+    ['trainTrackTop','trainTrackBottom'].forEach(id=>{
+      const c=document.getElementById(id), ctx=c.getContext('2d');
+      function resize(){
+        c.width=c.offsetWidth; c.height=c.offsetHeight;
+        // gri yatay
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
+        [10,12,c.height-10,c.height-12].forEach(y=>{
+          ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
         });
+        // kırmızı dikey
+        ctx.strokeStyle='#ff0000'; ctx.lineWidth=1;
+        const count=25, sp=c.width/(count+1);
+        for(let i=1;i<=count;i++){
+          [0,1].forEach(o=>{
+            ctx.beginPath();
+            ctx.moveTo(sp*i+o,12);
+            ctx.lineTo(sp*i+o,c.height-12);
+            ctx.stroke();
+          });
+        }
       }
-      return sp;
-    }
-    function adjust(){
-      // çizimleri yap, son spacing'i al
-      let spacing=0;
-      rails.forEach(id=>{ spacing = drawRail(id); });
-      // ray konum
-      const cr=document.getElementById('centerRanks').getBoundingClientRect(),
-            railH=document.getElementById('trainTrackTop').offsetHeight,
-            gap=cr.height;
-      document.getElementById('trainTrackTop').style.top=`${cr.top - railH - gap + window.scrollY}px`;
-      document.getElementById('trainTrackBottom').style.top=`${cr.bottom + gap + window.scrollY}px`;
-      // VAKUR'u HATİP pozisyonuna
-      const baronX = spacing * 5;
-      const vakurX = baronX; // VAKUR artık HATİP'in eski pozisyonunda
-      vakurBtn.style.transform = `translateX(${vakurX}px) scale(2.5)`;
-      vakurBtn.style.color = '#ffcc00';
-      // BARON sabit
-      baronBtn.style.transform = `translateX(${baronX}px) scale(2.5)`;
-      baronBtn.style.color = 'red';
-      // HATİP'i VAKUR ve BARON arasına ortala
-      const hatipX = (vakurX + baronX)/2;
-      hatipBtn.style.transform = `translateX(${hatipX}px) scale(2.5)`;
-      hatipBtn.style.color = 'blue';
-    }
-    window.addEventListener('resize',adjust);
-    window.addEventListener('load',adjust);
+      window.addEventListener('resize',resize);
+      resize();
+    });
+
+    // butonları eşit aralıklı bırak, sadece ölçekle
+    window.addEventListener('load',()=>{
+      document.querySelectorAll('#centerRanks .card')
+        .forEach(c=>c.style.transform='scale(2.5)');
+    });
+
   </script>
 </body>
 </html>
