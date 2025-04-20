@@ -21,118 +21,44 @@
     }
 
     /* ======= SOL PANEL ======= */
-    #leftPanel {
-      position:fixed; top:80px; left:20px;
-      width:200px; height:calc(100vh - 80px); overflow:auto;
-      z-index:900;
-    }
-    .sectionBox {
-      background:rgba(0,0,0,0.6); border-radius:5px; margin-bottom:4px;
-    }
-    .sectionBox h2 {
-      background:#222; padding:0.5rem; color:#ffcc00;
-      cursor:pointer; font-size:0.85rem;
-    }
-    .sectionBox .tab-content {
-      display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.8rem;
-    }
+    #leftPanel { position:fixed; top:80px; left:20px; width:200px; height:calc(100vh - 80px); overflow:auto; z-index:900; }
+    .sectionBox { background:rgba(0,0,0,0.6); border-radius:5px; margin-bottom:4px; }
+    .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.85rem; }
+    .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.8rem; }
     .sectionBox .tab-content.active { display:block; }
 
     /* ======= TAM ORTA BUTONLAR ======= */
-    #centerRanks {
-      position:fixed;
-      top:50%;
-      left: calc(20px + 200px);
-      width: calc(100% - 440px);
-      transform: translateY(-50%);
-      display:flex;
-      justify-content:space-between;
-      z-index:950;
-    }
-    .card {
-      background:rgba(0,0,0,0.7);
-      padding:0.6rem 1rem;
-      border-radius:5px;
-      text-align:center;
-      font-size:0.9rem;
-      color:#ffcc00;
-      cursor:pointer;
-      user-select:none;
-      transform-origin:center;
-    }
+    #centerRanks { position:fixed; top:50%; left: calc(20px + 200px); width: calc(100% - 440px); transform: translateY(-50%); display:flex; justify-content:space-between; z-index:950; }
+    .card { background:rgba(0,0,0,0.7); padding:0.6rem 1rem; border-radius:5px; text-align:center; font-size:0.9rem; color:#ffcc00; cursor:pointer; user-select:none; transform-origin:center; }
     .card.vakur { color: blue; transform: scale(2.5); }
     .card.hatip { color: orange; transform: scale(2.5); }
     .card.baron { color: red;  transform: scale(2.5); }
 
     /* ======= ÜST SAĞ PANEL ======= */
-    #travelBox {
-      position:fixed; top:80px; right:20px;
-      width:200px; background:rgba(0,0,0,0.7);
-      border-radius:5px; z-index:1000; font-size:0.85rem;
-    }
-    #villageBox {
-      position:fixed; bottom:60px; right:20px;
-      width:200px; background:rgba(0,0,0,0.7);
-      border-radius:5px; z-index:1000; font-size:0.85rem;
-    }
-    .box h3 {
-      padding:0.6rem; text-align:center; color:#ffcc00;
-      border-bottom:1px solid #333;
-      display:flex; justify-content:center; align-items:center; gap:4px;
-    }
+    #travelBox { position:fixed; top:80px; right:20px; width:200px; background:rgba(0,0,0,0.7); border-radius:5px; z-index:1000; font-size:0.85rem; }
+    #villageBox { position:fixed; bottom:60px; right:20px; width:200px; background:rgba(0,0,0,0.7); border-radius:5px; z-index:1000; font-size:0.85rem; }
+    .box h3 { padding:0.6rem; text-align:center; color:#ffcc00; border-bottom:1px solid #333; display:flex; justify-content:center; align-items:center; gap:4px; }
     .box h3 span { font-size:0.75rem; color:#ffcc00; }
-    .box .sub-tabs {
-      display:flex; justify-content:center; gap:4px;
-      padding:0.4rem; flex-wrap:wrap;
-    }
-    .box .sub-tabs button {
-      background:#444; border:none; padding:0.3rem 0.5rem;
-      color:#ffcc00; border-radius:3px; font-size:0.75rem;
-      cursor:pointer;
-    }
+    .box .sub-tabs { display:flex; justify-content:center; gap:4px; padding:0.4rem; flex-wrap:wrap; }
+    .box .sub-tabs button { background:#444; border:none; padding:0.3rem 0.5rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; }
     .box .sub-tabs button.active { background:#666; }
-    .sub-content {
-      display:none; padding:0.5rem; height:120px; overflow:auto;
-    }
+    .sub-content { display:none; padding:0.5rem; height:120px; overflow:auto; }
     .sub-content.active { display:block; }
+    /* Buton stilleri */
+    .sub-content li { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+    .sub-content li button { margin-left:4px; background:#444; color:#ffcc00; border:none; border-radius:3px; padding:2px 6px; font-size:0.75rem; cursor:pointer; }
 
     /* ======= TREN RAYLARI ======= */
-    .trainTrack {
-      position:fixed;
-      left: calc(20px + 200px);
-      width: calc(100% - 440px);
-      height: 180px;
-      z-index:800;
-    }
+    .trainTrack { position:fixed; left: calc(20px + 200px); width: calc(100% - 440px); height: 180px; z-index:800; }
 
     /* ======= ALT ARAMA & BİLGİ ======= */
-    #searchBoxBottom {
-      position:fixed; bottom:60px; left:20px; width:200px; z-index:900;
-    }
-    #searchBoxBottom input {
-      width:100%; padding:0.4rem; border-radius:3px;
-      border:1px solid #333; background:#222; color:#fff;
-    }
-    #bottomLeft {
-      position:fixed; bottom:20px; left:20px;
-      background:#0288d1; padding:0.4rem 0.8rem;
-      border-radius:5px; font-size:0.9rem; z-index:900;
-    }
+    #searchBoxBottom { position:fixed; bottom:60px; left:20px; width:200px; z-index:900; }
+    #searchBoxBottom input { width:100%; padding:0.4rem; border-radius:3px; border:1px solid #333; background:#222; color:#fff; }
+    #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; z-index:900; }
 
     /* ======= CHAT & MESAJ ======= */
-    #chatBox {
-      position:fixed; bottom:20px; left:50%;
-      transform:translateX(-50%);
-      width:300px; max-width:80%; background:rgba(0,0,0,0.7);
-      padding:0.5rem; border-radius:5px; text-align:center;
-      font-size:0.9rem; cursor:text; z-index:900;
-    }
-    #messageIcon {
-      position:fixed; bottom:20px; right:20px;
-      background:rgba(0,0,0,0.7); padding:0.6rem;
-      border-radius:50%; font-size:1.2rem; cursor:pointer;
-      z-index:900;
-    }
+    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; max-width:80%; background:rgba(0,0,0,0.7); padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem; cursor:text; z-index:900; }
+    #messageIcon { position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.7); padding:0.6rem; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:900; }
 
     /* ======= MOBİL ======= */
     @media(max-width:768px){
@@ -152,7 +78,20 @@
 
   <!-- SOL PANEL -->
   <div id="leftPanel">
-    <!-- ... diğer sectionBox’lar ... -->
+    <div class="sectionBox"><h2 onclick="toggleTab('durumum')">Durumum ↓</h2><div id="durumum" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content">…</div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content">…</div></div>
   </div>
 
   <!-- TAM ORTA BUTONLAR -->
@@ -193,8 +132,8 @@
       document.getElementById(id).classList.toggle('active');
     }
 
-    // güncellenmiş köy listesi
-    const villages=[
+    // köy verisi
+    const villages = [
       "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk",
       "Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü",
       "Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal",
@@ -203,42 +142,72 @@
       "Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"
     ];
 
-    function initTabs(tabId,pageId){
-      const t=document.getElementById(tabId), p=document.getElementById(pageId), per=7;
-      for(let i=0;i<7;i++){
-        let b=document.createElement('button'); b.innerText=i+1;
-        b.onclick=()=>showPage(i,tabId,pageId);
-        t.appendChild(b);
-        let d=document.createElement('div'); d.className='sub-content';
-        let u=document.createElement('ul');
-        villages.slice(i*per,(i+1)*per).forEach(v=>{
-          let li=document.createElement('li'); li.innerText=v; u.appendChild(li);
+    function initTabs(tabId, pageId){
+      const t = document.getElementById(tabId), p = document.getElementById(pageId), per=7;
+      for(let i=0;i<Math.ceil(villages.length/per);i++){
+        const btn = document.createElement('button'); btn.innerText = i+1;
+        btn.onclick = () => showPage(i, tabId, pageId);
+        t.appendChild(btn);
+        const container = document.createElement('div'); container.className='sub-content';
+        const ul = document.createElement('ul');
+        villages.slice(i*per,(i+1)*per).forEach(v => {
+          const li = document.createElement('li');
+          li.innerText = v;
+          // İncele butonu
+          const inceleBtn = document.createElement('button'); inceleBtn.innerText='İncele';
+          inceleBtn.onclick = () => {
+            const m = [5,10,15][Math.floor(Math.random()*3)];
+            const s = [50,75,100][Math.floor(Math.random()*3)];
+            alert(`Malikane: ${m}, Sığınak: ${s}`);
+          };
+          // Seyehat Et butonu
+          const seyehatBtn = document.createElement('button'); seyehatBtn.innerText='Seyehat Et';
+          seyehatBtn.onclick = () => {
+            if(confirm('Seyehat etmek istediğinize emin misiniz?')){
+              // para güncelle
+              const moneyEl = document.getElementById('money');
+              let curr = parseInt(moneyEl.innerText.replace('$',''));
+              curr = Math.max(0, curr - 500);
+              moneyEl.innerText = '$'+curr;
+              // sol alt bilgi
+              document.getElementById('bottomLeft').innerText = v + ' köyüne seyahat edildi';
+              // Durumum sekmesine ekle
+              const durumEl = document.getElementById('durumum');
+              const p = document.createElement('p');
+              p.innerText = v + ' köyüne seyahat edildi.';
+              durumEl.appendChild(p);
+            }
+          };
+          li.appendChild(inceleBtn);
+          li.appendChild(seyehatBtn);
+          ul.appendChild(li);
         });
-        d.appendChild(u); p.appendChild(d);
+        container.appendChild(ul);
+        p.appendChild(container);
       }
-      showPage(0,tabId,pageId);
+      showPage(0, tabId, pageId);
     }
-    function showPage(i,tabId,pageId){
+
+    function showPage(idx, tabId, pageId){
       document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
       document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.classList.remove('active'));
-      document.querySelectorAll(`#${tabId} button`)[i].classList.add('active');
-      document.querySelectorAll(`#${pageId} .sub-content`)[i].classList.add('active');
+      document.querySelector(`#${tabId} button:nth-child(${idx+1})`).classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[idx].classList.add('active');
     }
+
     initTabs('travelTabs','travelPages');
     initTabs('villageTabs','villagePages');
 
-    // tren rayı çizimi & konumlama
+    // tren rayı çizimi ve konumlama aynen devam
     const rails=['trainTrackTop','trainTrackBottom'];
     function draw(id){
-      const c=document.getElementById(id),ctx=c.getContext('2d');
+      const c=document.getElementById(id), ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
       ctx.strokeStyle='#cccccc'; ctx.lineWidth=1;
-      [10,12,c.height-10,c.height-12].forEach(y=>{
-        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke();
-      });
+      [10,12,c.height-10,c.height-12].forEach(y=>{ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(c.width,y);ctx.stroke();});
       ctx.strokeStyle='#ff0000'; ctx.lineWidth=1;
-      const count=25,sp=c.width/(count+1);
-      for(let i=1;i<=count;i++){ const x=sp*i; [0,1].forEach(o=>{ ctx.beginPath(); ctx.moveTo(x+o,12); ctx.lineTo(x+o,c.height-12); ctx.stroke(); }); }
+      const count=25, sp=c.width/(count+1);
+      for(let i=1;i<=count;i++){const x=sp*i; [0,1].forEach(o=>{ctx.beginPath();ctx.moveTo(x+o,12);ctx.lineTo(x+o,c.height-12);ctx.stroke();});}
     }
     function positionRails(){
       const cr=document.getElementById('centerRanks').getBoundingClientRect();
