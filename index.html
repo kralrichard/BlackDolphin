@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Black Dolphine – Mafia Oyunu</title>
   <style>
@@ -19,39 +19,49 @@
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     html, body { height:100%; }
     body { display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden; }
+
+    /* ========== SIDEBAR ========== */
     nav {
       width:220px; background:var(--panel-dark); color:var(--text-light);
       display:flex; flex-direction:column;
     }
-    nav ul { list-style:none; flex:1; overflow-y:auto; }
+    nav ul { list-style:none; overflow-y:auto; flex:1; }
     nav li a {
-      display:block; padding:12px 20px; color:inherit;
-      text-decoration:none; border-bottom:1px solid #333;
-      cursor:pointer;
+      display:block; padding:12px 20px; color:inherit; text-decoration:none;
+      border-bottom:1px solid #333; cursor:pointer;
     }
     nav li a.active, nav li a:hover { background:var(--accent); }
     nav .search { padding:10px; }
-    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
+    nav .search input {
+      width:100%; padding:8px; border:none; border-radius:4px;
+    }
+
+    /* ========== MAIN ========== */
     main {
       flex:1; display:flex; flex-direction:column; overflow-y:auto;
     }
     header {
       background:var(--bg-dark); color:var(--text-light);
-      padding:0.5rem 1rem; display:flex;
-      justify-content:space-between; align-items:center; flex-shrink:0;
+      padding:0.5rem 1rem; display:flex; justify-content:space-between; align-items:center;
+      flex-shrink:0;
     }
     .logo { font-size:1.4rem; font-weight:bold; }
     .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
-    .rail-container { position:relative; height:60px; margin:0 1rem; flex-shrink:0; }
+
+    /* ========== TRAIN RAILS ========== */
+    .rail-container {
+      position:relative; height:60px; margin:0 1rem; flex-shrink:0;
+    }
     canvas.rail { width:100%; height:100%; }
     .rail-label {
       position:absolute; top:10px; left:20px; color:var(--text-dark);
       font-weight:bold;
     }
     .rail-label.return { top:auto; bottom:10px; }
+
+    /* ========== CENTER RANKS ========== */
     #centerRanks {
-      display:flex; justify-content:center; gap:2rem;
-      padding:1rem; flex-shrink:0;
+      display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0;
     }
     .card {
       background:var(--panel-dark); color:var(--text-light);
@@ -60,16 +70,11 @@
     .card.locked { opacity:0.5; pointer-events:none; }
     .card h2 { margin-bottom:0.5rem; text-transform:uppercase; }
     .card button {
-      border:none; color:#fff; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;
+      border:none; color:#fff; padding:0.5rem 1rem;
+      border-radius:4px; cursor:pointer;
     }
-    aside {
-      width:260px; background:var(--panel-dark); color:var(--text-light);
-      flex-shrink:0; overflow-y:auto;
-    }
-    .panel { padding:20px; border-bottom:1px solid #333; display:none; }
-    .panel.active { display:block; }
-    .panel h3 { color:var(--accent); margin-bottom:10px; }
-    /* Overlay */
+
+    /* ========== OVERLAY / TASK MODAL ========== */
     #overlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
       background:rgba(0,0,0,0.7);
@@ -77,8 +82,8 @@
     }
     #panel {
       background:var(--bg-light); width:90%; max-width:600px;
-      max-height:80%; overflow-y:auto; border-radius:8px;
-      padding:1rem; position:relative;
+      max-height:80%; overflow-y:auto; border-radius:8px; padding:1rem;
+      position:relative;
     }
     #closeBtn {
       position:absolute; top:0.5rem; right:0.5rem;
@@ -100,7 +105,40 @@
     .timer {
       position:absolute; top:0.3rem; right:3.2rem; font-size:0.8rem; color:#333;
     }
-    /* Chat */
+
+    /* ========== PANELS ========== */
+    aside {
+      width:260px; background:var(--panel-dark);
+      color:var(--text-light); overflow-y:auto; flex-shrink:0;
+    }
+    .panel { padding:20px; border-bottom:1px solid #333; display:none; }
+    .panel.active { display:block; }
+    .panel h3 { margin-bottom:10px; color:var(--accent); }
+
+    /* Status bars */
+    .status {
+      margin:10px 0;
+    }
+    .status .label {
+      display:block; margin-bottom:4px;
+    }
+    .status .bar {
+      width:100%; height:12px; background:#ddd; border-radius:6px; overflow:hidden;
+    }
+    .status .bar .fill {
+      height:100%; width:0%; background:var(--accent);
+      transition:width .3s ease;
+    }
+    .status .badge-bar {
+      width:100%; height:12px; background:#ddd; border-radius:6px; overflow:hidden;
+      margin-top:4px;
+    }
+    .status .badge-bar .fill {
+      height:100%; width:0%; background:#555;
+      transition:width .3s ease;
+    }
+
+    /* CHAT */
     #chatBox {
       position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
       width:60%; background:var(--panel-dark); color:var(--text-light);
@@ -111,7 +149,8 @@
       background:var(--accent); padding:10px; border-radius:50%;
       color:#fff; cursor:pointer;
     }
-    /* Mobile */
+
+    /* MOBILE */
     @media(max-width:768px){
       body { flex-direction:column; }
       nav, aside { width:100%; order:2; }
@@ -128,24 +167,42 @@
 </head>
 <body>
 
+  <!-- SIDEBAR -->
   <nav>
     <ul>
       <li><a data-panel="durumPanel" class="active">Durumum</a></li>
-      <li><a data-panel="koyPanel">Köy İncelemesi</a></li>
-      <li><a data-panel="trenPanel">Tren Seyahatleri</a></li>
+      <li><a data-panel="ailePanel">Ailem</a></li>
+      <li><a data-panel="tuccarPanel">Tüccar</a></li>
+      <li><a data-panel="mesajlarPanel">Mesajlarım</a></li>
+      <li><a data-panel="avlanPanel">Avlan</a></li>
+      <li><a data-panel="acikArttirmaPanel">Açık Arttırma</a></li>
+      <li><a data-panel="kacakPanel">Kaçakçılık</a></li>
       <li><a id="navVakur" style="color:var(--vakur-color)">Vakur Görevleri</a></li>
       <li><a id="navHatip" style="color:var(--hatip-color)">Hatip Görevleri</a></li>
       <li><a id="navBaron" style="color:var(--baron-color)">Baron Görevleri</a></li>
+      <li><a data-panel="atYarisiPanel">At Yarışı</a></li>
+      <li><a data-panel="atBilgilerPanel">At Bilgileri</a></li>
+      <li><a data-panel="oyunIciPanel">Oyun İçi Bilgiler</a></li>
+      <li><a data-panel="arananPanel">Arananlar</a></li>
+      <li><a data-panel="oyunlarPanel">Oyunlar</a></li>
+      <li><a data-panel="koyPanel">Köy İncelemesi</a></li>
+      <li><a data-panel="trenPanel">Tren Seyahatleri</a></li>
     </ul>
     <div class="search"><input placeholder="Kullanıcı ara..."></div>
   </nav>
 
+  <!-- MAIN CONTENT -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
       <div class="balance">$500,000</div>
     </header>
-    <div class="rail-container"><div class="rail-label">Gidiş Rotası</div><canvas id="railOut" class="rail"></canvas></div>
+
+    <div class="rail-container">
+      <div class="rail-label">Gidiş Rotası</div>
+      <canvas id="railOut" class="rail"></canvas>
+    </div>
+
     <div id="centerRanks">
       <div class="card" id="cardVakur" style="border:2px solid var(--vakur-color)">
         <h2 style="color:var(--vakur-color)">VAKUR</h2>
@@ -160,25 +217,82 @@
         <button id="btnBaron" style="background:var(--baron-color)">Serüven</button>
       </div>
     </div>
-    <div class="rail-container"><div class="rail-label return">Dönüş Rotası</div><canvas id="railBack" class="rail"></canvas></div>
+
+    <div class="rail-container">
+      <div class="rail-label return">Dönüş Rotası</div>
+      <canvas id="railBack" class="rail"></canvas>
+    </div>
   </main>
 
+  <!-- PANELS -->
   <aside>
     <div class="panel active" id="durumPanel">
       <h3>Durumum</h3>
-      <!-- Buraya ilerleme çubukları gelecek -->
-      <p>Burayı düzenleyebilirsiniz…</p>
+      <!-- Vakur Progress -->
+      <div class="status">
+        <span class="label">🛡️ Vakur Savunma</span>
+        <div class="bar"><div class="fill" id="vakurProg"></div></div>
+        <div class="badge-bar"><div class="fill" id="vakurBadgeBar"></div></div>
+      </div>
+      <!-- Hatip Progress -->
+      <div class="status">
+        <span class="label">👥 Hatip Nüfus</span>
+        <div class="bar"><div class="fill" id="hatipProg"></div></div>
+        <div class="badge-bar"><div class="fill" id="hatipBadgeBar"></div></div>
+      </div>
+      <!-- Baron Progress -->
+      <div class="status">
+        <span class="label">⚔️ Baron Etki</span>
+        <div class="bar"><div class="fill" id="baronProg"></div></div>
+        <div class="badge-bar"><div class="fill" id="baronBadgeBar"></div></div>
+      </div>
+    </div>
+    <div class="panel" id="ailePanel">
+      <h3>Ailem</h3><ul><li>Üye 1</li><li>Üye 2</li><li>Üye 3</li></ul>
+    </div>
+    <div class="panel" id="tuccarPanel">
+      <h3>Tüccar</h3><ul><li>Silah – 2500$</li><li>Bomba – 1000$</li><li>Ev – 10000$</li></ul>
+    </div>
+    <div class="panel" id="mesajlarPanel">
+      <h3>Mesajlarım</h3><ul><li>Mesaj 1</li><li>Mesaj 2</li></ul>
+    </div>
+    <div class="panel" id="avlanPanel">
+      <h3>Avlan</h3><ul><li>Görev 1</li><li>Görev 2</li></ul>
+    </div>
+    <div class="panel" id="acikArttirmaPanel">
+      <h3>Açık Arttırma</h3><ul><li>Item A</li><li>Item B</li></ul>
+    </div>
+    <div class="panel" id="kacakPanel">
+      <h3>Kaçakçılık</h3><ul><li>Görev 1</li><li>Görev 2</li></ul>
+    </div>
+    <div class="panel" id="atYarisiPanel">
+      <h3>At Yarışı</h3><ul><li>Yarış 1</li><li>Yarış 2</li></ul>
+    </div>
+    <div class="panel" id="atBilgilerPanel">
+      <h3>At Bilgileri</h3><ul><li>Karabey – Hız:85, Dayanıklılık:75, Yaş:5</li></ul>
+    </div>
+    <div class="panel" id="oyunIciPanel">
+      <h3>Oyun İçi Bilgiler</h3><p>Rehber, ipuçları vb.</p>
+    </div>
+    <div class="panel" id="arananPanel">
+      <h3>Arananlar</h3><ul><li>Karakter A</li><li>Karakter B</li></ul>
+    </div>
+    <div class="panel" id="oyunlarPanel">
+      <h3>Oyunlar</h3><ul><li>Mod 1</li><li>Mod 2</li></ul>
     </div>
     <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
-      <!-- Tab içerikleri -->
+      <div class="sub-tabs" id="koyTabs"></div>
+      <div class="sub-content" id="koyPages"></div>
     </div>
     <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
-      <!-- Tab içerikleri -->
+      <div class="sub-tabs" id="trenTabs"></div>
+      <div class="sub-content" id="trenPages"></div>
     </div>
   </aside>
 
+  <!-- OVERLAY TASK MODAL -->
   <div id="overlay">
     <div id="panel">
       <button id="closeBtn">Görevleri Kapat</button>
@@ -187,11 +301,12 @@
     </div>
   </div>
 
+  <!-- CHAT & ICON -->
   <div id="chatBox" contenteditable>CHAT başlıyor…</div>
   <div id="messageIcon">📩</div>
 
   <script>
-    // PANEL GEÇİŞİ
+    // Panel toggle
     document.querySelectorAll('nav li a[data-panel]').forEach(el=>{
       el.addEventListener('click', ()=>{
         document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
@@ -200,45 +315,91 @@
         document.getElementById(el.dataset.panel).classList.add('active');
       });
     });
-    // GÖREV DÜĞMELERİ
-    document.getElementById('btnVakur').onclick = ()=>openTasks('Vakur');
-    document.getElementById('btnHatip').onclick = ()=>openTasks('Hatip');
+
+    // Task buttons
+    document.getElementById('btnVakur').onclick  = ()=>openTasks('Vakur');
+    document.getElementById('btnHatip').onclick  = ()=>openTasks('Hatip');
     document.getElementById('btnBaron').onclick = ()=>openTasks('Baron');
-    document.getElementById('navVakur').onclick = ()=>openTasks('Vakur');
-    document.getElementById('navHatip').onclick = ()=>openTasks('Hatip');
+    document.getElementById('navVakur').onclick  = ()=>openTasks('Vakur');
+    document.getElementById('navHatip').onclick  = ()=>openTasks('Hatip');
     document.getElementById('navBaron').onclick = ()=>openTasks('Baron');
 
-    // OVERLAY
-    const overlay = document.getElementById('overlay'), panel = document.getElementById('panel');
+    // Overlay control
+    const overlay = document.getElementById('overlay'),
+          modal   = document.getElementById('panel');
     document.getElementById('closeBtn').onclick = ()=>overlay.style.display='none';
     overlay.onclick = ()=>overlay.style.display='none';
-    panel.onclick = e=>e.stopPropagation();
+    modal.onclick   = e=>e.stopPropagation();
 
-    // GÖREV AKIŞI (örnek 2 görev)
+    // Dummy task lists (2 görev örneği, sen 150’e çıkar)
     const tasks = {
       Vakur: [{ title:'ÇIRAK VAKUR I', tasks:['Görev 1','Görev 2'] }],
       Hatip: [{ title:'ÇIRAK HATİP I', tasks:['Görev A','Görev B'] }],
       Baron:[{ title:'ÇIRAK BARON I', tasks:['Görev X','Görev Y'] }]
     };
+    let done = { Vakur:0, Hatip:0, Baron:0 },
+        total= {
+          Vakur: tasks.Vakur.flatMap(s=>s.tasks).length,
+          Hatip: tasks.Hatip.flatMap(s=>s.tasks).length,
+          Baron:tasks.Baron.flatMap(s=>s.tasks).length
+        },
+        unlocked = { Vakur:true, Hatip:false, Baron:false };
+
     function openTasks(rank){
       overlay.style.display='flex';
       document.getElementById('taskHeader').innerText = rank+' Görevleri';
       const secEl = document.getElementById('taskSections');
       secEl.innerHTML = '';
       tasks[rank].forEach(sec=>{
-        let d=document.createElement('div'); d.className='rankSection';
-        d.innerHTML = `<h3>${sec.title}</h3>`+
-          sec.tasks.map(t=>`<div class="taskItem"><span>${t}</span><span class="timer">5s</span><button>✔</button></div>`).join('');
+        let d = document.createElement('div');
+        d.className = 'rankSection';
+        d.innerHTML = `<h3>${sec.title}</h3>` +
+          sec.tasks.map(t=>
+            `<div class="taskItem"><span>${t}</span>
+               <span class="timer">5s</span>
+               <button>✔</button>
+             </div>`
+          ).join('');
         secEl.appendChild(d);
       });
-      // sayaç
-      secEl.querySelectorAll('.taskItem').forEach(item=>{
-        let tEl = item.querySelector('.timer'), count=5;
-        let iv = setInterval(()=>{
-          if(--count<=0) { clearInterval(iv); tEl.innerText='⏰'; }
-          else tEl.innerText = count+'s';
-        },1000);
-        item.querySelector('button').onclick = ()=>item.classList.add('done');
+      // 5s sayaç + global kilit
+      const items = secEl.querySelectorAll('.taskItem');
+      items.forEach(item=>{
+        const btn = item.querySelector('button'),
+              tm  = item.querySelector('.timer');
+        btn.onclick = ()=>{
+          // kilit: hepsi disable
+          items.forEach(i=>i.querySelector('button').disabled = true);
+          let count = 5;
+          const iv = setInterval(()=>{
+            tm.innerText = (--count)+'s';
+            if(count<=0){
+              clearInterval(iv);
+              item.classList.add('done');
+              tm.innerText = '✅';
+              // açma: sadece yapılmamışları
+              items.forEach(i=>{
+                const b = i.querySelector('button');
+                if(!i.classList.contains('done')) b.disabled = false;
+              });
+              done[rank]++;
+              // rank açma
+              if(rank==='Vakur' && done.Vakur===total.Vakur){
+                unlocked.Hatip=true;
+                document.getElementById('cardHatip').classList.remove('locked');
+                alert('Hatip görevleri açıldı!');
+              }
+              if(rank==='Hatip' && done.Hatip===total.Hatip){
+                unlocked.Baron=true;
+                document.getElementById('cardBaron').classList.remove('locked');
+                alert('Baron görevleri açıldı!');
+              }
+              if(rank==='Baron' && done.Baron===total.Baron){
+                alert('Tüm görevler tamamlandı!');
+              }
+            }
+          },1000);
+        };
       });
     }
   </script>
