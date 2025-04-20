@@ -3,142 +3,141 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Black Dolphine – Mafia Oyunu</title>
+  <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* ===== GLOBAL ===== */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #888; color: #fff; padding-top: 80px; font-size: 0.85rem; }
+    /* ======= GENEL ======= */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; }
 
     header {
-      position: fixed; top: 0; left: 0; width: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2rem; z-index: 1000;
+      position:fixed; top:0; left:0; width:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1rem 2rem; z-index:1000;
     }
-    .logo { font-size: 1.8rem; font-weight: bold; color: #fff; }
+    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; }
     #money {
-      background: #222; padding: 0.4rem 0.8rem;
-      border: 1px solid #333; border-radius: 4px; color: lime;
+      background:#222; padding:0.4rem 0.8rem; border-radius:4px;
+      border:1px solid #333; font-size:0.9rem; color:lime;
     }
 
-    /* ===== LEFT PANEL ===== */
+    /* ======= SOL PANEL ======= */
     #leftPanel {
-      position: fixed; top: 80px; left: 20px;
-      width: 200px; height: calc(100vh - 80px);
-      overflow: auto; z-index: 900;
+      position:fixed; top:80px; left:20px;
+      width:200px; height:calc(100vh - 80px); overflow:auto;
+      z-index:900;
     }
-    .sectionBox { background: rgba(0,0,0,0.6); margin-bottom: 4px; border-radius: 5px; }
+    .sectionBox {
+      background:rgba(0,0,0,0.6); border-radius:5px; margin-bottom:4px;
+    }
     .sectionBox h2 {
-      background: #222; padding: 0.5rem; color: #ffcc00;
-      cursor: pointer; font-size: 0.85rem;
+      background:#222; padding:0.5rem; color:#ffcc00;
+      cursor:pointer; font-size:0.85rem;
     }
-    .tab-content { display: none; padding: 0.5rem; background: rgba(0,0,0,0.4); font-size: 0.8rem; }
-    .tab-content.active { display: block; }
+    .sectionBox .tab-content {
+      display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.8rem;
+    }
+    .sectionBox .tab-content.active { display:block; }
 
-    /* ===== CENTER RANKS ===== */
+    /* ======= VAKUR–HATİP–BARON BUTONLARI ======= */
     #centerRanks {
-      position: fixed; top: 50%; left: 50%;
+      position:fixed;
+      top:50%; left:50%;
       transform: translate(-50%, -50%);
-      width: 50%; display: flex;
-      justify-content: space-between; align-items: center;
-      z-index: 950;
+      display:flex;
+      gap:150px;
+      z-index:950;
     }
     .card {
-      background: rgba(0,0,0,0.7);
-      border-radius: 5px;
-      display: flex; justify-content: center; align-items: center;
-      width: 80px; height: 80px;
-      font-size: 2.25rem;
-      cursor: pointer;
-      color: #ffcc00;
-      flex-shrink: 0;
+      background:rgba(0,0,0,0.7);
+      padding:0.6rem 1rem;
+      border-radius:5px;
+      text-align:center;
+      font-size:0.9rem;
+      color:#ffcc00;
+      cursor:pointer;
+      user-select:none;
+      transform-origin:center;
     }
-    .card.vakur { color: blue; margin-left: 10px; }
-    .card.hatip { color: orange; }
-    .card.baron { color: red; }
+    .card.vakur { color:blue; transform:scale(2.5); }
+    .card.hatip { color:orange; transform:scale(2.5); }
+    .card.baron { color:red; transform:scale(2.5); }
 
-    /* ===== TRAVEL BOX (moved to bottom) ===== */
+    /* ======= ÜST SAĞ PANEL ======= */
     #travelBox {
-      position: fixed; bottom: 120px; right: 20px;
-      width: 300px; background: rgba(0,0,0,0.7);
-      border-radius: 5px; padding-bottom: 1rem;
-      z-index: 1000;
+      position:fixed; top:80px; right:20px;
+      width:200px; background:rgba(0,0,0,0.7);
+      border-radius:5px; z-index:1000; font-size:0.85rem;
     }
-    #travelBox h3 {
-      padding: 0.6rem; color: #ffcc00; text-align: center;
-      border-bottom: 1px solid #333; font-size: 0.75rem;
+    #villageBox {
+      position:fixed; bottom:60px; right:20px;
+      width:200px; background:rgba(0,0,0,0.7);
+      border-radius:5px; z-index:1000; font-size:0.85rem;
     }
-    .sub-tabs {
-      display: flex; justify-content: center; gap: 4px; padding: 0.4rem;
+    .box h3 {
+      padding:0.6rem; text-align:center; color:#ffcc00;
+      border-bottom:1px solid #333;
     }
-    .sub-tabs button {
-      background: #444; border: none;
-      padding: 0.3rem 0.5rem; color: #ffcc00;
-      border-radius: 3px; font-size: 0.65rem;
-      cursor: pointer;
+    .box .sub-tabs {
+      display:flex; justify-content:center; gap:4px;
+      padding:0.4rem; flex-wrap:wrap;
     }
-    #travelPages {
-      padding: 0.5rem; max-height: 200px; overflow: auto;
+    .box .sub-tabs button {
+      background:#444; border:none; padding:0.3rem 0.5rem;
+      color:#ffcc00; border-radius:3px; font-size:0.75rem;
+      cursor:pointer;
     }
-    #travelPages ul { list-style: none; padding: 0; }
-    #travelPages li {
-      display: flex; justify-content: space-between;
-      margin-bottom: 4px; font-size: 0.75rem;
+    .box .sub-tabs button.active { background:#666; }
+    .sub-content {
+      display:none; padding:0.5rem; height:120px; overflow:auto;
     }
-    #travelPages li button {
-      background: #444; border: none; border-radius: 3px;
-      padding: 2px 6px; font-size: 0.65rem; color: #ffcc00;
-      cursor: pointer;
+    .sub-content.active { display:block; }
+
+    /* ======= TREN RAYLARI ======= */
+    .trainTrack {
+      position:fixed;
+      left: calc(50% - 50%);
+      width:100%; height:180px;
+      z-index:800;
     }
 
-    /* ===== RAILS – only the top one visible ===== */
-    canvas.trainTrack {
-      position: fixed;
-      top: calc(50% - 60px);
-      left: 50%; transform: translateX(-50%);
-      width: 50%; height: 4px;
-      z-index: 800;
-    }
-    #trainTrackBottom { display: none; }
-
-    /* ===== BOTTOM INFO ===== */
+    /* ======= ALT ARAMA & BİLGİ ======= */
     #searchBoxBottom {
-      position: fixed; bottom: 60px; left: 20px; width: 200px; z-index: 900;
+      position:fixed; bottom:60px; left:20px; width:200px; z-index:900;
     }
     #searchBoxBottom input {
-      width: 100%; padding: 0.4rem; border-radius: 3px;
-      border: 1px solid #333; background: #222; color: #fff;
+      width:100%; padding:0.4rem; border-radius:3px;
+      border:1px solid #333; background:#222; color:#fff;
     }
     #bottomLeft {
-      position: fixed; bottom: 20px; left: 20px;
-      background: #0288d1; padding: 0.4rem 0.8rem;
-      border-radius: 5px; font-size: 0.9rem; z-index: 900;
+      position:fixed; bottom:20px; left:20px;
+      background:#0288d1; padding:0.4rem 0.8rem;
+      border-radius:5px; font-size:0.9rem; z-index:900;
     }
 
-    /* ===== CHAT & ICON ===== */
+    /* ======= CHAT & MESAJ ======= */
     #chatBox {
-      position: fixed; bottom: 20px; left: 50%;
-      transform: translateX(-50%);
-      width: 300px; max-width: 80%;
-      background: rgba(0,0,0,0.7);
-      padding: 0.5rem; border-radius: 5px;
-      text-align: center; font-size: 0.9rem;
-      cursor: text; z-index: 900;
+      position:fixed; bottom:20px; left:50%;
+      transform:translateX(-50%);
+      width:300px; max-width:80%; background:rgba(0,0,0,0.7);
+      padding:0.5rem; border-radius:5px; text-align:center;
+      font-size:0.9rem; cursor:text; z-index:900;
     }
     #messageIcon {
-      position: fixed; bottom: 20px; right: 20px;
-      background: rgba(0,0,0,0.7); padding: 0.6rem;
-      border-radius: 50%; font-size: 1.2rem;
-      cursor: pointer; z-index: 900;
+      position:fixed; bottom:20px; right:20px;
+      background:rgba(0,0,0,0.7); padding:0.6rem;
+      border-radius:50%; font-size:1.2rem; cursor:pointer;
+      z-index:900;
     }
 
-    @media (max-width: 768px) {
-      #leftPanel { position: static; width: 100%; height: auto; margin-bottom: 1rem; padding: 0 10px; }
-      #centerRanks { position: static; transform: none; width: 100%; margin: 1rem auto; }
-      #travelBox { position: static; width: calc(100% - 20px); margin: 1rem 10px; }
-      canvas.trainTrack { display: none; }
+    /* ======= MOBİL ======= */
+    @media(max-width:768px){
+      #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; padding:0 10px; }
+      #centerRanks { position:static; transform:none; margin:1rem auto; gap:50px; }
+      #travelBox, #villageBox { position:static; width:calc(100% - 20px); margin:1rem 10px; }
+      .trainTrack { position:static; width:100%; height:120px; margin:1rem 0; }
       #searchBoxBottom, #bottomLeft, #chatBox, #messageIcon {
-        position: static; width: 90%; margin: 0.5rem 10px; transform: none;
+        position:static; width:100%; margin:0.5rem 10px; transform:none; text-align:center;
       }
     }
   </style>
@@ -149,112 +148,127 @@
     <div id="money">$500000</div>
   </header>
 
+  <!-- SOL PANEL -->
   <div id="leftPanel">
-    <!-- ... your sectionBox/tab-content markup here ... -->
+    <!-- ... sekmeler ... -->
   </div>
 
+  <!-- VAKUR–HATİP–BARON BUTONLARI -->
   <div id="centerRanks">
-    <div class="card baron">BARON</div>
-    <div class="card hatip">HATİP</div>
     <div class="card vakur">VAKUR</div>
+    <div class="card hatip">HATİP</div>
+    <div class="card baron">BARON</div>
   </div>
 
-  <div id="travelBox">
+  <!-- ÜST SAĞ PANELLER -->
+  <div id="travelBox" class="box">
     <h3>Trenle Seyehat</h3>
     <div class="sub-tabs" id="travelTabs"></div>
     <div id="travelPages"></div>
   </div>
+  <div id="villageBox" class="box">
+    <h3>Köy İncelemesi</h3>
+    <div class="sub-tabs" id="villageTabs"></div>
+    <div id="villagePages"></div>
+  </div>
 
+  <!-- TREN RAYLARI -->
   <canvas id="trainTrackTop" class="trainTrack"></canvas>
   <canvas id="trainTrackBottom" class="trainTrack"></canvas>
 
-  <div id="searchBoxBottom">
-    <input type="text" placeholder="Kullanıcı Ara..."/>
-  </div>
+  <!-- ALT ARAMA & BİLGİ -->
+  <div id="searchBoxBottom"><input type="text" placeholder="Kullanıcı Ara..." /></div>
   <div id="bottomLeft">Asman</div>
+
+  <!-- CHAT & MESAJ -->
   <div id="chatBox" contenteditable="true">CHAT</div>
-  <div id="messageIcon">📩</div>
+  <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
 
   <script>
-    function toggleTab(id) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    // sekme toggle
+    function toggleTab(id){
+      document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
       document.getElementById(id).classList.toggle('active');
     }
 
-    const villages = [/* … your 31 köy listesi … */];
-    function initTabs(tabId, pageId) {
+    // köy sekmeleri
+    const villages = [/* ...31 köy adı... */];
+    function initTabs(tabId,pageId){
       const t = document.getElementById(tabId),
             p = document.getElementById(pageId),
             per = 7;
-      villages.forEach((v,i) => {
-        if (i % per === 0) {
-          const btn = document.createElement('button');
-          btn.innerText = Math.floor(i/per)+1;
-          btn.onclick = () => showPage(Math.floor(i/per), tabId, pageId);
-          t.appendChild(btn);
-          const pan = document.createElement('div');
-          pan.className = 'sub-content';
-          const ul = document.createElement('ul');
-          pan.appendChild(ul);
-          p.appendChild(pan);
-        }
-        const idx = Math.floor(i/per),
-              ulEl = document.querySelectorAll(`#${pageId} ul`)[idx],
-              li = document.createElement('li'),
-              inceleBtn = document.createElement('button'),
-              seyBtn    = document.createElement('button');
-        li.innerText = v;
-        inceleBtn.innerText = 'İncele';
-        seyBtn.innerText   = 'Seyehat Et';
-        inceleBtn.onclick = () => {
-          const m=[5,10,15][Math.floor(Math.random()*3)],
-                s=[50,75,100][Math.floor(Math.random()*3)];
-          alert(`Malikane: ${m}, Sığınak: ${s}`);
-        };
-        seyBtn.onclick = () => {
-          if (confirm('Seyehat etmek istediğinize emin misiniz?')) {
-            let cur = parseInt(document.getElementById('money').innerText.replace('$',''),10);
-            cur = Math.max(0, cur - 500);
-            document.getElementById('money').innerText = '$'+cur;
-            document.getElementById('bottomLeft').innerText = v + ' köyüne seyahat edildi';
-            const d = document.getElementById('durumum'),
-                  pEl = document.createElement('p');
-            pEl.innerText = v + ' köyüne seyahat edildi.';
-            d.appendChild(pEl);
-          }
-        };
-        li.append(inceleBtn, seyBtn);
-        ulEl.appendChild(li);
-      });
+      for(let i=0;i<7;i++){
+        let b = document.createElement('button');
+        b.innerText = i+1;
+        b.onclick = ()=>showPage(i,tabId,pageId);
+        t.appendChild(b);
+
+        let d = document.createElement('div');
+        d.className = 'sub-content';
+        let u = document.createElement('ul');
+        villages.slice(i*per,(i+1)*per).forEach(v=>{
+          let li = document.createElement('li');
+          li.innerText = v;
+          u.appendChild(li);
+        });
+        d.appendChild(u);
+        p.appendChild(d);
+      }
       showPage(0, tabId, pageId);
     }
-    function showPage(idx, tabId, pageId) {
+    function showPage(i, tabId, pageId){
       document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll(`#${pageId} .sub-content`).forEach(p=>p.classList.remove('active'));
-      document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
-      document.querySelectorAll(`#${pageId} .sub-content`)[idx].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.classList.remove('active'));
+      document.querySelectorAll(`#${tabId} button`)[i].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[i].classList.add('active');
     }
     initTabs('travelTabs','travelPages');
+    initTabs('villageTabs','villagePages');
 
-    const rails = ['trainTrackTop'];
-    function draw(id) {
-      const c = document.getElementById(id), ctx = c.getContext('2d');
-      c.width = c.offsetWidth; c.height = c.offsetHeight;
-      ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(0, c.height/2);
-      ctx.lineTo(c.width, c.height/2);
-      ctx.stroke();
+    // tren rayı çizimi & konumlama
+    const rails = ['trainTrackTop','trainTrackBottom'];
+    function draw(id){
+      const c = document.getElementById(id),
+            ctx = c.getContext('2d');
+      c.width = c.offsetWidth;
+      c.height = c.offsetHeight;
+      // çift ince gri yatay çizgi
+      ctx.strokeStyle = '#cccccc';
+      ctx.lineWidth = 1;
+      [10,12,c.height-10,c.height-12].forEach(y=>{
+        ctx.beginPath();
+        ctx.moveTo(0,y);
+        ctx.lineTo(c.width,y);
+        ctx.stroke();
+      });
+      // 25 çift ince kırmızı dikey çizgi
+      ctx.strokeStyle = '#ff0000';
+      const count = 25, sp = c.width/(count+1);
+      for(let i=1;i<=count;i++){
+        const x = sp*i;
+        [0,1].forEach(o=>{
+          ctx.beginPath();
+          ctx.moveTo(x+o,12);
+          ctx.lineTo(x+o,c.height-12);
+          ctx.stroke();
+        });
+      }
     }
-    function positionRails() {
-      const cr = document.getElementById('centerRanks').getBoundingClientRect(),
-            topRail = document.getElementById('trainTrackTop');
-      const offset = 60; // lifts the single rail above the cards
-      topRail.style.top = `${cr.top - offset + window.scrollY}px`;
+    function positionRails(){
+      const cr = document.getElementById('centerRanks').getBoundingClientRect();
+      const railH = document.getElementById('trainTrackTop').offsetHeight;
+      const gap = cr.height;
+      document.getElementById('trainTrackTop').style.top =
+        `${cr.top - railH - gap + window.scrollY}px`;
+      document.getElementById('trainTrackBottom').style.top =
+        `${cr.bottom + gap + window.scrollY}px`;
     }
-    function redraw() { rails.forEach(draw); positionRails(); }
-    window.addEventListener('resize', redraw);
-    window.addEventListener('load', redraw);
+    function redraw(){
+      rails.forEach(draw);
+      positionRails();
+    }
+    window.addEventListener('resize',redraw);
+    window.addEventListener('load',redraw);
   </script>
 </body>
 </html>
