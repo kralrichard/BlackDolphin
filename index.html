@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Black Dolphine - Mafia Oyunu</title>
+  <title>Black Dolphine – Mafia Oyunu</title>
   <style>
     :root {
       --bg-dark: #121212;
@@ -35,7 +35,10 @@
       justify-content: space-between;
       align-items: center;
     }
-    .logo { font-size: 1.4rem; font-weight: bold; }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
     .balance {
       background: #222;
       padding: 0.5rem 1rem;
@@ -47,8 +50,8 @@
       justify-content: center;
       gap: 2rem;
       padding: 1rem;
-      flex-shrink: 0;
       background: var(--bg-light);
+      flex-shrink: 0;
     }
     .card {
       background: var(--panel-dark);
@@ -65,14 +68,14 @@
     }
     .card h2 {
       margin-bottom: 0.5rem;
-      font-size: 1rem;
       text-transform: uppercase;
+      font-size: 1rem;
     }
     .card button {
       background: var(--accent);
       border: none;
-      padding: 0.5rem 1rem;
       color: #fff;
+      padding: 0.5rem 1rem;
       border-radius: 4px;
       cursor: pointer;
     }
@@ -98,7 +101,8 @@
     }
     #closeBtn {
       position: absolute;
-      top: 0.5rem; right: 0.5rem;
+      top: 0.5rem;
+      right: 0.5rem;
       background: var(--accent);
       border: none;
       color: #fff;
@@ -106,7 +110,9 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .rankSection { margin-bottom: 1rem; }
+    .rankSection {
+      margin-bottom: 1rem;
+    }
     .rankSection h3 {
       color: var(--accent);
       margin-bottom: 0.5rem;
@@ -114,12 +120,14 @@
     .taskItem {
       background: #ddd;
       padding: 0.5rem;
+      border-radius: 4px;
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.3rem;
-      border-radius: 4px;
     }
-    .taskItem.done { background: #a8e6cf; }
+    .taskItem.done {
+      background: #a8e6cf;
+    }
     .taskItem button {
       background: var(--accent);
       border: none;
@@ -129,9 +137,17 @@
       cursor: pointer;
     }
     @media (max-width: 768px) {
-      header { flex-direction: column; text-align: center; }
-      .balance { margin-top: 0.5rem; }
-      #centerRanks { flex-wrap: wrap; gap: 1rem; }
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .balance {
+        margin-top: 0.5rem;
+      }
+      #centerRanks {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
     }
   </style>
 </head>
@@ -169,7 +185,9 @@
   <script>
     const tasks = {
       Vakur: [
-        { title: 'ÇIRAK VAKUR I', tasks: [
+        {
+          title: 'ÇIRAK VAKUR I',
+          tasks: [
             'Bir çocuğun okul çantası almasına yardımcı ol.',
             'Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.',
             'Sokaktaki sahipsiz bir köpek için su ve mama koy.',
@@ -182,7 +200,9 @@
             'Arkadaşına küçük bir sürpriz parti düzenle.'
           ]
         },
-        { title: 'USTA VAKUR II', tasks: [
+        {
+          title: 'USTA VAKUR II',
+          tasks: [
             'Aile içinde tartışan iki akrabayı barıştır.',
             'Mahallede yardım kermesi organize et.',
             'Maddi durumu kötü bir öğrenciye burs ayarla.',
@@ -197,33 +217,33 @@
         }
       ],
       Hatip: [
-        // Hatip görevleri benzer yapıda buraya eklenebilir
+        // Hatip görevleri buraya
       ],
       Baron: [
         // Baron görevleri buraya
       ]
     };
 
-    const done    = { Vakur: 0, Hatip: 0, Baron: 0 };
-    const total   = { Vakur: tasks.Vakur.reduce((sum, sec) => sum + sec.tasks.length, 0), Hatip: 0, Baron: 0 };
-    const unlocked= { Vakur: true, Hatip: false, Baron: false };
+    const done     = { Vakur: 0, Hatip: 0, Baron: 0 };
+    const total    = { Vakur: tasks.Vakur.flatMap(s=>s.tasks).length, Hatip: 0, Baron: 0 };
+    const unlocked = { Vakur: true, Hatip: false, Baron: false };
 
     function openTasks(rank) {
       if (!unlocked[rank]) {
-        return alert(rank + ' kilitli! Önce bir üst rankı tamamlayın.');
+        return alert(`${rank} kilitli! Önce bir üst rankı tamamlayın.`);
       }
-      document.getElementById('taskHeader').innerText = rank + ' Görevleri';
+      document.getElementById('taskHeader').innerText = `${rank} Görevleri`;
       const container = document.getElementById('taskSections');
       container.innerHTML = '';
 
-      tasks[rank].forEach(sec => {
-        const sectionDiv = document.createElement('div');
-        sectionDiv.className = 'rankSection';
+      tasks[rank].forEach(section => {
+        const secDiv = document.createElement('div');
+        secDiv.className = 'rankSection';
         const h3 = document.createElement('h3');
-        h3.innerText = sec.title;
-        sectionDiv.appendChild(h3);
+        h3.innerText = section.title;
+        secDiv.appendChild(h3);
 
-        sec.tasks.forEach(text => {
+        section.tasks.forEach(text => {
           const taskDiv = document.createElement('div');
           taskDiv.className = 'taskItem';
           const span = document.createElement('span');
@@ -233,18 +253,18 @@
           btn.onclick = () => completeTask(rank, btn);
           taskDiv.appendChild(span);
           taskDiv.appendChild(btn);
-          sectionDiv.appendChild(taskDiv);
+          secDiv.appendChild(taskDiv);
         });
 
-        container.appendChild(sectionDiv);
+        container.appendChild(secDiv);
       });
 
       document.getElementById('overlay').style.display = 'flex';
     }
 
-    function completeTask(rank, button) {
-      button.disabled = true;
-      button.parentElement.classList.add('done');
+    function completeTask(rank, btn) {
+      btn.disabled = true;
+      btn.parentElement.classList.add('done');
       done[rank]++;
 
       if (rank === 'Vakur' && done.Vakur === total.Vakur) {
@@ -266,5 +286,6 @@
       document.getElementById('overlay').style.display = 'none';
     }
   </script>
+
 </body>
 </html>
