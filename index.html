@@ -20,7 +20,7 @@
     nav{width:220px;background:var(--panel-dark);color:var(--text-light);display:flex;flex-direction:column;}
     nav ul{list-style:none;overflow-y:auto;flex:1;}
     nav li a{display:block;padding:12px 20px;color:inherit;text-decoration:none;border-bottom:1px solid #333;}
-    nav li a.vakur{color:var(--accent-vakur);} nav li a.hatip{color:var(--accent-hatip);} nav li a.baron{color:var(--accent-baron);}
+    nav li a.vakur{color:var(--accent-vakur)} nav li a.hatip{color:var(--accent-hatip)} nav li a.baron{color:var(--accent-baron)}
     nav li a:hover,nav li a.active{background:rgba(255,255,255,0.1);}
     nav .search{padding:10px;} nav .search input{width:100%;padding:8px;border:none;border-radius:4px;}
     /* MAIN */
@@ -35,13 +35,13 @@
     /* CENTER RANKS */
     #centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;flex-shrink:0;}
     .card{padding:1rem;border-radius:8px;text-align:center;width:120px;cursor:pointer;color:var(--text-light);}
-    .card.vakur{background:var(--panel-dark);border:2px solid var(--accent-vakur);}
-    .card.hatip{background:var(--panel-dark);border:2px solid var(--accent-hatip);}
-    .card.baron{background:var(--panel-dark);border:2px solid var(--accent-baron);}
+    .card.vakur{background:var(--panel-dark);border:2px solid var(--accent-vakur)}
+    .card.hatip{background:var(--panel-dark);border:2px solid var(--accent-hatip)}
+    .card.baron{background:var(--panel-dark);border:2px solid var(--accent-baron)}
     .card.locked{opacity:0.5;pointer-events:none;}
     .card h2{margin-bottom:0.5rem;text-transform:uppercase;}
     .card button{border:none;color:#fff;padding:0.5rem 1rem;border-radius:4px;cursor:pointer;}
-    .card.vakur button{background:var(--accent-vakur);} .card.hatip button{background:var(--accent-hatip);} .card.baron button{background:var(--accent-baron);}
+    .card.vakur button{background:var(--accent-vakur)} .card.hatip button{background:var(--accent-hatip)} .card.baron button{background:var(--accent-baron)}
     /* OVERLAY */
     #overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;}
     #panel{background:var(--bg-light);width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:8px;padding:1rem;position:relative;}
@@ -49,8 +49,16 @@
     .rankSection{margin-bottom:1rem;} .rankSection h3{margin-bottom:0.5rem;color:var(--text-dark);}
     .taskItem{background:#ddd;padding:0.5rem;display:flex;justify-content:space-between;border-radius:4px;margin-bottom:0.3rem;}
     .taskItem.done{background:#a8e6cf;}
-    .taskItem.vakur button{background:var(--accent-vakur);} .taskItem.hatip button{background:var(--accent-hatip);} .taskItem.baron button{background:var(--accent-baron);}
+    .taskItem.vakur button{background:var(--accent-vakur)} .taskItem.hatip button{background:var(--accent-hatip)} .taskItem.baron button{background:var(--accent-baron)}
     .taskItem button{border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
+    /* PROGRESS */
+    .prog-container{margin-bottom:1rem;}
+    .prog-label{font-weight:bold;margin-bottom:0.3rem;}
+    .progress{width:100%;height:20px;background:#ddd;border-radius:10px;overflow:hidden;margin-bottom:0.2rem;}
+    .fill{height:100%;width:0;}
+    .fill-vakur-prog{background:var(--prog-vakur)} .fill-hatip-prog{background:var(--prog-hatip)} .fill-baron-prog{background:var(--prog-baron)}
+    .fill-vakur-rozet{background:var(--rozet-vakur)} .fill-hatip-rozet{background:var(--rozet-hatip)} .fill-baron-rozet{background:var(--rozet-baron)}
+    .badge-count{text-align:right;font-size:0.9rem;}
     /* PANELS */
     aside{width:260px;background:var(--panel-dark);color:var(--text-light);overflow-y:auto;flex-shrink:0;}
     .panel{padding:20px;border-bottom:1px solid #333;display:none;} .panel.active{display:block;}
@@ -61,14 +69,6 @@
     .sub-content ul{list-style:none;max-height:200px;overflow-y:auto;padding-left:0;}
     .sub-content li{display:flex;justify-content:space-between;margin-bottom:6px;}
     .sub-content li button{background:var(--accent-vakur);border:none;color:#fff;padding:4px 8px;border-radius:4px;cursor:pointer;}
-    /* PROGRESS BARS */
-    .prog-container{margin-bottom:1rem;}
-    .prog-label{font-weight:bold;margin-bottom:0.3rem;}
-    .progress{width:100%;height:20px;background:#ddd;border-radius:10px;overflow:hidden;margin-bottom:0.2rem;}
-    .progress .fill{height:100%;width:0;}
-    .fill-vakur-prog{background:var(--prog-vakur);} .fill-hatip-prog{background:var(--prog-hatip);} .fill-baron-prog{background:var(--prog-baron);}
-    .fill-vakur-rozet{background:var(--rozet-vakur);} .fill-hatip-rozet{background:var(--rozet-hatip);} .fill-baron-rozet{background:var(--rozet-baron);}
-    .badge-count{text-align:right;font-size:0.9rem;}
     /* CHAT */
     #chatBox{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:60%;background:var(--panel-dark);color:var(--text-light);padding:10px;border-radius:8px;max-height:200px;overflow-y:auto;}
     #messageIcon{position:fixed;bottom:20px;right:20px;background:var(--accent-vakur);padding:10px;border-radius:50%;color:#fff;cursor:pointer;}
@@ -125,7 +125,7 @@
   <aside>
     <div class="panel active" id="durumPanel">
       <h3>Durumum</h3>
-
+      <!-- Vakur -->
       <div class="prog-container">
         <div class="prog-label">Vakur İlerleme (%<span id="vakurPct">0</span>)</div>
         <div class="progress"><div id="vakurProg" class="fill fill-vakur-prog"></div></div>
@@ -133,7 +133,7 @@
         <div class="progress"><div id="vakurRoz" class="fill fill-vakur-rozet"></div></div>
         <div class="badge-count">Rozet sayısı: <span id="vakurBadges">0</span></div>
       </div>
-
+      <!-- Hatip -->
       <div class="prog-container">
         <div class="prog-label">Hatip İlerleme (%<span id="hatipPct">0</span>)</div>
         <div class="progress"><div id="hatipProg" class="fill fill-hatip-prog"></div></div>
@@ -141,7 +141,7 @@
         <div class="progress"><div id="hatipRoz" class="fill fill-hatip-rozet"></div></div>
         <div class="badge-count">Rozet sayısı: <span id="hatipBadges">0</span></div>
       </div>
-
+      <!-- Baron -->
       <div class="prog-container">
         <div class="prog-label">Baron İlerleme (%<span id="baronPct">0</span>)</div>
         <div class="progress"><div id="baronProg" class="fill fill-baron-prog"></div></div>
@@ -151,7 +151,7 @@
       </div>
     </div>
 
-    <!-- Placeholder panels -->
+    <!-- placeholder panels -->
     <div class="panel" id="ailePanel"><h3>Ailem</h3><p>...</p></div>
     <div class="panel" id="tuccarPanel"><h3>Tüccar</h3><p>...</p></div>
     <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3><p>...</p></div>
@@ -188,8 +188,14 @@
   <div id="messageIcon">📩</div>
 
   <script>
-    // Köyler ve ray çizimi
-    const villages = [/* your 40 villages here */];
+    // örnek 40 köy
+    const villages=[
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
+      "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
+      "Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker",
+      "Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar",
+      "Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"
+    ];
     function drawRail(id,c1,c2){
       const c=document.getElementById(id),ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
@@ -210,100 +216,268 @@
     };
     window.onresize=()=>{ drawRail('railOut','#555','#3182ce'); drawRail('railBack','#555','#a8dadc'); };
 
-    // Panel toggle
     function togglePanel(id){
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById(id+'Panel').classList.add('active');
     }
-
-    // Tabs
     function initTabs(tid,pid,items){
       const tabs=document.getElementById(tid),pages=document.getElementById(pid);
       tabs.innerHTML='';pages.innerHTML='';
-      const per=8,pc=Math.ceil(items.length/per);
-      for(let i=0;i<pc;i++){
+      const per=8,pcount=Math.ceil(items.length/per);
+      for(let i=0;i<pcount;i++){
         const btn=document.createElement('button');btn.innerText=i+1;
         btn.onclick=()=>showPage(i,tid,pid);tabs.appendChild(btn);
         const div=document.createElement('div');div.className='sub-content';
         const ul=document.createElement('ul');
         for(let j=i*per;j<Math.min((i+1)*per,items.length);j++){
           const li=document.createElement('li');
-          li.innerHTML=`${items[j]} <button onclick="alert('${items[j]} köyüne gidiliyor')">Git</button>`;
+          li.innerHTML=`${items[j]} <button onclick="alert('${items[j]} köyüne gidildi')">Git</button>`;
           ul.appendChild(li);
         }
         div.appendChild(ul);pages.appendChild(div);
       }
       showPage(0,tid,pid);
     }
-    function showPage(idx,tid,pid){
+    function showPage(i,tid,pid){
       document.querySelectorAll(`#${tid} button`).forEach(b=>b.classList.remove('active'));
       document.querySelectorAll(`#${pid} .sub-content`).forEach(d=>d.style.display='none');
-      document.querySelectorAll(`#${tid} button`)[idx].classList.add('active');
-      document.querySelectorAll(`#${pid} .sub-content`)[idx].style.display='block';
+      document.querySelectorAll(`#${tid} button`)[i].classList.add('active');
+      document.querySelectorAll(`#${pid} .sub-content`)[i].style.display='block';
     }
 
-    // Tasks boilerplate (fill with your tasks)
-    const tasks = { Vakur:[], Hatip:[], Baron:[] };
-    let done={Vakur:0,Hatip:0,Baron:0},
-        total={Vakur:2500,Hatip:1600,Baron:200};
+    // 150 görev
+    const tasks = {
+      Vakur:[
+        {title:"ÇIRAK VAKUR I",tasks:[
+          "Bir çocuğun okul çantası almasına yardımcı ol.",
+          "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
+          "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
+          "Arkadaşına ufak bir hediye vererek moralini yükselt.",
+          "İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",
+          "Kütüphanede eski kitapları düzenlemeye gönüllü ol.",
+          "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
+          "Otobüste yaşlı veya hamile birine yer ver.",
+          "Mahalle parkında çöp toplama etkinliğine katıl.",
+          "Arkadaşına küçük bir sürpriz parti düzenle."
+        ]},
+        {title:"USTA VAKUR II",tasks:[
+          "Aile içinde tartışan iki akrabayı barıştır.",
+          "Mahallede yardım kermesi organize et.",
+          "Maddi durumu kötü bir öğrenciye burs ayarla.",
+          "Bir STK’nın etkinliğinde aktif rol al.",
+          "Bakımsız parkı onarmak için gönüllüler topla.",
+          "Kan bağışı kampanyasına katkıda bulun.",
+          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
+          "Zorbalığa uğrayan birine çevrim içi destek bul.",
+          "Engelliler için kamu binalarına erişim kolaylığı sağla.",
+          "Sokak hayvanları için geçici barınak oluştur."
+        ]},
+        {title:"UZMAN VAKUR III",tasks:[
+          "Afet bölgesine yardım ekibi olarak katıl.",
+          "Kronik bir sorun için belediyeyle görüşüp çözüm talep et.",
+          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
+          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
+          "Küs olan iki arkadaşın barışmasına aracılık et.",
+          "Toplum dışlanmış birini etkinliklere dahil et.",
+          "Küçük çaplı bağış kampanyası düzenle.",
+          "Yerel hastanede gönüllü refakat programına katıl.",
+          "Belediye ile iş birliği yaparak gençlik merkezi aç.",
+          "Maddi sıkıntı yaşayan aileler için erzak paketi dağıtımı yap."
+        ]},
+        {title:"EFSANE VAKUR IV",tasks:[
+          "Büyük ölçekli yardım projesine liderlik et.",
+          "Gençlere yönelik mentorluk programı başlat.",
+          "Meslek edindirme kursu organize et.",
+          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
+          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
+          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
+          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
+          "Ücretsiz terapi/rehberlik günü organize et.",
+          "Üniversite öğrencilerine staj imkânları sunan platform oluştur.",
+          "Çevre koruma amaçlı ağaçlandırma kampanyası düzenle."
+        ]},
+        {title:"YÜCE VAKUR V",tasks:[
+          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
+          "Büyük bağış konseri/festival düzenle.",
+          "Gönüllüleri bir araya getiren platform kur.",
+          "Eğitim bursu fonu başlat.",
+          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
+          "Yardım vakfı kurarak sürekli yardım yürüt.",
+          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
+          "Yurt çapında geri dönüşüm projesi başlat.",
+          "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
+          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
+        ]}
+      ],
+      Hatip:[
+        {title:"ÇIRAK HATİP I",tasks:[
+          "Sokak kavgasını tatlı dille sakinleştir.",
+          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
+          "Aile içi gerginliği dinleyerek gider.",
+          "Sosyal medyada tartışmayı tatlıya bağla.",
+          "Yanlış bilgiyi doğru kaynakla düzelt.",
+          "Dedikoduyu kaynağından çürüterek sakinleştir.",
+          "Okul/kulüp etkinliğinde kısa konuşma yap.",
+          "Ufak grupta hitabet pratiği yap.",
+          "Arkadaş grubuna moral verici konuşma yap.",
+          "Sosyal medya üzerinden küçük bilgilendirici yayın düzenle."
+        ]},
+        {title:"USTA HATİP II",tasks:[
+          "Komşular arasındaki sorunu toplantı ile çöz.",
+          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
+          "Yerel hayır kurumuna bağış toplamak için ikna et.",
+          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
+          "Aile şirketinde tartışmada hakemlik yap.",
+          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
+          "Mahalle muhtarıyla imza kampanyası başlat.",
+          "Gönüllü ekiple sokak sanatçılarına destek sağla.",
+          "Mahallede çevre bilinci semineri düzenle.",
+          "Gençlere yönelik küçük münazara yarışmaları organize et."
+        ]},
+        {title:"UZMAN HATİP III",tasks:[
+          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
+          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
+          "Mahalle halkının taleplerini dile getirip sonuç al.",
+          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
+          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
+          "Binlerce kişilik tartışmayı sakinleştir.",
+          "Sivil toplum zirvesinde temsilci olarak konuş.",
+          "Yerel basında toplumsal sorunlar üzerine köşe yazısı yayınla.",
+          "İşsizlere yönelik motivasyon konuşması gerçekleştir."
+        ]},
+        {title:"EFSANE HATİP IV",tasks:[
+          "Bölgesel toplum hareketine önderlik et.",
+          "Ulusal konferansta çözüm önerileri sun.",
+          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
+          "Barış çalıştayında moderatörlük yap.",
+          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
+          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
+          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
+          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver.",
+          "Kamu kurumlarında iletişim eğitimi ver.",
+          "Şiddetsiz iletişim üzerine farkındalık kampanyası başlat."
+        ]},
+        {title:"YÜCE HATİP V",tasks:[
+          "Yerel topluluklarda barış kültürü aşıla.",
+          "Sosyal medya üzerinden olumlu mesajlar yay.",
+          "Yerel liderlerle yakın işbirliği kur.",
+          "Eski çatışmaları unut, yeni başlangıçlar yap.",
+          "Kriz zamanlarında destek ağı oluştur.",
+          "Halk arasında iletişimi güçlendir.",
+          "Barış temalı etkinlikler düzenle.",
+          "Toplumu huzura kavuşturan projeler geliştir.",
+          "Mafya aileleri arasında dayanışmayı sağla.",
+          "Etkinliklerle sosyal dengeyi koru."
+        ]}
+      ],
+      Baron:[
+        {title:"BASİT BARON I",tasks:[
+          "Ufak çapta uyuşturucu satmayı dene.",
+          "Mahallede küçük 'koruma ücreti' topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
+          "Sahte marka ürünlerin satış ağını oluştur.",
+          "Şantaj veya tehditle rakibi sustur.",
+          "Ufak çetenin desteğiyle 'güvenlik' sağlandığını iddia et.",
+          "Kaçak içki satışı yapan ekibe arka çık."
+        ]},
+        {title:"ORTA BARON II",tasks:[
+          "Esnaftan düzenli 'koruma parası' toplamaya başla.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
+          "Yasadışı kumar organizasyonu başlat.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
+          "Kara para aklama için küçük sermaye oluştur.",
+          "Gece kulübünün 'gizli ortak' statüsünü al."
+        ]},
+        {title:"ZOR BARON III",tasks:[
+          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Polis ve siyasi bağlantıları güçlendir.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüplerinde yatırımın tekeli olsun.",
+          "Rakip çetenin liderini korkutarak saflarına katıl.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
+          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır."
+        ]},
+        {title:"İLERİ BARON IV",tasks:[
+          "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
+          "Üst düzey bürokratlarla gizli anlaşmalar yap.",
+          "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
+          "Yurt dışı kara para aklama ofisleri aç.",
+          "Güvenlik birimlerinde kilit isimleri satın al.",
+          "Şehrin limanlarında kontrol sağla.",
+          "Gösterişli hayır işleriyle meşrulaş.",
+          "Kumarhane zinciri kurarak yasadışı gelirleri yasallaştır."
+        ]},
+        {title:"SON BARON V",tasks:[
+          "Küresel çapta eğitim reformlarını destekleyen vakıf kur ve finanse et.",
+          "Prestijli üniversitelerin kampüs inşaatlarına yatırım yap.",
+          "Üst düzey bilimsel araştırmalara mali destek sağla.",
+          "Küresel sağlık fonları kurarak sağlık sistemlerini destekle.",
+          "Protez bacak ve sağlık ekipmanları üretimine büyük yatırım yap.",
+          "Dünya genelinde mafya zirvesine katılarak temsilcilik yap.",
+          "Yurt dışı yatırımları yönet.",
+          "Uluslararası kaçakçılık ağının liderliğini devral.",
+          "Kumarhane zinciri ve malikâne sahibi ol.",
+          "Dünya genelinde mafya zirvesine katılarak temsilcilik yap."
+        ]},
+        {title:"ULTIMATE BARON VI",tasks:[
+          "Devasa kara para aklama ağı kur.",
+          "Uluslararası finans kuruluşlarında gizli hesaplar aç.",
+          "Siyasi liderleri stratejik yatırımlarla etkile.",
+          "Küresel sınır ötesi silah ticareti başlat.",
+          "Uydurmaca şirketler aracılığıyla vergi kaçır.",
+          "Gizli biyolojik/kimyasal silah transferi organize et.",
+          "Dünya genelinde mafya ofisleri ağı oluştur.",
+          "Uluslararası deniz limanlarında nakliyeyi ele geçir."
+        ]}
+      ]
+    };
+
+    let done={Vakur:0,Hatip:0,Baron:0};
 
     function updateStatus(){
-      // Vakur
-      let vp=Math.min( Math.round(done.Vakur/2500*100),999 );
-      document.getElementById('vakurProg').style.width=vp+'%';
-      document.getElementById('vakurPct').innerText=vp;
-      let vb=Math.floor(done.Vakur/50);
-      let vz=Math.min(Math.round(vb/10000*100),999);
-      document.getElementById('vakurRoz').style.width=vz+'%';
-      document.getElementById('vakurRozPct').innerText=vz;
-      document.getElementById('vakurBadges').innerText=vb;
-
-      // Hatip
-      let hp=Math.min( Math.round(done.Hatip/1600*100),999 );
-      document.getElementById('hatipProg').style.width=hp+'%';
-      document.getElementById('hatipPct').innerText=hp;
-      let hb=Math.floor(done.Hatip/50);
-      let hz=Math.min(Math.round(hb/10000*100),999);
-      document.getElementById('hatipRoz').style.width=hz+'%';
-      document.getElementById('hatipRozPct').innerText=hz;
-      document.getElementById('hatipBadges').innerText=hb;
-
-      // Baron
-      let bp=Math.min( Math.round(done.Baron/200*100),999 );
-      document.getElementById('baronProg').style.width=bp+'%';
-      document.getElementById('baronPct').innerText=bp;
-      let bb=Math.floor(done.Baron/50);
-      let bz=Math.min(Math.round(bb/10000*100),999);
-      document.getElementById('baronRoz').style.width=bz+'%';
-      document.getElementById('baronRozPct').innerText=bz;
-      document.getElementById('baronBadges').innerText=bb;
+      // ilerleme yüzdeleri ve rozet sayıları
+      const cfg = {
+        Vakur:{goal:2500,progId:'vakurProg',pctId:'vakurPct',rozId:'vakurRoz',rozPctId:'vakurRozPct',badId:'vakurBadges'},
+        Hatip:{goal:1600,progId:'hatipProg',pctId:'hatipPct',rozId:'hatipRoz',rozPctId:'hatipRozPct',badId:'hatipBadges'},
+        Baron:{goal:200,progId:'baronProg',pctId:'baronPct',rozId:'baronRoz',rozPctId:'baronRozPct',badId:'baronBadges'}
+      };
+      for(let r of ['Vakur','Hatip','Baron']){
+        const c=cfg[r];
+        const prog = Math.min(Math.round(done[r]/c.goal*100),999);
+        document.getElementById(c.progId).style.width=prog+'%';
+        document.getElementById(c.pctId).innerText=prog;
+        const badges = Math.floor(done[r]/50);
+        const rozpct = Math.min(Math.round(badges/10000*100),999);
+        document.getElementById(c.rozId).style.width=rozpct+'%';
+        document.getElementById(c.rozPctId).innerText=rozpct;
+        document.getElementById(c.badId).innerText=badges;
+      }
     }
 
     function openTasks(rank){
-      if(rank!=='Vakur' && !document.getElementById('card'+rank).classList.contains('locked')===false){
-        alert(rank+' kilitli!');
-        return;
-      }
-      const secEl=document.getElementById('taskSections');secEl.innerHTML='';
+      if(rank!=='Vakur' && document.getElementById('card'+rank).classList.contains('locked')){alert(rank+' kilitli!');return;}
+      const secEl=document.getElementById('taskSections');
+      secEl.innerHTML='';
       document.getElementById('taskHeader').innerText=rank+' Görevleri';
       tasks[rank].forEach(sec=>{
         const div=document.createElement('div');div.className='rankSection';
         const h=document.createElement('h3');h.innerText=sec.title;div.appendChild(h);
-        sec.tasks.forEach(t=>{
+        sec.tasks.forEach(txt=>{
           const ti=document.createElement('div');ti.className='taskItem '+rank.toLowerCase();
-          const sp=document.createElement('span');sp.innerText=t;
+          const sp=document.createElement('span');sp.innerText=txt;
           const btn=document.createElement('button');btn.innerText='✔';
           btn.onclick=()=>{
             btn.disabled=true;ti.classList.add('done');
-            done[rank]++;updateStatus();
-            if(rank==='Vakur' && done.Vakur>=2500){
-              document.getElementById('cardHatip').classList.remove('locked');
-            }
-            if(rank==='Hatip' && done.Hatip>=1600){
-              document.getElementById('cardBaron').classList.remove('locked');
-            }
+            done[rank]++; updateStatus();
+            if(rank==='Vakur'&&done.Vakur>=2500) document.getElementById('cardHatip').classList.remove('locked');
+            if(rank==='Hatip'&&done.Hatip>=1600) document.getElementById('cardBaron').classList.remove('locked');
           };
           ti.appendChild(sp);ti.appendChild(btn);div.appendChild(ti);
         });
@@ -313,6 +487,5 @@
     }
     function closeTasks(){document.getElementById('overlay').style.display='none';}
   </script>
-
 </body>
 </html>
