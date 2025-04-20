@@ -6,152 +6,72 @@
   <title>Black Dolphine – Mafia Oyunu</title>
   <style>
     :root {
-      --bg-dark: #121212;
-      --bg-light: #f4f4f4;
-      --panel-dark: #1e1e1e;
-      --accent: #e63946;
-      --text-light: #f4f4f4;
-      --text-dark: #333;
+      --bg-dark:#121212; --bg-light:#f4f4f4; --panel-dark:#1e1e1e;
+      --accent:#e63946; --text-light:#f4f4f4; --text-dark:#333;
+      --blue:#4e6ef2; --orange:#f28c4e; --red:#e24e4e;
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    html, body { height:100%; }
-    body {
-      display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden;
-    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+    html,body{height:100%;background:var(--bg-light);color:var(--text-dark);overflow:hidden;}
+    body{display:flex;}
     /* SIDEBAR */
-    nav {
-      width:220px; background:var(--panel-dark); color:var(--text-light);
-      display:flex; flex-direction:column;
-    }
-    nav ul { list-style:none; overflow-y:auto; flex:1; }
-    nav li a {
-      display:block; padding:12px 20px; color:inherit; text-decoration:none;
-      border-bottom:1px solid #333;
-    }
-    nav li a:hover, nav li a.active { background:var(--accent); }
-    nav .search { padding:10px; }
-    nav .search input {
-      width:100%; padding:8px; border:none; border-radius:4px;
-    }
+    nav{width:220px;background:var(--panel-dark);color:var(--text-light);display:flex;flex-direction:column;}
+    nav ul{list-style:none;overflow-y:auto;flex:1}
+    nav li a{display:block;padding:12px 20px;color:inherit;text-decoration:none;border-bottom:1px solid #333;}
+    nav li a:hover,nav li a.active{background:var(--accent)}
+    nav .search{padding:10px}
+    nav .search input{width:100%;padding:8px;border:none;border-radius:4px;}
     /* MAIN */
-    main {
-      flex:1; display:flex; flex-direction:column; overflow-y:auto;
-    }
-    header {
-      background:var(--bg-dark); color:var(--text-light);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:0.5rem 1rem; flex-shrink:0;
-    }
-    .logo { font-size:1.4rem; font-weight:bold; }
-    .balance {
-      background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime;
-    }
-    /* RAILS */
-    .rail-container {
-      position:relative; height:60px; margin:0 1rem; flex-shrink:0;
-    }
-    canvas.rail { width:100%; height:100%; }
-    .rail-label {
-      position:absolute; top:10px; left:20px;
-      color:var(--text-dark); font-weight:bold;
-    }
-    .rail-label.return { top:auto; bottom:10px; }
-    /* CENTER RANKS */
-    #centerRanks {
-      display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0;
-    }
-    .card {
-      background:var(--panel-dark); color:var(--text-light);
-      padding:1rem; border-radius:8px; text-align:center; width:120px; cursor:pointer;
-    }
-    .card.locked { opacity:0.5; pointer-events:none; }
-    .card h2 { margin-bottom:0.5rem; text-transform:uppercase; }
-    .card button {
-      background:var(--accent); border:none; color:#fff;
-      padding:0.5rem 1rem; border-radius:4px; cursor:pointer;
-    }
+    main{flex:1;display:flex;flex-direction:column;overflow-y:auto;}
+    header{background:var(--bg-dark);color:var(--text-light);display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;flex-shrink:0;}
+    .logo{font-size:1.4rem;font-weight:bold;}
+    .balance{background:#222;padding:0.5rem 1rem;border-radius:4px;color:lime;}
+    .rail-container{position:relative;height:60px;margin:0 1rem;flex-shrink:0;}
+    canvas.rail{width:100%;height:100%}
+    .rail-label{position:absolute;top:10px;left:20px;color:var(--text-dark);font-weight:bold;}
+    .rail-label.return{top:auto;bottom:10px;}
+    #centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;flex-shrink:0;}
+    .card{background:var(--panel-dark);color:var(--text-light);padding:1rem;border-radius:8px;text-align:center;width:120px;cursor:pointer;}
+    .card.locked{opacity:0.5;pointer-events:none;}
+    .card h2{margin-bottom:0.5rem;text-transform:uppercase;}
+    .card button{border:none;color:#fff;padding:0.5rem 1rem;border-radius:4px;cursor:pointer;}
+    /* renkler */
+    #cardVakur{border:2px solid var(--blue)}#cardVakur h2, #cardVakur button{background:var(--blue)}
+    #cardHatip{border:2px solid var(--orange)}#cardHatip h2, #cardHatip button{background:var(--orange)}
+    #cardBaron{border:2px solid var(--red)}#cardBaron h2, #cardBaron button{background:var(--red)}
     /* OVERLAY */
-    #overlay {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.7); display:none;
-      align-items:center; justify-content:center;
-    }
-    #panel {
-      background:var(--bg-light); width:90%; max-width:600px;
-      max-height:80%; overflow-y:auto; border-radius:8px; padding:1rem;
-      position:relative;
-    }
-    #closeBtn {
-      position:absolute; top:0.5rem; right:0.5rem;
-      background:var(--accent); border:none; color:#fff;
-      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
-    }
-    .rankSection { margin-bottom:1rem; }
-    .rankSection h3 {
-      color:var(--accent); margin-bottom:0.5rem;
-    }
-    .taskItem {
-      background:#ddd; padding:0.5rem;
-      display:flex; justify-content:space-between;
-      border-radius:4px; margin-bottom:0.3rem;
-    }
-    .taskItem.done { background:#a8e6cf; }
-    .taskItem button {
-      background:var(--accent); border:none; color:#fff;
-      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
-    }
+    #overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;}
+    #panel{background:var(--bg-light);width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:8px;padding:1rem;position:relative;}
+    #closeBtn{position:absolute;top:0.5rem;right:0.5rem;background:var(--accent);border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
+    .rankSection{margin-bottom:1rem}
+    .rankSection h3{color:var(--accent);margin-bottom:0.5rem}
+    .taskItem{background:#ddd;padding:0.5rem;display:flex;justify-content:space-between;border-radius:4px;margin-bottom:0.3rem;}
+    .taskItem.done{background:#a8e6cf}
+    .taskItem button{background:var(--accent);border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
     /* PANELS */
-    aside {
-      width:260px; background:var(--panel-dark);
-      color:var(--text-light); overflow-y:auto; flex-shrink:0;
-    }
-    .panel { padding:20px; border-bottom:1px solid #333; display:none; }
-    .panel.active { display:block; }
-    .panel h3 { margin-bottom:10px; color:var(--accent); }
-    .sub-tabs {
-      display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;
-    }
-    .sub-tabs button {
-      background:#444; border:none; color:var(--text-light);
-      padding:6px 10px; border-radius:4px; cursor:pointer;
-    }
-    .sub-tabs button.active { background:var(--accent); }
-    .sub-content ul {
-      list-style:none; max-height:200px; overflow-y:auto; padding-left:0;
-    }
-    .sub-content li {
-      display:flex; justify-content:space-between; margin-bottom:6px;
-    }
-    .sub-content li button {
-      background:var(--accent); border:none; color:#fff;
-      padding:4px 8px; border-radius:4px; cursor:pointer;
-    }
+    aside{width:260px;background:var(--panel-dark);color:var(--text-light);overflow-y:auto;flex-shrink:0;}
+    .panel{padding:20px;border-bottom:1px solid #333;display:none;}
+    .panel.active{display:block;}
+    .panel h3{margin-bottom:10px;color:var(--accent)}
+    .progress-wrapper{margin-bottom:1rem}
+    .progress-label{margin-bottom:4px}
+    .progress-bar{width:100%;height:16px;border-radius:8px;overflow:hidden;background:#444;margin-bottom:4px;}
+    .progress-inner{height:100%;background:var(--accent);}
     /* CHAT */
-    #chatBox {
-      position:fixed; bottom:20px; left:50%;
-      transform:translateX(-50%); width:60%;
-      background:var(--panel-dark); color:var(--text-light);
-      padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;
-    }
-    #messageIcon {
-      position:fixed; bottom:20px; right:20px;
-      background:var(--accent); padding:10px;
-      border-radius:50%; color:#fff; cursor:pointer;
-    }
-    /* MOBILE */
+    #chatBox{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:60%;background:var(--panel-dark);color:var(--text-light);padding:10px;border-radius:8px;max-height:200px;overflow-y:auto;}
+    #messageIcon{position:fixed;bottom:20px;right:20px;background:var(--accent);padding:10px;border-radius:50%;color:#fff;cursor:pointer;}
     @media(max-width:768px){
-      body { flex-direction:column; }
-      nav, aside { width:100%; order:2; }
-      nav ul { display:flex; flex-wrap:nowrap; overflow-x:auto; }
-      nav li a { flex-shrink:0; white-space:nowrap; }
-      main { order:1; }
-      header { justify-content:center; }
-      .balance { display:none; }
-      .rail-container { display:none; }
-      #centerRanks { flex-wrap:wrap; gap:1rem; }
-      .panel { padding:10px; }
-      #chatBox { width:90%; bottom:10px; }
-      #messageIcon { bottom:10px; right:10px; }
+      body{flex-direction:column;}
+      nav,aside{width:100%;order:2}
+      nav ul{display:flex;flex-wrap:nowrap;overflow-x:auto}
+      nav li a{flex-shrink:0;white-space:nowrap}
+      main{order:1}
+      header{justify-content:center}
+      .balance{display:none}
+      .rail-container{display:none}
+      #centerRanks{flex-wrap:wrap;gap:1rem}
+      .panel{padding:10px}
+      #chatBox{width:90%;bottom:10px}
+      #messageIcon{bottom:10px;right:10px}
     }
   </style>
 </head>
@@ -194,9 +114,9 @@
     </div>
 
     <div id="centerRanks">
-      <div class="card" id="cardVakur"><h2 style="color:blue">VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
-      <div class="card locked" id="cardHatip"><h2 style="color:orange">HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
-      <div class="card locked" id="cardBaron"><h2 style="color:red">BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
+      <div class="card" id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
+      <div class="card locked" id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
+      <div class="card locked" id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
     </div>
 
     <div class="rail-container">
@@ -207,20 +127,35 @@
 
   <!-- PANELS -->
   <aside>
-    <div class="panel active" id="durumPanel"><h3>Durumum</h3><p>Profil, seviye, deneyim vb.</p></div>
-    <div class="panel" id="ailePanel"><h3>Ailem</h3><ul><li>Üye 1</li><li>Üye 2</li></ul></div>
-    <div class="panel" id="tuccarPanel"><h3>Tüccar</h3><ul><li>Silah – 2500$</li><li>Bomba – 1000$</li></ul></div>
-    <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3><ul><li>Mesaj 1</li></ul></div>
-    <div class="panel" id="avlanPanel"><h3>Avlan</h3><ul><li>Görev 1</li></ul></div>
-    <div class="panel" id="acikArttirmaPanel"><h3>Açık Arttırma</h3><ul><li>Item A</li></ul></div>
-    <div class="panel" id="kacakPanel"><h3>Kaçakçılık</h3><ul><li>Görev 1</li></ul></div>
-    <div class="panel" id="atYarisiPanel"><h3>At Yarışı</h3><ul><li>Yarış 1</li></ul></div>
-    <div class="panel" id="atBilgilerPanel"><h3>At Bilgileri</h3><ul><li>Karabey – Hız:85, Dayanıklılık:75</li></ul></div>
-    <div class="panel" id="oyunIciPanel"><h3>Oyun İçi Bilgiler</h3><p>Rehber, ipuçları vb.</p></div>
-    <div class="panel" id="arananPanel"><h3>Arananlar</h3><ul><li>Karakter A</li></ul></div>
-    <div class="panel" id="oyunlarPanel"><h3>Oyunlar</h3><ul><li>Mod 1</li></ul></div>
-    <div class="panel" id="koyPanel"><h3>Köy İncelemesi</h3><div class="sub-tabs" id="koyTabs"></div><div class="sub-content" id="koyPages"></div></div>
-    <div class="panel" id="trenPanel"><h3>Tren Seyahatleri</h3><div class="sub-tabs" id="trenTabs"></div><div class="sub-content" id="trenPages"></div></div>
+    <div class="panel active" id="durumPanel">
+      <h3>Durumum</h3>
+      <!-- Vakur Savunma -->
+      <div class="progress-wrapper">
+        <div class="progress-label">🛡️ Vakur Savunma: <span id="vakurDefensePts">0</span> Puan, <span id="vakurRosettes">0</span> Rozet</div>
+        <div class="progress-bar"><div class="progress-inner" id="vakurDefenseBar" style="width:0%"></div></div>
+      </div>
+      <!-- Hatip Nüfus -->
+      <div class="progress-wrapper">
+        <div class="progress-label">👥 Hatip Nüfus: <span id="hatipPopPts">0</span> Puan, <span id="hatipRosettes">0</span> Rozet</div>
+        <div class="progress-bar"><div class="progress-inner" id="hatipPopBar" style="width:0%"></div></div>
+      </div>
+      <!-- Baron Etki -->
+      <div class="progress-wrapper">
+        <div class="progress-label">👑 Baron Etki: <span id="baronInfPts">0</span> Puan, <span id="baronRosettes">0</span> Rozet</div>
+        <div class="progress-bar"><div class="progress-inner" id="baronInfBar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <!-- diğer paneller (aile, tüccar vs.)... -->
+    <div class="panel" id="koyPanel">
+      <h3>Köy İncelemesi</h3>
+      <div class="sub-tabs" id="koyTabs"></div>
+      <div class="sub-content" id="koyPages"></div>
+    </div>
+    <div class="panel" id="trenPanel">
+      <h3>Tren Seyahatleri</h3>
+      <div class="sub-tabs" id="trenTabs"></div>
+      <div class="sub-content" id="trenPages"></div>
+    </div>
   </aside>
 
   <!-- OVERLAY -->
@@ -237,141 +172,144 @@
   <div id="messageIcon">📩</div>
 
   <script>
-    //  ——— 40 KÖYLÜK GÜNCEL DİZİ ———
+    // Köyler
     const villages = [
       "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
       "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
-      /*"Bostancı" çıkarıldı*/"Masucark","Kırıkan","Kuzluk","Qeremsal",
-      "Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
-      "Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut",
-      "Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
+      "Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker",
+      "Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel",
+      "Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan",
+      "Mirxan","Thashluk"
     ];
-
-    function drawRail(id, primary, accent) {
-      const c = document.getElementById(id), ctx = c.getContext('2d');
-      c.width = c.offsetWidth; c.height = c.offsetHeight;
-      ctx.strokeStyle = primary; ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.moveTo(0, c.height/2); ctx.lineTo(c.width, c.height/2); ctx.stroke();
-      ctx.strokeStyle = accent; ctx.lineWidth = 2;
-      villages.forEach((_, i) => {
-        const x = c.width * (i+1) / (villages.length+1);
-        ctx.beginPath(); ctx.moveTo(x, c.height/2-10); ctx.lineTo(x, c.height/2+10); ctx.stroke();
+    function drawRail(id,p,a){
+      const c=document.getElementById(id),ctx=c.getContext('2d');
+      c.width=c.offsetWidth; c.height=c.offsetHeight;
+      ctx.strokeStyle=p; ctx.lineWidth=4;
+      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
+      ctx.strokeStyle=a; ctx.lineWidth=2;
+      villages.forEach((_,i)=>{
+        let x=c.width*(i+1)/(villages.length+1);
+        ctx.beginPath();ctx.moveTo(x,c.height/2-10);ctx.lineTo(x,c.height/2+10);ctx.stroke();
       });
     }
-
-    window.onload = () => {
-      drawRail('railOut', '#555', '#e63946');
-      drawRail('railBack', '#555', '#a8dadc');
+    window.onload=()=>{
+      drawRail('railOut','#555','#e63946');
+      drawRail('railBack','#555','#a8dadc');
       initTabs('koyTabs','koyPages',villages);
       initTabs('trenTabs','trenPages',villages);
     };
-    window.onresize = () => {
-      drawRail('railOut', '#555', '#e63946');
-      drawRail('railBack', '#555', '#a8dadc');
-    };
+    window.onresize=()=>{ drawRail('railOut','#555','#e63946'); drawRail('railBack','#555','#a8dadc'); };
 
-    // SIDEBAR PANELS
-    function togglePanel(id) {
+    // Sidebar paneller
+    function togglePanel(id){
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById(id+'Panel').classList.add('active');
     }
 
-    // TABS
-    function initTabs(tabId, pageId, items) {
-      const tabs = document.getElementById(tabId), pages = document.getElementById(pageId);
+    // Tabs
+    function initTabs(tabId,pageId,items){
+      const tabs=document.getElementById(tabId),pages=document.getElementById(pageId);
       tabs.innerHTML=''; pages.innerHTML='';
-      const per = 8, count = Math.ceil(items.length/per);
-      for(let p=0; p<count; p++){
-        let btn = document.createElement('button');
-        btn.innerText = p+1; btn.onclick = ()=>showPage(p, tabId, pageId);
-        tabs.appendChild(btn);
-        let div = document.createElement('div'); div.className='sub-content';
-        let ul = document.createElement('ul');
-        for(let i=p*per; i<Math.min((p+1)*per, items.length); i++){
-          let li = document.createElement('li');
-          li.innerHTML = `${items[i]} <button onclick="travelTo('${items[i]}')">Git</button>`;
+      const per=8, cnt=Math.ceil(items.length/per);
+      for(let p=0;p<cnt;p++){
+        let b=document.createElement('button'); b.innerText=p+1;
+        b.onclick=()=>showPage(p,tabId,pageId); tabs.appendChild(b);
+        let d=document.createElement('div'); d.className='sub-content';
+        let ul=document.createElement('ul');
+        for(let i=p*per;i<Math.min((p+1)*per,items.length);i++){
+          let li=document.createElement('li');
+          li.innerHTML=`${items[i]} <button onclick="travelTo('${items[i]}')">Git</button>`;
           ul.appendChild(li);
         }
-        div.appendChild(ul); pages.appendChild(div);
+        d.appendChild(ul); pages.appendChild(d);
       }
-      showPage(0, tabId, pageId);
+      showPage(0,tabId,pageId);
     }
-    function showPage(idx, tabId, pageId) {
+    function showPage(idx,tabId,pageId){
       document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
       document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.style.display='none');
       document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
       document.querySelectorAll(`#${pageId} .sub-content`)[idx].style.display='block';
     }
-    function travelTo(v) { alert(v+' köyüne gittiniz.'); }
+    function travelTo(v){alert(v+' köyüne gittiniz.')}
 
-    // GÖREVLER
-    const tasks = {
-      Vakur: [
-        { title:'ÇIRAK VAKUR I', tasks:[
-            /* …10 görev… */'…'
-        ]},
-        { title:'USTA VAKUR II', tasks:[
-            /* …10 görev… */'…'
-        ]}
-      ],
-      Hatip: [
-        { title:'ÇIRAK HATİP I', tasks:[
-            /* …10 görev… */'…'
-        ]}
-      ],
-      Baron: [
-        { title:'ÇIRAK BARON I', tasks:[
-            /* …10 görev… */'…'
-        ]}
-      ]
-    };
+    // Görevler (5 seviye × 10 görev =50 görev ×3 ranks =150)
+    const tasks={}, ranks=['Vakur','Hatip','Baron'];
+    ranks.forEach(rank=>{
+      tasks[rank]=[];
+      for(let lvl=1;lvl<=5;lvl++){
+        let title = ['ÇIRAK','USTA','UZMAN','EFSANE','YÜCE'][lvl-1]+' '+rank.toUpperCase()+' '+lvl;
+        let arr=[];
+        for(let i=1;i<=10;i++) arr.push(`${title} Görev ${i}`);
+        tasks[rank].push({title, tasks:arr});
+      }
+    });
     let done={Vakur:0,Hatip:0,Baron:0},
-        total={
-          Vakur: tasks.Vakur.flatMap(s=>s.tasks).length,
-          Hatip: tasks.Hatip.flatMap(s=>s.tasks).length,
-          Baron: tasks.Baron.flatMap(s=>s.tasks).length
+        total = {
+          Vakur:50, Hatip:50, Baron:50
         },
         unlocked={Vakur:true,Hatip:false,Baron:false};
 
-    function openTasks(rank) {
+    // Durumum barları güncellemek için
+    function updateStatus(){
+      // Vakur
+      let d=done.Vakur, ros=Math.floor(d/50), pts=ros*4;
+      document.getElementById('vakurRosettes').innerText=ros;
+      document.getElementById('vakurDefensePts').innerText=pts;
+      document.getElementById('vakurDefenseBar').style.width=((d%50)/50*100)+'%';
+      // Hatip
+      let h=done.Hatip, hrs=Math.floor(h/50), hpts=hrs*2.5;
+      document.getElementById('hatipRosettes').innerText=hrs;
+      document.getElementById('hatipPopPts').innerText=hpts;
+      document.getElementById('hatipPopBar').style.width=((h%50)/50*100)+'%';
+      // Baron
+      let b=done.Baron, brs=Math.floor(b/50), bpts=brs*5;
+      document.getElementById('baronRosettes').innerText=brs;
+      document.getElementById('baronInfPts').innerText=bpts;
+      document.getElementById('baronInfBar').style.width=((b%50)/50*100)+'%';
+    }
+
+    // Görev modal
+    function openTasks(rank){
       if(!unlocked[rank]) return alert(rank+' kilitli!');
-      document.getElementById('taskHeader').innerText = rank+' Görevleri';
-      const secEl = document.getElementById('taskSections');
-      secEl.innerHTML = '';
+      document.getElementById('taskHeader').innerText=rank+' Görevleri';
+      const secEl=document.getElementById('taskSections'); secEl.innerHTML='';
       tasks[rank].forEach(sec=>{
-        let d = document.createElement('div'); d.className='rankSection';
-        let h = document.createElement('h3'); h.innerText = sec.title; d.appendChild(h);
+        let d=document.createElement('div'); d.className='rankSection';
+        let h=document.createElement('h3'); h.innerText=sec.title; d.appendChild(h);
         sec.tasks.forEach(t=>{
-          let ti = document.createElement('div'); ti.className='taskItem';
-          let sp = document.createElement('span'); sp.innerText = t;
-          let btn = document.createElement('button'); btn.innerText = '✔';
-          btn.onclick = ()=>completeTask(rank, btn);
+          let ti=document.createElement('div'); ti.className='taskItem';
+          let sp=document.createElement('span'); sp.innerText=t;
+          let btn=document.createElement('button'); btn.innerText='✔';
+          btn.onclick=()=>completeTask(rank,btn);
           ti.appendChild(sp); ti.appendChild(btn); d.appendChild(ti);
         });
         secEl.appendChild(d);
       });
-      document.getElementById('overlay').style.display = 'flex';
+      document.getElementById('overlay').style.display='flex';
     }
-    function completeTask(rank, btn) {
+    function completeTask(rank,btn){
       btn.disabled=true; btn.parentElement.classList.add('done');
-      done[rank]++;
-      if(rank==='Vakur' && done.Vakur===total.Vakur){
+      done[rank]++; updateStatus();
+      if(rank==='Vakur' && done.Vakur===50){
         unlocked.Hatip=true; document.getElementById('cardHatip').classList.remove('locked');
         alert('Hatip görevleri açıldı!');
       }
-      if(rank==='Hatip' && done.Hatip===total.Hatip){
+      if(rank==='Hatip' && done.Hatip===50){
         unlocked.Baron=true; document.getElementById('cardBaron').classList.remove('locked');
         alert('Baron görevleri açıldı!');
       }
-      if(rank==='Baron' && done.Baron===total.Baron){
+      if(rank==='Baron' && done.Baron===50){
         alert('Tüm görevler tamamlandı!');
       }
     }
-    function closeTasks(){
-      document.getElementById('overlay').style.display='none';
-    }
+    function closeTasks(){ document.getElementById('overlay').style.display='none'; }
+
+    // İlk durum güncelle
+    updateStatus();
   </script>
+
 </body>
 </html>
