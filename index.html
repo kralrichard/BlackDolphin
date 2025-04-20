@@ -2,75 +2,156 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Dolphine – Mafia Oyunu</title>
   <style>
     :root {
-      --bg-dark:#121212; --bg-light:#f4f4f4; --panel-dark:#1e1e1e;
-      --accent-vakur:#3182ce; --accent-hatip:#dd6b20; --accent-baron:#c53030;
-      --prog-vakur:#ecc94b; --rozet-vakur:#3182ce;
-      --prog-hatip:#805ad5; --rozet-hatip:#dd6b20;
-      --prog-baron:#fff;   --rozet-baron:#c53030;
-      --text-light:#f4f4f4; --text-dark:#333;
+      --bg-dark: #121212;
+      --bg-light: #f4f4f4;
+      --panel-dark: #1e1e1e;
+      --accent: #e63946;
+      --text-light: #f4f4f4;
+      --text-dark: #333;
+      --bar-vakur: #ffd700;
+      --bar-hatip: #800080;
+      --bar-baron: #ffffff;
+      --roz-vakur: #0000ff;
+      --roz-hatip: #ffa500;
+      --roz-baron: #ff0000;
     }
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-    html,body{height:100%;}
-    body{display:flex;background:var(--bg-light);color:var(--text-dark);overflow:hidden;}
-    nav{width:220px;background:var(--panel-dark);color:var(--text-light);display:flex;flex-direction:column;}
-    nav ul{list-style:none;overflow-y:auto;flex:1;}
-    nav li a{display:block;padding:12px 20px;color:inherit;text-decoration:none;border-bottom:1px solid #333;}
-    nav li a:hover, nav li a.active{background:rgba(255,255,255,0.1);}
-    nav li a.vakur{color:var(--accent-vakur);} nav li a.hatip{color:var(--accent-hatip);} nav li a.baron{color:var(--accent-baron);}
-    nav .search{padding:10px;} nav .search input{width:100%;padding:8px;border:none;border-radius:4px;}
-    main{flex:1;display:flex;flex-direction:column;overflow-y:auto;}
-    header{background:var(--bg-dark);color:var(--text-light);display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;}
-    .logo{font-size:1.4rem;font-weight:bold;} .balance{background:#222;padding:0.5rem 1rem;border-radius:4px;color:lime;}
-    .rail-container{position:relative;height:60px;margin:0 1rem;}
-    canvas.rail{width:100%;height:100%;}
-    .rail-label{position:absolute;top:10px;left:20px;color:var(--text-dark);font-weight:bold;}
-    .rail-label.return{top:auto;bottom:10px;}
-    #centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;}
-    .card{padding:1rem;border-radius:8px;text-align:center;width:120px;cursor:pointer;color:var(--text-light);}
-    .card.vakur{border:2px solid var(--accent-vakur);background:var(--panel-dark);}
-    .card.hatip{border:2px solid var(--accent-hatip);background:var(--panel-dark);}
-    .card.baron{border:2px solid var(--accent-baron);background:var(--panel-dark);}
-    .card.locked{opacity:0.5;pointer-events:none;}
-    .card h2{margin-bottom:0.5rem;text-transform:uppercase;}
-    .card button{border:none;color:#fff;padding:0.5rem 1rem;border-radius:4px;cursor:pointer;}
-    .card.vakur button{background:var(--accent-vakur);} .card.hatip button{background:var(--accent-hatip);} .card.baron button{background:var(--accent-baron);}
-    #overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;}
-    #panel{background:var(--bg-light);width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:8px;padding:1rem;position:relative;}
-    #closeBtn{position:absolute;top:0.5rem;right:0.5rem;background:#555;border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
-    .rankSection{margin-bottom:1rem;} .rankSection h3{margin-bottom:0.5rem;color:var(--text-dark);}
-    .taskItem{background:#ddd;padding:0.5rem;display:flex;justify-content:space-between;border-radius:4px;margin-bottom:0.3rem;}
-    .taskItem.done{background:#a8e6cf;}
-    .taskItem.vakur button{background:var(--accent-vakur);} .taskItem.hatip button{background:var(--accent-hatip);} .taskItem.baron button{background:var(--accent-baron);}
-    .taskItem button{border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
-    .prog-container{margin-bottom:2rem;}
-    .prog-label{font-weight:bold;margin-bottom:0.3rem;}
-    .progress{width:100%;height:20px;background:#ddd;border-radius:10px;overflow:hidden;margin-bottom:0.5rem;}
-    .fill{height:100%;width:0;}
-    .fill-vakur-prog{background:var(--prog-vakur);} .fill-vakur-rozet{background:var(--rozet-vakur);}
-    .fill-hatip-prog{background:var(--prog-hatip);} .fill-hatip-rozet{background:var(--rozet-hatip);}
-    .fill-baron-prog{background:var(--prog-baron);} .fill-baron-rozet{background:var(--rozet-baron);}
-    .badge-count{text-align:right;font-size:0.9rem;margin-bottom:1rem;}
-    #countdownOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:2rem;}
-    aside{width:260px;background:var(--panel-dark);color:var(--text-light);overflow-y:auto;}
-    .panel{padding:20px;border-bottom:1px solid #333;display:none;} .panel.active{display:block;}
-    .panel h3{margin-bottom:10px;color:var(--accent-vakur);}
-    .sub-tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
-    .sub-tabs button{background:#444;border:none;color:var(--text-light);padding:6px 10px;border-radius:4px;cursor:pointer;}
-    .sub-tabs button.active{background:var(--accent-vakur);}
-    .sub-content ul{list-style:none;max-height:200px;overflow-y:auto;padding-left:0;}
-    .sub-content li{display:flex;justify-content:space-between;margin-bottom:6px;}
-    .sub-content li button{background:var(--accent-vakur);border:none;color:#fff;padding:4px 8px;border-radius:4px;cursor:pointer;}
-    #chatBox{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:60%;background:var(--panel-dark);color:var(--text-light);padding:10px;border-radius:8px;max-height:200px;overflow-y:auto;}
-    #messageIcon{position:fixed;bottom:20px;right:20px;background:var(--accent-vakur);padding:10px;border-radius:50%;color:#fff;cursor:pointer;}
-    @media(max-width:768px){body{flex-direction:column;}nav,aside{width:100%;order:2;}main{order:1;}header{justify-content:center;}.balance{display:none;}.rail-container{display:none;}#centerRanks{flex-wrap:wrap;gap:1rem;} .panel{padding:10px;}#chatBox{width:90%;bottom:10px;}#messageIcon{bottom:10px;right:10px;}}
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    html, body { height:100%; }
+    body { display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden; }
+    /* ========== SIDEBAR ========== */
+    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
+    nav ul { list-style:none; overflow-y:auto; flex:1; }
+    nav li a {
+      display:block; padding:12px 20px; color:inherit; text-decoration:none; border-bottom:1px solid #333;
+    }
+    nav li a:hover, nav li a.active { background:var(--accent); }
+    nav .search { padding:10px; }
+    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
+    /* ========== MAIN LAYOUT ========== */
+    main { flex:1; display:flex; flex-direction:column; overflow-y:auto; }
+    header {
+      background:var(--bg-dark); color:var(--text-light);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:0.5rem 1rem; flex-shrink:0;
+    }
+    .logo { font-size:1.4rem; font-weight:bold; }
+    .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
+    /* ========== TRAIN RAILS ========== */
+    .rail-container { position:relative; height:60px; margin:0 1rem; flex-shrink:0; }
+    canvas.rail { width:100%; height:100%; }
+    .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
+    .rail-label.return { top:auto; bottom:10px; }
+    /* ========== CENTER RANKS ========== */
+    #centerRanks {
+      display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0;
+    }
+    .card {
+      background:var(--panel-dark); color:var(--text-light);
+      padding:1rem; border-radius:8px; text-align:center; width:120px; cursor:pointer;
+    }
+    .card.locked { opacity:0.5; pointer-events:none; }
+    .card.vakur h2, .card.vakur button { color:var(--roz-vakur); }
+    .card.hatip h2, .card.hatip button { color:var(--roz-hatip); }
+    .card.baron h2, .card.baron button { color:var(--roz-baron); }
+    .card h2 { margin-bottom:0.5rem; text-transform:uppercase; }
+    .card button {
+      background:transparent; border:2px solid currentColor;
+      padding:0.5rem 1rem; border-radius:4px; cursor:pointer;
+    }
+    /* ========== OVERLAY / COUNTDOWN ========== */
+    #overlay {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.7); display:none;
+      align-items:center; justify-content:center;
+    }
+    #panel {
+      background:var(--bg-light); width:90%; max-width:600px;
+      max-height:80%; overflow-y:auto; border-radius:8px;
+      padding:1rem; position:relative;
+    }
+    #closeBtn {
+      position:absolute; top:0.5rem; right:0.5rem;
+      background:var(--accent); border:none; color:#fff;
+      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
+    }
+    .rankSection { margin-bottom:1rem; }
+    .rankSection h3 { color:var(--accent); margin-bottom:0.5rem; }
+    .taskItem {
+      background:#ddd; padding:0.5rem; display:flex;
+      justify-content:space-between; border-radius:4px; margin-bottom:0.3rem;
+    }
+    .taskItem.done { background:#a8e6cf; }
+    .taskItem button {
+      background:var(--accent); border:none; color:#fff;
+      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
+    }
+    #countdownOverlay {
+      position:fixed; top:10px; right:10px; width:80px; height:80px;
+      background:rgba(0,0,0,0.5); border-radius:40px;
+      display:none; align-items:center; justify-content:center;
+      color:#fff; font-size:1.5rem; pointer-events:none; z-index:1000;
+    }
+    /* ========== PANELS ========== */
+    aside {
+      width:260px; background:var(--panel-dark);
+      color:var(--text-light); overflow-y:auto; flex-shrink:0;
+    }
+    .panel {
+      padding:20px; border-bottom:1px solid #333; display:none;
+    }
+    .panel.active { display:block; }
+    .panel h3 { margin-bottom:10px; color:var(--accent); }
+    .sub-tabs { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+    .sub-tabs button {
+      background:#444; border:none; color:var(--text-light);
+      padding:6px 10px; border-radius:4px; cursor:pointer;
+    }
+    .sub-tabs button.active { background:var(--accent); }
+    .sub-content ul {
+      list-style:none; max-height:200px; overflow-y:auto; padding-left:0;
+    }
+    .sub-content li {
+      display:flex; justify-content:space-between; margin-bottom:6px;
+    }
+    .sub-content li button {
+      background:var(--accent); border:none; color:#fff;
+      padding:4px 8px; border-radius:4px; cursor:pointer;
+    }
+    /* ========== CHAT & MSG ICON ========== */
+    #chatBox {
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+      width:60%; background:var(--panel-dark); color:var(--text-light);
+      padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;
+    }
+    #messageIcon {
+      position:fixed; bottom:20px; right:20px;
+      background:var(--accent); padding:10px; border-radius:50%;
+      color:#fff; cursor:pointer;
+    }
+    /* ========== MOBILE ========== */
+    @media(max-width:768px){
+      body { flex-direction:column; }
+      nav, aside { width:100%; order:2; }
+      nav ul { display:flex; flex-wrap:nowrap; overflow-x:auto; }
+      nav li a { flex-shrink:0; white-space:nowrap; }
+      main { order:1; }
+      header { justify-content:center; }
+      .balance { display:none; }
+      .rail-container { display:none; }
+      #centerRanks { flex-wrap:wrap; gap:1rem; }
+      .panel { padding:10px; }
+      #chatBox { width:90%; bottom:10px; }
+      #messageIcon { bottom:10px; right:10px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- SIDEBAR -->
   <nav>
     <ul>
       <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
@@ -79,9 +160,10 @@
       <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
       <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
       <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
-      <li><a href="#" class="vakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
-      <li><a href="#" class="hatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
-      <li><a href="#" class="baron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
+      <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
+      <li><a href="#" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
+      <li><a href="#" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
+      <li><a href="#" onclick="openTasks('Baron')">Baron Görevleri</a></li>
       <li><a href="#" onclick="togglePanel('atYarisi')">At Yarışı</a></li>
       <li><a href="#" onclick="togglePanel('atBilgiler')">At Bilgileri</a></li>
       <li><a href="#" onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li>
@@ -90,9 +172,10 @@
       <li><a href="#" onclick="togglePanel('koy')">Köy İncelemesi</a></li>
       <li><a href="#" onclick="togglePanel('tren')">Tren Seyahatleri</a></li>
     </ul>
-    <div class="search"><input placeholder="Kullanıcı ara..."></div>
+    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
   </nav>
 
+  <!-- MAIN CONTENT -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
@@ -105,15 +188,9 @@
     </div>
 
     <div id="centerRanks">
-      <div class="card vakur" id="cardVakur" onclick="openTasks('Vakur')">
-        <h2>VAKUR</h2><button>Serüven</button>
-      </div>
-      <div class="card hatip locked" id="cardHatip" onclick="openTasks('Hatip')">
-        <h2>HATİP</h2><button>Serüven</button>
-      </div>
-      <div class="card baron locked" id="cardBaron" onclick="openTasks('Baron')">
-        <h2>BARON</h2><button>Serüven</button>
-      </div>
+      <div class="card vakur" id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
+      <div class="card hatip locked" id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
+      <div class="card baron locked" id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
     </div>
 
     <div class="rail-container">
@@ -122,198 +199,137 @@
     </div>
   </main>
 
+  <!-- PANELS -->
   <aside>
-    <div class="panel active" id="durumPanel">
-      <h3>Durumum</h3>
-      <!-- Vakur Progress -->
-      <div class="prog-container">
-        <div class="prog-label">Vakur İlerleme (%<span id="vakurPct">0</span>)</div>
-        <div class="progress"><div id="vakurProg" class="fill fill-vakur-prog"></div></div>
-        <div class="prog-label">Vakur Rozet (%<span id="vakurRozPct">0</span>)</div>
-        <div class="progress"><div id="vakurRoz" class="fill fill-vakur-rozet"></div></div>
-        <div class="badge-count">Rozet sayısı: <span id="vakurBadges">0</span></div>
-      </div>
-      <!-- Hatip Progress -->
-      <div class="prog-container">
-        <div class="prog-label">Hatip İlerleme (%<span id="hatipPct">0</span>)</div>
-        <div class="progress"><div id="hatipProg" class="fill fill-hatip-prog"></div></div>
-        <div class="prog-label">Hatip Rozet (%<span id="hatipRozPct">0</span>)</div>
-        <div class="progress"><div id="hatipRoz" class="fill fill-hatip-rozet"></div></div>
-        <div class="badge-count">Rozet sayısı: <span id="hatipBadges">0</span></div>
-      </div>
-      <!-- Baron Progress -->
-      <div class="prog-container">
-        <div class="prog-label">Baron İlerleme (%<span id="baronPct">0</span>)</div>
-        <div class="progress"><div id="baronProg" class="fill fill-baron-prog"></div></div>
-        <div class="prog-label">Baron Rozet (%<span id="baronRozPct">0</span>)</div>
-        <div class="progress"><div id="baronRoz" class="fill fill-baron-rozet"></div></div>
-        <div class="badge-count">Rozet sayısı: <span id="baronBadges">0</span></div>
-      </div>
-    </div>
-    <!-- Diğer paneller placeholder -->
-    <div class="panel" id="ailePanel"><h3>Ailem</h3><p>...</p></div>
-    <div class="panel" id="tuccarPanel"><h3>Tüccar</h3><p>...</p></div>
-    <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3><p>...</p></div>
-    <div class="panel" id="avlanPanel"><h3>Avlan</h3><p>...</p></div>
-    <div class="panel" id="acikArttirmaPanel"><h3>Açık Arttırma</h3><p>...</p></div>
-    <div class="panel" id="kacakPanel"><h3>Kaçakçılık</h3><p>...</p></div>
-    <div class="panel" id="atYarisiPanel"><h3>At Yarışı</h3><p>...</p></div>
-    <div class="panel" id="atBilgilerPanel"><h3>At Bilgileri</h3><p>...</p></div>
-    <div class="panel" id="oyunIciPanel"><h3>Oyun İçi Bilgiler</h3><p>...</p></div>
-    <div class="panel" id="arananPanel"><h3>Arananlar</h3><p>...</p></div>
-    <div class="panel" id="oyunlarPanel"><h3>Oyunlar</h3><p>...</p></div>
-    <div class="panel" id="koyPanel">
-      <h3>Köy İncelemesi</h3>
-      <div class="sub-tabs" id="koyTabs"></div>
-      <div class="sub-content" id="koyPages"></div>
-    </div>
-    <div class="panel" id="trenPanel">
-      <h3>Tren Seyahatleri</h3>
-      <div class="sub-tabs" id="trenTabs"></div>
-      <div class="sub-content" id="trenPages"></div>
-    </div>
+    <div class="panel active" id="durumPanel"><h3>Durumum</h3><p>Profil, seviye, deneyim vb.</p></div>
+    <!-- diğer paneller… -->
   </aside>
 
+  <!-- OVERLAY / TASK MODAL -->
   <div id="overlay" onclick="closeTasks()">
     <div id="panel" onclick="event.stopPropagation()">
-      <button id="closeBtn" onclick="closeTasks()">×</button>
+      <button id="closeBtn" onclick="closeTasks()">Görevleri Kapat</button>
       <h1 id="taskHeader"></h1>
       <div id="taskSections"></div>
     </div>
   </div>
 
-  <div id="countdownOverlay"><span id="cdText">30</span>s</div>
+  <!-- COUNTDOWN OVERLAY -->
+  <div id="countdownOverlay"><span id="cdText"></span></div>
+
+  <!-- CHAT & MSG ICON -->
   <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
   <div id="messageIcon">📩</div>
 
   <script>
-    // 40 köy örneği
-    const villages=[ "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
-      "Midep","Ömer","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cınık","Masucark","Kırıkan",
-      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
-      "Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"
-    ];
-    function drawRail(id,c1,c2){
+    // Köyler & Ray Çizimi
+    const villages = [ /* …40 köy listesi…*/ ];
+    function drawRail(id,p,a){
       const c=document.getElementById(id),ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
-      ctx.strokeStyle=c1;ctx.lineWidth=4;ctx.beginPath();
-      ctx.moveTo(0,c.height/2);ctx.lineTo(c.width,c.height/2);ctx.stroke();
-      ctx.strokeStyle=c2;ctx.lineWidth=2;
+      ctx.strokeStyle=p; ctx.lineWidth=4;
+      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
+      ctx.strokeStyle=a; ctx.lineWidth=2;
       villages.forEach((_,i)=>{
         let x=c.width*(i+1)/(villages.length+1);
-        ctx.beginPath();ctx.moveTo(x,c.height/2-10);ctx.lineTo(x,c.height/2+10);ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke();
       });
     }
-    window.onload=()=>{
-      drawRail('railOut','#555','#3182ce');
+    window.onload = ()=>{
+      drawRail('railOut','#555','#e63946');
       drawRail('railBack','#555','#a8dadc');
       initTabs('koyTabs','koyPages',villages);
       initTabs('trenTabs','trenPages',villages);
-      updateStatus();
     };
-    window.onresize=()=>{
-      drawRail('railOut','#555','#3182ce');
+    window.onresize = ()=>{
+      drawRail('railOut','#555','#e63946');
       drawRail('railBack','#555','#a8dadc');
     };
 
+    // Sidebar Panels
     function togglePanel(id){
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById(id+'Panel').classList.add('active');
     }
-    function initTabs(tid,pid,items){
-      const tabs=document.getElementById(tid),pages=document.getElementById(pid);
-      tabs.innerHTML='';pages.innerHTML='';
-      const per=8, count=Math.ceil(items.length/per);
-      for(let i=0;i<count;i++){
-        const b=document.createElement('button');b.innerText=i+1; b.onclick=()=>showPage(i,tid,pid);
-        tabs.appendChild(b);
-        const d=document.createElement('div');d.className='sub-content';
-        const ul=document.createElement('ul');
-        for(let j=i*per;j<Math.min((i+1)*per,items.length);j++){
-          const li=document.createElement('li');
-          li.innerHTML=`${items[j]} <button onclick="alert('${items[j]} köyüne gidildi')">Git</button>`;
+
+    // Tabs
+    function initTabs(tabId,pageId,items){
+      const tabs=document.getElementById(tabId),pages=document.getElementById(pageId);
+      tabs.innerHTML=''; pages.innerHTML='';
+      const per=8,pgs=Math.ceil(items.length/per);
+      for(let p=0;p<pgs;p++){
+        let b=document.createElement('button'); b.innerText=p+1;
+        b.onclick=()=>showPage(p,tabId,pageId); tabs.appendChild(b);
+        let d=document.createElement('div'); d.className='sub-content';
+        let ul=document.createElement('ul');
+        for(let i=p*per;i<Math.min((p+1)*per,items.length);i++){
+          let li=document.createElement('li');
+          li.innerHTML=`${items[i]} <button onclick="travelTo('${items[i]}')">Git</button>`;
           ul.appendChild(li);
         }
-        d.appendChild(ul);pages.appendChild(d);
+        d.appendChild(ul); pages.appendChild(d);
       }
-      showPage(0,tid,pid);
+      showPage(0,tabId,pageId);
     }
-    function showPage(i,tid,pid){
-      document.querySelectorAll(`#${tid} button`).forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll(`#${pid} .sub-content`).forEach(d=>d.style.display='none');
-      document.querySelectorAll(`#${tid} button`)[i].classList.add('active');
-      document.querySelectorAll(`#${pid} .sub-content`)[i].style.display='block';
+    function showPage(idx,tabId,pageId){
+      document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.style.display='none');
+      document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[idx].style.display='block';
     }
+    function travelTo(v){ alert(v+' köyüne gittiniz.'); }
 
-    // Görevler (5×10 = 50’er görev placeholder)
-    const tasks={ Vakur:[],Hatip:[],Baron:[] };
-    ['ÇIRAK','USTA','UZMAN','EFSANE','YÜCE'].forEach((lvl,ri)=>{
-      tasks.Vakur.push({title:`${lvl} VAKUR ${ri+1}`,tasks:Array(10).fill(`${lvl} VAKUR görevi ${ri+1}`)});
-      tasks.Hatip.push({title:`${lvl} HATİP ${ri+1}`,tasks:Array(10).fill(`${lvl} HATİP görevi ${ri+1}`)});
-      tasks.Baron.push({title:`${lvl} BARON ${ri+1}`,tasks:Array(10).fill(`${lvl} BARON görevi ${ri+1}`)});
-    });
-
-    let done={Vakur:0,Hatip:0,Baron:0};
-    const cfg={
-      Vakur:{goal:50,prog:'vakurProg',pct:'vakurPct',roz:'vakurRoz',rozPct:'vakurRozPct',bad:'vakurBadges',factor:4},
-      Hatip:{goal:50,prog:'hatipProg',pct:'hatipPct',roz:'hatipRoz',rozPct:'hatipRozPct',bad:'hatipBadges',factor:2.5},
-      Baron:{goal:50,prog:'baronProg',pct:'baronPct',roz:'baronRoz',rozPct:'baronRozPct',bad:'baronBadges',factor:5}
-    };
-
-    function updateStatus(){
-      for(let r in cfg){
-        const c=cfg[r];
-        const p=Math.min(Math.round(done[r]/c.goal*100),100);
-        const b=Math.floor(done[r]/(50/c.factor));
-        const rz=Math.min(Math.round(b/100*100),100);
-        document.getElementById(c.prog).style.width=p+'%';
-        document.getElementById(c.pct).innerText=p;
-        document.getElementById(c.roz).style.width=rz+'%';
-        document.getElementById(c.rozPct).innerText=rz;
-        document.getElementById(c.bad).innerText=b;
-      }
-    }
+    // Görevler & Sayaç
+    const tasks = { /* Vakur, Hatip, Baron tüm görevler */ };
+    let done={Vakur:0,Hatip:0,Baron:0},
+        total={Vakur:2500,Hatip:1600,Baron:200},
+        unlocked={Vakur:true,Hatip:false,Baron:false};
 
     function openTasks(rank){
-      const card=document.getElementById('card'+rank);
-      if(card.classList.contains('locked')) return alert(rank+' kilitli!');
-      const secEl=document.getElementById('taskSections');
-      secEl.innerHTML='';
-      document.getElementById('taskHeader').innerText=rank+' Görevleri';
+      if(!unlocked[rank]) return alert(rank+' kilitli!');
+      document.getElementById('taskHeader').innerText = rank+' Görevleri';
+      const secEl=document.getElementById('taskSections'); secEl.innerHTML='';
       tasks[rank].forEach(sec=>{
-        const d=document.createElement('div');d.className='rankSection';
-        const h=document.createElement('h3');h.innerText=sec.title;d.appendChild(h);
-        sec.tasks.forEach(txt=>{
-          const ti=document.createElement('div');ti.className='taskItem '+rank.toLowerCase();
-          const sp=document.createElement('span');sp.innerText=txt;
-          const btn=document.createElement('button');btn.innerText='✔';
+        let div=document.createElement('div'); div.className='rankSection';
+        let h3=document.createElement('h3'); h3.innerText=sec.title; div.appendChild(h3);
+        sec.tasks.forEach(t=>{
+          let ti=document.createElement('div'); ti.className='taskItem';
+          let sp=document.createElement('span'); sp.innerText=t;
+          let btn=document.createElement('button'); btn.innerText='✔';
           btn.onclick=()=>{
-            btn.disabled=true; ti.classList.add('done');
-            done[rank]++; updateStatus();
-            if(rank==='Vakur'&&done.Vakur>=50) document.getElementById('cardHatip').classList.remove('locked');
-            if(rank==='Hatip'&&done.Hatip>=50) document.getElementById('cardBaron').classList.remove('locked');
+            completeTask(rank,btn);
             startCountdown();
           };
-          ti.appendChild(sp);ti.appendChild(btn);d.appendChild(ti);
+          ti.appendChild(sp); ti.appendChild(btn); div.appendChild(ti);
         });
-        secEl.appendChild(d);
+        secEl.appendChild(div);
       });
       document.getElementById('overlay').style.display='flex';
     }
-    function closeTasks(){document.getElementById('overlay').style.display='none';}
+    function completeTask(rank,btn){
+      btn.disabled=true; btn.parentElement.classList.add('done');
+      done[rank]++;
+      if(rank==='Vakur'&&done.Vakur>=total.Vakur){ unlocked.Hatip=true; document.getElementById('cardHatip').classList.remove('locked'); alert('Hatip açıldı!'); }
+      if(rank==='Hatip'&&done.Hatip>=total.Hatip){ unlocked.Baron=true; document.getElementById('cardBaron').classList.remove('locked'); alert('Baron açıldı!'); }
+      if(rank==='Baron'&&done.Baron>=total.Baron) alert('Tüm görevler tamamlandı!');
+    }
+    function closeTasks(){ document.getElementById('overlay').style.display='none'; }
 
+    // 30s Sayaç
     function startCountdown(){
       const ov=document.getElementById('countdownOverlay'),
             txt=document.getElementById('cdText'),
-            btns=[...document.querySelectorAll('.taskItem button')].filter(b=>!b.parentElement.classList.contains('done'));
+            btns=[...document.querySelectorAll('.taskItem button')]
+                 .filter(b=>!b.parentElement.classList.contains('done'));
       btns.forEach(b=>b.disabled=true);
       let s=30; txt.innerText=s; ov.style.display='flex';
       const iv=setInterval(()=>{
         s--; txt.innerText=s;
         if(s<=0){
-          clearInterval(iv); ov.style.display='none'; btns.forEach(b=>b.disabled=false);
+          clearInterval(iv); ov.style.display='none';
+          btns.forEach(b=>b.disabled=false);
         }
       },1000);
     }
