@@ -12,26 +12,29 @@
       --accent: #e63946;
       --text-light: #f4f4f4;
       --text-dark: #333;
-      --bar-vakur: #ffd700;
-      --bar-hatip: #800080;
-      --bar-baron: #ffffff;
-      --roz-vakur: #0000ff;
-      --roz-hatip: #ffa500;
-      --roz-baron: #ff0000;
+      --bar-vakur: #ffd700;    /* sarı */
+      --bar-hatip: #800080;    /* mor */
+      --bar-baron: #ffffff;    /* beyaz */
+      --roz-vakur: #0000ff;    /* mavi */
+      --roz-hatip: #ffa500;    /* turuncu */
+      --roz-baron: #ff0000;    /* kırmızı */
     }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     html, body { height:100%; }
     body { display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden; }
-    /* ========== SIDEBAR ========== */
-    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
+    nav {
+      width:220px; background:var(--panel-dark); color:var(--text-light);
+      display:flex; flex-direction:column;
+    }
     nav ul { list-style:none; overflow-y:auto; flex:1; }
     nav li a {
-      display:block; padding:12px 20px; color:inherit; text-decoration:none; border-bottom:1px solid #333;
+      display:block; padding:12px 20px; color:inherit; text-decoration:none;
+      border-bottom:1px solid #333;
     }
     nav li a:hover, nav li a.active { background:var(--accent); }
     nav .search { padding:10px; }
     nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
-    /* ========== MAIN LAYOUT ========== */
+
     main { flex:1; display:flex; flex-direction:column; overflow-y:auto; }
     header {
       background:var(--bg-dark); color:var(--text-light);
@@ -40,12 +43,12 @@
     }
     .logo { font-size:1.4rem; font-weight:bold; }
     .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
-    /* ========== TRAIN RAILS ========== */
+
     .rail-container { position:relative; height:60px; margin:0 1rem; flex-shrink:0; }
     canvas.rail { width:100%; height:100%; }
     .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
     .rail-label.return { top:auto; bottom:10px; }
-    /* ========== CENTER RANKS ========== */
+
     #centerRanks {
       display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0;
     }
@@ -62,7 +65,23 @@
       background:transparent; border:2px solid currentColor;
       padding:0.5rem 1rem; border-radius:4px; cursor:pointer;
     }
-    /* ========== OVERLAY / COUNTDOWN ========== */
+
+    aside {
+      width:260px; background:var(--panel-dark);
+      color:var(--text-light); overflow-y:auto; flex-shrink:0;
+    }
+    .panel { padding:20px; border-bottom:1px solid #333; display:none; }
+    .panel.active { display:block; }
+    .panel h3 { margin-bottom:10px; color:var(--accent); }
+
+    /* Durumum içindeki barlar */
+    .status-bar {
+      margin:10px 0; background:#444; border-radius:4px; overflow:hidden;
+      height:16px;
+    }
+    .status-bar-inner { height:100%; width:0; }
+
+    /* Görev modal + sayaç */
     #overlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
       background:rgba(0,0,0,0.7); display:none;
@@ -70,8 +89,7 @@
     }
     #panel {
       background:var(--bg-light); width:90%; max-width:600px;
-      max-height:80%; overflow-y:auto; border-radius:8px;
-      padding:1rem; position:relative;
+      max-height:80%; overflow-y:auto; border-radius:8px; padding:1rem; position:relative;
     }
     #closeBtn {
       position:absolute; top:0.5rem; right:0.5rem;
@@ -90,49 +108,13 @@
       padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
     }
     #countdownOverlay {
-      position:fixed; top:10px; right:10px; width:80px; height:80px;
-      background:rgba(0,0,0,0.5); border-radius:40px;
+      position:fixed; top:10px; right:10px; width:60px; height:60px;
+      background:rgba(0,0,0,0.5); border-radius:30px;
       display:none; align-items:center; justify-content:center;
-      color:#fff; font-size:1.5rem; pointer-events:none; z-index:1000;
+      color:#fff; font-size:1.2rem; pointer-events:none; z-index:1000;
     }
-    /* ========== PANELS ========== */
-    aside {
-      width:260px; background:var(--panel-dark);
-      color:var(--text-light); overflow-y:auto; flex-shrink:0;
-    }
-    .panel {
-      padding:20px; border-bottom:1px solid #333; display:none;
-    }
-    .panel.active { display:block; }
-    .panel h3 { margin-bottom:10px; color:var(--accent); }
-    .sub-tabs { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
-    .sub-tabs button {
-      background:#444; border:none; color:var(--text-light);
-      padding:6px 10px; border-radius:4px; cursor:pointer;
-    }
-    .sub-tabs button.active { background:var(--accent); }
-    .sub-content ul {
-      list-style:none; max-height:200px; overflow-y:auto; padding-left:0;
-    }
-    .sub-content li {
-      display:flex; justify-content:space-between; margin-bottom:6px;
-    }
-    .sub-content li button {
-      background:var(--accent); border:none; color:#fff;
-      padding:4px 8px; border-radius:4px; cursor:pointer;
-    }
-    /* ========== CHAT & MSG ICON ========== */
-    #chatBox {
-      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-      width:60%; background:var(--panel-dark); color:var(--text-light);
-      padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;
-    }
-    #messageIcon {
-      position:fixed; bottom:20px; right:20px;
-      background:var(--accent); padding:10px; border-radius:50%;
-      color:#fff; cursor:pointer;
-    }
-    /* ========== MOBILE ========== */
+
+    /* Çoğu kaybolmasın diye mobil de... */
     @media(max-width:768px){
       body { flex-direction:column; }
       nav, aside { width:100%; order:2; }
@@ -144,14 +126,11 @@
       .rail-container { display:none; }
       #centerRanks { flex-wrap:wrap; gap:1rem; }
       .panel { padding:10px; }
-      #chatBox { width:90%; bottom:10px; }
-      #messageIcon { bottom:10px; right:10px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- SIDEBAR -->
   <nav>
     <ul>
       <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
@@ -175,7 +154,6 @@
     <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
   </nav>
 
-  <!-- MAIN CONTENT -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
@@ -199,13 +177,22 @@
     </div>
   </main>
 
-  <!-- PANELS -->
   <aside>
-    <div class="panel active" id="durumPanel"><h3>Durumum</h3><p>Profil, seviye, deneyim vb.</p></div>
+    <div class="panel active" id="durumPanel">
+      <h3>Durumum</h3>
+      <!-- Vakur -->
+      <div>🛡 Vakur: <span id="rozVakur">0</span> rozet</div>
+      <div class="status-bar"><div id="barVakur" class="status-bar-inner" style="background:var(--bar-vakur)"></div></div>
+      <!-- Hatip -->
+      <div>📢 Hatip: <span id="rozHatip">0</span> rozet</div>
+      <div class="status-bar"><div id="barHatip" class="status-bar-inner" style="background:var(--bar-hatip)"></div></div>
+      <!-- Baron -->
+      <div>👑 Baron: <span id="rozBaron">0</span> rozet</div>
+      <div class="status-bar"><div id="barBaron" class="status-bar-inner" style="background:var(--bar-baron)"></div></div>
+    </div>
     <!-- diğer paneller… -->
   </aside>
 
-  <!-- OVERLAY / TASK MODAL -->
   <div id="overlay" onclick="closeTasks()">
     <div id="panel" onclick="event.stopPropagation()">
       <button id="closeBtn" onclick="closeTasks()">Görevleri Kapat</button>
@@ -214,39 +201,31 @@
     </div>
   </div>
 
-  <!-- COUNTDOWN OVERLAY -->
-  <div id="countdownOverlay"><span id="cdText"></span></div>
+  <div id="countdownOverlay"><span id="cdText">5</span></div>
 
-  <!-- CHAT & MSG ICON -->
   <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
   <div id="messageIcon">📩</div>
 
   <script>
-    // Köyler & Ray Çizimi
-    const villages = [ /* …40 köy listesi…*/ ];
+    // Basit ray çizimi (köyler burada sabit)
+    const villages = Array(40).fill('X');
     function drawRail(id,p,a){
       const c=document.getElementById(id),ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
       ctx.strokeStyle=p; ctx.lineWidth=4;
       ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
       ctx.strokeStyle=a; ctx.lineWidth=2;
-      villages.forEach((_,i)=>{
-        let x=c.width*(i+1)/(villages.length+1);
+      for(let i=1;i<=villages.length;i++){
+        let x=c.width*i/(villages.length+1);
         ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke();
-      });
+      }
     }
-    window.onload = ()=>{
-      drawRail('railOut','#555','#e63946');
-      drawRail('railBack','#555','#a8dadc');
-      initTabs('koyTabs','koyPages',villages);
-      initTabs('trenTabs','trenPages',villages);
-    };
-    window.onresize = ()=>{
+    window.onload=()=>{
       drawRail('railOut','#555','#e63946');
       drawRail('railBack','#555','#a8dadc');
     };
+    window.onresize=()=>{ drawRail('railOut','#555','#e63946'); drawRail('railBack','#555','#a8dadc'); };
 
-    // Sidebar Panels
     function togglePanel(id){
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
@@ -254,35 +233,12 @@
       document.getElementById(id+'Panel').classList.add('active');
     }
 
-    // Tabs
-    function initTabs(tabId,pageId,items){
-      const tabs=document.getElementById(tabId),pages=document.getElementById(pageId);
-      tabs.innerHTML=''; pages.innerHTML='';
-      const per=8,pgs=Math.ceil(items.length/per);
-      for(let p=0;p<pgs;p++){
-        let b=document.createElement('button'); b.innerText=p+1;
-        b.onclick=()=>showPage(p,tabId,pageId); tabs.appendChild(b);
-        let d=document.createElement('div'); d.className='sub-content';
-        let ul=document.createElement('ul');
-        for(let i=p*per;i<Math.min((p+1)*per,items.length);i++){
-          let li=document.createElement('li');
-          li.innerHTML=`${items[i]} <button onclick="travelTo('${items[i]}')">Git</button>`;
-          ul.appendChild(li);
-        }
-        d.appendChild(ul); pages.appendChild(d);
-      }
-      showPage(0,tabId,pageId);
-    }
-    function showPage(idx,tabId,pageId){
-      document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.style.display='none');
-      document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
-      document.querySelectorAll(`#${pageId} .sub-content`)[idx].style.display='block';
-    }
-    function travelTo(v){ alert(v+' köyüne gittiniz.'); }
-
-    // Görevler & Sayaç
-    const tasks = { /* Vakur, Hatip, Baron tüm görevler */ };
+    // Tüm görevleri buraya ekle toplam 150 tane (demo için kısalttım)
+    const tasks = {
+      Vakur: Array.from({length:150},(_,i)=>`Vakur Görev ${i+1}`),
+      Hatip: Array.from({length:150},(_,i)=>`Hatip Görev ${i+1}`),
+      Baron: Array.from({length:150},(_,i)=>`Baron Görev ${i+1}`)
+    };
     let done={Vakur:0,Hatip:0,Baron:0},
         total={Vakur:2500,Hatip:1600,Baron:200},
         unlocked={Vakur:true,Hatip:false,Baron:false};
@@ -290,46 +246,54 @@
     function openTasks(rank){
       if(!unlocked[rank]) return alert(rank+' kilitli!');
       document.getElementById('taskHeader').innerText = rank+' Görevleri';
-      const secEl=document.getElementById('taskSections'); secEl.innerHTML='';
-      tasks[rank].forEach(sec=>{
-        let div=document.createElement('div'); div.className='rankSection';
-        let h3=document.createElement('h3'); h3.innerText=sec.title; div.appendChild(h3);
-        sec.tasks.forEach(t=>{
-          let ti=document.createElement('div'); ti.className='taskItem';
-          let sp=document.createElement('span'); sp.innerText=t;
-          let btn=document.createElement('button'); btn.innerText='✔';
-          btn.onclick=()=>{
-            completeTask(rank,btn);
-            startCountdown();
-          };
-          ti.appendChild(sp); ti.appendChild(btn); div.appendChild(ti);
-        });
-        secEl.appendChild(div);
+      const sec = document.getElementById('taskSections');
+      sec.innerHTML='';
+      tasks[rank].forEach((t,i)=>{
+        const div=document.createElement('div');
+        div.className='taskItem';
+        div.innerHTML=`<span>${t}</span><button>✔</button>`;
+        const btn=div.querySelector('button');
+        btn.onclick=()=>{
+          btn.disabled=true; div.classList.add('done');
+          done[rank]++;
+          updateStatus();
+          startCountdown();
+          if(rank==='Vakur' && done.Vakur>=2500){ unlocked.Hatip=true; document.getElementById('cardHatip').classList.remove('locked'); }
+          if(rank==='Hatip' && done.Hatip>=1600){ unlocked.Baron=true; document.getElementById('cardBaron').classList.remove('locked'); }
+        };
+        sec.appendChild(div);
       });
       document.getElementById('overlay').style.display='flex';
     }
-    function completeTask(rank,btn){
-      btn.disabled=true; btn.parentElement.classList.add('done');
-      done[rank]++;
-      if(rank==='Vakur'&&done.Vakur>=total.Vakur){ unlocked.Hatip=true; document.getElementById('cardHatip').classList.remove('locked'); alert('Hatip açıldı!'); }
-      if(rank==='Hatip'&&done.Hatip>=total.Hatip){ unlocked.Baron=true; document.getElementById('cardBaron').classList.remove('locked'); alert('Baron açıldı!'); }
-      if(rank==='Baron'&&done.Baron>=total.Baron) alert('Tüm görevler tamamlandı!');
-    }
     function closeTasks(){ document.getElementById('overlay').style.display='none'; }
 
-    // 30s Sayaç
+    // Durumum panelini güncelle
+    function updateStatus(){
+      // yüzde
+      let pV=done.Vakur/25; if(pV>200) pV=200;
+      document.getElementById('barVakur').style.width = pV+'%';
+      document.getElementById('rozVakur').innerText = Math.floor(done.Vakur/50);
+
+      let pH=done.Hatip/16; if(pH>200) pH=200;
+      document.getElementById('barHatip').style.width = pH+'%';
+      document.getElementById('rozHatip').innerText = Math.floor(done.Hatip/50);
+
+      let pB=done.Baron/2; if(pB>200) pB=200;
+      document.getElementById('barBaron').style.width = pB+'%';
+      document.getElementById('rozBaron').innerText = Math.floor(done.Baron/50);
+    }
+
+    // 5 saniyelik sayaç
     function startCountdown(){
       const ov=document.getElementById('countdownOverlay'),
-            txt=document.getElementById('cdText'),
-            btns=[...document.querySelectorAll('.taskItem button')]
-                 .filter(b=>!b.parentElement.classList.contains('done'));
-      btns.forEach(b=>b.disabled=true);
-      let s=30; txt.innerText=s; ov.style.display='flex';
+            txt=document.getElementById('cdText');
+      let s=5; txt.innerText=s; ov.style.display='flex';
+      document.querySelectorAll('.taskItem button:not(:disabled)').forEach(b=>b.disabled=true);
       const iv=setInterval(()=>{
         s--; txt.innerText=s;
         if(s<=0){
           clearInterval(iv); ov.style.display='none';
-          btns.forEach(b=>b.disabled=false);
+          document.querySelectorAll('.taskItem button:not(:disabled)').forEach(b=>b.disabled=false);
         }
       },1000);
     }
