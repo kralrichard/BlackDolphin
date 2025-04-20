@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Black Dolphine – Mafia Oyunu</title>
   <style>
     :root {
@@ -19,59 +19,103 @@
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     html, body { height:100%; }
     body { display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden; }
-    /* SIDEBAR */
-    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
-    nav ul { list-style:none; overflow-y:auto; flex:1; }
-    nav li a { display:block; padding:12px 20px; color:inherit; text-decoration:none; border-bottom:1px solid #333; }
+    nav {
+      width:220px; background:var(--panel-dark); color:var(--text-light);
+      display:flex; flex-direction:column;
+    }
+    nav ul { list-style:none; flex:1; overflow-y:auto; }
+    nav li a {
+      display:block; padding:12px 20px; color:inherit;
+      text-decoration:none; border-bottom:1px solid #333;
+      cursor:pointer;
+    }
     nav li a.active, nav li a:hover { background:var(--accent); }
     nav .search { padding:10px; }
     nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
-    /* MAIN */
-    main { flex:1; display:flex; flex-direction:column; overflow-y:auto; }
-    header { background:var(--bg-dark); color:var(--text-light); display:flex; justify-content:space-between; align-items:center; padding:0.5rem 1rem; flex-shrink:0; }
+    main {
+      flex:1; display:flex; flex-direction:column; overflow-y:auto;
+    }
+    header {
+      background:var(--bg-dark); color:var(--text-light);
+      padding:0.5rem 1rem; display:flex;
+      justify-content:space-between; align-items:center; flex-shrink:0;
+    }
     .logo { font-size:1.4rem; font-weight:bold; }
     .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
-    /* RAILS */
     .rail-container { position:relative; height:60px; margin:0 1rem; flex-shrink:0; }
     canvas.rail { width:100%; height:100%; }
-    .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
+    .rail-label {
+      position:absolute; top:10px; left:20px; color:var(--text-dark);
+      font-weight:bold;
+    }
     .rail-label.return { top:auto; bottom:10px; }
-    /* CENTER RANKS */
-    #centerRanks { display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0; }
-    .card { background:var(--panel-dark); color:var(--text-light); padding:1rem; border-radius:8px; text-align:center; width:120px; }
+    #centerRanks {
+      display:flex; justify-content:center; gap:2rem;
+      padding:1rem; flex-shrink:0;
+    }
+    .card {
+      background:var(--panel-dark); color:var(--text-light);
+      padding:1rem; border-radius:8px; text-align:center; width:120px;
+    }
     .card.locked { opacity:0.5; pointer-events:none; }
     .card h2 { margin-bottom:0.5rem; text-transform:uppercase; }
-    .card button { border:none; color:#fff; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; }
-    /* OVERLAY */
-    #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; }
-    #panel { background:var(--bg-light); width:90%; max-width:600px; max-height:80%; overflow-y:auto; border-radius:8px; padding:1rem; position:relative; }
-    #closeBtn { position:absolute; top:0.5rem; right:0.5rem; background:var(--accent); border:none; color:#fff; padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer; }
-    .rankSection { margin-bottom:1rem; }
-    .rankSection h3 { color:var(--accent); margin-bottom:0.5rem; }
-    .taskItem { background:#ddd; padding:0.5rem; display:flex; justify-content:space-between; border-radius:4px; margin-bottom:0.3rem; position:relative; }
-    .taskItem.done { background:#a8e6cf; }
-    .taskItem button { background:var(--accent); border:none; color:#fff; padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer; }
-    .taskItem .timer { position:absolute; top:0.3rem; right:2.5rem; font-size:0.8rem; color:#333; }
-    /* PANELS */
-    aside { width:260px; background:var(--panel-dark); color:var(--text-light); overflow-y:auto; flex-shrink:0; }
+    .card button {
+      border:none; color:#fff; padding:0.5rem 1rem; border-radius:4px; cursor:pointer;
+    }
+    aside {
+      width:260px; background:var(--panel-dark); color:var(--text-light);
+      flex-shrink:0; overflow-y:auto;
+    }
     .panel { padding:20px; border-bottom:1px solid #333; display:none; }
     .panel.active { display:block; }
-    .panel h3 { margin-bottom:10px; color:var(--accent); }
-    .sub-tabs { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
-    .sub-tabs button { background:#444; border:none; color:var(--text-light); padding:6px 10px; border-radius:4px; cursor:pointer; }
-    .sub-tabs button.active { background:var(--accent); }
-    .sub-content ul { list-style:none; max-height:200px; overflow-y:auto; padding-left:0; }
-    .sub-content li { display:flex; justify-content:space-between; margin-bottom:6px; }
-    .sub-content li button { background:var(--accent); border:none; color:#fff; padding:4px 8px; border-radius:4px; cursor:pointer; }
-    /* CHAT */
-    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:60%; background:var(--panel-dark); color:var(--text-light); padding:10px; border-radius:8px; max-height:200px; overflow-y:auto; }
-    #messageIcon { position:fixed; bottom:20px; right:20px; background:var(--accent); padding:10px; border-radius:50%; color:#fff; cursor:pointer; }
-    /* MOBILE */
+    .panel h3 { color:var(--accent); margin-bottom:10px; }
+    /* Overlay */
+    #overlay {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.7);
+      display:none; align-items:center; justify-content:center;
+    }
+    #panel {
+      background:var(--bg-light); width:90%; max-width:600px;
+      max-height:80%; overflow-y:auto; border-radius:8px;
+      padding:1rem; position:relative;
+    }
+    #closeBtn {
+      position:absolute; top:0.5rem; right:0.5rem;
+      background:var(--accent); border:none; color:#fff;
+      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
+    }
+    .rankSection { margin-bottom:1rem; }
+    .rankSection h3 { margin-bottom:0.5rem; color:var(--accent); }
+    .taskItem {
+      background:#ddd; padding:0.5rem; border-radius:4px;
+      display:flex; justify-content:space-between; position:relative;
+      margin-bottom:0.3rem;
+    }
+    .taskItem.done { background:#a8e6cf; }
+    .taskItem button {
+      background:var(--accent); border:none; color:#fff;
+      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
+    }
+    .timer {
+      position:absolute; top:0.3rem; right:3.2rem; font-size:0.8rem; color:#333;
+    }
+    /* Chat */
+    #chatBox {
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+      width:60%; background:var(--panel-dark); color:var(--text-light);
+      padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;
+    }
+    #messageIcon {
+      position:fixed; bottom:20px; right:20px;
+      background:var(--accent); padding:10px; border-radius:50%;
+      color:#fff; cursor:pointer;
+    }
+    /* Mobile */
     @media(max-width:768px){
       body { flex-direction:column; }
       nav, aside { width:100%; order:2; }
       nav ul { display:flex; flex-wrap:nowrap; overflow-x:auto; }
-      nav li a { flex-shrink:0; white-space:nowrap; }
       main { order:1; }
       header { justify-content:center; }
       .balance, .rail-container { display:none; }
@@ -80,26 +124,20 @@
       #chatBox { width:90%; bottom:10px; }
       #messageIcon { bottom:10px; right:10px; }
     }
-    /* DURUMUM: 6 BAR */
-    .status-bar { margin-bottom:12px; }
-    .status-bar label { display:block; font-size:0.9rem; margin-bottom:4px; }
-    .progress { width:100%; background:#333; border-radius:4px; overflow:hidden; height:10px; }
-    .progress-inner { height:100%; }
-    .badge-count { text-align:right; font-size:0.8rem; margin-top:2px; }
   </style>
 </head>
 <body>
 
   <nav>
     <ul>
-      <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
-      <li><a href="#" onclick="togglePanel('koy')">Köy İncelemesi</a></li>
-      <li><a href="#" onclick="togglePanel('tren')">Tren Seyahatleri</a></li>
-      <li><a href="#" onclick="openTasks('Vakur')" style="color:var(--vakur-color)">Vakur Görevleri</a></li>
-      <li><a href="#" onclick="openTasks('Hatip')" style="color:var(--hatip-color)">Hatip Görevleri</a></li>
-      <li><a href="#" onclick="openTasks('Baron')" style="color:var(--baron-color)">Baron Görevleri</a></li>
+      <li><a data-panel="durumPanel" class="active">Durumum</a></li>
+      <li><a data-panel="koyPanel">Köy İncelemesi</a></li>
+      <li><a data-panel="trenPanel">Tren Seyahatleri</a></li>
+      <li><a id="navVakur" style="color:var(--vakur-color)">Vakur Görevleri</a></li>
+      <li><a id="navHatip" style="color:var(--hatip-color)">Hatip Görevleri</a></li>
+      <li><a id="navBaron" style="color:var(--baron-color)">Baron Görevleri</a></li>
     </ul>
-    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
+    <div class="search"><input placeholder="Kullanıcı ara..."></div>
   </nav>
 
   <main>
@@ -107,162 +145,101 @@
       <div class="logo">BLACK DOLPHINE</div>
       <div class="balance">$500,000</div>
     </header>
-    <div class="rail-container">
-      <div class="rail-label">Gidiş Rotası</div>
-      <canvas id="railOut" class="rail"></canvas>
-    </div>
+    <div class="rail-container"><div class="rail-label">Gidiş Rotası</div><canvas id="railOut" class="rail"></canvas></div>
     <div id="centerRanks">
       <div class="card" id="cardVakur" style="border:2px solid var(--vakur-color)">
         <h2 style="color:var(--vakur-color)">VAKUR</h2>
-        <button onclick="openTasks('Vakur')" style="background:var(--vakur-color)">Serüven</button>
+        <button id="btnVakur" style="background:var(--vakur-color)">Serüven</button>
       </div>
       <div class="card locked" id="cardHatip" style="border:2px solid var(--hatip-color)">
         <h2 style="color:var(--hatip-color)">HATİP</h2>
-        <button onclick="openTasks('Hatip')" style="background:var(--hatip-color)">Serüven</button>
+        <button id="btnHatip" style="background:var(--hatip-color)">Serüven</button>
       </div>
       <div class="card locked" id="cardBaron" style="border:2px solid var(--baron-color)">
         <h2 style="color:var(--baron-color)">BARON</h2>
-        <button onclick="openTasks('Baron')" style="background:var(--baron-color)">Serüven</button>
+        <button id="btnBaron" style="background:var(--baron-color)">Serüven</button>
       </div>
     </div>
-    <div class="rail-container">
-      <div class="rail-label return">Dönüş Rotası</div>
-      <canvas id="railBack" class="rail"></canvas>
-    </div>
+    <div class="rail-container"><div class="rail-label return">Dönüş Rotası</div><canvas id="railBack" class="rail"></canvas></div>
   </main>
 
   <aside>
     <div class="panel active" id="durumPanel">
       <h3>Durumum</h3>
-      <!-- 6 BAR: % İlerleme ve Rozet -->
-      <div class="status-bar">
-        <label>Vakur İlerleme (%): <span id="vakurPct">0%</span></label>
-        <div class="progress"><div id="vakurPctBar" class="progress-inner" style="background:var(--vakur-color);width:0%"></div></div>
-      </div>
-      <div class="status-bar">
-        <label>Vakur Rozet Sayısı: <span id="vakurBadges">0</span></label>
-        <div class="progress"><div id="vakurBadgeBar" class="progress-inner" style="background:var(--vakur-color);width:0%"></div></div>
-      </div>
-      <div class="status-bar">
-        <label>Hatip İlerleme (%): <span id="hatipPct">0%</span></label>
-        <div class="progress"><div id="hatipPctBar" class="progress-inner" style="background:var(--hatip-color);width:0%"></div></div>
-      </div>
-      <div class="status-bar">
-        <label>Hatip Rozet Sayısı: <span id="hatipBadges">0</span></label>
-        <div class="progress"><div id="hatipBadgeBar" class="progress-inner" style="background:var(--hatip-color);width:0%"></div></div>
-      </div>
-      <div class="status-bar">
-        <label>Baron İlerleme (%): <span id="baronPct">0%</span></label>
-        <div class="progress"><div id="baronPctBar" class="progress-inner" style="background:var(--baron-color);width:0%"></div></div>
-      </div>
-      <div class="status-bar">
-        <label>Baron Rozet Sayısı: <span id="baronBadges">0</span></label>
-        <div class="progress"><div id="baronBadgeBar" class="progress-inner" style="background:var(--baron-color);width:0%"></div></div>
-      </div>
+      <!-- Buraya ilerleme çubukları gelecek -->
+      <p>Burayı düzenleyebilirsiniz…</p>
     </div>
-
     <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
-      <div class="sub-tabs" id="koyTabs"></div>
-      <div class="sub-content" id="koyPages"></div>
+      <!-- Tab içerikleri -->
     </div>
     <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
-      <div class="sub-tabs" id="trenTabs"></div>
-      <div class="sub-content" id="trenPages"></div>
+      <!-- Tab içerikleri -->
     </div>
   </aside>
 
-  <div id="overlay" onclick="closeTasks()">
-    <div id="panel" onclick="event.stopPropagation()">
-      <button id="closeBtn" onclick="closeTasks()">Görevleri Kapat</button>
+  <div id="overlay">
+    <div id="panel">
+      <button id="closeBtn">Görevleri Kapat</button>
       <h1 id="taskHeader"></h1>
       <div id="taskSections"></div>
     </div>
   </div>
 
-  <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
+  <div id="chatBox" contenteditable>CHAT başlıyor…</div>
   <div id="messageIcon">📩</div>
 
   <script>
-    // Köy & ray
-    const villages=[ /*...40 köy...*/ ];
-    function drawRail(id,c1,c2){ /*...*/ }
-    window.onload=()=>{
-      drawRail('railOut','#555','#1e90ff');
-      drawRail('railBack','#555','#a8dadc');
-      initTabs('koyTabs','koyPages',villages);
-      initTabs('trenTabs','trenPages',villages);
+    // PANEL GEÇİŞİ
+    document.querySelectorAll('nav li a[data-panel]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
+        document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById(el.dataset.panel).classList.add('active');
+      });
+    });
+    // GÖREV DÜĞMELERİ
+    document.getElementById('btnVakur').onclick = ()=>openTasks('Vakur');
+    document.getElementById('btnHatip').onclick = ()=>openTasks('Hatip');
+    document.getElementById('btnBaron').onclick = ()=>openTasks('Baron');
+    document.getElementById('navVakur').onclick = ()=>openTasks('Vakur');
+    document.getElementById('navHatip').onclick = ()=>openTasks('Hatip');
+    document.getElementById('navBaron').onclick = ()=>openTasks('Baron');
+
+    // OVERLAY
+    const overlay = document.getElementById('overlay'), panel = document.getElementById('panel');
+    document.getElementById('closeBtn').onclick = ()=>overlay.style.display='none';
+    overlay.onclick = ()=>overlay.style.display='none';
+    panel.onclick = e=>e.stopPropagation();
+
+    // GÖREV AKIŞI (örnek 2 görev)
+    const tasks = {
+      Vakur: [{ title:'ÇIRAK VAKUR I', tasks:['Görev 1','Görev 2'] }],
+      Hatip: [{ title:'ÇIRAK HATİP I', tasks:['Görev A','Görev B'] }],
+      Baron:[{ title:'ÇIRAK BARON I', tasks:['Görev X','Görev Y'] }]
     };
-    window.onresize=()=>{ drawRail('railOut','#555','#1e90ff'); drawRail('railBack','#555','#a8dadc'); };
-
-    function togglePanel(id){
-      document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
-      document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById(id+'Panel').classList.add('active');
-    }
-
-    // Görevler & sayaç
-    const tasks={ /*...150 görev tanımı...*/ };
-    let done={Vakur:0,Hatip:0,Baron:0}, total={Vakur:150,Hatip:150,Baron:150}, unlocked={Vakur:true,Hatip:false,Baron:false};
-
     function openTasks(rank){
-      if(!unlocked[rank]) return alert(rank+' kilitli!');
-      document.getElementById('taskHeader').innerText=rank+' Görevleri';
-      const secEl=document.getElementById('taskSections'); secEl.innerHTML='';
+      overlay.style.display='flex';
+      document.getElementById('taskHeader').innerText = rank+' Görevleri';
+      const secEl = document.getElementById('taskSections');
+      secEl.innerHTML = '';
       tasks[rank].forEach(sec=>{
         let d=document.createElement('div'); d.className='rankSection';
-        let h=document.createElement('h3'); h.innerText=sec.title; d.appendChild(h);
-        sec.tasks.forEach(t=>{
-          let ti=document.createElement('div'); ti.className='taskItem';
-          let sp=document.createElement('span'); sp.innerText=t;
-          let tm=document.createElement('span'); tm.className='timer'; tm.innerText='5s';
-          let btn=document.createElement('button'); btn.innerText='✔';
-          btn.onclick=()=>completeTask(rank,btn);
-          ti.appendChild(sp); ti.appendChild(tm); ti.appendChild(btn); d.appendChild(ti);
-          // 5s sayaç
-          let count=5;
-          let iv=setInterval(()=>{
-            count--; tm.innerText=count+'s';
-            if(count<=0){ clearInterval(iv); tm.innerText='⏰'; }
-          },1000);
-        });
+        d.innerHTML = `<h3>${sec.title}</h3>`+
+          sec.tasks.map(t=>`<div class="taskItem"><span>${t}</span><span class="timer">5s</span><button>✔</button></div>`).join('');
         secEl.appendChild(d);
       });
-      document.getElementById('overlay').style.display='flex';
-    }
-
-    function completeTask(rank,btn){
-      btn.disabled=true; btn.parentElement.classList.add('done');
-      done[rank]++;
-      updateStatusBars();
-      if(rank==='Vakur'&&done.Vakur===total.Vakur){ unlocked.Hatip=true; document.getElementById('cardHatip').classList.remove('locked'); alert('Hatip açıldı!'); }
-      if(rank==='Hatip'&&done.Hatip===total.Hatip){ unlocked.Baron=true; document.getElementById('cardBaron').classList.remove('locked'); alert('Baron açıldı!'); }
-      if(rank==='Baron'&&done.Baron===total.Baron) alert('Tebrikler! Tüm görevler tamamlandı.');
-    }
-    function closeTasks(){ document.getElementById('overlay').style.display='none'; }
-
-    function updateStatusBars(){
-      // yüzde
-      let vPct=Math.min(100, Math.floor(done.Vakur/total.Vakur*100)),
-          hPct=Math.min(100, Math.floor(done.Hatip/total.Hatip*100)),
-          bPct=Math.min(100, Math.floor(done.Baron/total.Baron*100));
-      document.getElementById('vakurPct').innerText=vPct+'%';
-      document.getElementById('vakurPctBar').style.width=vPct+'%';
-      document.getElementById('hatipPct').innerText=hPct+'%';
-      document.getElementById('hatipPctBar').style.width=hPct+'%';
-      document.getElementById('baronPct').innerText=bPct+'%';
-      document.getElementById('baronPctBar').style.width=bPct+'%';
-      // rozetler (% total=10000)
-      let vBad=Math.floor(done.Vakur/50), hBad=Math.floor(done.Hatip/50), bBad=Math.floor(done.Baron/50);
-      let vBw=Math.min(100, vBad/10000*100), hBw=Math.min(100, hBad/10000*100), bBw=Math.min(100, bBad/10000*100);
-      document.getElementById('vakurBadges').innerText=vBad;
-      document.getElementById('vakurBadgeBar').style.width=vBw+'%';
-      document.getElementById('hatipBadges').innerText=hBad;
-      document.getElementById('hatipBadgeBar').style.width=hBw+'%';
-      document.getElementById('baronBadges').innerText=bBad;
-      document.getElementById('baronBadgeBar').style.width=bBw+'%';
+      // sayaç
+      secEl.querySelectorAll('.taskItem').forEach(item=>{
+        let tEl = item.querySelector('.timer'), count=5;
+        let iv = setInterval(()=>{
+          if(--count<=0) { clearInterval(iv); tEl.innerText='⏰'; }
+          else tEl.innerText = count+'s';
+        },1000);
+        item.querySelector('button').onclick = ()=>item.classList.add('done');
+      });
     }
   </script>
 </body>
