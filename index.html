@@ -2,93 +2,190 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Dolphine – Mafia Oyunu</title>
   <style>
     :root {
       --bg-dark: #121212;
       --bg-light: #f4f4f4;
       --panel-dark: #1e1e1e;
-      --blue: #457b9d;
-      --orange: #f4a261;
-      --red: #e63946;
+      --accent: #e63946;
       --text-light: #f4f4f4;
       --text-dark: #333;
     }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     html, body { height:100%; }
-    body { display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden; }
-    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
-    nav ul { list-style:none; flex:1; overflow:auto; }
-    nav li a { display:block; padding:12px 20px; color:inherit; text-decoration:none; border-bottom:1px solid #333; }
+    body {
+      display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden;
+    }
+    /* SIDEBAR */
+    nav {
+      width:220px; background:var(--panel-dark); color:var(--text-light);
+      display:flex; flex-direction:column;
+    }
+    nav ul { list-style:none; overflow-y:auto; flex:1; }
+    nav li a {
+      display:block; padding:12px 20px; color:inherit; text-decoration:none;
+      border-bottom:1px solid #333;
+    }
     nav li a:hover, nav li a.active { background:var(--accent); }
-    nav li a.vakur-link:hover, nav li a.vakur-link.active { background:var(--blue); }
-    nav li a.hatip-link:hover, nav li a.hatip-link.active { background:var(--orange); }
-    nav li a.baron-link:hover, nav li a.baron-link.active { background:var(--red); }
     nav .search { padding:10px; }
-    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
-    main { flex:1; display:flex; flex-direction:column; overflow:auto; }
-    header { background:var(--bg-dark); color:var(--text-light); padding:.5rem 1rem; display:flex; justify-content:space-between; align-items:center; }
+    nav .search input {
+      width:100%; padding:8px; border:none; border-radius:4px;
+    }
+    /* MAIN */
+    main {
+      flex:1; display:flex; flex-direction:column; overflow-y:auto;
+    }
+    header {
+      background:var(--bg-dark); color:var(--text-light);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:0.5rem 1rem; flex-shrink:0;
+    }
     .logo { font-size:1.4rem; font-weight:bold; }
-    .balance { background:#222; padding:.5rem 1rem; border-radius:4px; color:lime; }
-    .rail-container { position:relative; height:60px; margin:1rem; }
+    .balance {
+      background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime;
+    }
+    /* RAILS */
+    .rail-container {
+      position:relative; height:60px; margin:0 1rem; flex-shrink:0;
+    }
     canvas.rail { width:100%; height:100%; }
-    .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
+    .rail-label {
+      position:absolute; top:10px; left:20px;
+      color:var(--text-dark); font-weight:bold;
+    }
     .rail-label.return { top:auto; bottom:10px; }
-    #centerRanks { display:flex; justify-content:center; gap:2rem; padding:1rem; }
-    .card { padding:1rem; border-radius:8px; text-align:center; color:var(--text-light); width:120px; cursor:pointer; }
-    .card.vakur { background:var(--blue); }
-    .card.hatip { background:var(--orange); }
-    .card.baron { background:var(--red); }
-    .card.locked { opacity:.5; pointer-events:none; }
-    .card h2 { margin-bottom:.5rem; text-transform:uppercase; }
-    .card button { background:#fff; color:#000; border:none; padding:.5rem 1rem; border-radius:4px; }
-    aside { width:260px; background:var(--panel-dark); color:var(--text-light); overflow:auto; }
-    .panel { padding:20px; display:none; }
-    .panel.active { display:block; }
-    .panel h3 { margin-bottom:10px; color:var(--blue); }
-    .status-bar { margin-bottom:1rem; }
-    .status-bar h4 { margin-bottom:.3rem; }
-    .bar { width:100%; height:12px; background:#ccc; border-radius:6px; overflow:hidden; }
-    .bar .fill { height:100%; width:0; }
-    .bar.blue .fill { background:var(--blue); }
-    .bar.orange .fill { background:var(--orange); }
-    .bar.red .fill { background:var(--red); }
-    #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; }
-    #panel { background:var(--bg-light); width:90%; max-width:600px; max-height:80%; overflow:auto; border-radius:8px; padding:1rem; position:relative; }
-    #closeBtn { position:absolute; top:.5rem; right:.5rem; background:#000; color:#fff; border:none; padding:.3rem .6rem; border-radius:4px; cursor:pointer; }
+    /* CENTER RANKS */
+    #centerRanks {
+      display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0;
+    }
+    .card {
+      background:var(--panel-dark); color:var(--text-light);
+      padding:1rem; border-radius:8px; text-align:center; width:120px; cursor:pointer;
+    }
+    .card.locked { opacity:0.5; pointer-events:none; }
+    .card h2 { margin-bottom:0.5rem; text-transform:uppercase; }
+    .card button {
+      background:var(--accent); border:none; color:#fff;
+      padding:0.5rem 1rem; border-radius:4px; cursor:pointer;
+    }
+    /* OVERLAY */
+    #overlay {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.7); display:none;
+      align-items:center; justify-content:center;
+    }
+    #panel {
+      background:var(--bg-light); width:90%; max-width:600px;
+      max-height:80%; overflow-y:auto; border-radius:8px; padding:1rem;
+      position:relative;
+    }
+    #closeBtn {
+      position:absolute; top:0.5rem; right:0.5rem;
+      background:var(--accent); border:none; color:#fff;
+      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
+    }
     .rankSection { margin-bottom:1rem; }
-    .rankSection h3 { color:var(--blue); margin-bottom:.5rem; }
-    .taskItem { background:#ddd; padding:.5rem; display:flex; justify-content:space-between; border-radius:4px; margin-bottom:.3rem; }
+    .rankSection h3 {
+      color:var(--accent); margin-bottom:0.5rem;
+    }
+    .taskItem {
+      background:#ddd; padding:0.5rem;
+      display:flex; justify-content:space-between;
+      border-radius:4px; margin-bottom:0.3rem;
+    }
     .taskItem.done { background:#a8e6cf; }
-    .taskItem button { background:var(--blue); border:none; color:#fff; padding:.3rem .6rem; border-radius:4px; display:inline-block; }
-    @media(max-width:768px) {
+    .taskItem button {
+      background:var(--accent); border:none; color:#fff;
+      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
+    }
+    /* PANELS */
+    aside {
+      width:260px; background:var(--panel-dark);
+      color:var(--text-light); overflow-y:auto; flex-shrink:0;
+    }
+    .panel { padding:20px; border-bottom:1px solid #333; display:none; }
+    .panel.active { display:block; }
+    .panel h3 { margin-bottom:10px; color:var(--accent); }
+    .sub-tabs {
+      display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;
+    }
+    .sub-tabs button {
+      background:#444; border:none; color:var(--text-light);
+      padding:6px 10px; border-radius:4px; cursor:pointer;
+    }
+    .sub-tabs button.active { background:var(--accent); }
+    .sub-content ul {
+      list-style:none; max-height:200px; overflow-y:auto; padding-left:0;
+    }
+    .sub-content li {
+      display:flex; justify-content:space-between; margin-bottom:6px;
+    }
+    .sub-content li button {
+      background:var(--accent); border:none; color:#fff;
+      padding:4px 8px; border-radius:4px; cursor:pointer;
+    }
+    /* CHAT */
+    #chatBox {
+      position:fixed; bottom:20px; left:50%;
+      transform:translateX(-50%); width:60%;
+      background:var(--panel-dark); color:var(--text-light);
+      padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;
+    }
+    #messageIcon {
+      position:fixed; bottom:20px; right:20px;
+      background:var(--accent); padding:10px;
+      border-radius:50%; color:#fff; cursor:pointer;
+    }
+    /* MOBILE */
+    @media(max-width:768px){
       body { flex-direction:column; }
-      nav, aside { width:100%; }
+      nav, aside { width:100%; order:2; }
+      nav ul { display:flex; flex-wrap:nowrap; overflow-x:auto; }
+      nav li a { flex-shrink:0; white-space:nowrap; }
       main { order:1; }
       header { justify-content:center; }
       .balance { display:none; }
       .rail-container { display:none; }
       #centerRanks { flex-wrap:wrap; gap:1rem; }
+      .panel { padding:10px; }
+      #chatBox { width:90%; bottom:10px; }
+      #messageIcon { bottom:10px; right:10px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- SIDEBAR -->
   <nav>
     <ul>
       <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
-      <li><a href="#" class="vakur-link" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
-      <li><a href="#" class="hatip-link" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
-      <li><a href="#" class="baron-link" onclick="openTasks('Baron')">Baron Görevleri</a></li>
+      <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
+      <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
+      <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
+      <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
+      <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
+      <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
+      <li><a href="#" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
+      <li><a href="#" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
+      <li><a href="#" onclick="openTasks('Baron')">Baron Görevleri</a></li>
+      <li><a href="#" onclick="togglePanel('atYarisi')">At Yarışı</a></li>
+      <li><a href="#" onclick="togglePanel('atBilgiler')">At Bilgileri</a></li>
+      <li><a href="#" onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li>
+      <li><a href="#" onclick="togglePanel('aranan')">Arananlar</a></li>
+      <li><a href="#" onclick="togglePanel('oyunlar')">Oyunlar</a></li>
+      <li><a href="#" onclick="togglePanel('koy')">Köy İncelemesi</a></li>
+      <li><a href="#" onclick="togglePanel('tren')">Tren Seyahatleri</a></li>
     </ul>
-    <div class="search"><input placeholder="Kullanıcı ara..."></div>
+    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
   </nav>
 
+  <!-- MAIN -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
-      <div class="balance">$500 000</div>
+      <div class="balance">$500,000</div>
     </header>
 
     <div class="rail-container">
@@ -97,18 +194,9 @@
     </div>
 
     <div id="centerRanks">
-      <div id="cardVakur" class="card vakur" onclick="openTasks('Vakur')">
-        <h2>VAKUR</h2>
-        <button>Serüven</button>
-      </div>
-      <div id="cardHatip" class="card hatip locked" onclick="openTasks('Hatip')">
-        <h2>HATİP</h2>
-        <button>Serüven</button>
-      </div>
-      <div id="cardBaron" class="card baron locked" onclick="openTasks('Baron')">
-        <h2>BARON</h2>
-        <button>Serüven</button>
-      </div>
+      <div class="card" id="cardVakur"><h2 style="color:blue">VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
+      <div class="card locked" id="cardHatip"><h2 style="color:orange">HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
+      <div class="card locked" id="cardBaron"><h2 style="color:red">BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
     </div>
 
     <div class="rail-container">
@@ -117,137 +205,173 @@
     </div>
   </main>
 
+  <!-- PANELS -->
   <aside>
-    <div id="durumPanel" class="panel active">
-      <h3>Durumum</h3>
-      <!-- Savunma Metriği -->
-      <div class="status-bar">
-        <h4>🔰 Savunma</h4>
-        <div class="bar blue"><div id="barSavunma" class="fill"></div></div>
-      </div>
-      <!-- Sav Rozet -->
-      <div class="status-bar">
-        <h4>🔰 Rozet</h4>
-        <div class="bar blue"><div id="barSavRozet" class="fill"></div></div>
-      </div>
-      <!-- Nüfus -->
-      <div class="status-bar">
-        <h4>👥 Nüfus</h4>
-        <div class="bar orange"><div id="barNufus" class="fill"></div></div>
-      </div>
-      <!-- Nü Rozet -->
-      <div class="status-bar">
-        <h4>👥 Rozet</h4>
-        <div class="bar orange"><div id="barNufRozet" class="fill"></div></div>
-      </div>
-      <!-- Etki -->
-      <div class="status-bar">
-        <h4>🏰 Etki</h4>
-        <div class="bar red"><div id="barEtki" class="fill"></div></div>
-      </div>
-      <!-- Et Rozet -->
-      <div class="status-bar">
-        <h4>🏰 Rozet</h4>
-        <div class="bar red"><div id="barEtRozet" class="fill"></div></div>
-      </div>
-    </div>
+    <div class="panel active" id="durumPanel"><h3>Durumum</h3><p>Profil, seviye, deneyim vb.</p></div>
+    <div class="panel" id="ailePanel"><h3>Ailem</h3><ul><li>Üye 1</li><li>Üye 2</li></ul></div>
+    <div class="panel" id="tuccarPanel"><h3>Tüccar</h3><ul><li>Silah – 2500$</li><li>Bomba – 1000$</li></ul></div>
+    <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3><ul><li>Mesaj 1</li></ul></div>
+    <div class="panel" id="avlanPanel"><h3>Avlan</h3><ul><li>Görev 1</li></ul></div>
+    <div class="panel" id="acikArttirmaPanel"><h3>Açık Arttırma</h3><ul><li>Item A</li></ul></div>
+    <div class="panel" id="kacakPanel"><h3>Kaçakçılık</h3><ul><li>Görev 1</li></ul></div>
+    <div class="panel" id="atYarisiPanel"><h3>At Yarışı</h3><ul><li>Yarış 1</li></ul></div>
+    <div class="panel" id="atBilgilerPanel"><h3>At Bilgileri</h3><ul><li>Karabey – Hız:85, Dayanıklılık:75</li></ul></div>
+    <div class="panel" id="oyunIciPanel"><h3>Oyun İçi Bilgiler</h3><p>Rehber, ipuçları vb.</p></div>
+    <div class="panel" id="arananPanel"><h3>Arananlar</h3><ul><li>Karakter A</li></ul></div>
+    <div class="panel" id="oyunlarPanel"><h3>Oyunlar</h3><ul><li>Mod 1</li></ul></div>
+    <div class="panel" id="koyPanel"><h3>Köy İncelemesi</h3><div class="sub-tabs" id="koyTabs"></div><div class="sub-content" id="koyPages"></div></div>
+    <div class="panel" id="trenPanel"><h3>Tren Seyahatleri</h3><div class="sub-tabs" id="trenTabs"></div><div class="sub-content" id="trenPages"></div></div>
   </aside>
 
+  <!-- OVERLAY -->
   <div id="overlay" onclick="closeTasks()">
     <div id="panel" onclick="event.stopPropagation()">
-      <button id="closeBtn" onclick="closeTasks()">Kapat ✖</button>
+      <button id="closeBtn" onclick="closeTasks()">Görevleri Kapat</button>
       <h1 id="taskHeader"></h1>
       <div id="taskSections"></div>
     </div>
   </div>
 
+  <!-- CHAT -->
+  <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
+  <div id="messageIcon">📩</div>
+
   <script>
-    const perRozet = 50, maxRozet = 4;
-    let done = JSON.parse(localStorage.done||'{}');
-    if(!done.Vakur) done={Vakur:0,Hatip:0,Baron:0};
+    //  ——— 40 KÖYLÜK GÜNCEL DİZİ ———
+    const villages = [
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
+      "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
+      /*"Bostancı" çıkarıldı*/"Masucark","Kırıkan","Kuzluk","Qeremsal",
+      "Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
+      "Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut",
+      "Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
+    ];
 
-    function updateBars(){
-      const map = [
-        ['Vakur','barSavunma','barSavRozet','blue'],
-        ['Hatip','barNufus','barNufRozet','orange'],
-        ['Baron','barEtki','barEtRozet','red']
-      ];
-      map.forEach(([r,metricId,rozId,color])=>{
-        const d = done[r], metr = Math.min(100,d/(perRozet*maxRozet)*100);
-        document.getElementById(metricId).style.width = metr+'%';
-        const roz = Math.min(maxRozet,Math.floor(d/perRozet));
-        document.getElementById(rozId).style.width = (roz/maxRozet*100)+'%';
+    function drawRail(id, primary, accent) {
+      const c = document.getElementById(id), ctx = c.getContext('2d');
+      c.width = c.offsetWidth; c.height = c.offsetHeight;
+      ctx.strokeStyle = primary; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(0, c.height/2); ctx.lineTo(c.width, c.height/2); ctx.stroke();
+      ctx.strokeStyle = accent; ctx.lineWidth = 2;
+      villages.forEach((_, i) => {
+        const x = c.width * (i+1) / (villages.length+1);
+        ctx.beginPath(); ctx.moveTo(x, c.height/2-10); ctx.lineTo(x, c.height/2+10); ctx.stroke();
       });
-      // kilit açma
-      if(done.Vakur>=perRozet) document.getElementById('cardHatip').classList.remove('locked');
-      if(done.Hatip>=perRozet) document.getElementById('cardBaron').classList.remove('locked');
     }
 
-    const tasks = { Vakur:[], Hatip:[], Baron:[] };
-    for(let r of ['Vakur','Hatip','Baron']){
-      for(let i=1;i<=5;i++){
-        let sec={ title:`${['ÇIRAK','USTA','UZMAN','EFSANE','YÜCE'][i-1]} ${r.toUpperCase()} ${i}`, tasks:[] };
-        for(let j=1;j<=50;j++) sec.tasks.push(`${r} görevi ${((i-1)*50+j)}`);
-        tasks[r].push(sec);
-      }
-    }
+    window.onload = () => {
+      drawRail('railOut', '#555', '#e63946');
+      drawRail('railBack', '#555', '#a8dadc');
+      initTabs('koyTabs','koyPages',villages);
+      initTabs('trenTabs','trenPages',villages);
+    };
+    window.onresize = () => {
+      drawRail('railOut', '#555', '#e63946');
+      drawRail('railBack', '#555', '#a8dadc');
+    };
 
-    function openTasks(rank){
-      if(rank!=='Vakur' && done[rank]<perRozet) return alert(`${rank} kilitli!`);
-      const header = document.getElementById('taskHeader');
-      header.innerText = rank+' Görevleri';
-      const secEl = document.getElementById('taskSections');
-      secEl.innerHTML = '';
-      tasks[rank].forEach((sec, idx)=>{
-        if(done[rank] < idx*50) return;
-        const div = document.createElement('div'); div.className='rankSection';
-        const h = document.createElement('h3'); h.innerText = sec.title; div.appendChild(h);
-        sec.tasks.forEach(txt=>{
-          const ti = document.createElement('div'); ti.className='taskItem';
-          const sp = document.createElement('span'); sp.innerText = txt;
-          const btn = document.createElement('button'); btn.innerText='✔';
-          btn.onclick = ()=>{
-            done[rank]++; localStorage.done = JSON.stringify(done);
-            ti.classList.add('done'); btn.disabled=true;
-            updateBars();
-            if(idx===4 && done[rank]>=250){ closeTasks(); done[rank]=0; localStorage.done=JSON.stringify(done); updateBars(); }
-          };
-          ti.append(sp,btn); div.appendChild(ti);
-        });
-        secEl.appendChild(div);
-      });
-      document.getElementById('overlay').style.display='flex';
-    }
-
-    function closeTasks(){ document.getElementById('overlay').style.display='none'; }
-    function togglePanel(id){
+    // SIDEBAR PANELS
+    function togglePanel(id) {
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById(id+'Panel').classList.add('active');
     }
 
-    // basit ray çizimi
-    function drawRail(id,col1,col2){
-      const c=document.getElementById(id),ctx=c.getContext('2d');
-      c.width=c.offsetWidth; c.height=c.offsetHeight;
-      ctx.strokeStyle=col1; ctx.lineWidth=4;
-      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
-      ctx.strokeStyle=col2; ctx.lineWidth=2;
-      for(let i=1;i<=38;i++){
-        let x=c.width*(i/39);
-        ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke();
+    // TABS
+    function initTabs(tabId, pageId, items) {
+      const tabs = document.getElementById(tabId), pages = document.getElementById(pageId);
+      tabs.innerHTML=''; pages.innerHTML='';
+      const per = 8, count = Math.ceil(items.length/per);
+      for(let p=0; p<count; p++){
+        let btn = document.createElement('button');
+        btn.innerText = p+1; btn.onclick = ()=>showPage(p, tabId, pageId);
+        tabs.appendChild(btn);
+        let div = document.createElement('div'); div.className='sub-content';
+        let ul = document.createElement('ul');
+        for(let i=p*per; i<Math.min((p+1)*per, items.length); i++){
+          let li = document.createElement('li');
+          li.innerHTML = `${items[i]} <button onclick="travelTo('${items[i]}')">Git</button>`;
+          ul.appendChild(li);
+        }
+        div.appendChild(ul); pages.appendChild(div);
+      }
+      showPage(0, tabId, pageId);
+    }
+    function showPage(idx, tabId, pageId) {
+      document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.style.display='none');
+      document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[idx].style.display='block';
+    }
+    function travelTo(v) { alert(v+' köyüne gittiniz.'); }
+
+    // GÖREVLER
+    const tasks = {
+      Vakur: [
+        { title:'ÇIRAK VAKUR I', tasks:[
+            /* …10 görev… */'…'
+        ]},
+        { title:'USTA VAKUR II', tasks:[
+            /* …10 görev… */'…'
+        ]}
+      ],
+      Hatip: [
+        { title:'ÇIRAK HATİP I', tasks:[
+            /* …10 görev… */'…'
+        ]}
+      ],
+      Baron: [
+        { title:'ÇIRAK BARON I', tasks:[
+            /* …10 görev… */'…'
+        ]}
+      ]
+    };
+    let done={Vakur:0,Hatip:0,Baron:0},
+        total={
+          Vakur: tasks.Vakur.flatMap(s=>s.tasks).length,
+          Hatip: tasks.Hatip.flatMap(s=>s.tasks).length,
+          Baron: tasks.Baron.flatMap(s=>s.tasks).length
+        },
+        unlocked={Vakur:true,Hatip:false,Baron:false};
+
+    function openTasks(rank) {
+      if(!unlocked[rank]) return alert(rank+' kilitli!');
+      document.getElementById('taskHeader').innerText = rank+' Görevleri';
+      const secEl = document.getElementById('taskSections');
+      secEl.innerHTML = '';
+      tasks[rank].forEach(sec=>{
+        let d = document.createElement('div'); d.className='rankSection';
+        let h = document.createElement('h3'); h.innerText = sec.title; d.appendChild(h);
+        sec.tasks.forEach(t=>{
+          let ti = document.createElement('div'); ti.className='taskItem';
+          let sp = document.createElement('span'); sp.innerText = t;
+          let btn = document.createElement('button'); btn.innerText = '✔';
+          btn.onclick = ()=>completeTask(rank, btn);
+          ti.appendChild(sp); ti.appendChild(btn); d.appendChild(ti);
+        });
+        secEl.appendChild(d);
+      });
+      document.getElementById('overlay').style.display = 'flex';
+    }
+    function completeTask(rank, btn) {
+      btn.disabled=true; btn.parentElement.classList.add('done');
+      done[rank]++;
+      if(rank==='Vakur' && done.Vakur===total.Vakur){
+        unlocked.Hatip=true; document.getElementById('cardHatip').classList.remove('locked');
+        alert('Hatip görevleri açıldı!');
+      }
+      if(rank==='Hatip' && done.Hatip===total.Hatip){
+        unlocked.Baron=true; document.getElementById('cardBaron').classList.remove('locked');
+        alert('Baron görevleri açıldı!');
+      }
+      if(rank==='Baron' && done.Baron===total.Baron){
+        alert('Tüm görevler tamamlandı!');
       }
     }
-    window.onload = ()=>{
-      drawRail('railOut','#555','#e63946');
-      drawRail('railBack','#555','#a8dadc');
-      updateBars();
-    };
-    window.onresize = ()=>{
-      drawRail('railOut','#555','#e63946');
-      drawRail('railBack','#555','#a8dadc');
-    };
+    function closeTasks(){
+      document.getElementById('overlay').style.display='none';
+    }
   </script>
 </body>
 </html>
