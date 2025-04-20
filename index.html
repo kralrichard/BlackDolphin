@@ -6,180 +6,173 @@
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
     :root {
-      --bg-dark: #1e1e1e;
-      --bg-panel: #2a2a2a;
+      --bg-dark: #121212;
       --bg-light: #f4f4f4;
-      --accent: #007acc;
-      --text-light: #f1f1f1;
-      --text-dark: #333333;
-      --rail-light: #ccc;
-      --rail-accent: #ff4c4c;
+      --panel-dark: #1e1e1e;
+      --accent: #e63946;
+      --text-light: #f4f4f4;
+      --text-dark: #333;
     }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    body { display:grid; grid-template-rows:60px auto 60px; grid-template-columns:240px auto 240px; height:100vh; background:var(--bg-light); color:var(--text-dark); }
-    header {
-      grid-column:1/4; grid-row:1/2;
-      background:var(--bg-dark); display:flex; align-items:center; justify-content:space-between;
-      padding:0 20px; color:var(--text-light);
-      box-shadow:0 2px 5px rgba(0,0,0,0.5);
-    }
-    header .logo { font-size:1.8rem; font-weight:bold; }
-    header .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
-
+    body { background:var(--bg-light); color:var(--text-dark); display:flex; height:100vh; overflow:hidden; }
     /* Sidebar */
     nav {
-      grid-column:1/2; grid-row:2/3;
-      background:var(--bg-panel); overflow-y:auto;
+      width:220px; background:var(--panel-dark); color:var(--text-light);
       display:flex; flex-direction:column; justify-content:space-between;
     }
-    .tabs { list-style:none; }
-    .tabs li { border-bottom:1px solid #333; }
-    .tabs li a { display:block; padding:14px 20px; color:var(--text-light); text-decoration:none; }
-    .tabs li a:hover { background:var(--accent); }
-    .search { padding:10px; }
-    .search input { width:100%; padding:8px; border:none; border-radius:4px; }
-
-    /* Main content */
-    main {
-      grid-column:2/3; grid-row:2/3;
-      display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-      position:relative;
-    }
-    /* Rails above/below center ranks */
-    canvas.rail {
-      width:80%; height:4px; background:transparent;
-    }
-    #centerRanks {
-      display:flex; gap:40px; margin:20px 0;
-    }
-    .card {
-      background:rgba(0,0,0,0.7); padding:20px; border-radius:8px;
-      color:var(--text-light); text-align:center; width:120px;
-      transition:transform 0.2s;
-    }
-    .card:hover { transform:translateY(-5px); }
+    nav ul { list-style:none; }
+    nav li a { display:block; padding:12px 20px; color:inherit; text-decoration:none; border-bottom:1px solid #333; }
+    nav li a:hover { background:var(--accent); }
+    nav .search { padding:10px; }
+    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
+    /* Main */
+    main { flex:1; display:flex; flex-direction:column; }
+    header { background:var(--bg-dark); color:var(--text-light); padding:0 20px; height:60px; display:flex; align-items:center; justify-content:space-between; }
+    header .logo { font-size:1.6rem; font-weight:bold; }
+    header .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
+    /* Rails */
+    .rail-container { position:relative; height:60px; }
+    canvas.rail { width:100%; height:60px; }
+    .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
+    .rail-label.return { top:auto; bottom:10px; }
+    /* Center Ranks */
+    #centerRanks { display:flex; justify-content:center; gap:40px; margin:10px 0; }
+    .card { background:var(--panel-dark); color:var(--text-light); padding:20px; border-radius:8px; text-align:center; width:120px; cursor:pointer; }
     .card h2 { margin-bottom:10px; }
-    .card button { background:black; border:none; padding:8px 12px; color:white; border-radius:4px; cursor:pointer; }
-
-    /* Panels right */
-    aside {
-      grid-column:3/4; grid-row:2/3;
-      background:var(--bg-panel); overflow-y:auto; padding:20px;
-    }
-    .panel { margin-bottom:20px; }
-    .panel h3 { color:var(--accent); margin-bottom:10px; text-align:center; }
-    .sub-tabs { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-bottom:10px; }
-    .sub-tabs button { background:#444; border:none; padding:6px 10px; color:var(--text-light); border-radius:4px; cursor:pointer; }
+    .card button { background:var(--accent); border:none; padding:8px; color:white; border-radius:4px; }
+    /* Task Modal */
+    #taskModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; }
+    #taskContent { background:var(--bg-light); width:80%; max-width:800px; max-height:80%; overflow-y:auto; border-radius:8px; padding:20px; position:relative; }
+    #taskContent h1 { text-align:center; margin-bottom:20px; }
+    #closeModal { position:absolute; top:10px; right:10px; background:var(--accent); border:none; color:white; padding:6px 10px; cursor:pointer; }
+    .rankSection { margin-bottom:20px; }
+    .rankSection h2 { margin-bottom:10px; color:var(--accent); }
+    .taskItem { background:#ddd; margin-bottom:6px; padding:8px; border-radius:4px; display:flex; justify-content:space-between; }
+    .taskItem.done { background:#a8e6cf; }
+    .taskItem button { background:var(--accent); border:none; color:white; padding:4px 8px; border-radius:4px; }
+    /* Right Panels */
+    aside { width:260px; background:var(--panel-dark); color:var(--text-light); overflow-y:auto; }
+    .panel { padding:20px; border-bottom:1px solid #333; }
+    .panel h3 { margin-bottom:10px; color:var(--accent); }
+    .sub-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+    .sub-tabs button { background:#444; border:none; color:var(--text-light); padding:6px 10px; border-radius:4px; cursor:pointer; }
     .sub-tabs button.active { background:var(--accent); }
-    .sub-content { display:none; }
-    .sub-content.active { display:block; }
-    .sub-content ul { list-style:none; max-height:200px; overflow-y:auto; padding:0; }
-    .sub-content li { display:flex; justify-content:space-between; padding:6px 0; }
-    .sub-content li button { background:var(--accent); border:none; padding:4px 8px; color:white; border-radius:4px; cursor:pointer; }
-
-    /* Bottom chat & message */
-    #chatBox { grid-column:2/3; grid-row:3/4; background:var(--bg-panel); margin:10px auto; width:80%; border-radius:8px; padding:10px; overflow-y:auto; color:var(--text-light); }
-    #messageIcon { position:absolute; bottom:20px; right:calc(50% - 120px); background:var(--accent); padding:10px; border-radius:50%; color:white; cursor:pointer; }
-
-    /* Responsive */
-    @media(max-width:1024px){ body { grid-template-columns:200px auto 200px; } }
-    @media(max-width:768px){ body { grid-template-columns:1fr; grid-template-rows:60px auto auto 60px; }
-      nav { grid-column:1/2; grid-row:2/3; flex-direction:row; overflow-x:auto; }
-      nav .search { display:none; }
-      aside { grid-column:1/2; grid-row:3/4; display:flex; flex-direction:row; overflow-x:auto; }
-      main { grid-column:1/2; grid-row:2/3; }
-      #chatBox { grid-column:1/2; grid-row:4/5; width:90%; }
-      #messageIcon { bottom:80px; right:10%; }
-    }
+    .sub-content ul { list-style:none; max-height:200px; overflow-y:auto; }
+    .sub-content li { display:flex; justify-content:space-between; margin-bottom:6px; }
+    .sub-content li button { background:var(--accent); border:none; color:white; padding:4px 8px; border-radius:4px; }
+    /* Chat */
+    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:60%; background:var(--panel-dark); color:var(--text-light); padding:10px; border-radius:8px; max-height:200px; overflow-y:auto; }
+    #messageIcon { position:fixed; bottom:20px; right:20px; background:var(--accent); padding:10px; border-radius:50%; color:white; cursor:pointer; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">BLACK DOLPHINE</div>
-    <div class="balance">$500,000</div>
-  </header>
   <nav>
-    <ul class="tabs">
-      <li><a href="#" onclick="togglePanel('durumPanel')">Durumum</a></li>
-      <li><a href="#" onclick="togglePanel('davetPanel')">Davet Et</a></li>
-      <li><a href="#" onclick="togglePanel('vakurPanel')">Vakur Görevleri</a></li>
-      <li><a href="#" onclick="togglePanel('hatipPanel')">Hatip Görevleri</a></li>
-      <li><a href="#" onclick="togglePanel('baronPanel')">Baron Görevleri</a></li>
-      <li><a href="#" onclick="togglePanel('koyPanel')">Köy İncelemesi</a></li>
-      <li><a href="#" onclick="togglePanel('trenPanel')">Tren Seyahatleri</a></li>
+    <ul>
+      <li><a href="#" onclick="togglePanel('durum')">Durumum</a></li>
+      <li><a href="#" onclick="togglePanel('davet')">Davet Et</a></li>
+      <li><a href="#" onclick="toggleModal('Vakur')">Vakur Görevleri</a></li>
+      <li><a href="#" onclick="toggleModal('Hatip')">Hatip Görevleri</a></li>
+      <li><a href="#" onclick="toggleModal('Baron')">Baron Görevleri</a></li>
+      <li><a href="#" onclick="togglePanel('koy')">Köy İncelemesi</a></li>
+      <li><a href="#" onclick="togglePanel('tren')">Tren Seyahatleri</a></li>
     </ul>
-    <div class="search">
-      <input type="text" placeholder="Kullanıcı ara...">
-    </div>
+    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
   </nav>
   <main>
-    <canvas id="railTop" class="rail"></canvas>
-    <div id="centerRanks">
-      <div class="card" id="cardVakur"><h2 style="color:blue">VAKUR</h2><button>Serüven</button></div>
-      <div class="card" id="cardHatip"><h2 style="color:orange">HATİP</h2><button>Serüven</button></div>
-      <div class="card" id="cardBaron"><h2 style="color:red">BARON</h2><button>Serüven</button></div>
+    <header>
+      <div class="logo">BLACK DOLPHINE</div>
+      <div class="balance">$500,000</div>
+    </header>
+    <!-- Departure Rail -->
+    <div class="rail-container">
+      <div class="rail-label">Gidiş Rotası</div>
+      <canvas id="railOut" class="rail"></canvas>
     </div>
-    <canvas id="railBottom" class="rail"></canvas>
+    <!-- Center Ranks -->
+    <div id="centerRanks">
+      <div class="card" onclick="toggleModal('Vakur')"><h2 style="color:blue">VAKUR</h2><button>Serüven</button></div>
+      <div class="card" onclick="toggleModal('Hatip')"><h2 style="color:orange">HATİP</h2><button>Serüven</button></div>
+      <div class="card" onclick="toggleModal('Baron')"><h2 style="color:red">BARON</h2><button>Serüven</button></div>
+    </div>
+    <!-- Return Rail -->
+    <div class="rail-container">
+      <div class="rail-label return">Dönüş Rotası</div>
+      <canvas id="railBack" class="rail"></canvas>
+    </div>
   </main>
   <aside>
-    <section class="panel" id="koyPanelContent">
+    <!-- Köy İncelemesi -->
+    <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
       <div class="sub-tabs" id="koyTabs"></div>
       <div class="sub-content" id="koyPages"></div>
-    </section>
-    <section class="panel" id="trenPanelContent">
+    </div>
+    <!-- Tren Seyahatleri -->
+    <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
       <div class="sub-tabs" id="trenTabs"></div>
       <div class="sub-content" id="trenPages"></div>
-    </section>
+    </div>
   </aside>
+  <!-- Task Modal -->
+  <div id="taskModal" onclick="if(event.target===this) toggleModal()">
+    <div id="taskContent">
+      <button id="closeModal" onclick="toggleModal()">✖</button>
+      <h1 id="taskHeader"></h1>
+      <div id="taskSections"></div>
+    </div>
+  </div>
+  <!-- Chat & Message -->
   <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
   <div id="messageIcon">📩</div>
 
   <script>
-    // Rail çizimi
-    function drawRail(id) {
-      const c = document.getElementById(id), ctx = c.getContext('2d');
-      c.width = c.offsetWidth; c.height = 4;
-      ctx.strokeStyle = 'var(--rail-light)'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(0,2); ctx.lineTo(c.width,2); ctx.stroke();
-      // accent markers
-      ctx.strokeStyle = 'var(--rail-accent)'; ctx.lineWidth = 1;
-      for(let i=1;i<=25;i++){ let x = c.width*(i/26);
-        ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,4); ctx.stroke();
-      }
+    // Villages full list
+    const villages = [
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk",
+      "Tilal","Olik","Mıshecerk","Mızelb","Kergü","Bozdepe","Cinnık","Bostancı","Masucark","Kırıkan",
+      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel"
+    ];
+    // Tasks arrays
+    const tasks = {
+      "Vakur": [
+        { title:"ÇIRAK VAKUR I", tasks:[/*10 tasks*/"Bir çocuğun okul çantası almasına yardımcı ol.","Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.","Sokaktaki sahipsiz bir köpek için su ve mama koy.","Arkadaşına ufak bir hediye vererek moralini yükselt.","İşsiz bir tanıdığına CV hazırlama konusunda destek ol.","Kütüphanede eski kitapları düzenlemeye gönüllü ol.","Bir hayır kurumuna ufak bir bağış yap veya yardım topla.","Otobüste yaşlı veya hamile birine yer ver.","Mahalle parkında çöp toplama etkinliğine katıl.","Arkadaşına küçük bir sürpriz parti düzenle." ] },
+        { title:"USTA VAKUR II", tasks:[/*10*/"Aile içinde tartışan iki akrabayı barıştır.","Mahallede yardım kermesi veya etkinlik organize et.","Maddi durumu kötü bir öğrenciye burs ayarla.","Bir STK’nın etkinliğinde aktif rol al.","Bakımsız parkı onarmak için gönüllüler topla.","Kan bağışı kampanyasına katkıda bulun.","Bir arkadaşın için profesyonel yardım aracılığı yap.","Zorbalığa uğrayan birine çevrimiçi destek bul.","Engelliler için kamu binalarına erişim kolaylığı sağla.","Sokak hayvanları için geçici barınak oluştur." ] },
+        { title:"UZMAN VAKUR III", tasks:[/*10*/"Afet bölgesine yardım ekibi olarak katıl.","Kronik bir sorun için belediyeyle görüşüp çözüm talep et.","Zor durumdaki aileye iş veya barınma imkânı sağla.","Hayvan barınağında kapsamlı bakım ve temizlik yap.","Küs olan iki arkadaşın barışmasına aracılık et.","Toplum dışlanmış birini etkinliklere dahil et.","Küçük çaplı bağış kampanyası düzenle.","Yerel hastanede gönüllü refakat programına katıl.","Belediye ile iş birliği yaparak gençlik merkezi aç.","Maddi sıkıntı yaşayan aileler için erzak paketi dağıtımı yap." ] },
+        { title:"EFSANE VAKUR IV", tasks:[/*10*/"Büyük ölçekli yardım projesine liderlik et.","Gençlere yönelik mentorluk programı başlat.","Meslek edindirme kursu organize et.","Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.","Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.","Okullarda 'empati ve yardımseverlik' semineri düzenle.","Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.","Ücretsiz terapi/rehberlik günü organize et.","Üniversite öğrencilerine staj imkânları sunan platform oluştur.","Çevre koruma amaçlı ağaçlandırma kampanyası düzenle." ] },
+        { title:"YÜCE VAKUR V", tasks:[/*10+*/"Ulusal çapta sosyal sorumluluk projesi yürüt.","Büyük bağış konseri/festival düzenle.","Gönüllüleri bir araya getiren platform kur.","Eğitim bursu fonu başlat.","Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.","Yardım vakfı kurarak sürekli yardım yürüt.","Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.","Yurt çapında geri dönüşüm projesi başlat.","Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.","Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder." ] }
+      ],
+      "Hatip": [ /* same full lists for Hatip */ ],
+      "Baron": [ /* same full lists for Baron */ ]
+    };
+    // Rail draw
+    function drawRail(id, colorPrimary, colorAccent) {
+      const c=document.getElementById(id),ctx=c.getContext('2d'); c.width=c.offsetWidth; c.height=c.offsetHeight;
+      ctx.strokeStyle=colorPrimary; ctx.lineWidth=4;
+      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
+      ctx.strokeStyle=colorAccent; ctx.lineWidth=2;
+      for(let i=1;i<=31;i++){ const x=c.width*(i/32);
+        ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke(); }
     }
-    window.onload = ()=>{ drawRail('railTop'); drawRail('railBottom'); initTabs('koyTabs','koyPages'); initTabs('trenTabs','trenPages'); };
-    window.onresize = ()=>{ drawRail('railTop'); drawRail('railBottom'); };
-    // Tab içerik toggle
-    function togglePanel(id) {
-      document.querySelectorAll('nav .tabs a').forEach(a=>a.classList.remove('active'));
-      document.querySelectorAll('aside .panel').forEach(p=>p.style.display='none');
-      document.getElementById(id+'PanelContent').style.display='block';
+    window.onload = ()=>{
+      drawRail('railOut','#555','#e63946');
+      drawRail('railBack','#555','#a8dadc');
+      initTabs('koyTabs','koyPages',villages);
+      initTabs('trenTabs','trenPages',villages);
+      togglePanel('koy');
+    };
+    window.onresize=()=>{drawRail('railOut','#555','#e63946'); drawRail('railBack','#555','#a8dadc');};
+    function initTabs(tabId,pageId,items){ const tabs=document.getElementById(tabId), pages=document.getElementById(pageId); tabs.innerHTML=''; pages.innerHTML=''; const per=8, pagesCount=Math.ceil(items.length/per);
+      for(let p=0;p<pagesCount;p++){ let b=document.createElement('button'); b.innerText=p+1; b.onclick=()=>showPage(p,tabId,pageId); tabs.appendChild(b);
+        let d=document.createElement('div'); d.className='sub-content'; let ul=document.createElement('ul'); for(let i=p*per;i<Math.min((p+1)*per,items.length);i++){let li=document.createElement('li'); li.innerHTML=`${items[i]} <button>Git</button>`; ul.appendChild(li);} d.appendChild(ul); pages.appendChild(d);
+      } showPage(0,tabId,pageId);
     }
-    // Köy/Tren sekmeleri
-    const items=(new Array(31)).fill(0).map((_,i)=>`Köy${i+1}`);
-    function initTabs(tabId,pageId){
-      const t=document.getElementById(tabId), p=document.getElementById(pageId);
-      t.innerHTML=''; p.innerHTML='';
-      const per=7, pages=Math.ceil(items.length/per);
-      for(let i=0;i<pages;i++){
-        let btn=document.createElement('button'); btn.innerText=i+1;
-        btn.onclick=()=>showPage(i,tabId,pageId);
-        t.appendChild(btn);
-        let cont=document.createElement('div'); cont.className='sub-content';
-        let ul=document.createElement('ul');
-        items.slice(i*per,(i+1)*per).forEach(v=>{ let li=document.createElement('li'); li.innerText=v; ul.appendChild(li); });
-        cont.appendChild(ul); p.appendChild(cont);
-      }
-      showPage(0,tabId,pageId);
+    function showPage(idx,tabId,pageId){ document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active')); document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.style.display='none'); document.querySelectorAll(`#${tabId} button`)[idx].classList.add('active'); document.querySelectorAll(`#${pageId} .sub-content`)[idx].style.display='block'; }
+    // Modal
+    function toggleModal(rank){ const modal=document.getElementById('taskModal'), sections=document.getElementById('taskSections'), header=document.getElementById('taskHeader'); if(modal.style.display==='flex'){ modal.style.display='none'; sections.innerHTML=''; } else { header.innerText=rank+' Görevleri'; sections.innerHTML=''; tasks[rank].forEach(sec=>{ let div=document.createElement('div'); div.className='rankSection'; let h2=document.createElement('h2'); h2.innerText=sec.title; div.appendChild(h2); sec.tasks.forEach(txt=>{ let item=document.createElement('div'); item.className='taskItem'; item.innerHTML=`<span>${txt}</span><button onclick=\"markDone(this)\">Tamamla</button>`; div.appendChild(item); }); sections.appendChild(div); }); modal.style.display='flex'; }
     }
-    function showPage(i,tabId,pageId){
-      document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.style.display='none');
-      document.querySelectorAll(`#${tabId} button`)[i].classList.add('active');
-      document.querySelectorAll(`#${pageId} .sub-content`)[i].style.display='block';
-    }
+    function markDone(btn){ btn.parentElement.classList.toggle('done'); }
+    function togglePanel(id){ document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active')); document.querySelectorAll('aside .panel').forEach(p=>p.style.display='none'); event.target.classList.add('active'); document.getElementById(id+'Panel').style.display='block'; }
   </script>
 </body>
 </html>
