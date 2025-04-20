@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
+    /* ======= GENEL ======= */
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; }
     header {
@@ -16,25 +17,26 @@
     .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; }
     #money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; color:lime; }
 
-    /* Sol Panel */
+    /* ======= SOL PANEL ======= */
     #leftPanel { position:fixed; top:80px; left:20px; width:200px; height:calc(100vh - 80px); overflow:auto; z-index:900; }
     .sectionBox { background:rgba(0,0,0,0.6); border-radius:5px; margin-bottom:4px; }
     .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.85rem; }
     .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.8rem; }
     .tab-content.active { display:block; }
 
-    /* Center Ranks */
+    /* ======= TAM ORTA BUTONLAR (KÜÇÜLTÜLDÜ) ======= */
     #centerRanks { position:fixed; top:50%; left: calc(20px + 200px); width: calc(100% - 440px); transform: translateY(-50%); display:flex; justify-content:space-between; z-index:950; }
-    .card { background:rgba(0,0,0,0.7); padding:0.6rem 1rem; border-radius:5px; text-align:center; font-size:0.9rem; color:#ffcc00; cursor:pointer; user-select:none; transform-origin:center; }
-    .card.vakur { color:blue; transform:scale(2.5); }
-    .card.hatip { color:orange; transform:scale(2.5); }
-    .card.baron { color:red; transform:scale(2.5); }
+    .card { background:rgba(0,0,0,0.7); padding:0.6rem 1rem; border-radius:5px; text-align:center; color:#ffcc00; cursor:pointer; user-select:none; transform-origin:center; }
+    .card.vakur { color:blue; transform:scale(1.25); }
+    .card.hatip { color:orange; transform:scale(1.25); }
+    .card.baron { color:red; transform:scale(1.25); }
 
-    /* Trenle Seyehat */
+    /* ======= ÜST SAĞ PANEL: Trenle Seyehat (KÜÇÜLTÜLDÜ) ======= */
     #travelBox {
       position:fixed; top:80px; right:20px;
       width:200px; background:rgba(0,0,0,0.7); border-radius:5px; z-index:1000;
-      transform-origin:top right; transform:scale(1.5,3);
+      transform-origin:top right;
+      transform:scale(0.75,1.5);
       font-size:0.64rem;
     }
     #travelBox h3 { padding:0.6rem; text-align:center; color:#ffcc00; border-bottom:1px solid #333; font-size:0.64rem; }
@@ -46,18 +48,19 @@
     #travelPages li { display:flex; justify-content:space-between; margin-bottom:4px; font-size:0.64rem; }
     #travelPages li button { background:#444; color:#ffcc00; border:none; border-radius:3px; padding:2px 6px; font-size:0.56rem; cursor:pointer; }
 
-    /* Train Tracks */
+    /* ======= TREN RAYLARI ======= */
     .trainTrack { position:fixed; left: calc(20px + 200px); width: calc(100% - 440px); height:180px; z-index:800; }
 
-    /* Bottom Info */
+    /* ======= ALT ARAMA & BİLGİ ======= */
     #searchBoxBottom { position:fixed; bottom:60px; left:20px; width:200px; z-index:900; }
     #searchBoxBottom input { width:100%; padding:0.4rem; border-radius:3px; border:1px solid #333; background:#222; color:#fff; }
     #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; z-index:900; }
 
-    /* Chat and Icon */
+    /* ======= CHAT & MESAJ ======= */
     #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; max-width:80%; background:rgba(0,0,0,0.7); padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem; cursor:text; z-index:900; }
     #messageIcon { position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.7); padding:0.6rem; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:900; }
 
+    /* ======= MOBİL ======= */
     @media(max-width:768px){
       #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; padding:0 10px; }
       #centerRanks { position:static; transform:none; margin:1rem auto; width:auto; justify-content:center; }
@@ -114,7 +117,4 @@
   <script>
     function toggleTab(id){ document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active')); document.getElementById(id).classList.toggle('active'); }
     const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"];
-    function initTabs(tabId,pageId){ const t=document.getElementById(tabId),p=document.getElementById(pageId),per=7; for(let i=0;i<Math.ceil(villages.length/per);i++){ let b=document.createElement('button');b.innerText=i+1;b.onclick=()=>showPage(i,tabId,pageId);t.appendChild(b); let d=document.createElement('div');d.className='sub-content'; let u=document.createElement('ul'); villages.slice(i*per,(i+1)*per).forEach(v=>{ let li=document.createElement('li'); li.innerText=v; let btn=document.createElement('button'); btn.innerText='Seyehat Et'; btn.onclick=()=>{ if(confirm('Seyehat etmek istediğinize emin misiniz?')){ let mEl=document.getElementById('money'),curr=parseInt(mEl.innerText.replace('$','')); curr=Math.max(0,curr-500); mEl.innerText='$'+curr; document.getElementById('bottomLeft').innerText=v+' köyüne seyahat edildi'; let dur=document.getElementById('durumum'); let pEl=document.createElement('p'); pEl.innerText=v+' köyüne seyahat edildi.'; dur.appendChild(pEl);} }; li.appendChild(btn); u.appendChild(li); }); d.appendChild(u); p.appendChild(d);} showPage(0,tabId,pageId);} function showPage(i,t,p){ document.querySelectorAll(`#${t} button`).forEach(b=>b.classList.remove('active')); document.querySelectorAll(`#${p} .sub-content`).forEach(c=>c.classList.remove('active')); document.querySelectorAll(`#${t} button`)[i].classList.add('active'); document.querySelectorAll(`#${p} .sub-content`)[i].classList.add('active'); } initTabs('travelTabs','travelPages'); const rails=['trainTrackTop','trainTrackBottom']; function draw(id){ const c=document.getElementById(id),ctx=c.getContext('2d'); c.width=c.offsetWidth; c.height=c.offsetHeight; ctx.strokeStyle='#cccccc'; ctx.lineWidth=1; [10,12,c.height-10,c.height-12].forEach(y=>{ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(c.width,y);ctx.stroke();}); ctx.strokeStyle='#ff0000'; ctx.lineWidth=1; const count=25,sp=c.width/(count+1); for(let i=1;i<=count;i++){ const x=sp*i; [0,1].forEach(o=>{ctx.beginPath();ctx.moveTo(x+o,12);ctx.lineTo(x+o,c.height-12);ctx.stroke();});}} function positionRails(){ const cr=document.getElementById('centerRanks').getBoundingClientRect(); const railH=document.getElementById('trainTrackTop').offsetHeight; const gap=cr.height; document.getElementById('trainTrackTop').style.top=`${cr.top - railH - gap + window.scrollY}px`; document.getElementById('trainTrackBottom').style.top=`${cr.bottom + gap + window.scrollY}px`;} function redraw(){ rails.forEach(draw); positionRails(); } window.addEventListener('resize',redraw); window.addEventListener('load',redraw);
-  </script>
-</body>
-</html>
+    function initTabs(tabId,pageId){ const t=document.getElementById(tabId),p=document.getElementById(pageId),per=7; for(let i=0;i<Math.ceil(villages.length/per);i++){ let b=document.createElement('button');b.innerText=i+1;b.onclick=()=>showPage(i,tabId,pageId);t.appendChild(b); let d=document.createElement('div');d.className='sub-content'; let u=document.createElement('ul'); villages.slice(i*per,(i+1)*per).forEach(v=>{ let li=document.createElement('li'); li.innerText=v; let btn=document.createElement('button'); btn.innerText='Seyehat Et'; btn.onclick=()=>{ if(confirm('Seyehat etmek istediğinize emin misiniz?')){ let mEl=document.getElementById('money'),curr=parseInt(mEl.innerText.replace('$','')); curr=Math.max(0,curr-500); mEl.innerText='$'+curr; document.getElementById('bottomLeft').innerText=v+' köyüne seyahat edildi'; let dur=document.getElementById('durumum'); let pEl=document.createElement('p'); pEl.innerText=v+' köyüne seyahat edildi.'; dur.appendChild(pEl);} }; li.appendChild(btn); u.appendChild(li); }); d.appendChild(u); p.appendChild(d);} showPage(0,tabId,pageId);} function showPage(i,t,p){ document.querySelectorAll(`#${t} button`).forEach(b=>b.classList.remove('active')); document.querySelectorAll(`#${p} .sub-content`).forEach(c=>c.classList.remove
