@@ -5,46 +5,167 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    :root { --bg-dark:#121212;--bg-light:#f4f4f4;--panel-dark:#1e1e1e;--accent:#e63946;--text-light:#f4f4f4;--text-dark:#333; }
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-    body{display:flex;flex-direction:column;background:var(--bg-light);color:var(--text-dark);height:100vh;overflow:hidden;}
-    header{background:var(--bg-dark);color:var(--text-light);padding:0.5rem;display:flex;justify-content:space-between;align-items:center;}
-    .logo{font-size:1.4rem;font-weight:bold;}
-    .balance{background:#222;padding:0.5rem 1rem;border-radius:4px;color:lime;}
-    #centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;background:var(--bg-light);flex-shrink:0;}
-    .card{background:var(--panel-dark);color:var(--text-light);padding:1rem;border-radius:8px;text-align:center;width:100px;cursor:pointer;}
-    .card.locked{opacity:0.5;pointer-events:none;}
-    .card h2{margin-bottom:0.5rem;font-size:1rem;}
-    .card button{background:var(--accent);border:none;padding:0.5rem 1rem;color:#fff;border-radius:4px;cursor:pointer;}
-    #taskModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s;}
-    #taskModal.show{visibility:visible;opacity:1;}
-    #taskContent{background:var(--bg-light);width:90%;max-width:600px;height:80%;overflow-y:auto;border-radius:8px;padding:1rem;position:relative;}
-    #closeModal{position:absolute;top:0.5rem;right:0.5rem;background:var(--accent);border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:50%;cursor:pointer;}
-    .rankSection{margin-bottom:1rem;}
-    .rankSection h3{color:var(--accent);margin-bottom:0.5rem;}
-    .taskItem{background:#ddd;padding:0.5rem;display:flex;justify-content:space-between;margin-bottom:0.3rem;border-radius:4px;}
-    .taskItem.done{background:#a8e6cf;}
-    .taskItem button{background:var(--accent);border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
-    @media(max-width:768px){#centerRanks{flex-wrap:wrap;}header{flex-direction:column;text-align:center;} .balance{margin-top:0.5rem;} }
+    :root {
+      --bg-dark: #121212;
+      --bg-light: #f4f4f4;
+      --panel-dark: #1e1e1e;
+      --accent: #e63946;
+      --text-light: #f4f4f4;
+      --text-dark: #333;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { font-size: 1.4rem; font-weight: bold; }
+    .balance {
+      background: #222;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      color: lime;
+    }
+    #centerRanks {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem;
+      flex-shrink: 0;
+      background: var(--bg-light);
+    }
+    .card {
+      background: var(--panel-dark);
+      color: var(--text-light);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      width: 100px;
+      cursor: pointer;
+    }
+    .card.locked {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .card h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+    .card button {
+      background: var(--accent);
+      border: none;
+      padding: 0.5rem 1rem;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Görev Paneli */
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #panel {
+      background: var(--bg-light);
+      width: 90%;
+      max-width: 600px;
+      max-height: 80%;
+      overflow-y: auto;
+      border-radius: 8px;
+      padding: 1rem;
+      position: relative;
+    }
+    #closeBtn {
+      position: absolute;
+      top: 0.5rem; right: 0.5rem;
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .rankSection { margin-bottom: 1rem; }
+    .rankSection h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .taskItem {
+      background: #ddd;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+      border-radius: 4px;
+    }
+    .taskItem.done { background: #a8e6cf; }
+    .taskItem button {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      header { flex-direction: column; text-align: center; }
+      .balance { margin-top: 0.5rem; }
+      #centerRanks { flex-wrap: wrap; gap: 1rem; }
+    }
   </style>
 </head>
 <body>
+
   <header>
     <div class="logo">BLACK DOLPHINE</div>
     <div class="balance">$500,000</div>
   </header>
+
   <div id="centerRanks">
-    <div class="card" id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
-    <div class="card locked" id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
-    <div class="card locked" id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
+    <div class="card" id="cardVakur">
+      <h2>VAKUR</h2>
+      <button onclick="openTasks('Vakur')">Serüven</button>
+    </div>
+    <div class="card locked" id="cardHatip">
+      <h2>HATİP</h2>
+      <button onclick="openTasks('Hatip')">Serüven</button>
+    </div>
+    <div class="card locked" id="cardBaron">
+      <h2>BARON</h2>
+      <button onclick="openTasks('Baron')">Serüven</button>
+    </div>
   </div>
-  <div id="taskModal">
-    <div id="taskContent">
-      <button id="closeModal" onclick="closeTasks()">×</button>
+
+  <!-- Görev Paneli -->
+  <div id="overlay" onclick="closeTasks()">
+    <div id="panel" onclick="event.stopPropagation()">
+      <button id="closeBtn" onclick="closeTasks()">Görevleri Kapat</button>
       <h1 id="taskHeader"></h1>
       <div id="taskSections"></div>
     </div>
   </div>
+
   <script>
     const tasks = {
       Vakur: [
@@ -74,50 +195,75 @@
             'Sokak hayvanları için geçici barınak oluştur.'
           ]
         }
-        // Diğer seviyeler eklenebilir
       ],
-      Hatip: [ /* Hatip görevleri burada */ ],
-      Baron: [ /* Baron görevleri burada */ ]
+      Hatip: [
+        // Hatip görevleri benzer yapıda buraya eklenebilir
+      ],
+      Baron: [
+        // Baron görevleri buraya
+      ]
     };
-    const done = { Vakur: 0, Hatip: 0, Baron: 0 };
-    const total = { Vakur: tasks.Vakur[0].tasks.length, Hatip: 0, Baron: 0 };
-    const unlocked = { Vakur: true, Hatip: false, Baron: false };
+
+    const done    = { Vakur: 0, Hatip: 0, Baron: 0 };
+    const total   = { Vakur: tasks.Vakur.reduce((sum, sec) => sum + sec.tasks.length, 0), Hatip: 0, Baron: 0 };
+    const unlocked= { Vakur: true, Hatip: false, Baron: false };
+
     function openTasks(rank) {
-      if (!unlocked[rank]) return alert(rank + ' kilitli!');
+      if (!unlocked[rank]) {
+        return alert(rank + ' kilitli! Önce bir üst rankı tamamlayın.');
+      }
       document.getElementById('taskHeader').innerText = rank + ' Görevleri';
       const container = document.getElementById('taskSections');
       container.innerHTML = '';
+
       tasks[rank].forEach(sec => {
-        const rs = document.createElement('div'); rs.className = 'rankSection';
-        const h3 = document.createElement('h3'); h3.innerText = sec.title; rs.appendChild(h3);
-        sec.tasks.forEach(txt => {
-          const ti = document.createElement('div'); ti.className = 'taskItem';
-          ti.innerHTML = `<span>${txt}</span><button onclick="completeTask('${rank}', this)">✔</button>`;
-          rs.appendChild(ti);
+        const sectionDiv = document.createElement('div');
+        sectionDiv.className = 'rankSection';
+        const h3 = document.createElement('h3');
+        h3.innerText = sec.title;
+        sectionDiv.appendChild(h3);
+
+        sec.tasks.forEach(text => {
+          const taskDiv = document.createElement('div');
+          taskDiv.className = 'taskItem';
+          const span = document.createElement('span');
+          span.innerText = text;
+          const btn = document.createElement('button');
+          btn.innerText = '✔';
+          btn.onclick = () => completeTask(rank, btn);
+          taskDiv.appendChild(span);
+          taskDiv.appendChild(btn);
+          sectionDiv.appendChild(taskDiv);
         });
-        container.appendChild(rs);
+
+        container.appendChild(sectionDiv);
       });
-      document.getElementById('taskModal').classList.add('show');
+
+      document.getElementById('overlay').style.display = 'flex';
     }
-    function completeTask(rank, btn) {
-      btn.disabled = true; btn.parentElement.classList.add('done');
+
+    function completeTask(rank, button) {
+      button.disabled = true;
+      button.parentElement.classList.add('done');
       done[rank]++;
-      if (rank === 'Vakur' && done.Vakur >= total.Vakur) {
+
+      if (rank === 'Vakur' && done.Vakur === total.Vakur) {
         unlocked.Hatip = true;
         document.getElementById('cardHatip').classList.remove('locked');
-        alert('Hatip görevleri açıldı!');
+        alert('Tebrikler! Hatip görevleri açıldı.');
       }
-      if (rank === 'Hatip' && done.Hatip >= total.Hatip) {
+      if (rank === 'Hatip' && done.Hatip === total.Hatip) {
         unlocked.Baron = true;
         document.getElementById('cardBaron').classList.remove('locked');
-        alert('Baron görevleri açıldı!');
+        alert('Tebrikler! Baron görevleri açıldı.');
       }
-      if (rank === 'Baron' && done.Baron >= total.Baron) {
-        alert('Tebrikler! Tüm görevler tamamlandı.');
+      if (rank === 'Baron' && done.Baron === total.Baron) {
+        alert('Tebrikler! Tüm görevleri tamamladınız.');
       }
     }
+
     function closeTasks() {
-      document.getElementById('taskModal').classList.remove('show');
+      document.getElementById('overlay').style.display = 'none';
     }
   </script>
 </body>
