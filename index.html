@@ -18,16 +18,20 @@
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     html, body { height:100%; }
     body { display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden; }
-    nav {
-      width:220px; background:var(--panel-dark); color:var(--text-light);
-      display:flex; flex-direction:column;
-    }
+    /* ========== SIDEBAR ========== */
+    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
     nav ul { list-style:none; overflow-y:auto; flex:1; }
     nav li a {
       display:block; padding:12px 20px; color:inherit; text-decoration:none;
       border-bottom:1px solid #333;
     }
-    nav li a.active { background:var(--accent-vakur); }
+    nav li a.vakur { color:var(--accent-vakur); }
+    nav li a.hatip { color:var(--accent-hatip); }
+    nav li a.baron { color:var(--accent-baron); }
+    nav li a:hover, nav li a.active { background:rgba(255,255,255,0.1); }
+    nav .search { padding:10px; }
+    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
+    /* ========== MAIN ========== */
     main { flex:1; display:flex; flex-direction:column; overflow-y:auto; }
     header {
       background:var(--bg-dark); color:var(--text-light);
@@ -36,27 +40,26 @@
     }
     .logo { font-size:1.4rem; font-weight:bold; }
     .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
+    /* ========== RAILS ========== */
     .rail-container { position:relative; height:60px; margin:0 1rem; flex-shrink:0; }
     canvas.rail { width:100%; height:100%; }
     .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
     .rail-label.return { top:auto; bottom:10px; }
-    #centerRanks {
-      display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0;
-    }
+    /* ========== CENTER RANKS ========== */
+    #centerRanks { display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0; }
     .card {
-      padding:1rem; border-radius:8px; text-align:center; width:120px; cursor:pointer;
-      color:var(--text-light);
+      padding:1rem; border-radius:8px; text-align:center; width:120px; cursor:pointer; color:var(--text-light);
     }
-    .card.vakur { background:var(--panel-dark); border:2px solid var(--accent-vakur);}
-    .card.hatip { background:var(--panel-dark); border:2px solid var(--accent-hatip);}
-    .card.baron { background:var(--panel-dark); border:2px solid var(--accent-baron);}
+    .card.vakur { border:2px solid var(--accent-vakur); background:var(--panel-dark); }
+    .card.hatip { border:2px solid var(--accent-hatip); background:var(--panel-dark); }
+    .card.baron { border:2px solid var(--accent-baron); background:var(--panel-dark); }
     .card.locked { opacity:0.5; pointer-events:none; }
     .card h2 { margin-bottom:0.5rem; text-transform:uppercase; }
     .card button { border:none; color:#fff; padding:0.5rem 1rem; border-radius:4px; cursor:pointer; }
     .card.vakur button { background:var(--accent-vakur); }
     .card.hatip button { background:var(--accent-hatip); }
     .card.baron button { background:var(--accent-baron); }
-
+    /* ========== OVERLAY / TASK MODAL ========== */
     #overlay {
       position:fixed; top:0; left:0; width:100%; height:100%;
       background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center;
@@ -76,15 +79,12 @@
       border-radius:4px; margin-bottom:0.3rem;
     }
     .taskItem.done { background:#a8e6cf; }
-    .taskItem button { border:none; color:#fff; padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer; }
     .taskItem.vakur button { background:var(--accent-vakur); }
     .taskItem.hatip button { background:var(--accent-hatip); }
     .taskItem.baron button { background:var(--accent-baron); }
-
-    aside {
-      width:260px; background:var(--panel-dark); color:var(--text-light);
-      overflow-y:auto; flex-shrink:0;
-    }
+    .taskItem button { border:none; color:#fff; padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer; }
+    /* ========== PANELS ========== */
+    aside { width:260px; background:var(--panel-dark); color:var(--text-light); overflow-y:auto; flex-shrink:0; }
     .panel { padding:20px; border-bottom:1px solid #333; display:none; }
     .panel.active { display:block; }
     .panel h3 { margin-bottom:10px; color:var(--accent-vakur); }
@@ -94,7 +94,7 @@
     .sub-content ul { list-style:none; max-height:200px; overflow-y:auto; padding-left:0; }
     .sub-content li { display:flex; justify-content:space-between; margin-bottom:6px; }
     .sub-content li button { background:var(--accent-vakur); border:none; color:#fff; padding:4px 8px; border-radius:4px; cursor:pointer; }
-
+    /* ========== CHAT ========== */
     #chatBox {
       position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
       width:60%; background:var(--panel-dark); color:var(--text-light);
@@ -104,6 +104,7 @@
       position:fixed; bottom:20px; right:20px;
       background:var(--accent-vakur); padding:10px; border-radius:50%; color:#fff; cursor:pointer;
     }
+    /* ========== MOBILE ========== */
     @media(max-width:768px){
       body { flex-direction:column; }
       nav, aside { width:100%; order:2; }
@@ -116,18 +117,36 @@
       #chatBox { width:90%; bottom:10px; }
       #messageIcon { bottom:10px; right:10px; }
     }
+    /* ========== PROGRESS BARS ========== */
+    .prog-container { margin-bottom:1rem; }
+    .prog-label { font-weight:bold; margin-bottom:0.3rem; }
+    .progress {
+      width:100%; height:20px; background:#ddd; border-radius:10px; overflow:hidden;
+    }
+    .progress .fill { height:100%; width:0; }
+    .fill.vakur { background:var(--accent-vakur); }
+    .fill.hatip { background:var(--accent-hatip); }
+    .fill.baron { background:var(--accent-baron); }
+    .badge-count { text-align:right; margin-top:0.2rem; font-size:0.9rem; }
   </style>
 </head>
 <body>
 
+  <!-- SIDEBAR -->
   <nav>
     <ul>
       <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
       <li><a href="#" onclick="togglePanel('koy')">Köy İncelemesi</a></li>
       <li><a href="#" onclick="togglePanel('tren')">Tren Seyahatleri</a></li>
+      <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
+      <li><a href="#" class="vakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
+      <li><a href="#" class="hatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
+      <li><a href="#" class="baron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
     </ul>
+    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
   </nav>
 
+  <!-- MAIN CONTENT -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
@@ -140,9 +159,9 @@
     </div>
 
     <div id="centerRanks">
-      <div class="card vakur" id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
-      <div class="card hatip locked" id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
-      <div class="card baron locked" id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
+      <div class="card vakur"    id="cardVakur" onclick="openTasks('Vakur')"><h2>VAKUR</h2><button>Serüven</button></div>
+      <div class="card hatip"    id="cardHatip" onclick="openTasks('Hatip')"><h2>HATİP</h2><button>Serüven</button></div>
+      <div class="card baron"    id="cardBaron" onclick="openTasks('Baron')"><h2>BARON</h2><button>Serüven</button></div>
     </div>
 
     <div class="rail-container">
@@ -151,25 +170,49 @@
     </div>
   </main>
 
+  <!-- PANELS -->
   <aside>
     <div class="panel active" id="durumPanel">
       <h3>Durumum</h3>
-      <p><strong>Vakur Rozet:</strong> <span id="vakurBadges">0</span> &bull; <strong>%</strong> <span id="vakurPct">0</span>%</p>
-      <p><strong>Hatip Rozet:</strong> <span id="hatipBadges">0</span> &bull; <strong>%</strong> <span id="hatipPct">0</span>%</p>
-      <p><strong>Baron Rozet:</strong> <span id="baronBadges">0</span> &bull; <strong>%</strong> <span id="baronPct">0</span>%</p>
+
+      <div class="prog-container">
+        <div class="prog-label">Vakur (%<span id="vakurPct">0</span>)</div>
+        <div class="progress"><div id="vakurFill" class="fill vakur"></div></div>
+        <div class="badge-count">Rozet: <span id="vakurBadges">0</span></div>
+      </div>
+
+      <div class="prog-container">
+        <div class="prog-label">Hatip (%<span id="hatipPct">0</span>)</div>
+        <div class="progress"><div id="hatipFill" class="fill hatip"></div></div>
+        <div class="badge-count">Rozet: <span id="hatipBadges">0</span></div>
+      </div>
+
+      <div class="prog-container">
+        <div class="prog-label">Baron (%<span id="baronPct">0</span>)</div>
+        <div class="progress"><div id="baronFill" class="fill baron"></div></div>
+        <div class="badge-count">Rozet: <span id="baronBadges">0</span></div>
+      </div>
     </div>
+
     <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
-      <div class="sub-tabs" id="koyTabs"></div>
+      <div class="sub-tabs"   id="koyTabs"></div>
       <div class="sub-content" id="koyPages"></div>
     </div>
+
     <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
-      <div class="sub-tabs" id="trenTabs"></div>
+      <div class="sub-tabs"   id="trenTabs"></div>
       <div class="sub-content" id="trenPages"></div>
+    </div>
+
+    <div class="panel" id="kacakPanel">
+      <h3>Kaçakçılık</h3>
+      <p>Görevler ve detaylar buraya...</p>
     </div>
   </aside>
 
+  <!-- TASK OVERLAY -->
   <div id="overlay" onclick="closeTasks()">
     <div id="panel" onclick="event.stopPropagation()">
       <button id="closeBtn" onclick="closeTasks()">×</button>
@@ -178,18 +221,15 @@
     </div>
   </div>
 
+  <!-- CHAT & MSG ICON -->
   <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
   <div id="messageIcon">📩</div>
 
   <script>
-    // Villages
-    const villages=[ "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
-      "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Masucark","Kırıkan",
-      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
-      "Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Mirxan","Thashluk"];
-
-    function drawRail(id, c1, c2){
-      let c=document.getElementById(id),ctx=c.getContext('2d');
+    // Köyler & ray çizimi
+    const villages=[ /* … 40 köy listesi … */ ];
+    function drawRail(id,c1,c2){
+      const c=document.getElementById(id),ctx=c.getContext('2d');
       c.width=c.offsetWidth; c.height=c.offsetHeight;
       ctx.strokeStyle=c1; ctx.lineWidth=4;
       ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
@@ -199,7 +239,6 @@
         ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke();
       });
     }
-
     window.onload=()=>{
       drawRail('railOut','#555','#3182ce');
       drawRail('railBack','#555','#a8dadc');
@@ -209,6 +248,7 @@
     };
     window.onresize=()=>{ drawRail('railOut','#555','#3182ce'); drawRail('railBack','#555','#a8dadc'); };
 
+    // Sidebar panel switching
     function togglePanel(id){
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
@@ -216,6 +256,7 @@
       document.getElementById(id+'Panel').classList.add('active');
     }
 
+    // Tabs
     function initTabs(tid,pid,items){
       let tabs=document.getElementById(tid), pages=document.getElementById(pid);
       tabs.innerHTML=''; pages.innerHTML='';
@@ -227,7 +268,7 @@
         let ul=document.createElement('ul');
         for(let j=i*per;j<Math.min((i+1)*per,items.length);j++){
           let li=document.createElement('li');
-          li.innerHTML=`${items[j]} <button onclick="travelTo('${items[j]}')">Git</button>`;
+          li.innerHTML=`${items[j]} <button onclick="alert('${items[j]} köyüne gidiliyor')">Git</button>`;
           ul.appendChild(li);
         }
         d.appendChild(ul); pages.appendChild(d);
@@ -240,33 +281,46 @@
       document.querySelectorAll(`#${tid} button`)[i].classList.add('active');
       document.querySelectorAll(`#${pid} .sub-content`)[i].style.display='block';
     }
-    function travelTo(v){ alert(`${v} köyüne gittiniz.`); }
 
-    // Tasks definition (as above)...
-    const tasks = { /* include the JS object from previous message here */ };
+    // Tasks data (fill in your 150+ tasks here)
+    const tasks = {
+      Vakur: [ /* … */ ],
+      Hatip: [ /* … */ ],
+      Baron: [ /* … */ ]
+    };
     let done={Vakur:0,Hatip:0,Baron:0},
-        total={ Vakur:tasks.Vakur.flatMap(s=>s.tasks).length,
-                Hatip:tasks.Hatip.flatMap(s=>s.tasks).length,
-                Baron:tasks.Baron.flatMap(s=>s.tasks).length },
+        total={
+          Vakur: tasks.Vakur.flatMap(s=>s.tasks).length,
+          Hatip: tasks.Hatip.flatMap(s=>s.tasks).length,
+          Baron: tasks.Baron.flatMap(s=>s.tasks).length
+        },
         unlocked={Vakur:true,Hatip:false,Baron:false};
 
     function updateStatus(){
+      let vPct = Math.min(100,Math.floor(done.Vakur/total.Vakur*100));
+      document.getElementById('vakurFill').style.width = vPct+'%';
+      document.getElementById('vakurPct').innerText = vPct;
       document.getElementById('vakurBadges').innerText = Math.floor(done.Vakur/50);
-      document.getElementById('vakurPct').innerText = Math.min(100,Math.floor(done.Vakur/total.Vakur*100));
+
+      let hPct = Math.min(100,Math.floor(done.Hatip/total.Hatip*100));
+      document.getElementById('hatipFill').style.width = hPct+'%';
+      document.getElementById('hatipPct').innerText = hPct;
       document.getElementById('hatipBadges').innerText = Math.floor(done.Hatip/50);
-      document.getElementById('hatipPct').innerText = Math.min(100,Math.floor(done.Hatip/total.Hatip*100));
+
+      let bPct = Math.min(100,Math.floor(done.Baron/total.Baron*100));
+      document.getElementById('baronFill').style.width = bPct+'%';
+      document.getElementById('baronPct').innerText = bPct;
       document.getElementById('baronBadges').innerText = Math.floor(done.Baron/50);
-      document.getElementById('baronPct').innerText = Math.min(100,Math.floor(done.Baron/total.Baron*100));
     }
 
     function openTasks(rank){
-      if(!unlocked[rank]) return alert(`${rank} kilitli!`);
-      document.getElementById('taskHeader').innerText = `${rank} Görevleri`;
+      if(!unlocked[rank]) return alert(rank+' kilitli!');
+      document.getElementById('taskHeader').innerText = rank+' Görevleri';
       let secEl=document.getElementById('taskSections'); secEl.innerHTML='';
       tasks[rank].forEach(sec=>{
         let div=document.createElement('div'); div.className='rankSection';
         let h=document.createElement('h3'); h.innerText=sec.title; div.appendChild(h);
-        sec.tasks.forEach((t,i)=>{
+        sec.tasks.forEach(t=>{
           let ti=document.createElement('div'); ti.className=`taskItem ${rank.toLowerCase()}`;
           let sp=document.createElement('span'); sp.innerText=t;
           let btn=document.createElement('button'); btn.innerText='✔';
