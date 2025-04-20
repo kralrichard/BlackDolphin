@@ -1,134 +1,185 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    /* ======= GENEL ======= */
+    :root {
+      --bg-dark: #1e1e1e;
+      --bg-panel: #2a2a2a;
+      --bg-light: #f4f4f4;
+      --accent: #007acc;
+      --text-light: #f1f1f1;
+      --text-dark: #333333;
+      --rail-light: #ccc;
+      --rail-accent: #ff4c4c;
+    }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; }
+    body { display:grid; grid-template-rows:60px auto 60px; grid-template-columns:240px auto 240px; height:100vh; background:var(--bg-light); color:var(--text-dark); }
     header {
-      position:fixed; top:0; left:0; width:100%;
-      background:rgba(0,0,0,0.85);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1rem 2rem; z-index:1000;
+      grid-column:1/4; grid-row:1/2;
+      background:var(--bg-dark); display:flex; align-items:center; justify-content:space-between;
+      padding:0 20px; color:var(--text-light);
+      box-shadow:0 2px 5px rgba(0,0,0,0.5);
     }
-    .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; }
-    #money {
-      background:#222; padding:0.4rem 0.8rem; border-radius:4px;
-      border:1px solid #333; font-size:0.9rem; color:lime;
+    header .logo { font-size:1.8rem; font-weight:bold; }
+    header .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
+
+    /* Sidebar */
+    nav {
+      grid-column:1/2; grid-row:2/3;
+      background:var(--bg-panel); overflow-y:auto;
+      display:flex; flex-direction:column; justify-content:space-between;
     }
+    .tabs { list-style:none; }
+    .tabs li { border-bottom:1px solid #333; }
+    .tabs li a { display:block; padding:14px 20px; color:var(--text-light); text-decoration:none; }
+    .tabs li a:hover { background:var(--accent); }
+    .search { padding:10px; }
+    .search input { width:100%; padding:8px; border:none; border-radius:4px; }
 
-    /* ======= SOL PANEL ======= */
-    #leftPanel { position:fixed; top:80px; left:20px; width:200px; height:calc(100vh - 80px); overflow:auto; z-index:900; }
-    .sectionBox { background:rgba(0,0,0,0.6); border-radius:5px; margin-bottom:4px; }
-    .sectionBox h2 { background:#222; padding:0.5rem; color:#ffcc00; cursor:pointer; font-size:0.85rem; }
-    .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.8rem; }
-    .sectionBox .tab-content.active { display:block; }
+    /* Main content */
+    main {
+      grid-column:2/3; grid-row:2/3;
+      display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+      position:relative;
+    }
+    /* Rails above/below center ranks */
+    canvas.rail {
+      width:80%; height:4px; background:transparent;
+    }
+    #centerRanks {
+      display:flex; gap:40px; margin:20px 0;
+    }
+    .card {
+      background:rgba(0,0,0,0.7); padding:20px; border-radius:8px;
+      color:var(--text-light); text-align:center; width:120px;
+      transition:transform 0.2s;
+    }
+    .card:hover { transform:translateY(-5px); }
+    .card h2 { margin-bottom:10px; }
+    .card button { background:black; border:none; padding:8px 12px; color:white; border-radius:4px; cursor:pointer; }
 
-    /* ======= TAM ORTA BUTONLAR ======= */
-    #centerRanks { position:fixed; top:50%; left: calc(20px + 200px); width: calc(100% - 440px); transform: translateY(-50%); display:flex; justify-content:space-between; z-index:950; }
-    .card { background:rgba(0,0,0,0.7); padding:0.6rem 1rem; border-radius:5px; text-align:center; font-size:0.9rem; color:#ffcc00; cursor:pointer; user-select:none; transform-origin:center; }
-    .card.vakur { color: blue; transform: scale(2.5); }
-    .card.hatip { color: orange; transform: scale(2.5); }
-    .card.baron { color: red;  transform: scale(2.5); }
-
-    /* ======= ÜST SAĞ PANEL ======= */
-    #travelBox { position:fixed; top:80px; right:20px; width:200px; background:rgba(0,0,0,0.7); border-radius:5px; z-index:1000; font-size:0.85rem; }
-    #villageBox { position:fixed; bottom:60px; right:20px; width:200px; background:rgba(0,0,0,0.7); border-radius:5px; z-index:1000; font-size:0.85rem; }
-    .box h3 { padding:0.6rem; text-align:center; color:#ffcc00; border-bottom:1px solid #333; display:flex; justify-content:center; align-items:center; gap:4px; }
-    .box h3 span { font-size:0.75rem; color:#ffcc00; }
-    .box .sub-tabs { display:flex; justify-content:center; gap:4px; padding:0.4rem; flex-wrap:wrap; }
-    .box .sub-tabs button { background:#444; border:none; padding:0.3rem 0.5rem; color:#ffcc00; border-radius:3px; font-size:0.75rem; cursor:pointer; }
-    .box .sub-tabs button.active { background:#666; }
-    .sub-content { display:none; padding:0.5rem; height:120px; overflow:auto; }
+    /* Panels right */
+    aside {
+      grid-column:3/4; grid-row:2/3;
+      background:var(--bg-panel); overflow-y:auto; padding:20px;
+    }
+    .panel { margin-bottom:20px; }
+    .panel h3 { color:var(--accent); margin-bottom:10px; text-align:center; }
+    .sub-tabs { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-bottom:10px; }
+    .sub-tabs button { background:#444; border:none; padding:6px 10px; color:var(--text-light); border-radius:4px; cursor:pointer; }
+    .sub-tabs button.active { background:var(--accent); }
+    .sub-content { display:none; }
     .sub-content.active { display:block; }
-    /* Buton stilleri */
-    .sub-content li { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
-    .sub-content li button { margin-left:4px; background:#444; color:#ffcc00; border:none; border-radius:3px; padding:2px 6px; font-size:0.75rem; cursor:pointer; }
+    .sub-content ul { list-style:none; max-height:200px; overflow-y:auto; padding:0; }
+    .sub-content li { display:flex; justify-content:space-between; padding:6px 0; }
+    .sub-content li button { background:var(--accent); border:none; padding:4px 8px; color:white; border-radius:4px; cursor:pointer; }
 
-    /* ======= TREN RAYLARI ======= */
-    .trainTrack { position:fixed; left: calc(20px + 200px); width: calc(100% - 440px); height: 180px; z-index:800; }
+    /* Bottom chat & message */
+    #chatBox { grid-column:2/3; grid-row:3/4; background:var(--bg-panel); margin:10px auto; width:80%; border-radius:8px; padding:10px; overflow-y:auto; color:var(--text-light); }
+    #messageIcon { position:absolute; bottom:20px; right:calc(50% - 120px); background:var(--accent); padding:10px; border-radius:50%; color:white; cursor:pointer; }
 
-    /* ======= ALT ARAMA & BİLGİ ======= */
-    #searchBoxBottom { position:fixed; bottom:60px; left:20px; width:200px; z-index:900; }
-    #searchBoxBottom input { width:100%; padding:0.4rem; border-radius:3px; border:1px solid #333; background:#222; color:#fff; }
-    #bottomLeft { position:fixed; bottom:20px; left:20px; background:#0288d1; padding:0.4rem 0.8rem; border-radius:5px; font-size:0.9rem; z-index:900; }
-
-    /* ======= CHAT & MESAJ ======= */
-    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:300px; max-width:80%; background:rgba(0,0,0,0.7); padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem; cursor:text; z-index:900; }
-    #messageIcon { position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.7); padding:0.6rem; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:900; }
-
-    /* ======= MOBİL ======= */
-    @media(max-width:768px){
-      #leftPanel { position:static; width:100%; height:auto; margin-bottom:1rem; padding:0 10px; }
-      #centerRanks { position:static; transform:none; margin:1rem auto; width:auto; justify-content:center; }
-      #travelBox, #villageBox { position:static; width:calc(100% - 20px); margin:1rem 10px; }
-      .trainTrack { position:static; width:100%; height:120px; margin:1rem 0; }
-      #searchBoxBottom, #bottomLeft, #chatBox, #messageIcon { position:static; width:90%; margin:0.5rem 10px; transform:none; }
+    /* Responsive */
+    @media(max-width:1024px){ body { grid-template-columns:200px auto 200px; } }
+    @media(max-width:768px){ body { grid-template-columns:1fr; grid-template-rows:60px auto auto 60px; }
+      nav { grid-column:1/2; grid-row:2/3; flex-direction:row; overflow-x:auto; }
+      nav .search { display:none; }
+      aside { grid-column:1/2; grid-row:3/4; display:flex; flex-direction:row; overflow-x:auto; }
+      main { grid-column:1/2; grid-row:2/3; }
+      #chatBox { grid-column:1/2; grid-row:4/5; width:90%; }
+      #messageIcon { bottom:80px; right:10%; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo">BLACK DOLPHINE</div>
-    <div id="money">$500000</div>
+    <div class="balance">$500,000</div>
   </header>
-
-  <!-- SOL PANEL -->
-  <div id="leftPanel">
-    <div class="sectionBox"><h2 onclick="toggleTab('durumum')">Durumum ↓</h2><div id="durumum" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content">…</div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content">…</div></div>
-  </div>
-
-  <!-- TAM ORTA BUTONLAR -->
-  <div id="centerRanks">
-    <div class="card vakur">VAKUR</div>
-    <div class="card hatip">HATİP</div>
-    <div class="card baron">BARON</div>
-  </div>
-
-  <!-- ÜST SAĞ PANELLER -->
-  <div id="travelBox" class="box">
-    <h3>Trenle Seyehat <span>Seyehat Et</span></h3>
-    <div class="sub-tabs" id="travelTabs"></div>
-    <div id="travelPages"></div>
-  </div>
-  <div id="villageBox" class="box">
-    <h3>Köy İncelemesi <span>İncele</span></h3>
-    <div class="sub-tabs" id="villageTabs"></div>
-    <div id="villagePages"></div>
-  </div>
-
-  <!-- TREN RAYLARI -->
-  <canvas id="trainTrackTop" class="trainTrack"></canvas>
-  <canvas id="trainTrackBottom" class="trainTrack"></canvas>
-
-  <!-- ALT ARAMA & BİLGİ -->
-  <div id="searchBoxBottom"><input type="text" placeholder="Kullanıcı Ara..."/></div>
-  <div id="bottomLeft">Asman</div>
-
-  <!-- CHAT & MESAJ -->
-  <div id="chatBox" contenteditable="true">CHAT</div>
-  <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
+  <nav>
+    <ul class="tabs">
+      <li><a href="#" onclick="togglePanel('durumPanel')">Durumum</a></li>
+      <li><a href="#" onclick="togglePanel('davetPanel')">Davet Et</a></li>
+      <li><a href="#" onclick="togglePanel('vakurPanel')">Vakur Görevleri</a></li>
+      <li><a href="#" onclick="togglePanel('hatipPanel')">Hatip Görevleri</a></li>
+      <li><a href="#" onclick="togglePanel('baronPanel')">Baron Görevleri</a></li>
+      <li><a href="#" onclick="togglePanel('koyPanel')">Köy İncelemesi</a></li>
+      <li><a href="#" onclick="togglePanel('trenPanel')">Tren Seyahatleri</a></li>
+    </ul>
+    <div class="search">
+      <input type="text" placeholder="Kullanıcı ara...">
+    </div>
+  </nav>
+  <main>
+    <canvas id="railTop" class="rail"></canvas>
+    <div id="centerRanks">
+      <div class="card" id="cardVakur"><h2 style="color:blue">VAKUR</h2><button>Serüven</button></div>
+      <div class="card" id="cardHatip"><h2 style="color:orange">HATİP</h2><button>Serüven</button></div>
+      <div class="card" id="cardBaron"><h2 style="color:red">BARON</h2><button>Serüven</button></div>
+    </div>
+    <canvas id="railBottom" class="rail"></canvas>
+  </main>
+  <aside>
+    <section class="panel" id="koyPanelContent">
+      <h3>Köy İncelemesi</h3>
+      <div class="sub-tabs" id="koyTabs"></div>
+      <div class="sub-content" id="koyPages"></div>
+    </section>
+    <section class="panel" id="trenPanelContent">
+      <h3>Tren Seyahatleri</h3>
+      <div class="sub-tabs" id="trenTabs"></div>
+      <div class="sub-content" id="trenPages"></div>
+    </section>
+  </aside>
+  <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
+  <div id="messageIcon">📩</div>
 
   <script>
-    // sekme toggle
-    function toggleTab(id){
-      document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
-      document.getElementById(id).classList.toggle('active');
+    // Rail çizimi
+    function drawRail(id) {
+      const c = document.getElementById(id), ctx = c.getContext('2d');
+      c.width = c.offsetWidth; c.height = 4;
+      ctx.strokeStyle = 'var(--rail-light)'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(0,2); ctx.lineTo(c.width,2); ctx.stroke();
+      // accent markers
+      ctx.strokeStyle = 'var(--rail-accent)'; ctx.lineWidth = 1;
+      for(let i=1;i<=25;i++){ let x = c.width*(i/26);
+        ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,4); ctx.stroke();
+      }
     }
-
+    window.onload = ()=>{ drawRail('railTop'); drawRail('railBottom'); initTabs('koyTabs','koyPages'); initTabs('trenTabs','trenPages'); };
+    window.onresize = ()=>{ drawRail('railTop'); drawRail('railBottom'); };
+    // Tab içerik toggle
+    function togglePanel(id) {
+      document.querySelectorAll('nav .tabs a').forEach(a=>a.classList.remove('active'));
+      document.querySelectorAll('aside .panel').forEach(p=>p.style.display='none');
+      document.getElementById(id+'PanelContent').style.display='block';
+    }
+    // Köy/Tren sekmeleri
+    const items=(new Array(31)).fill(0).map((_,i)=>`Köy${i+1}`);
+    function initTabs(tabId,pageId){
+      const t=document.getElementById(tabId), p=document.getElementById(pageId);
+      t.innerHTML=''; p.innerHTML='';
+      const per=7, pages=Math.ceil(items.length/per);
+      for(let i=0;i<pages;i++){
+        let btn=document.createElement('button'); btn.innerText=i+1;
+        btn.onclick=()=>showPage(i,tabId,pageId);
+        t.appendChild(btn);
+        let cont=document.createElement('div'); cont.className='sub-content';
+        let ul=document.createElement('ul');
+        items.slice(i*per,(i+1)*per).forEach(v=>{ let li=document.createElement('li'); li.innerText=v; ul.appendChild(li); });
+        cont.appendChild(ul); p.appendChild(cont);
+      }
+      showPage(0,tabId,pageId);
+    }
+    function showPage(i,tabId,pageId){
+      document.querySelectorAll(`#${tabId} button`).forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll(`#${pageId} .sub-content`).forEach(c=>c.style.display='none');
+      document.querySelectorAll(`#${tabId} button`)[i].classList.add('active');
+      document.querySelectorAll(`#${pageId} .sub-content`)[i].style.display='block';
+    }
+  </script>
+</body>
+</html>
