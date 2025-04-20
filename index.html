@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+You said:
+<!DOCTYPE html> 
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
@@ -34,7 +35,7 @@
 
     /* TRAVEL BOX */
     #travelBox {
-      position: fixed; bottom: 80px; right: 20px;
+      position: fixed; top: 80px; right: 20px;
       width: 300px; background: rgba(0,0,0,0.7); border-radius: 5px;
       padding-bottom: 1rem; z-index: 1000;
     }
@@ -48,7 +49,7 @@
 
     /* RAILS */
     canvas.trainTrack {
-      position: fixed; left: 50%; transform: translateX(-50%);
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
       width: 50%; height: 4px; z-index: 800;
     }
 
@@ -77,7 +78,20 @@
   </header>
 
   <div id="leftPanel">
-    <!-- ... mevcut bölümler ... -->
+    <div class="sectionBox"><h2 onclick="toggleTab('durumum')">Durumum ↓</h2><div id="durumum" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"></div></div>
   </div>
 
   <div id="centerRanks">
@@ -105,14 +119,56 @@
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.getElementById(id).classList.toggle('active');
     }
-
-    const villages = [/* ... köy listesi ... */];
-
+    const villages = ["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"];
     function initTabs(tabId, pageId) {
-      /* ... initTabs içeriği ... */
+      const t = document.getElementById(tabId), p = document.getElementById(pageId), per = 7;
+      villages.forEach((v, i) => {
+        if (i % per === 0) {
+          const btn = document.createElement('button');
+          btn.innerText = Math.floor(i / per) + 1;
+          btn.onclick = () => showPage(Math.floor(i / per), tabId, pageId);
+          t.appendChild(btn);
+          const pan = document.createElement('div'); pan.className = 'sub-content';
+          const ul = document.createElement('ul'); pan.appendChild(ul);
+          p.appendChild(pan);
+        }
+        const idx = Math.floor(i / per);
+        const ulEl = document.querySelectorAll(#${pageId} ul)[idx];
+        const li = document.createElement('li'); li.innerText = v;
+        const inceleBtn = document.createElement('button');
+        inceleBtn.innerText = 'İncele';
+        inceleBtn.onclick = () => {
+          const m = [5, 10, 15][Math.floor(Math.random() * 3)];
+          const s = [50, 75, 100][Math.floor(Math.random() * 3)];
+          alert(Malikane: ${m}, Sığınak: ${s});
+        };
+        const seyBtn = document.createElement('button');
+        seyBtn.innerText = 'Seyehat Et';
+        seyBtn.onclick = () => {
+          if (confirm('Seyehat etmek istediğinize emin misiniz?')) {
+            const mEl = document.getElementById('money');
+            let cur = parseInt(mEl.innerText.replace('$', ''));
+            cur = Math.max(0, cur - 500);
+            mEl.innerText = '$' + cur;
+            document.getElementById('bottomLeft').innerText = v + ' köyüne seyahat edildi';
+            const d = document.getElementById('durumum');
+            const pEl = document.createElement('p');
+            pEl.innerText = v + ' köyüne seyahat edildi.';
+            d.appendChild(pEl);
+          }
+        };
+        li.append(inceleBtn, seyBtn);
+        ulEl.appendChild(li);
+      });
+      showPage(0, tabId, pageId);
     }
     function showPage(idx, tabId, pageId) {
-      /* ... showPage içeriği ... */
+      const btns = document.querySelectorAll(#${tabId} button);
+      const pans = document.querySelectorAll(#${pageId} .sub-content);
+      btns.forEach(b => b.classList.remove('active'));
+      pans.forEach(p => p.classList.remove('active'));
+      btns[idx].classList.add('active');
+      pans[idx].classList.add('active');
     }
     initTabs('travelTabs', 'travelPages');
 
@@ -125,11 +181,11 @@
     }
     function positionRails() {
       const cr = document.getElementById('centerRanks').getBoundingClientRect();
+      const topRail = document.getElementById('trainTrackTop');
+      const bottomRail = document.getElementById('trainTrackBottom');
       const offset = 10;
-      rails.forEach(id => {
-        const rail = document.getElementById(id);
-        rail.style.top = `${cr.top - offset + window.scrollY}px`;
-      });
+      topRail.style.top = ${cr.top - offset + window.scrollY}px;
+      bottomRail.style.top = ${cr.bottom + offset + window.scrollY}px;
     }
     function redraw() { rails.forEach(draw); positionRails(); }
     window.addEventListener('resize', redraw);
