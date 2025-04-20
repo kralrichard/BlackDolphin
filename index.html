@@ -8,26 +8,40 @@
     /* GLOBAL */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { background: #888; color: #fff; padding-top: 80px; font-size: 0.85rem; }
-    header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; z-index: 1000; }
+
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem; z-index: 1000;
+    }
     .logo { font-size: 1.8rem; font-weight: bold; color: #fff; }
     #money { background: #222; padding: 0.4rem 0.8rem; border: 1px solid #333; border-radius: 4px; color: lime; }
 
     /* LEFT PANEL */
-    #leftPanel { position: fixed; top: 80px; left: 20px; width: 200px; height: calc(100vh - 80px); overflow-y: auto; z-index: 900; }
+    #leftPanel {
+      position: fixed; top: 80px; left: 20px;
+      width: 200px; height: calc(100vh - 80px);
+      overflow-y: auto; z-index: 900;
+    }
     .sectionBox { background: rgba(0,0,0,0.6); margin-bottom: 4px; border-radius: 5px; }
-    .sectionBox h2 { background: #222; padding: 0.5rem; color: #ffcc00; cursor: pointer; font-size: 0.85rem; }
-    .tab-content { display: none; padding: 0.5rem; background: rgba(0,0,0,0.4); font-size: 0.8rem; }
+    .sectionBox h2 {
+      background: #222; padding: 0.5rem; color: #ffcc00;
+      cursor: pointer; font-size: 0.85rem;
+    }
+    .tab-content {
+      display: none; padding: 0.5rem;
+      background: rgba(0,0,0,0.4); font-size: 0.8rem;
+    }
     .tab-content.active { display: block; }
 
     /* CENTER RANKS */
     #centerRanks {
       position: fixed;
       top: calc(50% - 60px);
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      gap: 30px;
-      z-index: 950;
+      left: 0; width: 100%;
+      display: flex; justify-content: space-between;
+      padding: 0 20px; z-index: 950;
     }
     .card {
       background: rgba(0,0,0,0.7);
@@ -36,52 +50,86 @@
       cursor: pointer;
       font-size: 0.9rem;
     }
-    .card.baron { order: 1; color: red; }
+    .card.vakur { order: 1; color: blue; }
     .card.hatip { order: 2; color: orange; }
-    .card.vakur { order: 3; color: blue; }
+    .card.baron { order: 3; color: red; }
 
     /* TRAVEL BOX */
     #travelBox {
       position: fixed;
-      bottom: 80px;
-      right: 20px;
+      bottom: 80px; right: 20px;
       width: 300px;
       background: rgba(0,0,0,0.7);
-      border-radius: 5px;
-      padding-bottom: 1rem;
+      border-radius: 5px; padding-bottom: 1rem;
       z-index: 1000;
     }
-    #travelBox h3 { padding: 0.6rem; color: #ffcc00; text-align: center; border-bottom: 1px solid #333; font-size: 0.75rem; }
-    .sub-tabs { display: flex; justify-content: center; gap: 4px; padding: 0.4rem; }
-    .sub-tabs button { background: #444; border: none; padding: 0.3rem 0.5rem; color: #ffcc00; border-radius: 3px; font-size: 0.65rem; cursor: pointer; }
-    #travelPages { padding: 0.5rem; max-height: 200px; overflow: auto; }
+    #travelBox h3 {
+      padding: 0.6rem; color: #ffcc00;
+      text-align: center; border-bottom: 1px solid #333;
+      font-size: 0.75rem;
+    }
+    .sub-tabs {
+      display: flex; justify-content: center; gap: 4px; padding: 0.4rem;
+    }
+    .sub-tabs button {
+      background: #444; border: none; padding: 0.3rem 0.5rem;
+      color: #ffcc00; border-radius: 3px; font-size: 0.65rem;
+      cursor: pointer;
+    }
+    #travelPages {
+      padding: 0.5rem; max-height: 200px; overflow: auto;
+    }
     .sub-content ul { list-style: none; padding: 0; }
-    .sub-content li { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.75rem; }
-    .sub-content li button { background: #444; border: none; border-radius: 3px; padding: 2px 6px; font-size: 0.65rem; color: #ffcc00; cursor: pointer; }
+    .sub-content li {
+      display: flex; justify-content: space-between;
+      margin-bottom: 4px; font-size: 0.75rem;
+    }
+    .sub-content li button {
+      background: #444; border: none; border-radius: 3px;
+      padding: 2px 6px; font-size: 0.65rem; color: #ffcc00;
+      cursor: pointer;
+    }
 
     /* RAILS */
     canvas.trainTrack {
-      position: fixed;
-      top: calc(50% - 60px);
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50%;
-      height: 4px;
-      z-index: 800;
+      position: fixed; left: 0; width: 100%; height: 4px;
+      background: transparent; z-index: 800;
     }
 
     /* BOTTOM INFO */
-    #searchBoxBottom { position: fixed; bottom: 60px; left: 20px; width: 200px; z-index: 900; }
-    #searchBoxBottom input { width: 100%; padding: 0.4rem; border-radius: 3px; border: 1px solid #333; background: #222; color: #fff; }
-    #bottomLeft { position: fixed; bottom: 20px; left: 20px; background: #0288d1; padding: 0.4rem 0.8rem; border-radius: 5px; font-size: 0.9rem; z-index: 900; }
+    #searchBoxBottom {
+      position: fixed; bottom: 60px; left: 20px; width: 200px; z-index: 900;
+    }
+    #searchBoxBottom input {
+      width: 100%; padding: 0.4rem; border-radius: 3px;
+      border: 1px solid #333; background: #222; color: #fff;
+    }
+    #bottomLeft {
+      position: fixed; bottom: 20px; left: 20px;
+      background: #0288d1; padding: 0.4rem 0.8rem;
+      border-radius: 5px; font-size: 0.9rem; z-index: 900;
+    }
 
     /* CHAT & ICON */
-    #chatBox { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 300px; max-width: 80%; background: rgba(0,0,0,0.7); padding: 0.5rem; border-radius: 5px; text-align: center; font-size: 0.9rem; cursor: text; z-index: 900; }
-    #messageIcon { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.7); padding: 0.6rem; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 900; }
+    #chatBox {
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; max-width: 80%;
+      background: rgba(0,0,0,0.7);
+      padding: 0.5rem; border-radius: 5px;
+      text-align: center; font-size: 0.9rem;
+      cursor: text; z-index: 900;
+    }
+    #messageIcon {
+      position: fixed; bottom: 20px; right: 20px;
+      background: rgba(0,0,0,0.7); padding: 0.6rem;
+      border-radius: 50%; font-size: 1.2rem;
+      cursor: pointer; z-index: 900;
+    }
 
     @media(max-width: 768px) {
       #leftPanel { position: static; width: 100%; height: auto; margin-bottom: 1rem; padding: 0 10px; }
-      #centerRanks { position: static; transform: none; margin: 1rem auto; }
+      #centerRanks { position: static; transform: none; margin: 1rem auto; width: auto; padding: 0; }
       #travelBox { bottom: 120px; right: 20px; width: calc(100% - 40px); }
       canvas.trainTrack { display: none; }
       #searchBoxBottom, #bottomLeft, #chatBox, #messageIcon { position: static; width: 90%; margin: 0.5rem 10px; transform: none; }
@@ -112,9 +160,9 @@
   </div>
 
   <div id="centerRanks">
-    <div class="card baron">BARON</div>
-    <div class="card hatip">HATİP</div>
     <div class="card vakur">VAKUR</div>
+    <div class="card hatip">HATİP</div>
+    <div class="card baron">BARON</div>
   </div>
 
   <div id="travelBox">
@@ -137,12 +185,13 @@
       document.getElementById(id).classList.toggle('active');
     }
 
-    const villages = ["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"];
+    const villages = ["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk",
+                      "Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Bostancı","Masucark","Kırıkan",
+                      "Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
+                      "Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"];
 
     function initTabs(tabId, pageId) {
-      const t = document.getElementById(tabId),
-            p = document.getElementById(pageId),
-            per = 7;
+      const t = document.getElementById(tabId), p = document.getElementById(pageId), per = 7;
       villages.forEach((v, i) => {
         if (i % per === 0) {
           const btn = document.createElement('button');
@@ -193,22 +242,23 @@
     }
 
     const rails = ['trainTrackTop','trainTrackBottom'];
-    function drawRail(id){
-      const c=document.getElementById(id),ctx=c.getContext('2d');
-      c.width=c.offsetWidth; c.height=c.offsetHeight;
-      ctx.strokeStyle='#ccc'; ctx.lineWidth=4;
-      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
+    function drawRail(id) {
+      const c = document.getElementById(id), ctx = c.getContext('2d');
+      c.width = c.offsetWidth; c.height = c.offsetHeight;
+      ctx.strokeStyle = '#ccc'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(0, c.height/2); ctx.lineTo(c.width, c.height/2); ctx.stroke();
     }
-    function positionRails(){
+    function positionRails() {
       const cr = document.getElementById('centerRanks').getBoundingClientRect(), offset = 10;
-      rails.forEach((id,i)=>{
-        const rail = document.getElementById(id);
-        rail.style.top = `${(i===0?cr.top:cr.bottom) + (i===0?-offset:offset) + window.scrollY}px`;
-      });
+      document.getElementById('trainTrackTop').style.top = (cr.top - offset + window.scrollY) + 'px';
+      document.getElementById('trainTrackBottom').style.top = (cr.bottom + offset + window.scrollY) + 'px';
     }
-    function redraw(){ rails.forEach(drawRail); positionRails(); }
+    function redraw() {
+      rails.forEach(drawRail);
+      positionRails();
+    }
 
-    window.addEventListener('load', ()=>{
+    window.addEventListener('load', () => {
       initTabs('travelTabs','travelPages');
       redraw();
     });
