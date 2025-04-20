@@ -8,12 +8,7 @@
     /* ======= GENEL ======= */
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
     body { background:#888; color:#f1f1f1; padding-top:80px; font-size:0.85rem; }
-    header {
-      position:fixed; top:0; left:0; width:100%;
-      background:rgba(0,0,0,0.85);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1rem 2rem; z-index:1000;
-    }
+    header { position:fixed; top:0; left:0; width:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; z-index:1000; }
     .logo { font-size:1.8rem; font-weight:bold; text-transform:uppercase; color:#fff; }
     #money { background:#222; padding:0.4rem 0.8rem; border-radius:4px; border:1px solid #333; font-size:0.9rem; color:lime; }
 
@@ -24,9 +19,9 @@
     .sectionBox .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.8rem; }
     .sectionBox .tab-content.active { display:block; }
 
-    /* ======= OTORITELER ======= */
+    /* ======= TAM ORTA BUTONLAR ======= */
     #centerRanks { position:fixed; top:50%; left: calc(20px + 200px); width: calc(100% - 440px); transform: translateY(-50%); display:flex; justify-content:space-between; z-index:950; }
-    .card { background:rgba(0,0,0,0.7); padding:0.6rem 1rem; border-radius:5px; text-align:center; color:#ffcc00; cursor:pointer; user-select:none; transform-origin:center; }
+    .card { background:rgba(0,0,0,0.7); padding:0.6rem 1rem; border-radius:5px; text-align:center; color:#ffcc00; cursor:pointer; user-select:none; transform-origin:center; font-size:0.9rem; }
     .card.vakur { color:blue; transform:scale(1.25); }
     .card.hatip { color:orange; transform:scale(1.25); }
     .card.baron { color:red; transform:scale(1.25); }
@@ -36,7 +31,6 @@
     #travelBox h3 { padding:0.6rem; text-align:center; color:#ffcc00; border-bottom:1px solid #333; font-size:0.64rem; }
     #travelBox .sub-tabs { display:flex; justify-content:center; gap:4px; padding:0.4rem; }
     #travelBox .sub-tabs button { background:#444; border:none; padding:0.3rem 0.5rem; color:#ffcc00; border-radius:3px; font-size:0.56rem; cursor:pointer; }
-    #travelPages { }
     #travelPages .sub-content { display:none; padding:0.5rem; height:120px; overflow:auto; }
     #travelPages .sub-content.active { display:block; }
     #travelPages ul { list-style:none; }
@@ -75,10 +69,40 @@
     <div class="sectionBox"><h2 onclick="toggleTab('tuccar')">Tüccar ↓</h2><div id="tuccar" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick("toggleTab('mesajlar')">Mesajlarım ↓</h2><div id="mesajlar" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Artırma ↓</h2><div id="acikArttirma" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick("toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick("toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="
+    <div class="sectionBox"><h2 onclick("toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick("toggleTab('oyunIci')">Oyun içi Bilgiler ↓</h2><div id="oyunIci" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick("toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content"></div></div>
+    <div class="sectionBox"><h2 onclick("toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"></div></div>
+  </div>
+
+  <div id="centerRanks">
+    <div class="card vakur">VAKUR</div>
+    <div class="card hatip">HATİP</div>
+    <div class="card baron">BARON</div>
+  </div>
+
+  <div id="travelBox" class="box">
+    <h3>Trenle Seyehat <span>Seyehat Et</span></h3>
+    <div class="sub-tabs" id="travelTabs"></div>
+    <div id="travelPages"></div>
+  </div>
+
+  <canvas id="trainTrackTop" class="trainTrack"></canvas>
+  <canvas id="trainTrackBottom" class="trainTrack"></canvas>
+
+  <div id="searchBoxBottom"><input type="text" placeholder="Kullanıcı Ara..."/></div>
+  <div id="bottomLeft">Asman</div>
+
+  <div id="chatBox" contenteditable="true">CHAT</div>
+  <div id="messageIcon" title="Mesaj Bildirimi">📩</div>
+
+  <script>
+    function toggleTab(id) { document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active')); document.getElementById(id).classList.toggle('active'); }
+    const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"];
+    function initTabs(tabId,pageId){const t=document.getElementById(tabId),p=document.getElementById(pageId),per=7;for(let i=0;i<Math.ceil(villages.length/per);i++){let b=document.createElement('button');b.innerText=i+1;b.onclick=()=>showPage(i,tabId,pageId);t.appendChild(b);let d=document.createElement('div');d.className='sub-content';let u=document.createElement('ul');villages.slice(i*per,(i+1)*per).forEach(v=>{let li=document.createElement('li');li.innerText=v;let btn=document.createElement('button');btn.innerText='Seyehat Et';btn.onclick=()=>{
