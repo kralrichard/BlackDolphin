@@ -15,67 +15,61 @@
       --text-light: #f4f4f4;
       --text-dark: #333;
     }
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-    html,body{height:100%;}
-    body{display:flex;flex-direction:column;background:var(--bg-light);color:var(--text-dark);overflow:hidden;}
-    header{background:var(--bg-dark);color:var(--text-light);padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center;}
-    .logo{font-size:1.4rem;font-weight:bold;}
-    .balance{background:#222;padding:.5rem 1rem;border-radius:4px;color:lime;}
-    main{flex:1;overflow:auto;}
-    /* Rails */
-    .rail-container{position:relative;height:60px;margin:1rem 0;}
-    canvas.rail{width:100%;height:100%;}
-    .rail-label{position:absolute;top:10px;left:20px;color:var(--text-dark);font-weight:bold;}
-    .rail-label.return{top:auto;bottom:10px;}
-    /* CenterRanks */
-    #centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;}
-    .card{padding:1rem;border-radius:8px;text-align:center;color:var(--text-light);width:120px;cursor:pointer;}
-    .card.vakur{background:var(--blue);} 
-    .card.hatip{background:var(--orange);} 
-    .card.baron{background:var(--red);} 
-    .card.locked{opacity:.5;pointer-events:none;}
-    .card h2{margin-bottom:.5rem;text-transform:uppercase;}
-    .card button{background:#fff;color:#000;border:none;padding:.5rem 1rem;border-radius:4px;}
-    /* Sidebar */
-    nav{width:220px;background:var(--panel-dark);color:var(--text-light);flex-shrink:0;display:flex;flex-direction:column;}
-    nav ul{list-style:none;overflow:auto;flex:1;}
-    nav li a{display:block;padding:12px 20px;color:inherit;text-decoration:none;border-bottom:1px solid #333;}
-    nav li a.vakur-link.active,nav li a.vakur-link:hover{background:var(--blue);}
-    nav li a.hatip-link.active,nav li a.hatip-link:hover{background:var(--orange);}
-    nav li a.baron-link.active,nav li a.baron-link:hover{background:var(--red);}
-    nav .search{padding:10px;}
-    nav .search input{width:100%;padding:8px;border:none;border-radius:4px;}
-    /* Panels */
-    aside{width:260px;background:var(--panel-dark);color:var(--text-light);overflow:auto;flex-shrink:0;}
-    .panel{padding:20px;border-bottom:1px solid #333;display:none;}
-    .panel.active{display:block;}
-    .panel h3{margin-bottom:10px;color:var(--blue);}
-    /* Durumum: 6 bar */
-    .status-bar{margin-bottom:1rem;}
-    .status-bar h4{margin-bottom:.3rem;}
-    .bar{width:100%;height:12px;background:#ccc;border-radius:6px;overflow:hidden;margin-bottom:.3rem;}
-    .bar .fill{height:100%;width:0;background:var(--blue);}
-    .bar.orange .fill{background:var(--orange);}
-    .bar.red .fill{background:var(--red);}
-    /* Overlay */
-    #overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;}
-    #panel{background:var(--bg-light);width:90%;max-width:600px;max-height:80%;overflow:auto;border-radius:8px;padding:1rem;position:relative;}
-    #closeBtn{position:absolute;top:.5rem;right:.5rem;background:#000;color:#fff;border:none;padding:.3rem .6rem;border-radius:4px;cursor:pointer;}
-    .rankSection{margin-bottom:1rem;}
-    .rankSection h3{color:var(--blue);margin-bottom:.5rem;}
-    .taskItem{background:#ddd;padding:.5rem;display:flex;justify-content:space-between;border-radius:4px;margin-bottom:.3rem;}
-    .taskItem.done{background:#a8e6cf;}
-    .taskItem button{background:var(--blue);border:none;color:#fff;padding:.3rem .6rem;border-radius:4px;}
-    /* Mobile */
-    @media(max-width:768px){
-      body{flex-direction:column;}
-      nav,aside{width:100%;order:2;}
-      main{order:1;}
-      header{justify-content:center;}
-      .balance{display:none;}
-      .rail-container{display:none;}
-      #centerRanks{flex-wrap:wrap;gap:1rem;}
-      .panel{padding:10px;}
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    html, body { height:100%; }
+    body { display:flex; background:var(--bg-light); color:var(--text-dark); overflow:hidden; }
+    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
+    nav ul { list-style:none; flex:1; overflow:auto; }
+    nav li a { display:block; padding:12px 20px; color:inherit; text-decoration:none; border-bottom:1px solid #333; }
+    nav li a:hover, nav li a.active { background:var(--accent); }
+    nav li a.vakur-link:hover, nav li a.vakur-link.active { background:var(--blue); }
+    nav li a.hatip-link:hover, nav li a.hatip-link.active { background:var(--orange); }
+    nav li a.baron-link:hover, nav li a.baron-link.active { background:var(--red); }
+    nav .search { padding:10px; }
+    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
+    main { flex:1; display:flex; flex-direction:column; overflow:auto; }
+    header { background:var(--bg-dark); color:var(--text-light); padding:.5rem 1rem; display:flex; justify-content:space-between; align-items:center; }
+    .logo { font-size:1.4rem; font-weight:bold; }
+    .balance { background:#222; padding:.5rem 1rem; border-radius:4px; color:lime; }
+    .rail-container { position:relative; height:60px; margin:1rem; }
+    canvas.rail { width:100%; height:100%; }
+    .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
+    .rail-label.return { top:auto; bottom:10px; }
+    #centerRanks { display:flex; justify-content:center; gap:2rem; padding:1rem; }
+    .card { padding:1rem; border-radius:8px; text-align:center; color:var(--text-light); width:120px; cursor:pointer; }
+    .card.vakur { background:var(--blue); }
+    .card.hatip { background:var(--orange); }
+    .card.baron { background:var(--red); }
+    .card.locked { opacity:.5; pointer-events:none; }
+    .card h2 { margin-bottom:.5rem; text-transform:uppercase; }
+    .card button { background:#fff; color:#000; border:none; padding:.5rem 1rem; border-radius:4px; }
+    aside { width:260px; background:var(--panel-dark); color:var(--text-light); overflow:auto; }
+    .panel { padding:20px; display:none; }
+    .panel.active { display:block; }
+    .panel h3 { margin-bottom:10px; color:var(--blue); }
+    .status-bar { margin-bottom:1rem; }
+    .status-bar h4 { margin-bottom:.3rem; }
+    .bar { width:100%; height:12px; background:#ccc; border-radius:6px; overflow:hidden; }
+    .bar .fill { height:100%; width:0; }
+    .bar.blue .fill { background:var(--blue); }
+    .bar.orange .fill { background:var(--orange); }
+    .bar.red .fill { background:var(--red); }
+    #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; }
+    #panel { background:var(--bg-light); width:90%; max-width:600px; max-height:80%; overflow:auto; border-radius:8px; padding:1rem; position:relative; }
+    #closeBtn { position:absolute; top:.5rem; right:.5rem; background:#000; color:#fff; border:none; padding:.3rem .6rem; border-radius:4px; cursor:pointer; }
+    .rankSection { margin-bottom:1rem; }
+    .rankSection h3 { color:var(--blue); margin-bottom:.5rem; }
+    .taskItem { background:#ddd; padding:.5rem; display:flex; justify-content:space-between; border-radius:4px; margin-bottom:.3rem; }
+    .taskItem.done { background:#a8e6cf; }
+    .taskItem button { background:var(--blue); border:none; color:#fff; padding:.3rem .6rem; border-radius:4px; display:inline-block; }
+    @media(max-width:768px) {
+      body { flex-direction:column; }
+      nav, aside { width:100%; }
+      main { order:1; }
+      header { justify-content:center; }
+      .balance { display:none; }
+      .rail-container { display:none; }
+      #centerRanks { flex-wrap:wrap; gap:1rem; }
     }
   </style>
 </head>
@@ -87,9 +81,8 @@
       <li><a href="#" class="vakur-link" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
       <li><a href="#" class="hatip-link" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
       <li><a href="#" class="baron-link" onclick="openTasks('Baron')">Baron Görevleri</a></li>
-      <!-- diğer sekmeler -->
     </ul>
-    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
+    <div class="search"><input placeholder="Kullanıcı ara..."></div>
   </nav>
 
   <main>
@@ -104,9 +97,18 @@
     </div>
 
     <div id="centerRanks">
-      <div class="card vakur" id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
-      <div class="card hatip locked" id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
-      <div class="card baron locked" id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
+      <div id="cardVakur" class="card vakur" onclick="openTasks('Vakur')">
+        <h2>VAKUR</h2>
+        <button>Serüven</button>
+      </div>
+      <div id="cardHatip" class="card hatip locked" onclick="openTasks('Hatip')">
+        <h2>HATİP</h2>
+        <button>Serüven</button>
+      </div>
+      <div id="cardBaron" class="card baron locked" onclick="openTasks('Baron')">
+        <h2>BARON</h2>
+        <button>Serüven</button>
+      </div>
     </div>
 
     <div class="rail-container">
@@ -116,43 +118,41 @@
   </main>
 
   <aside>
-    <div class="panel active" id="durumPanel">
+    <div id="durumPanel" class="panel active">
       <h3>Durumum</h3>
-      <!-- Vakur Savunma Metriği -->
+      <!-- Savunma Metriği -->
       <div class="status-bar">
         <h4>🔰 Savunma</h4>
-        <div class="bar"><div id="barSavunma" class="fill"></div></div>
+        <div class="bar blue"><div id="barSavunma" class="fill"></div></div>
       </div>
-      <!-- Vakur Savunma Rozet -->
+      <!-- Sav Rozet -->
       <div class="status-bar">
-        <h4>🔰 Sav. Rozet</h4>
-        <div class="bar"><div id="barSavRozet" class="fill"></div></div>
+        <h4>🔰 Rozet</h4>
+        <div class="bar blue"><div id="barSavRozet" class="fill"></div></div>
       </div>
-      <!-- Hatip Nüfus Metriği -->
+      <!-- Nüfus -->
       <div class="status-bar">
         <h4>👥 Nüfus</h4>
         <div class="bar orange"><div id="barNufus" class="fill"></div></div>
       </div>
-      <!-- Hatip Nüfus Rozet -->
+      <!-- Nü Rozet -->
       <div class="status-bar">
-        <h4>👥 Nüf. Rozet</h4>
+        <h4>👥 Rozet</h4>
         <div class="bar orange"><div id="barNufRozet" class="fill"></div></div>
       </div>
-      <!-- Baron Etki Metriği -->
+      <!-- Etki -->
       <div class="status-bar">
         <h4>🏰 Etki</h4>
         <div class="bar red"><div id="barEtki" class="fill"></div></div>
       </div>
-      <!-- Baron Etki Rozet -->
+      <!-- Et Rozet -->
       <div class="status-bar">
-        <h4>🏰 Etki Rozet</h4>
+        <h4>🏰 Rozet</h4>
         <div class="bar red"><div id="barEtRozet" class="fill"></div></div>
       </div>
     </div>
-    <!-- ... diğer paneller ... -->
   </aside>
 
-  <!-- Görev Modal -->
   <div id="overlay" onclick="closeTasks()">
     <div id="panel" onclick="event.stopPropagation()">
       <button id="closeBtn" onclick="closeTasks()">Kapat ✖</button>
@@ -162,102 +162,92 @@
   </div>
 
   <script>
-    // görev tanımları: her rütbede 5 kademe ×10 görev =50 görev
-    const tasks = {
-      Vakur: [
-        { title:'ÇIRAK VAKUR I', tasks:[/*…10 görev…*/] },
-        { title:'USTA VAKUR II',  tasks:[/*…10 görev…*/] },
-        { title:'UZMAN VAKUR III',tasks:[/*…10 görev…*/] },
-        { title:'EFSANE VAKUR IV',tasks:[/*…10 görev…*/] },
-        { title:'YÜCE VAKUR V',   tasks:[/*…10 görev…*/] }
-      ],
-      Hatip: [
-        { title:'ÇIRAK HATİP I', tasks:[/*…10 görev…*/] },
-        { title:'USTA HATİP II',  tasks:[/*…10 görev…*/] },
-        { title:'UZMAN HATİP III',tasks:[/*…10 görev…*/] },
-        { title:'EFSANE HATİP IV',tasks:[/*…10 görev…*/] },
-        { title:'YÜCE HATİP V',   tasks:[/*…10 görev…*/] }
-      ],
-      Baron: [
-        { title:'ÇIRAK BARON I', tasks:[/*…10 görev…*/] },
-        { title:'USTA BARON II',  tasks:[/*…10 görev…*/] },
-        { title:'UZMAN BARON III',tasks:[/*…10 görev…*/] },
-        { title:'EFSANE BARON IV',tasks:[/*…10 görev…*/] },
-        { title:'YÜCE BARON V',   tasks:[/*…10 görev…*/] }
-      ]
-    };
-
-    // tamamlanan görev sayıları localStorage'ta sakla
-    let done = JSON.parse(localStorage.getItem('done'))||{Vakur:0,Hatip:0,Baron:0};
     const perRozet = 50, maxRozet = 4;
+    let done = JSON.parse(localStorage.done||'{}');
+    if(!done.Vakur) done={Vakur:0,Hatip:0,Baron:0};
 
-    // durum çubuklarını güncelle
     function updateBars(){
-      ['Savunma','Nufus','Etki'].forEach((m,i)=>{
-        const rank = i===0?'Vakur': i===1?'Hatip':'Baron';
-        const d = done[rank];
-        const pct = Math.min(100, d/(perRozet*maxRozet)*100);
-        // metric bar
-        document.getElementById('bar'+m).style.width = pct+'%';
-        // rozet bar
-        const roz = Math.min(maxRozet, Math.floor(d/perRozet));
-        const pctRoz = roz/maxRozet*100;
-        document.getElementById('bar'+m+'Rozet').style.width = pctRoz+'%';
+      const map = [
+        ['Vakur','barSavunma','barSavRozet','blue'],
+        ['Hatip','barNufus','barNufRozet','orange'],
+        ['Baron','barEtki','barEtRozet','red']
+      ];
+      map.forEach(([r,metricId,rozId,color])=>{
+        const d = done[r], metr = Math.min(100,d/(perRozet*maxRozet)*100);
+        document.getElementById(metricId).style.width = metr+'%';
+        const roz = Math.min(maxRozet,Math.floor(d/perRozet));
+        document.getElementById(rozId).style.width = (roz/maxRozet*100)+'%';
       });
+      // kilit açma
+      if(done.Vakur>=perRozet) document.getElementById('cardHatip').classList.remove('locked');
+      if(done.Hatip>=perRozet) document.getElementById('cardBaron').classList.remove('locked');
     }
 
-    // görev modal akışı
-    let unlocked = {Vakur:true,Hatip:false,Baron:false};
+    const tasks = { Vakur:[], Hatip:[], Baron:[] };
+    for(let r of ['Vakur','Hatip','Baron']){
+      for(let i=1;i<=5;i++){
+        let sec={ title:`${['ÇIRAK','USTA','UZMAN','EFSANE','YÜCE'][i-1]} ${r.toUpperCase()} ${i}`, tasks:[] };
+        for(let j=1;j<=50;j++) sec.tasks.push(`${r} görevi ${((i-1)*50+j)}`);
+        tasks[r].push(sec);
+      }
+    }
+
     function openTasks(rank){
-      if(!unlocked[rank]) return alert(rank+' kilitli!');
+      if(rank!=='Vakur' && done[rank]<perRozet) return alert(`${rank} kilitli!`);
+      const header = document.getElementById('taskHeader');
+      header.innerText = rank+' Görevleri';
       const secEl = document.getElementById('taskSections');
-      document.getElementById('taskHeader').innerText = rank+' Görevleri';
-      secEl.innerHTML='';
-      tasks[rank].forEach((sec,idx)=>{
-        // bir sonraki kademe için önceki 10 görev tamamlanmalı
-        if(idx>0 && done[rank]<idx*10) return;
+      secEl.innerHTML = '';
+      tasks[rank].forEach((sec, idx)=>{
+        if(done[rank] < idx*50) return;
         const div = document.createElement('div'); div.className='rankSection';
-        const h3 = document.createElement('h3'); h3.innerText = sec.title;
-        div.appendChild(h3);
+        const h = document.createElement('h3'); h.innerText = sec.title; div.appendChild(h);
         sec.tasks.forEach(txt=>{
           const ti = document.createElement('div'); ti.className='taskItem';
           const sp = document.createElement('span'); sp.innerText = txt;
           const btn = document.createElement('button'); btn.innerText='✔';
           btn.onclick = ()=>{
-            done[rank]++; localStorage.setItem('done',JSON.stringify(done));
+            done[rank]++; localStorage.done = JSON.stringify(done);
+            ti.classList.add('done'); btn.disabled=true;
             updateBars();
-            // Yüce tamamlandıysa modal kapanıp Çırak’a dön
-            if(idx===4 && done[rank]>=50){
-              closeTasks();
-              done[rank]=0; localStorage.setItem('done',JSON.stringify(done));
-              updateBars();
-              unlocked[rank]=false; // yeniden Çırak’a kilitli
-            }
+            if(idx===4 && done[rank]>=250){ closeTasks(); done[rank]=0; localStorage.done=JSON.stringify(done); updateBars(); }
           };
-          ti.appendChild(sp); ti.appendChild(btn);
-          div.appendChild(ti);
+          ti.append(sp,btn); div.appendChild(ti);
         });
         secEl.appendChild(div);
       });
       document.getElementById('overlay').style.display='flex';
     }
-    function closeTasks(){ document.getElementById('overlay').style.display='none'; }
 
-    // ray çizişi, sidebar toggle vb.
-    const villages=[/*…*/];
-    function drawRail(id,p,a){/*…*/}
-    window.onload=()=>{
-      drawRail('railOut','#555','#e63946');
-      drawRail('railBack','#555','#a8dadc');
-      updateBars();
-    };
-    window.onresize=()=>{ drawRail('railOut','#555','#e63946'); drawRail('railBack','#555','#a8dadc'); };
+    function closeTasks(){ document.getElementById('overlay').style.display='none'; }
     function togglePanel(id){
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById(id+'Panel').classList.add('active');
     }
+
+    // basit ray çizimi
+    function drawRail(id,col1,col2){
+      const c=document.getElementById(id),ctx=c.getContext('2d');
+      c.width=c.offsetWidth; c.height=c.offsetHeight;
+      ctx.strokeStyle=col1; ctx.lineWidth=4;
+      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
+      ctx.strokeStyle=col2; ctx.lineWidth=2;
+      for(let i=1;i<=38;i++){
+        let x=c.width*(i/39);
+        ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke();
+      }
+    }
+    window.onload = ()=>{
+      drawRail('railOut','#555','#e63946');
+      drawRail('railBack','#555','#a8dadc');
+      updateBars();
+    };
+    window.onresize = ()=>{
+      drawRail('railOut','#555','#e63946');
+      drawRail('railBack','#555','#a8dadc');
+    };
   </script>
 </body>
 </html>
