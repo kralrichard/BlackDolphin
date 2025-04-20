@@ -13,147 +13,303 @@
       --text-light: #f4f4f4;
       --text-dark: #333;
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    body { display:flex; height:100vh; overflow:hidden; background:var(--bg-light); color:var(--text-dark); }
-    /* Sidebar */
-    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
-    nav ul { list-style:none; overflow-y:auto; flex:1; }
-    nav li a { display:block; padding:12px 20px; color:inherit; text-decoration:none; border-bottom:1px solid #333; }
-    nav li a:hover, nav li a.active { background:var(--accent); }
-    nav .search { padding:10px; }
-    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
-    /* Main */
-    main { flex:1; display:flex; flex-direction:column; overflow-y:auto; }
-    header { background:var(--bg-dark); color:var(--text-light); padding:0 20px; height:60px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
-    .logo { font-size:1.6rem; font-weight:bold; }
-    .balance { background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime; }
-    /* Rails */
-    .rail-container { position:relative; height:60px; flex-shrink:0; }
-    canvas.rail { width:100%; height:60px; }
-    .rail-label { position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold; }
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    html, body { height: 100%; }
+    body {
+      display: flex; flex-direction: column;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      overflow: hidden;
+    }
+    /* HEADER */
+    header {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      padding: 0.5rem 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-shrink: 0;
+    }
+    .logo { font-size: 1.4rem; font-weight: bold; }
+    .balance {
+      background: #222; padding: 0.5rem 1rem;
+      border-radius: 4px; color: lime;
+    }
+
+    /* CENTER RANKS */
+    #centerRanks {
+      display: flex; justify-content: center; gap: 2rem;
+      padding: 1rem; flex-shrink: 0;
+      background: var(--bg-light);
+    }
+    .card {
+      background: var(--panel-dark);
+      color: var(--text-light);
+      padding: 1rem; border-radius: 8px;
+      text-align: center; width: 120px;
+      cursor: pointer;
+    }
+    .card.locked { opacity: 0.5; pointer-events: none; }
+    .card h2 {
+      margin-bottom: 0.5rem; text-transform: uppercase;
+    }
+    .card button {
+      background: var(--accent); border: none;
+      color: #fff; padding: 0.5rem 1rem;
+      border-radius: 4px; cursor: pointer;
+    }
+
+    /* OVERLAY (MODAL) */
+    #overlay {
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.7);
+      display: none; align-items: center; justify-content: center;
+    }
+    #panel {
+      background: var(--bg-light);
+      width: 90%; max-width: 600px; max-height: 80%;
+      overflow-y: auto; border-radius: 8px;
+      padding: 1rem; position: relative;
+    }
+    #closeBtn {
+      position: absolute; top:0.5rem; right:0.5rem;
+      background: var(--accent); border:none;
+      color:#fff; padding:0.3rem 0.6rem;
+      border-radius:4px; cursor:pointer;
+    }
+    .rankSection { margin-bottom: 1rem; }
+    .rankSection h3 {
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .taskItem {
+      background: #ddd; padding:0.5rem;
+      border-radius:4px; display:flex;
+      justify-content: space-between;
+      margin-bottom:0.3rem;
+    }
+    .taskItem.done { background: #a8e6cf; }
+    .taskItem button {
+      background: var(--accent); border:none;
+      color:#fff; padding:0.3rem 0.6rem;
+      border-radius:4px; cursor:pointer;
+    }
+
+    /* RAILS */
+    .rail-container {
+      position: relative; height: 60px; flex-shrink: 0;
+      margin: 0 1rem;
+    }
+    canvas.rail { width: 100%; height: 100%; }
+    .rail-label {
+      position:absolute; top:10px; left:20px;
+      color: var(--text-dark); font-weight:bold;
+    }
     .rail-label.return { top:auto; bottom:10px; }
-    /* Center Ranks */
-    #centerRanks { display:flex; justify-content:center; gap:40px; margin:10px 0; flex-shrink:0; }
-    .card { background:var(--panel-dark); color:var(--text-light); padding:20px; border-radius:8px; text-align:center; width:120px; cursor:pointer; }
-    .card.locked { opacity:0.5; pointer-events:none; }
-    .card h2 { margin-bottom:10px; text-transform:uppercase; }
-    .card button { background:var(--accent); border:none; padding:8px; color:white; border-radius:4px; }
-    /* Task Modal */
-    #taskModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; }
-    #taskContent { background:var(--bg-light); width:80%; max-width:800px; max-height:80%; overflow-y:auto; border-radius:8px; padding:20px; position:relative; }
-    #taskContent h1 { text-align:center; margin-bottom:20px; }
-    #closeModal { position:absolute; top:10px; right:10px; background:var(--accent); border:none; color:white; padding:6px 10px; cursor:pointer; }
-    .rankSection { margin-bottom:20px; }
-    .rankSection h2 { margin-bottom:10px; color:var(--accent); }
-    .taskItem { background:#ddd; margin-bottom:6px; padding:8px; border-radius:4px; display:flex; justify-content:space-between; }
-    .taskItem.done { background:#a8e6cf; }
-    .taskItem button { background:var(--accent); border:none; color:white; padding:4px 8px; border-radius:4px; }
-    /* Panels */
-    aside { width:260px; background:var(--panel-dark); color:var(--text-light); overflow-y:auto; flex-shrink:0; }
-    .panel { padding:20px; border-bottom:1px solid #333; display:none; }
-    .panel.active { display:block; }
-    .panel h3 { margin-bottom:10px; color:var(--accent); }
-    .sub-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
-    .sub-tabs button { background:#444; border:none; color:var(--text-light); padding:6px 10px; border-radius:4px; cursor:pointer; }
-    .sub-tabs button.active { background:var(--accent); }
-    .sub-content ul { list-style:none; max-height:200px; overflow-y:auto; padding-left:0; }
-    .sub-content li { display:flex; justify-content:space-between; margin-bottom:6px; }
-    .sub-content li button { background:var(--accent); border:none; color:white; padding:4px 8px; border-radius:4px; }
-    /* Chat */
-    #chatBox { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:60%; background:var(--panel-dark); color:var(--text-light); padding:10px; border-radius:8px; max-height:200px; overflow-y:auto; }
-    #messageIcon { position:fixed; bottom:20px; right:20px; background:var(--accent); padding:10px; border-radius:50%; color:white; cursor:pointer; }
-    /* Mobile */
-    @media (max-width: 768px) {
-      body { flex-direction: column; }
-      nav { width: 100%; height: auto; }
-      nav ul { display: flex; flex-wrap: nowrap; overflow-x: auto; }
-      nav li a { flex-shrink: 0; white-space: nowrap; }
-      main { order: 1; }
-      header { justify-content: center; }
-      .logo { font-size: 1.2rem; }
-      .balance { display: none; }
-      .rail-container { display: none; }
-      #centerRanks { flex-wrap: wrap; gap: 20px; margin: 10px; }
-      aside { width: 100%; order: 2; }
-      .panel { padding: 10px; }
-      #chatBox { width: 90%; bottom: 10px; }
-      #messageIcon { bottom: 10px; right: 10px; }
+
+    /* MOBILE */
+    @media (max-width:768px) {
+      header { flex-direction:column; text-align:center; }
+      .balance { margin-top:0.5rem; }
+      #centerRanks { flex-wrap:wrap; gap:1rem; }
+      .rail-container { display:none; }
+      #overlay { padding:1rem; }
+      #panel { width:100%; max-width:none; max-height:90%; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <ul>
-      <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
-      <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
-      <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
-      <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
-      <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
-      <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
-      <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
-      <li><a href="#" onclick="toggleModal('Vakur')">Vakur Görevleri</a></li>
-      <li><a href="#" onclick="toggleModal('Hatip')">Hatip Görevleri</a></li>
-      <li><a href="#" onclick="toggleModal('Baron')">Baron Görevleri</a></li>
-      <li><a href="#" onclick="togglePanel('atYarisi')">At Yarışı</a></li>
-      <li><a href="#" onclick="togglePanel('atBilgiler')">At Bilgileri</a></li>
-      <li><a href="#" onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li>
-      <li><a href="#" onclick="togglePanel('aranan')">Arananlar</a></li>
-      <li><a href="#" onclick="togglePanel('oyunlar')">Oyunlar</a></li>
-      <li><a href="#" onclick="togglePanel('koy')">Köy İncelemesi</a></li>
-      <li><a href="#" onclick="togglePanel('tren')">Tren Seyahatleri</a></li>
-    </ul>
-    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
-  </nav>
-  <main>
-    <header>
-      <div class="logo">BLACK DOLPHINE</div>
-      <div class="balance">$500,000</div>
-    </header>
-    <div class="rail-container">
-      <div class="rail-label">Gidiş Rotası</div>
-      <canvas id="railOut" class="rail"></canvas>
+  <header>
+    <div class="logo">BLACK DOLPHINE</div>
+    <div class="balance">$500,000</div>
+  </header>
+
+  <!-- Gidiş Rayı -->
+  <div class="rail-container">
+    <div class="rail-label">Gidiş Rotası</div>
+    <canvas id="railOut" class="rail"></canvas>
+  </div>
+
+  <!-- Rank Kartları -->
+  <div id="centerRanks">
+    <div class="card" id="cardVakur">
+      <h2>VAKUR</h2>
+      <button onclick="openTasks('Vakur')">Serüven</button>
     </div>
-    <div id="centerRanks">
-      <div class="card" id="cardVakur" onclick="toggleModal('Vakur')"><h2 style="color:blue">VAKUR</h2><button>Serüven</button></div>
-      <div class="card locked" id="cardHatip" onclick="toggleModal('Hatip')"><h2 style="color:orange">HATİP</h2><button>Serüven</button></div>
-      <div class="card locked" id="cardBaron" onclick="toggleModal('Baron')"><h2 style="color:red">BARON</h2><button>Serüven</button></div>
+    <div class="card locked" id="cardHatip">
+      <h2>HATİP</h2>
+      <button onclick="openTasks('Hatip')">Serüven</button>
     </div>
-    <div class="rail-container">
-      <div class="rail-label return">Dönüş Rotası</div>
-      <canvas id="railBack" class="rail"></canvas>
+    <div class="card locked" id="cardBaron">
+      <h2>BARON</h2>
+      <button onclick="openTasks('Baron')">Serüven</button>
     </div>
-  </main>
-  <aside>
-    <div class="panel active" id="durumPanel"><h3>Durumum</h3><p>Profil: Oyuncu adı, seviye, deneyim vb.</p></div>
-    <div class="panel" id="ailePanel"><h3>Ailem</h3><ul><li>Aile Üyesi 1</li><li>Aile Üyesi 2</li><li>Aile Üyesi 3</li></ul></div>
-    <div class="panel" id="tuccarPanel"><h3>Tüccar</h3><ul><li>Silah - 2500$</li><li>Bomba - 1000$</li><li>Ev - 10000$</li></ul></div>
-    <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3><ul><li>Mesaj 1</li><li>Mesaj 2</li></ul></div>
-    <div class="panel" id="avlanPanel"><h3>Avlan</h3><ul><li>Görev 1</li><li>Görev 2</li></ul></div>
-    <div class="panel" id="acikArttirmaPanel"><h3>Açık Arttırma</h3><ul><li>Item A</li><li>Item B</li></ul></div>
-    <div class="panel" id="kacakPanel"><h3>Kaçakçılık</h3><ul><li>Görev 1</li><li>Görev 2</li></ul></div>
-    <div class="panel" id="atYarisiPanel"><h3>At Yarışı</h3><ul><li>Yarış 1</li><li>Yarış 2</li></ul></div>
-    <div class="panel" id="atBilgilerPanel"><h3>At Bilgileri</h3><ul><li>Karabey - Hız:85, Dayanıklılık:75, Yaş:5</li><li>Akdeniz - Hız:78, Dayanıklılık:82, Yaş:6</li><li>Yıldırım - Hız:92, Dayanıklılık:70, Yaş:4</li></ul></div>
-    <div class="panel" id="oyunIciPanel"><h3>Oyun İçi Bilgiler</h3><p>Görev rehberi, ipuçları vb.</p></div>
-    <div class="panel" id="arananPanel"><h3>Arananlar</h3><ul><li>Karakter A</li><li>Karakter B</li></ul></div>
-    <div class="panel" id="oyunlarPanel"><h3>Oyunlar</h3><ul><li>Mod 1</li><li>Mod 2</li></ul></div>
-    <div class="panel" id="koyPanel"><h3>Köy İncelemesi</h3><div class="sub-tabs" id="koyTabs"></div><div class="sub-content" id="koyPages"></div></div>
-    <div class="panel" id="trenPanel"><h3>Tren Seyahatleri</h3><div class="sub-tabs" id="trenTabs"></div><div class="sub-content" id="trenPages"></div></div>
-  </aside>
-  <div id="taskModal" style="display:none; align-items:center; justify-content:center; display:flex;">
-    <div id="taskContent">
-      <button id="closeModal" onclick="toggleModal()">✖</button>
+  </div>
+
+  <!-- Dönüş Rayı -->
+  <div class="rail-container">
+    <div class="rail-label return">Dönüş Rotası</div>
+    <canvas id="railBack" class="rail"></canvas>
+  </div>
+
+  <!-- Görev Modali -->
+  <div id="overlay" onclick="closeTasks()">
+    <div id="panel" onclick="event.stopPropagation()">
+      <button id="closeBtn" onclick="closeTasks()">Görevleri Kapat</button>
       <h1 id="taskHeader"></h1>
       <div id="taskSections"></div>
     </div>
   </div>
-  <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
-  <div id="messageIcon">📩</div>
 
   <script>
-    const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan"];
-    let isHatipUnlocked=false, isBaronUnlocked=false;
-    const tasks={"Vakur":[{title:"ÇIRAK VAKUR I",tasks:["Bir çocuğun okul çantası almasına yardımcı ol.","Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.","Sokaktaki sahipsiz bir köpek için su ve mama koy.","Arkadaşına ufak bir hediye vererek moralini yükselt.","İşsiz bir tanıdığına CV hazırlama konusunda destek ol.","Kütüphanede eski kitapları düzenlemeye gönüllü ol.","Bir hayır kurumuna ufak bir bağış yap veya yardım topla.","Otobüste yaşlı veya hamile birine yer ver.","Mahalle parkında çöp toplama etkinliğine katıl.","Arkadaşına küçük bir sürpriz parti düzenle."]},{title:"USTA VAKUR II",tasks:["Aile içinde tartışan iki akrabayı barıştır.","Mahallede yardım kermesi veya etkinlik organize et.","Maddi durumu kötü bir öğrenciye burs ayarla.","Bir STK’nın etkinliğinde aktif rol al.","Bakımsız parkı onarmak için gönüllüler topla.","Kan bağışı kampanyasına katkıda bulun.","Bir arkadaşın için profesyonel yardım aracılığı yap.","Zorbalığa uğrayan birine çevrimiçi destek bul.","Engelliler için kamu binalarına erişim kolaylığı sağla.","Sokak hayvanları için geçici barınak oluştur."]}],"Hatip":[],"Baron":[]};
-    const totalCounts={Vakur:tasks.Vakur.reduce((s,sec)=>s+sec.tasks.length,0),Hatip:0,Baron:0};
-    const doneCounts={Vakur:0,Hatip:0,Baron:0};
-    function drawRail(id,p,a){const c=document.getElementById(id),ctx=c.getContext('2d');c.width=c.offsetWidth;c.height=c.offsetHeight;ctx.strokeStyle=p;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,c.height/2);ctx.lineTo(c.width,c.height/2);ctx.stroke();ctx.strokeStyle=a;ctx.lineWidth=2;for(let i=1;i<=villages.length;i++){let x=c.width*(i/(villages.length+1));ctx.beginPath();ctx.moveTo(x,c.height/2-10);ctx.lineTo(x,c.height/2+10);ctx.stroke();}}
-    window.onload=()=>{drawRail('railOut','#555','#e63946');drawRail('railBack','#555','#a8dadc');initTabs('koyTabs','koyPages',villages);initTabs('trenTabs','trenPages',villages);};window.onresize=()=>{drawRail('railOut','#555','#e63946');drawRails
+    // Köy listesi (ray için)
+    const villages = [
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
+      "Midep","Ömerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
+      "Bostancı","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz",
+      "Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli",
+      "Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub",
+      "Marut","Avamur","Bubık","Aşme","Oğan"
+    ];
+
+    // Görev verileri
+    const tasks = {
+      Vakur: [
+        { title:'ÇIRAK VAKUR I', tasks: [
+          'Bir çocuğun okul çantası almasına yardımcı ol.',
+          'Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.',
+          'Sokaktaki sahipsiz bir köpek için su ve mama koy.',
+          'Arkadaşına ufak bir hediye vererek moralini yükselt.',
+          'İşsiz bir tanıdığına CV hazırlama konusunda destek ol.',
+          'Kütüphanede eski kitapları düzenlemeye gönüllü ol.',
+          'Bir hayır kurumuna ufak bir bağış yap veya yardım topla.',
+          'Otobüste yaşlı veya hamile birine yer ver.',
+          'Mahalle parkında çöp toplama etkinliğine katıl.',
+          'Arkadaşına küçük bir sürpriz parti düzenle.'
+        ]},
+        { title:'USTA VAKUR II', tasks: [
+          'Aile içinde tartışan iki akrabayı barıştır.',
+          'Mahallede yardım kermesi organize et.',
+          'Maddi durumu kötü bir öğrenciye burs ayarla.',
+          'Bir STK’nın etkinliğinde aktif rol al.',
+          'Bakımsız parkı onarmak için gönüllüler topla.',
+          'Kan bağışı kampanyasına katkıda bulun.',
+          'Bir arkadaşın için profesyonel yardım aracılığı yap.',
+          'Zorbalığa uğrayan birine çevrimiçi destek bul.',
+          'Engelliler için kamu binalarına erişim kolaylığı sağla.',
+          'Sokak hayvanları için geçici barınak oluştur.'
+        ]}
+      ],
+      Hatip: [
+        // Hatip görevlerini aynı yapı ile ekleyin
+      ],
+      Baron: [
+        // Baron görevlerini ekleyin
+      ]
+    };
+
+    let done     = { Vakur: 0, Hatip: 0, Baron: 0 };
+    let total    = { 
+      Vakur: tasks.Vakur.flatMap(s=>s.tasks).length,
+      Hatip: tasks.Hatip.flatMap(s=>s.tasks).length,
+      Baron: tasks.Baron.flatMap(s=>s.tasks).length
+    };
+    let unlocked = { Vakur: true, Hatip: false, Baron: false };
+
+    // Ray çizimi
+    function drawRail(id, baseColor, markColor) {
+      const c = document.getElementById(id);
+      const ctx = c.getContext('2d');
+      c.width = c.offsetWidth;
+      c.height = c.offsetHeight;
+      // ana çizgi
+      ctx.strokeStyle = baseColor;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0, c.height/2);
+      ctx.lineTo(c.width, c.height/2);
+      ctx.stroke();
+      // durak işaretleri
+      ctx.strokeStyle = markColor;
+      ctx.lineWidth = 2;
+      villages.forEach((_,i) => {
+        const x = c.width * ((i+1)/(villages.length+1));
+        ctx.beginPath();
+        ctx.moveTo(x, c.height/2 - 10);
+        ctx.lineTo(x, c.height/2 + 10);
+        ctx.stroke();
+      });
+    }
+
+    window.onload = () => {
+      drawRail('railOut', '#555', '#e63946');
+      drawRail('railBack', '#555', '#a8dadc');
+    };
+    window.onresize = () => {
+      drawRail('railOut', '#555', '#e63946');
+      drawRail('railBack', '#555', '#a8dadc');
+    };
+
+    // Görev modalını aç/kapa
+    function openTasks(rank) {
+      if (!unlocked[rank]) {
+        return alert(`${rank} kilitli! Önce önceki rankı tamamlayın.`);
+      }
+      document.getElementById('taskHeader').innerText = `${rank} Görevleri`;
+      const container = document.getElementById('taskSections');
+      container.innerHTML = '';
+
+      tasks[rank].forEach(section => {
+        const secDiv = document.createElement('div');
+        secDiv.className = 'rankSection';
+        const h3 = document.createElement('h3');
+        h3.innerText = section.title;
+        secDiv.appendChild(h3);
+
+        section.tasks.forEach(text => {
+          const taskDiv = document.createElement('div');
+          taskDiv.className = 'taskItem';
+          const span = document.createElement('span');
+          span.innerText = text;
+          const btn = document.createElement('button');
+          btn.innerText = '✔';
+          btn.onclick = () => completeTask(rank, btn);
+          taskDiv.appendChild(span);
+          taskDiv.appendChild(btn);
+          secDiv.appendChild(taskDiv);
+        });
+
+        container.appendChild(secDiv);
+      });
+
+      document.getElementById('overlay').style.display = 'flex';
+    }
+
+    function completeTask(rank, btn) {
+      btn.disabled = true;
+      btn.parentElement.classList.add('done');
+      done[rank]++;
+      if (rank==='Vakur' && done.Vakur===total.Vakur) {
+        unlocked.Hatip = true;
+        document.getElementById('cardHatip').classList.remove('locked');
+        alert('Tebrikler! Hatip görevleri açıldı.');
+      }
+      if (rank==='Hatip' && done.Hatip===total.Hatip) {
+        unlocked.Baron = true;
+        document.getElementById('cardBaron').classList.remove('locked');
+        alert('Tebrikler! Baron görevleri açıldı.');
+      }
+      if (rank==='Baron' && done.Baron===total.Baron) {
+        alert('Tebrikler! Tüm görevleri tamamladınız.');
+      }
+    }
+
+    function closeTasks() {
+      document.getElementById('overlay').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
