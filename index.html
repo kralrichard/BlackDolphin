@@ -14,13 +14,17 @@
       display:flex; justify-content:space-between; align-items:center;
       padding:1rem 2rem; z-index:1000;
     }
-    .logo { font-size:1.8rem; font-weight:bold; }
-    #money { background:#222; padding:0.4rem 0.8rem; border:1px solid #333; border-radius:4px; color:lime; }
+    .logo { font-size:1.8rem; font-weight:bold; color:#fff; }
+    #money {
+      background:#222; padding:0.4rem 0.8rem;
+      border:1px solid #333; border-radius:4px;
+      color:lime; position:relative; z-index:1001;
+    }
 
     /* LEFT PANEL */
     #leftPanel {
       position:fixed; top:80px; left:20px;
-      width:200px; height:calc(100vh-80px);
+      width:200px; height:calc(100vh - 80px);
       overflow-y:auto; z-index:900;
     }
     .sectionBox { background:rgba(0,0,0,0.6); margin-bottom:4px; border-radius:5px; }
@@ -31,29 +35,28 @@
     .tab-content { display:none; padding:0.5rem; background:rgba(0,0,0,0.4); font-size:0.8rem; }
     .tab-content.active { display:block; }
 
-    /* CENTER RANKS */
+    /* VAKUR, HATIP, BARON */
     #centerContainer {
       position:fixed; bottom:120px; left:50%; transform:translateX(-50%);
-      z-index:950; width:360px; text-align:center;
+      width:360px; text-align:center; z-index:950;
     }
     #centerRanks {
       display:flex; justify-content:space-between;
     }
     .card {
       background:rgba(0,0,0,0.7); padding:1rem 2rem;
-      border-radius:5px; font-size:2rem; cursor:pointer;
-      flex:1; margin:0 5px; text-align:center;
+      border-radius:5px; font-size:2rem; color:#ffcc00;
+      flex:1; margin:0 5px; text-align:center; cursor:pointer;
     }
     .card.vakur { color:blue; }
     .card.hatip { color:orange; }
     .card.baron { color:red; }
 
     /* RAILS */
-    canvas.trainTrack, canvas.redRails {
-      position:absolute; left:0; width:100%; z-index:800;
+    canvas.trainTrack {
+      position:absolute; left:20px; width:200px;
+      height:4px; z-index:800; background:transparent;
     }
-    canvas.trainTrack { height:8px; }
-    canvas.redRails { height:100px; }
 
     /* TRAVEL BOX */
     #travelBox {
@@ -73,7 +76,9 @@
     #travelPages { padding:0.5rem; max-height:200px; overflow:auto; }
 
     /* BOTTOM INFO */
-    #searchBoxBottom { position:fixed; bottom:60px; left:20px; width:200px; z-index:900; }
+    #searchBoxBottom {
+      position:fixed; bottom:60px; left:20px; width:200px; z-index:900;
+    }
     #searchBoxBottom input {
       width:100%; padding:0.4rem; border-radius:3px;
       border:1px solid #333; background:#222; color:#fff;
@@ -88,8 +93,8 @@
     #chatBox {
       position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
       width:300px; max-width:80%; background:rgba(0,0,0,0.7);
-      padding:0.5rem; border-radius:5px; text-align:center; font-size:0.9rem;
-      cursor:text; z-index:900;
+      padding:0.5rem; border-radius:5px; text-align:center;
+      font-size:0.9rem; cursor:text; z-index:900;
     }
     #messageIcon {
       position:fixed; bottom:20px; right:20px;
@@ -100,8 +105,8 @@
     @media(max-width:768px){
       #leftPanel{position:static;width:100%;height:auto;margin-bottom:1rem;padding:0 10px;}
       #centerContainer{position:static;transform:none;margin:1rem auto;}
-      #travelBox{bottom:120px;right:20px;width:calc(100%-40px);}
-      canvas{display:none;}
+      #travelBox{bottom:120px;right:20px;width:calc(100% - 40px);}
+      canvas.trainTrack{display:none;}
       #searchBoxBottom,#bottomLeft,#chatBox,#messageIcon{
         position:static;width:90%;margin:0.5rem 10px;transform:none;
       }
@@ -120,25 +125,18 @@
     <div class="sectionBox"><h2 onclick="toggleTab('davet')">Davet Et ↓</h2><div id="davet" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('ailem')">Ailem ↓</h2><div id="ailem" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('mesajlar')">Mesajlar ↓</h2><div id="mesajlar" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('avlan')">Avlan ↓</h2><div id="avlan" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('acikArttirma')">Açık Arttırma ↓</h2><div id="acikArttirma" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('kacakcilik')">Kaçakçılık ↓</h2><div id="kacakcilik" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('saldir')">Saldır ↓</h2><div id="saldir" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('atyarisi')">At Yarışı ↓</h2><div id="atyarisi" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('atBilgiler')">At Bilgiler ↓</h2><div id="atBilgiler" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunIci')">Oyun İçi ↓</h2><div id="oyunIci" class="tab-content"></div></div>
     <div class="sectionBox"><h2 onclick="toggleTab('arananlar')">Arananlar ↓</h2><div id="arananlar" class="tab-content"></div></div>
-    <div class="sectionBox"><h2 onclick="toggleTab('oyunlar')">Oyunlar ↓</h2><div id="oyunlar" class="tab-content"></div></div>
   </div>
 
   <div id="centerContainer">
-    <canvas id="redRailsTop" class="redRails"></canvas>
+    <canvas id="trainTrackTop" class="trainTrack"></canvas>
     <div id="centerRanks">
       <div class="card vakur">VAKUR</div>
       <div class="card hatip">HATİP</div>
       <div class="card baron">BARON</div>
     </div>
-    <canvas id="redRailsBottom" class="redRails"></canvas>
+    <canvas id="trainTrackBottom" class="trainTrack"></canvas>
   </div>
 
   <div id="travelBox">
@@ -147,52 +145,43 @@
     <div id="travelPages"></div>
   </div>
 
-  <canvas id="trainTrackTop" class="trainTrack"></canvas>
-  <canvas id="trainTrackBottom" class="trainTrack"></canvas>
-
   <div id="searchBoxBottom"><input type="text" placeholder="Kullanıcı Ara..." /></div>
   <div id="bottomLeft">Asman</div>
   <div id="chatBox" contenteditable="true">CHAT</div>
   <div id="messageIcon">📩</div>
 
   <script>
-    function toggleTab(id) {
+    function toggleTab(id){
       document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
       document.getElementById(id).classList.toggle('active');
     }
-
-    // Initialize travel tabs omitted for brevity...
-
-    function drawRail(id, color, thickness, dash) {
-      const c=document.getElementById(id), ctx=c.getContext('2d');
-      c.width=document.documentElement.clientWidth; c.height=thickness;
-      ctx.strokeStyle=color; ctx.lineWidth=thickness;
+    function drawRail(id,color,thickness,dash){
+      const c=document.getElementById(id),ctx=c.getContext('2d');
+      c.width=document.documentElement.clientWidth;
+      c.height=thickness;
+      ctx.strokeStyle=color;
+      ctx.lineWidth=thickness;
       dash?ctx.setLineDash(dash):ctx.setLineDash([]);
-      ctx.beginPath(); ctx.moveTo(0,thickness/2); ctx.lineTo(c.width,thickness/2); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0,thickness/2);
+      ctx.lineTo(c.width,thickness/2);
+      ctx.stroke();
     }
-    function positionRails() {
-      const ranks=document.getElementById('centerContainer').getBoundingClientRect();
-      ['trainTrackTop','trainTrackBottom'].forEach((id,i)=>{
-        const y = i===0 ? ranks.top-50 : ranks.bottom+30;
-        document.getElementById(id).style.top = y + 'px';
-      });
-      ['redRailsTop','redRailsBottom'].forEach((id,i)=>{
-        const y = i===0 ? ranks.top-100 : ranks.bottom+80;
-        document.getElementById(id).style.top = y + 'px';
-      });
+    function positionRails(){
+      const mp=document.getElementById('money').getBoundingClientRect();
+      const lp=document.getElementById('leftPanel').getBoundingClientRect();
+      // top rail under money, bottom rail at end of left panel
+      document.getElementById('trainTrackTop').style.top = (mp.bottom + 5) + 'px';
+      document.getElementById('trainTrackBottom').style.top = (lp.bottom - 5) + 'px';
     }
     window.addEventListener('load',()=>{
-      drawRail('trainTrackTop','#ccc',8,null);
-      drawRail('trainTrackBottom','#ccc',8,null);
-      drawRail('redRailsTop','red',100,[5,5]);
-      drawRail('redRailsBottom','red',100,[5,5]);
+      drawRail('trainTrackTop','#ccc',4,null);
+      drawRail('trainTrackBottom','#ccc',4,null);
       positionRails();
     });
     window.addEventListener('resize',()=>{
-      drawRail('trainTrackTop','#ccc',8,null);
-      drawRail('trainTrackBottom','#ccc',8,null);
-      drawRail('redRailsTop','red',100,[5,5]);
-      drawRail('redRailsBottom','red',100,[5,5]);
+      drawRail('trainTrackTop','#ccc',4,null);
+      drawRail('trainTrackBottom','#ccc',4,null);
       positionRails();
     });
   </script>
