@@ -16,135 +16,245 @@
       --text-dark: #333;
       --bar-bg: #ccc;
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    html, body { height:100%; }
-    body { display:flex; overflow:hidden; background:var(--bg-light); color:var(--text-dark); }
+    * {
+      margin:0; padding:0;
+      box-sizing:border-box;
+      font-family:'Segoe UI',sans-serif;
+    }
+    html, body {
+      height:100%;
+    }
+    body {
+      display:flex;
+      overflow:hidden;
+      background:var(--bg-light);
+      color:var(--text-dark);
+    }
+
     /* SIDEBAR */
     nav {
-      width:220px; background:var(--panel-dark); color:var(--text-light);
-      display:flex; flex-direction:column;
+      width:220px;
+      background:var(--panel-dark);
+      color:var(--text-light);
+      display:flex;
+      flex-direction:column;
     }
     nav ul {
-      list-style:none; overflow-y:auto; flex:1;
+      list-style:none;
+      overflow-y:auto;
+      flex:1;
     }
     nav li a {
-      display:block; padding:12px 20px; color:inherit;
-      text-decoration:none; border-bottom:1px solid #333;
+      display:block;
+      padding:12px 20px;
+      color:inherit;
+      text-decoration:none;
+      border-bottom:1px solid #333;
     }
-    nav li a:hover, nav li a.active {
+    nav li a:hover,
+    nav li a.active {
       background:var(--accent-vakur);
     }
     nav .locked {
-      opacity:0.5; pointer-events:none;
+      opacity:0.5;
+      pointer-events:none;
     }
-    nav .search { padding:10px; }
+    nav .search {
+      padding:10px;
+    }
     nav .search input {
-      width:100%; padding:8px; border:none; border-radius:4px;
+      width:100%;
+      padding:8px;
+      border:none;
+      border-radius:4px;
     }
+
     /* MAIN */
     main {
-      flex:1; display:flex; flex-direction:column; overflow-y:auto;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      overflow-y:auto;
     }
     header {
-      background:var(--bg-dark); color:var(--text-light);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:0.5rem 1rem; flex-shrink:0;
+      background:var(--bg-dark);
+      color:var(--text-light);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0.5rem 1rem;
+      flex-shrink:0;
     }
     .logo {
-      font-size:1.4rem; font-weight:bold;
+      font-size:1.4rem;
+      font-weight:bold;
     }
     .balance {
-      background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime;
+      background:#222;
+      padding:0.5rem 1rem;
+      border-radius:4px;
+      color:lime;
     }
+
     /* 4 RAILS */
     .rail-container {
-      position:relative; margin:1rem 0; flex-shrink:0;
+      position:relative;
+      margin:1rem 0;
+      flex-shrink:0;
     }
     .rail-label {
-      position:absolute; top:-1.2rem; left:1rem;
-      color:var(--text-dark); font-weight:bold;
+      position:absolute;
+      top:-1.2rem;
+      left:1rem;
+      color:var(--text-dark);
+      font-weight:bold;
     }
     .stations {
-      display:flex; padding:0 1rem; margin-bottom:4px; flex-wrap:wrap;
+      display:flex;
+      padding:0 1rem;
+      margin-bottom:4px;
+      flex-wrap:wrap;
     }
     .stations span {
-      flex:1; text-align:center; font-size:0.75rem;
-      color:var(--text-dark); cursor:pointer;
+      flex:1;
+      text-align:center;
+      font-size:0.75rem;
+      color:var(--text-dark);
+      cursor:pointer;
+      margin:2px 0;
     }
     .stations span.visited {
-      color:var(--accent-vakur); font-weight:bold;
+      color:var(--accent-vakur);
+      font-weight:bold;
     }
     canvas.rail {
-      width:100%; height:60px; cursor:pointer;
+      width:100%;
+      height:60px;
+      cursor:pointer;
     }
+
     /* CENTER RANKS */
     #centerRanks {
-      display:flex; justify-content:center; gap:2rem;
-      padding:1rem; flex-shrink:0;
+      display:flex;
+      justify-content:center;
+      gap:2rem;
+      padding:1rem;
+      flex-shrink:0;
+      flex-wrap: nowrap; /* mobilde alt alta geçebilsin diye istersen wrap yap */
     }
     .card {
-      background:var(--panel-dark); color:var(--text-light);
-      padding:1rem; border-radius:8px; text-align:center;
-      width:120px; cursor:pointer;
+      background:var(--panel-dark);
+      color:var(--text-light);
+      padding:1rem;
+      border-radius:8px;
+      text-align:center;
+      width:120px;
+      cursor:pointer;
     }
     .card.locked {
-      opacity:0.5; pointer-events:none;
+      opacity:0.5;
+      pointer-events:none;
     }
     .card h2 {
-      margin-bottom:0.5rem; text-transform:uppercase;
+      margin-bottom:0.5rem;
+      text-transform:uppercase;
     }
     .card button {
-      border:none; color:#fff; padding:0.5rem 1rem;
-      border-radius:4px; cursor:pointer;
+      border:none;
+      color:#fff;
+      padding:0.5rem 1rem;
+      border-radius:4px;
+      cursor:pointer;
     }
-    .card.vakur { background:var(--accent-vakur); }
-    .card.hatip { background:var(--accent-hatip); }
-    .card.baron { background:var(--accent-baron); }
-    /* OVERLAY/TASKS */
+    .card.vakur {
+      background:var(--accent-vakur);
+    }
+    .card.hatip {
+      background:var(--accent-hatip);
+    }
+    .card.baron {
+      background:var(--accent-baron);
+    }
+
+    /* OVERLAY / TASKS */
     #overlay {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.7); display:none;
-      align-items:center; justify-content:center;
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.7);
+      display:none;
+      align-items:center;
+      justify-content:center;
     }
     #panel {
-      background:var(--bg-light); width:90%; max-width:600px; max-height:80%;
-      overflow-y:auto; border-radius:8px; padding:1rem; position:relative;
+      background:var(--bg-light);
+      width:90%;
+      max-width:600px;
+      max-height:80%;
+      overflow-y:auto;
+      border-radius:8px;
+      padding:1rem;
+      position:relative;
     }
     #closeBtn {
-      position:absolute; top:0.5rem; right:0.5rem;
-      background:var(--accent-vakur); border:none; color:#fff;
-      padding:0.3rem 0.6rem; border-radius:4px; cursor:pointer;
+      position:absolute;
+      top:0.5rem;
+      right:0.5rem;
+      background:var(--accent-vakur);
+      border:none;
+      color:#fff;
+      padding:0.3rem 0.6rem;
+      border-radius:4px;
+      cursor:pointer;
     }
     .rankSection {
       margin-bottom:1rem;
     }
     .rankSection h3 {
-      margin-bottom:0.5rem; color:var(--accent-vakur);
+      margin-bottom:0.5rem;
+      color:var(--accent-vakur);
     }
     .taskItem {
-      background:var(--bar-bg); padding:0.5rem;
-      display:flex; justify-content:space-between;
-      border-radius:4px; margin-bottom:0.3rem; align-items:center;
+      background:var(--bar-bg);
+      padding:0.5rem;
+      display:flex;
+      justify-content:space-between;
+      border-radius:4px;
+      margin-bottom:0.3rem;
+      align-items:center;
     }
-    .taskItem.done { background:#a8e6cf; }
+    .taskItem.done {
+      background:#a8e6cf;
+    }
     .taskItem button {
-      border:none; color:#fff; padding:0.3rem 0.6rem;
-      border-radius:4px; cursor:pointer; background:var(--accent-vakur);
+      border:none;
+      color:#fff;
+      padding:0.3rem 0.6rem;
+      border-radius:4px;
+      cursor:pointer;
+      background:var(--accent-vakur);
     }
+
     /* STATUS BARS */
     .status-bar {
       margin-bottom:1rem;
     }
     .status-bar .label {
-      display:flex; align-items:center; gap:0.5rem;
-      margin-bottom:0.3rem; font-weight:bold;
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      margin-bottom:0.3rem;
+      font-weight:bold;
     }
     .status-bar .bar {
-      background:var(--bar-bg); height:16px;
-      border-radius:8px; overflow:hidden;
+      background:var(--bar-bg);
+      height:16px;
+      border-radius:8px;
+      overflow:hidden;
     }
     .status-bar .bar .fill {
-      height:100%; width:0;
+      height:100%;
+      width:0;
     }
     .vakur-fill  { background:gold; }
     .vakur-ros   { background:blue; }
@@ -152,63 +262,129 @@
     .hatip-ros   { background:orange; }
     .baron-fill  { background:white; }
     .baron-ros   { background:red; }
+
     /* PANELS */
     aside {
-      width:260px; background:var(--panel-dark); color:var(--text-light);
-      overflow-y:auto; flex-shrink:0;
+      width:260px;
+      background:var(--panel-dark);
+      color:var(--text-light);
+      overflow-y:auto;
+      flex-shrink:0;
     }
     .panel {
-      padding:20px; border-bottom:1px solid #333; display:none;
+      padding:20px;
+      border-bottom:1px solid #333;
+      display:none;
     }
     .panel.active {
       display:block;
     }
     .panel h3 {
-      margin-bottom:10px; color:var(--accent-vakur);
+      margin-bottom:10px;
+      color:var(--accent-vakur);
     }
     .sub-tabs {
-      display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;
+      display:flex;
+      gap:8px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
     }
     .sub-tabs button {
-      background:#444; border:none; color:var(--text-light);
-      padding:6px 10px; border-radius:4px; cursor:pointer;
+      background:#444;
+      border:none;
+      color:var(--text-light);
+      padding:6px 10px;
+      border-radius:4px;
+      cursor:pointer;
     }
     .sub-tabs button.active {
       background:var(--accent-vakur);
     }
     .sub-content ul {
-      list-style:none; max-height:200px; overflow-y:auto; padding-left:0;
+      list-style:none;
+      max-height:200px;
+      overflow-y:auto;
+      padding-left:0;
     }
     .sub-content li {
-      display:flex; justify-content:space-between; margin-bottom:6px;
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:6px;
     }
     .sub-content li button {
-      background:var(--accent-vakur); border:none; color:#fff;
-      padding:4px 8px; border-radius:4px; cursor:pointer;
+      background:var(--accent-vakur);
+      border:none;
+      color:#fff;
+      padding:4px 8px;
+      border-radius:4px;
+      cursor:pointer;
     }
-    table { border-collapse:collapse; }
+    table {
+      border-collapse:collapse;
+    }
+
     /* CHAT */
     #chatBox {
-      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-      width:60%; background:var(--panel-dark); color:var(--text-light);
-      padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;
+      position:fixed;
+      bottom:20px; left:50%;
+      transform:translateX(-50%);
+      width:60%;
+      background:var(--panel-dark);
+      color:var(--text-light);
+      padding:10px;
+      border-radius:8px;
+      max-height:200px;
+      overflow-y:auto;
     }
     #messageIcon {
-      position:fixed; bottom:20px; right:20px;
-      background:var(--accent-vakur); padding:10px; border-radius:50%;
-      color:#fff; cursor:pointer;
+      position:fixed;
+      bottom:20px; right:20px;
+      background:var(--accent-vakur);
+      padding:10px;
+      border-radius:50%;
+      color:#fff;
+      cursor:pointer;
     }
+
     /* MOBILE */
-    @media(max-width:768px){
-      nav,aside { width:100%; order:2; }
-      nav ul { display:flex; flex-wrap:wrap; overflow-x:auto; }
-      main { order:1; }
-      header { justify-content:center; }
-      .balance, .rail-container { display:none; }
-      #centerRanks { flex-wrap:wrap; gap:1rem; }
-      .panel { padding:10px; }
-      #chatBox { width:90%; bottom:10px; }
-      #messageIcon { bottom:10px; right:10px; }
+    @media (max-width: 768px) {
+      /* Sıralamayı değiştirelim */
+      nav, aside {
+        width:100%;
+        order:2;
+      }
+      nav ul {
+        display:flex;
+        flex-wrap:wrap;
+        overflow-x:auto;
+      }
+      main {
+        order:1;
+      }
+      header {
+        justify-content:center;
+      }
+      /* Raylar ve bakiye mobilde de gözüksün istersen gizleme satırını kaldırdık */
+      #centerRanks {
+        flex-wrap:wrap;
+        gap:1rem;
+        justify-content:center;
+      }
+      /* Panellerin içi dar olsun */
+      .panel {
+        padding:10px;
+      }
+      .stations span {
+        font-size:0.65rem;
+      }
+      #chatBox {
+        width:90%;
+        bottom:10px;
+      }
+      #messageIcon {
+        bottom:10px;
+        right:10px;
+      }
     }
   </style>
 </head>
@@ -272,7 +448,7 @@
       <canvas id="railBack2" class="rail"></canvas>
     </div>
 
-    <!-- Center Ranks (Vakur / Hatip / Baron) -->
+    <!-- Center Ranks -->
     <div id="centerRanks">
       <div class="card vakur" id="cardVakur">
         <h2>VAKUR</h2>
@@ -323,21 +499,21 @@
       </div>
     </div>
 
-    <!-- Köy İncelemesi Panel (5 sekme x 8 köy + "İncele") -->
+    <!-- Köy İncelemesi Panel -->
     <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
       <div class="sub-tabs" id="koyTabs"></div>
       <div id="koyContent"></div>
     </div>
 
-    <!-- Tren Seyahatleri Panel (5 sekme x 8 köy + "Seyahat") -->
+    <!-- Tren Seyahatleri Panel -->
     <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
       <div class="sub-tabs" id="trenTabs"></div>
       <div id="trenContent"></div>
     </div>
 
-    <!-- Diğer Paneller (boş) -->
+    <!-- Örnek Boş Paneller -->
     <div class="panel" id="ailePanel"><h3>Ailem</h3></div>
     <div class="panel" id="tuccarPanel"><h3>Tüccar</h3></div>
     <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3></div>
@@ -365,13 +541,12 @@
   <div id="messageIcon">📩</div>
 
   <script>
-    // --------------------------------------------------
-    // GLOBAL DEĞİŞKENLER
-    // --------------------------------------------------
-    let playerMoney = 500000;         // Başlangıç para
-    let globalCooldown = false;       // 10sn bekleme durumu
-    let globalCooldownTimer = null;   // setInterval ref
-    // 40 köy
+    /**************************************
+     * TÜM JS BURADAN SONRA
+     **************************************/
+    let playerMoney = 500000;
+    let globalCooldown = false;
+
     const villages = [
       "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
       "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
@@ -380,37 +555,29 @@
       "Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
     ];
 
-    // 2 gidiş, 2 dönüş => 20'şer parça
+    // Gidiş Rotası I/II ve Dönüş Rotası I/II
     const out1 = villages.slice(0,20);
     const out2 = villages.slice(20,40);
-    // Dönüşler de aynı köy setlerini kullanıyor (örnek)
     const back1 = out1;
     const back2 = out2;
 
-    // Hangi köylerin ziyaret edildiğini takip
+    // Her rotada visited dizisi
     const visitedOut1 = new Array(20).fill(false);
     const visitedOut2 = new Array(20).fill(false);
     const visitedBack1 = new Array(20).fill(false);
     const visitedBack2 = new Array(20).fill(false);
 
-    // Asman (out1[0]) en baştan ziyaret
+    // Asman visited
     visitedOut1[0] = true;
 
-    // --------------------------------------------------
-    // ONLOAD
-    // --------------------------------------------------
     window.onload = ()=>{
-      // Rayları çiz
       drawAllRails();
-      // Stations listelerini doldur (span)
       populateStations('stationsOut1', out1, visitedOut1, 'out1');
       populateStations('stationsOut2', out2, visitedOut2, 'out2');
       populateStations('stationsBack1', back1, visitedBack1, 'back1');
       populateStations('stationsBack2', back2, visitedBack2, 'back2');
 
-      // Tren paneli (5 sekme x 8 köy)
       initTrainTabs();
-      // Köy incelemesi paneli (5 sekme x 8 köy)
       initKoyTabs();
 
       updateMoneyDisplay();
@@ -420,9 +587,9 @@
       drawAllRails();
     };
 
-    // --------------------------------------------------
-    // RAY ÇİZİMİ
-    // --------------------------------------------------
+    /**************************************
+     * RAY ÇİZİMİ
+     **************************************/
     function drawAllRails(){
       drawRail('railOut1','#555','var(--accent-vakur)', out1, visitedOut1);
       drawRail('railOut2','#555','var(--accent-vakur)', out2, visitedOut2);
@@ -430,17 +597,14 @@
       drawRail('railBack2','#555','var(--accent-baron)', back2, visitedBack2);
     }
 
-    // Her canvas'ta 20 istasyon
-    // color1 => ana ray, color2 => minik çizgiler
-    function drawRail(canvasId, color1, colorCSSVar, villagesArr, visitedArr){
+    function drawRail(canvasId, color1, colorCSSVar, arr, visitedArr){
       const c = document.getElementById(canvasId);
       const ctx = c.getContext('2d');
       c.width = c.offsetWidth;
       c.height = c.offsetHeight;
 
       const accent = getComputedStyle(document.documentElement).getPropertyValue(colorCSSVar).trim();
-
-      // Ana ray
+      // Ana çizgi
       ctx.strokeStyle = color1;
       ctx.lineWidth = 4;
       ctx.beginPath();
@@ -448,43 +612,38 @@
       ctx.lineTo(c.width, c.height/2);
       ctx.stroke();
 
-      // Minik dik çizgiler ve noktalar
+      // 20 istasyon
       ctx.strokeStyle = accent;
       ctx.lineWidth = 2;
-
-      for(let i=1; i<=20; i++){
-        const x = c.width * i / 21;
-        // Dikey kısa çizgi
+      for(let i=1;i<=20;i++){
+        const x = (c.width * i) / 21;
+        // Kısa dik çizgi
         ctx.beginPath();
-        ctx.moveTo(x, c.height/2 - 10);
-        ctx.lineTo(x, c.height/2 + 10);
+        ctx.moveTo(x, c.height/2-10);
+        ctx.lineTo(x, c.height/2+10);
         ctx.stroke();
 
-        // Küçük daire/dot ile visited durumu
-        // visitedArr[i-1] => 0..19
+        ctx.beginPath();
         if(visitedArr[i-1]){
-          // yeşil
           ctx.fillStyle = "green";
         } else {
           ctx.fillStyle = "red";
         }
-        // Bir ufak daire çiz
-        ctx.beginPath();
         ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
         ctx.fill();
       }
     }
 
-    // --------------------------------------------------
-    // STATIONS (Span) DOLDUR
-    // --------------------------------------------------
-    function populateStations(containerId, array, visitedArray, type){
+    /**************************************
+     * STATIONS LİSTESİ (Span)
+     **************************************/
+    function populateStations(containerId, arr, visitedArr, type){
       const cont = document.getElementById(containerId);
-      cont.innerHTML = '';
-      array.forEach((v, idx)=>{
-        const sp = document.createElement('span');
-        sp.innerText = v;
-        if(visitedArray[idx]) {
+      cont.innerHTML = "";
+      arr.forEach((v,idx)=>{
+        const sp = document.createElement("span");
+        sp.textContent = v;
+        if(visitedArr[idx]) {
           sp.classList.add("visited");
         }
         sp.onclick = ()=>{
@@ -494,56 +653,49 @@
       });
     }
 
-    // Seyahat fonksiyonu (Ana ekrandaki station'a tıklayınca)
     function travelTo(type, index){
-      // type => out1, out2, back1, back2
-      let arr = null, visitedArr = null;
+      let arr, visitedArr;
       if(type==="out1"){ arr=out1; visitedArr=visitedOut1; }
       else if(type==="out2"){ arr=out2; visitedArr=visitedOut2; }
       else if(type==="back1"){ arr=back1; visitedArr=visitedBack1; }
       else if(type==="back2"){ arr=back2; visitedArr=visitedBack2; }
 
-      // Zaten gidilmiş mi?
-      if(visitedArr[index]) {
+      if(visitedArr[index]){
         alert(arr[index]+" köyüne zaten gittiniz!");
         return;
       }
-
-      // Para kontrol
       if(playerMoney<500){
         alert("Yeterli paranız yok!");
         return;
       }
-      // 500 kes
       playerMoney -= 500;
       visitedArr[index] = true;
       updateMoneyDisplay();
-      // UI güncelle
       alert(arr[index]+" köyüne gittiniz! (500$)");
-      // station span visited
+
+      // Güncelle
       populateStations('stationsOut1', out1, visitedOut1, 'out1');
       populateStations('stationsOut2', out2, visitedOut2, 'out2');
       populateStations('stationsBack1', back1, visitedBack1, 'back1');
       populateStations('stationsBack2', back2, visitedBack2, 'back2');
-      // ray yeniden çiz
       drawAllRails();
     }
 
-    // --------------------------------------------------
-    // TREN PANEL (5 sekme x 8 köy)
-    // --------------------------------------------------
+    /**************************************
+     * TREN PANEL (5 sekme x 8 köy)
+     **************************************/
     function initTrainTabs(){
       const trenTabs = document.getElementById("trenTabs");
-      for(let i=0; i<5; i++){
-        const btn = document.createElement("button");
-        btn.textContent = `Tren ${i+1}`;
-        btn.onclick = ()=>{
-          document.querySelectorAll("#trenTabs button").forEach(b=>b.classList.remove("active"));
-          btn.classList.add("active");
+      for(let i=0;i<5;i++){
+        const b = document.createElement("button");
+        b.textContent = "Tren "+(i+1);
+        b.onclick = ()=>{
+          document.querySelectorAll("#trenTabs button").forEach(b2=>b2.classList.remove("active"));
+          b.classList.add("active");
           renderTrainTab(i);
         };
-        if(i===0) btn.classList.add("active");
-        trenTabs.appendChild(btn);
+        if(i===0) b.classList.add("active");
+        trenTabs.appendChild(b);
       }
       renderTrainTab(0);
     }
@@ -551,48 +703,45 @@
     function renderTrainTab(tabIndex){
       const trenContent = document.getElementById("trenContent");
       trenContent.innerHTML = "";
-      // 8 köy
       const start = tabIndex*8;
       const end = start+8;
       const slice = villages.slice(start,end);
 
-      slice.forEach(koy => {
+      slice.forEach(koy=>{
         const div = document.createElement("div");
         div.style.marginBottom="6px";
-        // “Seyahat” butonu
         div.innerHTML = `<strong>${koy}</strong> <button>Seyahat</button>`;
         const btn = div.querySelector("button");
         btn.onclick = ()=>{
-          // Hangi rayda ise oraya git
-          // Bulalım: koy out1’de mi, out2’de mi, back1/back2’de mi?
-          let idx = out1.indexOf(koy);
-          if(idx>=0){ travelTo('out1', idx); return; }
-          idx = out2.indexOf(koy);
-          if(idx>=0){ travelTo('out2', idx); return; }
-          idx = back1.indexOf(koy);
-          if(idx>=0){ travelTo('back1', idx); return; }
-          idx = back2.indexOf(koy);
-          if(idx>=0){ travelTo('back2', idx); return; }
+          // bulalım
+          let i = out1.indexOf(koy);
+          if(i>=0){ travelTo('out1',i); return;}
+          i = out2.indexOf(koy);
+          if(i>=0){ travelTo('out2',i); return;}
+          i = back1.indexOf(koy);
+          if(i>=0){ travelTo('back1',i); return;}
+          i = back2.indexOf(koy);
+          if(i>=0){ travelTo('back2',i); return;}
         };
         trenContent.appendChild(div);
       });
     }
 
-    // --------------------------------------------------
-    // KÖY İNCELEMESİ PANEL (5 sekme x 8 köy)
-    // --------------------------------------------------
+    /**************************************
+     * KÖY İNCELEMESİ (5 sekme x 8 köy)
+     **************************************/
     function initKoyTabs(){
       const koyTabs = document.getElementById("koyTabs");
-      for(let i=0; i<5; i++){
-        const btn = document.createElement("button");
-        btn.textContent = `Bölge ${i+1}`;
-        btn.onclick = ()=>{
-          document.querySelectorAll("#koyTabs button").forEach(b=>b.classList.remove("active"));
-          btn.classList.add("active");
+      for(let i=0;i<5;i++){
+        const b = document.createElement("button");
+        b.textContent = "Bölge "+(i+1);
+        b.onclick = ()=>{
+          document.querySelectorAll("#koyTabs button").forEach(b2=>b2.classList.remove("active"));
+          b.classList.add("active");
           renderKoyTab(i);
         };
-        if(i===0) btn.classList.add("active");
-        koyTabs.appendChild(btn);
+        if(i===0) b.classList.add("active");
+        koyTabs.appendChild(b);
       }
       renderKoyTab(0);
     }
@@ -604,13 +753,12 @@
       const end = start+8;
       const slice = villages.slice(start,end);
 
-      slice.forEach(koy => {
+      slice.forEach(koy=>{
         const div = document.createElement("div");
         div.style.marginBottom="6px";
         div.innerHTML = `<strong>${koy}</strong> <button>İncele</button>`;
         const btn = div.querySelector("button");
         btn.onclick = ()=>{
-          // Rastgele malikhane, villa, sığınak
           const malOptions = [5,10,15];
           const villaOptions = [25,50,75];
           const sigOptions = [50,75,100];
@@ -623,15 +771,14 @@
       });
     }
 
-    // --------------------------------------------------
-    // GÖREVLER (10sn + 30dk)
-    // --------------------------------------------------
-
-    // Örnek olarak sadece Vakur'u tam dolduralım (Hatip/Baron da benzer).
+    /**************************************
+     * GÖREVLER (10sn + 30dk)
+     **************************************/
+    // Örnek: sadece Vakur ilk 2 seviye doldurduk
     const vakurDifficulties = [
       {
-        title: "ÇIRAK VAKUR I", locked: false,
-        tasks: [
+        title: "ÇIRAK VAKUR I", locked:false,
+        tasks:[
           "Bir çocuğun okul çantası almasına yardımcı ol.",
           "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
           "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
@@ -645,8 +792,8 @@
         ]
       },
       {
-        title: "USTA VAKUR II", locked: true,
-        tasks: [
+        title: "USTA VAKUR II", locked:true,
+        tasks:[
           "Aile içinde tartışan iki akrabayı barıştır.",
           "Mahallede yardım kermesi veya etkinlik organize et.",
           "Maddi durumu kötü bir öğrenciye burs ayarla.",
@@ -658,50 +805,34 @@
           "Engelliler için kamu binalarına erişim kolaylığı sağla.",
           "Sokak hayvanları için geçici barınak oluştur."
         ]
-      },
-      // ... Uzman / Efsane / Yüce şeklinde devam
+      }
     ].map(d=>({
       ...d,
-      tasks: d.tasks.map(txt => ({
-        text: txt,
-        state: "idle",   // idle -> cdWait -> inProgress -> done
-        timeLeft: 0,
-        interval: null
+      tasks: d.tasks.map(t=>({
+        text: t,
+        state: "idle",
+        timeLeft:0,
+        interval:null
       }))
     }));
 
-    // Hatip / Baron vs. benzer map
     const hatipDifficulties = [
-      {
-        title: "ÇIRAK HATİP I",
-        locked: false,
-        tasks: ["..."]
-      },
+      { title:"ÇIRAK HATİP I", locked:false, tasks:["..."] }
       // ...
     ].map(d=>({
       ...d,
-      tasks: d.tasks.map(txt => ({
-        text: txt,
-        state: "idle",
-        timeLeft: 0,
-        interval: null
+      tasks: d.tasks.map(t=>({
+        text:t, state:"idle", timeLeft:0, interval:null
       }))
     }));
 
     const baronDifficulties = [
-      {
-        title: "ÇIRAK BARON I",
-        locked: false,
-        tasks: ["..."]
-      },
+      { title:"ÇIRAK BARON I", locked:false, tasks:["..."] }
       // ...
     ].map(d=>({
       ...d,
-      tasks: d.tasks.map(txt => ({
-        text: txt,
-        state: "idle",
-        timeLeft: 0,
-        interval: null
+      tasks: d.tasks.map(t=>({
+        text:t, state:"idle", timeLeft:0, interval:null
       }))
     }));
 
@@ -712,53 +843,48 @@
     };
 
     function openTasks(rank){
-      document.getElementById('overlay').style.display = 'flex';
-      document.getElementById('taskHeader').textContent = rank + " Görevleri";
-      const container = document.getElementById('taskSections');
-      container.innerHTML = "";
+      document.getElementById('overlay').style.display='flex';
+      document.getElementById('taskHeader').textContent = rank+" Görevleri";
+      const cont = document.getElementById('taskSections');
+      cont.innerHTML="";
 
       difficultiesMap[rank].forEach(dif=>{
-        const section = document.createElement('div');
-        section.className = 'rankSection';
-        const h3 = document.createElement('h3');
-        h3.textContent = dif.title + (dif.locked ? " (Kilitli)" : "");
+        const section = document.createElement("div");
+        section.className="rankSection";
+        const h3 = document.createElement("h3");
+        h3.textContent = dif.title+(dif.locked?" (Kilitli)":"");
         section.appendChild(h3);
 
-        dif.tasks.forEach(tObj=>{
-          const div = document.createElement('div');
-          div.className = 'taskItem';
-
-          if(tObj.state==="done") {
+        dif.tasks.forEach(taskObj=>{
+          const div = document.createElement("div");
+          div.className="taskItem";
+          if(taskObj.state==="done") {
             div.classList.add("done");
           }
+          let btnTxt="Yap";
+          if(dif.locked) btnTxt="Kilitli";
+          else if(taskObj.state==="cdWait") btnTxt="10sn bekleniyor...";
+          else if(taskObj.state==="inProgress") btnTxt=formatTime(taskObj.timeLeft);
+          else if(taskObj.state==="done") btnTxt="Tamamlandı";
 
-          let btnTxt = "Yap";
-          if(dif.locked) btnTxt = "Kilitli";
-          else if(tObj.state==="cdWait") btnTxt = "10sn bekleniyor...";
-          else if(tObj.state==="inProgress") btnTxt = formatTime(tObj.timeLeft);
-          else if(tObj.state==="done") btnTxt = "Tamamlandı";
-
-          div.innerHTML = `
-            <span>${tObj.text}</span>
+          div.innerHTML=`
+            <span>${taskObj.text}</span>
             <button>${btnTxt}</button>
           `;
           const btn = div.querySelector("button");
-          if(dif.locked || tObj.state==="cdWait" || tObj.state==="inProgress" || tObj.state==="done"){
-            btn.disabled = true;
+          if(dif.locked || taskObj.state==="cdWait" || taskObj.state==="inProgress" || taskObj.state==="done"){
+            btn.disabled=true;
           }
-          btn.onclick = ()=>{
-            startTask(tObj, btn);
-          };
+          btn.onclick=()=>startTask(taskObj, btn);
 
           section.appendChild(div);
         });
-
-        container.appendChild(section);
+        cont.appendChild(section);
       });
     }
 
     function closeTasks(){
-      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('overlay').style.display='none';
     }
 
     function startTask(taskObj, btn){
@@ -766,76 +892,70 @@
         alert("Yeni bir göreve başlamak için 10sn beklemelisin!");
         return;
       }
-      // Global CD başlasın
+      // 10sn global bekleme
       globalCooldown = true;
-      taskObj.state = "cdWait";
-      taskObj.timeLeft = 10; // 10sn
-      btn.textContent = "10sn bekleniyor...";
-      btn.disabled = true;
+      taskObj.state="cdWait";
+      taskObj.timeLeft=10;
+      btn.textContent="10sn bekleniyor...";
+      btn.disabled=true;
 
       const cdInt = setInterval(()=>{
         taskObj.timeLeft--;
         if(taskObj.timeLeft<=0){
           clearInterval(cdInt);
-          // 10sn bitti -> 30dk
-          taskObj.state = "inProgress";
-          taskObj.timeLeft = 1800; // 30dk=1800s
+          taskObj.state="inProgress";
+          taskObj.timeLeft=1800; // 30dk = 1800sn
           updateTaskButton(btn, taskObj);
-
-          // 30dk geri sayım
           taskObj.interval = setInterval(()=>{
             taskObj.timeLeft--;
             if(taskObj.timeLeft<=0){
               clearInterval(taskObj.interval);
               taskObj.state="done";
               updateTaskButton(btn, taskObj);
-            } else {
+            }else{
               updateTaskButton(btn, taskObj);
             }
           },1000);
-
-          globalCooldown = false;
+          globalCooldown=false;
         } else {
-          btn.textContent = taskObj.timeLeft+"sn bekleniyor...";
+          btn.textContent=taskObj.timeLeft+"sn bekleniyor...";
         }
       },1000);
     }
 
-    function updateTaskButton(btn, taskObj){
-      if(taskObj.state==="inProgress"){
-        btn.textContent = formatTime(taskObj.timeLeft);
-      } else if(taskObj.state==="done"){
-        btn.textContent = "Tamamlandı";
+    function updateTaskButton(btn, tObj){
+      if(tObj.state==="inProgress"){
+        btn.textContent=formatTime(tObj.timeLeft);
+      } else if(tObj.state==="done"){
+        btn.textContent="Tamamlandı";
         btn.parentElement.classList.add("done");
       }
-      // devre dışı
     }
 
     function formatTime(sec){
       const m = Math.floor(sec/60);
       const s = sec%60;
-      const mm = (m<10 ? "0"+m : m);
-      const ss = (s<10 ? "0"+s : s);
+      const mm=(m<10?"0"+m:m);
+      const ss=(s<10?"0"+s:s);
       return mm+":"+ss;
     }
 
-    // --------------------------------------------------
-    // PARA GÜNCELLEME
-    // --------------------------------------------------
+    /**************************************
+     * PARA GÖSTERİMİ
+     **************************************/
     function updateMoneyDisplay(){
-      const el = document.getElementById("moneyDisplay");
-      el.textContent = "$"+playerMoney.toLocaleString();
+      document.getElementById('moneyDisplay').textContent = "$"+playerMoney.toLocaleString();
     }
 
-    // --------------------------------------------------
-    // PANEL GÖSTERME/GİZLEME
-    // --------------------------------------------------
+    /**************************************
+     * PANEL AÇ/KAPA
+     **************************************/
     function togglePanel(panelId){
-      const all = document.querySelectorAll('.panel');
-      all.forEach(p => p.classList.remove('active'));
-      const target = document.getElementById(panelId+'Panel');
-      if(target) {
-        target.classList.add('active');
+      const all = document.querySelectorAll(".panel");
+      all.forEach(p=>p.classList.remove("active"));
+      const target = document.getElementById(panelId+"Panel");
+      if(target){
+        target.classList.add("active");
       }
     }
   </script>
