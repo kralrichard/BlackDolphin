@@ -323,7 +323,8 @@
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
-      <div class="balance">$500,000</div>
+      <!-- Başlangıç bakiyemiz -->
+      <div class="balance" id="moneyDisplay">$500,000</div>
     </header>
 
     <!-- Gidiş Rotası I -->
@@ -361,6 +362,7 @@
 
   <!-- RIGHT PANEL -->
   <aside>
+    <!-- Durum Paneli -->
     <div class="panel active" id="durumPanel">
       <h3>Durumum</h3>
       <!-- Vakur -->
@@ -391,7 +393,36 @@
         <div class="bar"><div class="fill baron-ros" id="baronRosBar"></div></div>
       </div>
     </div>
-    <!-- Diğer paneller buradan sonra geliyor (örnek olması için duruyor) -->
+
+    <!-- Köy İncelemesi Paneli -->
+    <div class="panel" id="koyPanel">
+      <h3>Köy İncelemesi</h3>
+      <p>Her köy için rastgele malikhane, villa ve sığınak sayısı oluşturmak için butona tıkla:</p>
+      <button onclick="generateVillagesInfo()">Rastgele Dağıt</button>
+      <div id="villagesInfo" style="margin-top:1rem;"></div>
+    </div>
+
+    <!-- Tren Seyahatleri Paneli -->
+    <div class="panel" id="trenPanel">
+      <h3>Tren Seyahatleri</h3>
+      <!-- 5 sekme -->
+      <div class="sub-tabs" id="trenTabs"></div>
+      <!-- Sekme içeriği (köy butonları) -->
+      <div id="trenContent"></div>
+    </div>
+
+    <!-- Örnek diğer paneller (boş) -->
+    <div class="panel" id="ailePanel"><h3>Ailem</h3></div>
+    <div class="panel" id="tuccarPanel"><h3>Tüccar</h3></div>
+    <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3></div>
+    <div class="panel" id="avlanPanel"><h3>Avlan</h3></div>
+    <div class="panel" id="acikArttirmaPanel"><h3>Açık Arttırma</h3></div>
+    <div class="panel" id="kacakPanel"><h3>Kaçakçılık</h3></div>
+    <div class="panel" id="atYarisiPanel"><h3>At Yarışı</h3></div>
+    <div class="panel" id="atBilgilerPanel"><h3>At Bilgileri</h3></div>
+    <div class="panel" id="oyunIciPanel"><h3>Oyun İçi Bilgiler</h3></div>
+    <div class="panel" id="arananPanel"><h3>Arananlar</h3></div>
+    <div class="panel" id="oyunlarPanel"><h3>Oyunlar</h3></div>
   </aside>
 
   <!-- TASK MODAL -->
@@ -408,6 +439,11 @@
   <div id="messageIcon">📩</div>
 
   <script>
+    // --------------------------------------------------
+    // GLOBAL DEĞİŞKENLER
+    // --------------------------------------------------
+    let playerMoney = 500000; // Başlangıç para
+
     // --------------------------------------------------
     // KÖY LİSTESİ & TREN ÇİZİMLERİ
     // --------------------------------------------------
@@ -428,11 +464,18 @@
       const c = document.getElementById(id), ctx = c.getContext('2d');
       c.width = c.offsetWidth; c.height = c.offsetHeight;
       ctx.strokeStyle = color1; ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
-      ctx.strokeStyle = color2; ctx.lineWidth = 2;
+      ctx.beginPath(); 
+      ctx.moveTo(0,c.height/2); 
+      ctx.lineTo(c.width,c.height/2); 
+      ctx.stroke();
+      ctx.strokeStyle = color2; 
+      ctx.lineWidth = 2;
       for(let i=1;i<=20;i++){
         const x = c.width * i/21;
-        ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke();
+        ctx.beginPath(); 
+        ctx.moveTo(x,c.height/2-10); 
+        ctx.lineTo(x,c.height/2+10); 
+        ctx.stroke();
       }
     }
 
@@ -447,16 +490,33 @@
       });
     }
 
+    // "Tren rotasındaki" seyahat (eski örnek)
+    function travelTo(v){
+      document.querySelectorAll('.stations span').forEach(sp=>{
+        sp.classList.toggle('visited', sp.innerText===v);
+      });
+      alert(v+' köyüne gittiniz!');
+    }
+
+    // --------------------------------------------------
+    // SAYFA YÜKLENDİĞİNDE INIT
+    // --------------------------------------------------
     window.onload = ()=>{
+      // Ray çizimleri
       drawRail('railOut1','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-vakur'));
       drawRail('railOut2','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-vakur'));
       drawRail('railBack1','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-baron'));
       drawRail('railBack2','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-baron'));
+
+      // Stations doldur
       populateStations('stationsOut1',out1);
       populateStations('stationsOut2',out2);
       populateStations('stationsBack1',out1);
       populateStations('stationsBack2',out2);
-      // Diğer init fonksiyon çağrıları
+
+      // Tren panelini ve Köy İncelemesi panelini başlat
+      initTrainPanel();
+      updateMoneyDisplay(); 
     };
 
     window.onresize = ()=>{
@@ -466,11 +526,130 @@
       drawRail('railBack2','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-baron'));
     };
 
-    function travelTo(v){
-      document.querySelectorAll('.stations span').forEach(sp=>{
-        sp.classList.toggle('visited', sp.innerText===v);
+    // --------------------------------------------------
+    // PARA GÜNCELLEME
+    // --------------------------------------------------
+    function updateMoneyDisplay(){
+      // Kalan parayı göster
+      const el = document.getElementById('moneyDisplay');
+      el.textContent = `$${playerMoney.toLocaleString()}`;
+    }
+
+    // --------------------------------------------------
+    // KÖY İNCELEMESİ
+    // --------------------------------------------------
+    function generateVillagesInfo(){
+      // Her köy için rastgele 5/10/15 - 25/50/75 - 50/75/100
+      const malOptions = [5,10,15];
+      const villaOptions = [25,50,75];
+      const sigOptions = [50,75,100];
+
+      let html = `<table border="1" cellpadding="6" style="border-collapse:collapse;width:100%;">
+        <thead>
+          <tr style="background:#ccc;">
+            <th>Köy</th>
+            <th>Malikhane</th>
+            <th>Villa</th>
+            <th>Sığınak</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      villages.forEach(v=>{
+        const mal = malOptions[Math.floor(Math.random()*malOptions.length)];
+        const vil = villaOptions[Math.floor(Math.random()*villaOptions.length)];
+        const sig = sigOptions[Math.floor(Math.random()*sigOptions.length)];
+
+        html += `
+          <tr>
+            <td>${v}</td>
+            <td>${mal}</td>
+            <td>${vil}</td>
+            <td>${sig}</td>
+          </tr>
+        `;
       });
-      alert(v+' köyüne gittiniz!');
+
+      html += `</tbody></table>`;
+      document.getElementById("villagesInfo").innerHTML = html;
+    }
+
+    // --------------------------------------------------
+    // TREN SEYAHATLARI (5 sekme x 8 köy)
+    // --------------------------------------------------
+    function initTrainPanel(){
+      const trenTabs = document.getElementById("trenTabs");
+      const trenContent = document.getElementById("trenContent");
+
+      // 5 sekme
+      for(let i=0; i<5; i++){
+        const btn = document.createElement("button");
+        btn.textContent = `Tren ${i+1}`;
+        btn.onclick = ()=>{
+          // Sekme görünümü
+          document.querySelectorAll("#trenTabs button").forEach(b=>b.classList.remove("active"));
+          btn.classList.add("active");
+
+          // Her sekmede 8 köy
+          renderTrainSection(i);
+        };
+        // İlk sekmeye aktif klas ekle (0. sekme)
+        if(i===0) btn.classList.add("active");
+        trenTabs.appendChild(btn);
+      }
+
+      // İlk sekmenin içeriğini gösterelim
+      renderTrainSection(0);
+
+      // Asman'ı yeşil (seyahat edilmiş) işaretlemek için
+      traveledVillages.add("Asman"); 
+    }
+
+    // Seyahat edilen köyleri saklamak için Set yapısı
+    const traveledVillages = new Set();
+
+    function renderTrainSection(tabIndex){
+      const trenContent = document.getElementById("trenContent");
+      trenContent.innerHTML = "";
+
+      // Bu sekmenin köyleri (8 adet)
+      // 5 sekme x 8 köy = 40 köy
+      const start = tabIndex * 8;
+      const end = start + 8;
+      const subset = villages.slice(start, end);
+
+      // Ekrana buton şeklinde koy
+      subset.forEach(koy => {
+        const btn = document.createElement("button");
+        btn.style.display = "inline-block";
+        btn.style.margin = "5px";
+        btn.textContent = koy;
+
+        // Eğer köye önceden seyahat edilmişse yeşil göster
+        if(traveledVillages.has(koy)){
+          btn.style.background = "green";
+          btn.disabled = true;
+        } else {
+          btn.style.background = "#444";
+        }
+
+        // Tıklanırsa seyahat
+        btn.onclick = ()=>{
+          // 500 dolar kes
+          if(playerMoney >= 500){
+            playerMoney -= 500;
+            updateMoneyDisplay();
+
+            traveledVillages.add(koy);
+            btn.style.background = "green";
+            btn.disabled = true;
+            alert(koy + " köyüne tren ile seyahat edildi. $500 kesildi.");
+          } else {
+            alert("Yeterli bakiyeniz yok!");
+          }
+        };
+        trenContent.appendChild(btn);
+      });
     }
 
     // --------------------------------------------------
@@ -716,7 +895,6 @@
     // --------------------------------------------------
     // OPEN/CLOSE TASKS FONKSİYONLARI
     // --------------------------------------------------
-    // Tüm rank'ler tek bir objede tutuluyor:
     const difficultiesMap = {
       Vakur: vakurDifficulties,
       Hatip: hatipDifficulties,
@@ -730,24 +908,24 @@
       const container = document.getElementById('taskSections');
       container.innerHTML = "";  // önce temizliyoruz
 
-      // İlgili rank dizisindeki her bir bölüm
-      difficultiesMap[rank].forEach((difficulty, index) => {
+      // İlgili rank dizisindeki her bölüm
+      difficultiesMap[rank].forEach((difficulty) => {
         const section = document.createElement('div');
         section.className = 'rankSection';
 
-        // Başlık
         const h3 = document.createElement('h3');
         h3.textContent = difficulty.title + (difficulty.locked ? " (Kilitli)" : "");
         section.appendChild(h3);
 
-        // Görev listesi
         difficulty.tasks.forEach((tsk) => {
-          if(tsk.hidden) {
-            // Bu "Tebrikler!" gibi ekranda görünmeyebilecek bir satır olabilir.
-            // Kilitleri açarken kullanıcıya gösterilebilir istenirse ek mantık eklenebilir.
-          }
           const div = document.createElement('div');
           div.className = 'taskItem' + (tsk.done ? ' done' : '');
+          // Eğer "hidden" özelliği varsa normalde görevde gösterilmeyecek;
+          // ama istersen bu if ile gizleyebilirsin:
+          if(tsk.hidden) {
+            // Örn. final mesajı. Yine de listede göstersin dersen, yoruma al.
+            // return;
+          }
           div.innerHTML = `
             <span>${tsk.text}</span>
             <button>${tsk.done ? 'Yapıldı' : 'Yap'}</button>
@@ -767,7 +945,6 @@
     // PANEL GÖSTERME / GİZLEME (Örnek)
     // --------------------------------------------------
     function togglePanel(panelId) {
-      // Sidebar'daki panelleri açıp kapamak için örnek:
       const allPanels = document.querySelectorAll('.panel');
       allPanels.forEach(p => p.classList.remove('active'));
 
