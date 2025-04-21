@@ -17,8 +17,7 @@
       --bar-bg: #ccc;
     }
     * {
-      margin:0;
-      padding:0;
+      margin:0; padding:0;
       box-sizing:border-box;
       font-family:'Segoe UI',sans-serif;
     }
@@ -58,17 +57,14 @@
       background:var(--accent-vakur);
     }
     nav .locked {
-      opacity:0.5;
-      pointer-events:none;
+      opacity:0.5; pointer-events:none;
     }
     nav .search {
       padding:10px;
     }
     nav .search input {
-      width:100%;
-      padding:8px;
-      border:none;
-      border-radius:4px;
+      width:100%; padding:8px;
+      border:none; border-radius:4px;
     }
 
     /* Durumum kahverengi */
@@ -76,7 +72,7 @@
       background: brown !important;
       color: #fff !important;
     }
-    /* Vakur - mavi, Hatip - turuncu, Baron - kırmızı */
+    /* Vakur(mavi), Hatip(turuncu), Baron(kırmızı) linkleri */
     .navVakur {
       background: var(--accent-vakur) !important;
       color: #fff !important;
@@ -107,85 +103,59 @@
       flex-shrink:0;
     }
     .logo {
-      font-size:1.4rem;
-      font-weight:bold;
+      font-size:1.4rem; font-weight:bold;
     }
     .balance {
-      background:#222;
-      padding:0.5rem 1rem;
-      border-radius:4px;
-      color:lime;
+      background:#222; padding:0.5rem 1rem;
+      border-radius:4px; color:lime;
     }
 
-    /* 4 RAILS */
+    /* 4 RAILS (Gidiş I/II, Dönüş I/II) */
     .rail-container {
       position:relative;
-      margin:1rem 0;
-      flex-shrink:0;
+      margin:1rem 0; flex-shrink:0;
     }
     .rail-label {
-      position:absolute;
-      top:-1.2rem;
-      left:1rem;
-      color:var(--text-dark);
-      font-weight:bold;
+      position:absolute; top:-1.2rem; left:1rem;
+      color:var(--text-dark); font-weight:bold;
     }
     .stations {
-      display:flex;
-      padding:0 1rem;
-      margin-bottom:4px;
-      flex-wrap:wrap;
+      display:flex; padding:0 1rem;
+      margin-bottom:4px; flex-wrap:wrap;
     }
     .stations span {
-      flex:1;
-      text-align:center;
-      font-size:0.75rem;
-      color:var(--text-dark);
-      cursor:pointer;
-      margin:2px 0;
+      flex:1; text-align:center;
+      font-size:0.75rem; color:var(--text-dark);
+      cursor:pointer; margin:2px 0;
     }
     .stations span.visited {
-      color:var(--accent-vakur);
-      font-weight:bold;
+      color:var(--accent-vakur); font-weight:bold;
     }
     canvas.rail {
-      width:100%;
-      height:60px;
-      cursor:pointer;
+      width:100%; height:60px; cursor:pointer;
     }
 
-    /* CENTER RANKS */
+    /* CENTER RANKS (Vakur/Hatip/Baron kartları) */
     #centerRanks {
       display:flex;
       justify-content:center;
-      gap:2rem;
-      padding:1rem;
-      flex-shrink:0;
-      flex-wrap: nowrap;
+      gap:2rem; padding:1rem;
+      flex-shrink:0; flex-wrap:nowrap;
     }
     .card {
-      background:var(--panel-dark);
-      color:var(--text-light);
-      padding:1rem;
-      border-radius:8px;
-      text-align:center;
-      width:120px;
-      cursor:pointer;
+      background:var(--panel-dark); color:var(--text-light);
+      padding:1rem; border-radius:8px;
+      text-align:center; width:120px; cursor:pointer;
     }
     .card.locked {
-      opacity:0.5;
-      pointer-events:none;
+      opacity:0.5; pointer-events:none;
     }
     .card h2 {
-      margin-bottom:0.5rem;
-      text-transform:uppercase;
+      margin-bottom:0.5rem; text-transform:uppercase;
     }
     .card button {
-      border:none;
-      color:#fff;
-      padding:0.5rem 1rem;
-      border-radius:4px;
-      cursor:pointer;
+      border:none; color:#fff; padding:0.5rem 1rem;
+      border-radius:4px; cursor:pointer;
     }
     .card.vakur {
       background:var(--accent-vakur);
@@ -199,34 +169,24 @@
 
     /* OVERLAY / TASKS */
     #overlay {
-      position:fixed;
-      top:0; left:0;
+      position:fixed; top:0; left:0;
       width:100%; height:100%;
       background:rgba(0,0,0,0.7);
-      display:none;
-      align-items:center;
+      display:none; align-items:center;
       justify-content:center;
     }
     #panel {
       background:var(--bg-light);
-      width:90%;
-      max-width:600px;
-      max-height:80%;
-      overflow-y:auto;
-      border-radius:8px;
-      padding:1rem;
+      width:90%; max-width:600px;
+      max-height:80%; overflow-y:auto;
+      border-radius:8px; padding:1rem;
       position:relative;
     }
     #closeBtn {
-      position:absolute;
-      top:0.5rem;
-      right:0.5rem;
-      background:var(--accent-vakur);
-      border:none;
-      color:#fff;
-      padding:0.3rem 0.6rem;
-      border-radius:4px;
-      cursor:pointer;
+      position:absolute; top:0.5rem; right:0.5rem;
+      background:var(--accent-vakur); border:none;
+      color:#fff; padding:0.3rem 0.6rem;
+      border-radius:4px; cursor:pointer;
     }
     .rankSection {
       margin-bottom:1rem;
@@ -238,44 +198,33 @@
     .taskItem {
       background:var(--bar-bg);
       padding:0.5rem;
-      display:flex;
-      justify-content:space-between;
-      border-radius:4px;
-      margin-bottom:0.3rem;
+      display:flex; justify-content:space-between;
+      border-radius:4px; margin-bottom:0.3rem;
       align-items:center;
     }
     .taskItem.done {
       background:#a8e6cf;
     }
     .taskItem button {
-      border:none;
-      color:#fff;
-      padding:0.3rem 0.6rem;
-      border-radius:4px;
-      cursor:pointer;
-      background:var(--accent-vakur);
+      border:none; color:#fff;
+      padding:0.3rem 0.6rem; border-radius:4px;
+      cursor:pointer; background:var(--accent-vakur);
     }
 
-    /* STATUS BARS */
+    /* STATUS BARS (Durum Paneli) */
     .status-bar {
       margin-bottom:1rem;
     }
     .status-bar .label {
-      display:flex;
-      align-items:center;
-      gap:0.5rem;
-      margin-bottom:0.3rem;
-      font-weight:bold;
+      display:flex; align-items:center; gap:0.5rem;
+      margin-bottom:0.3rem; font-weight:bold;
     }
     .status-bar .bar {
-      background:var(--bar-bg);
-      height:16px;
-      border-radius:8px;
-      overflow:hidden;
+      background:var(--bar-bg); height:16px;
+      border-radius:8px; overflow:hidden;
     }
     .status-bar .bar .fill {
-      height:100%;
-      width:0;
+      height:100%; width:0;
     }
     .vakur-fill  { background:gold; }
     .vakur-ros   { background:blue; }
@@ -284,60 +233,46 @@
     .baron-fill  { background:white; }
     .baron-ros   { background:red; }
 
-    /* PANELS */
+    /* PANELS (Sağda Durum / Aile / Tüccar / vs.) */
     aside {
-      width:260px;
-      background:var(--panel-dark);
-      color:var(--text-light);
-      overflow-y:auto;
+      width:260px; background:var(--panel-dark);
+      color:var(--text-light); overflow-y:auto;
       flex-shrink:0;
     }
     .panel {
-      padding:20px;
-      border-bottom:1px solid #333;
+      padding:20px; border-bottom:1px solid #333;
       display:none;
     }
     .panel.active {
       display:block;
     }
     .panel h3 {
-      margin-bottom:10px;
-      color:var(--accent-vakur);
+      margin-bottom:10px; color:var(--accent-vakur);
     }
     .sub-tabs {
-      display:flex;
-      gap:8px;
-      margin-bottom:10px;
+      display:flex; gap:8px; margin-bottom:10px;
       flex-wrap:wrap;
     }
     .sub-tabs button {
-      background:#444;
-      border:none;
+      background:#444; border:none;
       color:var(--text-light);
-      padding:6px 10px;
-      border-radius:4px;
+      padding:6px 10px; border-radius:4px;
       cursor:pointer;
     }
     .sub-tabs button.active {
       background:var(--accent-vakur);
     }
     .sub-content ul {
-      list-style:none;
-      max-height:200px;
-      overflow-y:auto;
-      padding-left:0;
+      list-style:none; max-height:200px;
+      overflow-y:auto; padding-left:0;
     }
     .sub-content li {
-      display:flex;
-      justify-content:space-between;
+      display:flex; justify-content:space-between;
       margin-bottom:6px;
     }
     .sub-content li button {
-      background:var(--accent-vakur);
-      border:none;
-      color:#fff;
-      padding:4px 8px;
-      border-radius:4px;
+      background:var(--accent-vakur); border:none;
+      color:#fff; padding:4px 8px; border-radius:4px;
       cursor:pointer;
     }
     table {
@@ -346,38 +281,25 @@
 
     /* CHAT */
     #chatBox {
-      position:fixed;
-      bottom:20px; left:50%;
+      position:fixed; bottom:20px; left:50%;
       transform:translateX(-50%);
-      width:60%;
-      background:var(--panel-dark);
-      color:var(--text-light);
-      padding:10px;
-      border-radius:8px;
-      max-height:200px;
-      overflow-y:auto;
+      width:60%; background:var(--panel-dark);
+      color:var(--text-light); padding:10px;
+      border-radius:8px; max-height:200px; overflow-y:auto;
     }
     #messageIcon {
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      background:var(--accent-vakur);
-      padding:10px;
-      border-radius:50%;
-      color:#fff;
-      cursor:pointer;
+      position:fixed; bottom:20px; right:20px;
+      background:var(--accent-vakur); padding:10px;
+      border-radius:50%; color:#fff; cursor:pointer;
     }
 
     /* MOBILE */
-    @media (max-width: 768px) {
+    @media (max-width:768px){
       nav, aside {
-        width:100%;
-        order:2;
+        width:100%; order:2;
       }
       nav ul {
-        display:flex;
-        flex-wrap:wrap;
-        overflow-x:auto;
+        display:flex; flex-wrap:wrap; overflow-x:auto;
       }
       main {
         order:1;
@@ -385,45 +307,46 @@
       header {
         justify-content:center;
       }
+      /* Raylar mobilde de görünsün istersen gizleme satırı iptal */
       #centerRanks {
-        flex-wrap:wrap;
-        gap:1rem;
-        justify-content:center;
+        flex-wrap:wrap; gap:1rem; justify-content:center;
       }
-      .panel {
-        padding:10px;
-      }
+      .panel { padding:10px; }
       .stations span {
         font-size:0.65rem;
       }
       #chatBox {
-        width:90%;
-        bottom:10px;
+        width:90%; bottom:10px;
       }
       #messageIcon {
-        bottom:10px;
-        right:10px;
+        bottom:10px; right:10px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR (Menü) -->
   <nav>
     <ul>
+      <!-- Durumum kahverengi + Ailem + Davet Et -->
       <li><a href="#" class="navDurum active" onclick="togglePanel('durum')">Durumum</a></li>
       <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
       <li><a href="#" onclick="togglePanel('davetEt')">Davet Et</a></li>
+
+      <!-- Diğer menü maddeleri -->
       <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
       <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
       <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
       <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
       <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
-      <!-- VAKUR (mavi), HATİP (turuncu, kilitli), BARON (kırmızı, kilitli) -->
+
+      <!-- Görev Linkleri (Vakur -> mavi, Hatip -> turuncu(locked), Baron -> kırmızı(locked)) -->
       <li><a href="#" class="navVakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
       <li><a href="#" class="navHatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
       <li><a href="#" class="navBaron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
+
+      <!-- Kalan menü -->
       <li><a href="#" onclick="togglePanel('atYarisi')">At Yarışı</a></li>
       <li><a href="#" onclick="togglePanel('atBilgiler')">At Bilgileri</a></li>
       <li><a href="#" onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li>
@@ -437,29 +360,32 @@
     </div>
   </nav>
 
-  <!-- MAIN -->
+  <!-- MAIN (Raylar, Center Ranks) -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
       <div class="balance" id="moneyDisplay">$500,000</div>
     </header>
 
-    <!-- 4 Ray -->
+    <!-- Gidiş Rotası I -->
     <div class="rail-container">
       <div class="rail-label">Gidiş Rotası I</div>
       <div class="stations" id="stationsOut1"></div>
       <canvas id="railOut1" class="rail"></canvas>
     </div>
+    <!-- Gidiş Rotası II -->
     <div class="rail-container">
       <div class="rail-label">Gidiş Rotası II</div>
       <div class="stations" id="stationsOut2"></div>
       <canvas id="railOut2" class="rail"></canvas>
     </div>
+    <!-- Dönüş Rotası I -->
     <div class="rail-container">
       <div class="rail-label return">Dönüş Rotası I</div>
       <div class="stations" id="stationsBack1"></div>
       <canvas id="railBack1" class="rail"></canvas>
     </div>
+    <!-- Dönüş Rotası II -->
     <div class="rail-container">
       <div class="rail-label return">Dönüş Rotası II</div>
       <div class="stations" id="stationsBack2"></div>
@@ -485,10 +411,10 @@
 
   <!-- RIGHT PANEL -->
   <aside>
-    <!-- Durum Paneli -->
+    <!-- Durum Paneli (kahverengi menü) -->
     <div class="panel active" id="durumPanel">
       <h3>Durumum</h3>
-      <!-- Vakur -->
+      <!-- Vakur barları -->
       <div class="status-bar">
         <div class="label">🛡️ Vakur %<span id="vakurPct">0</span></div>
         <div class="bar"><div class="fill vakur-fill" id="vakurBar"></div></div>
@@ -497,7 +423,7 @@
         <div class="label">🏅 Vakur Rozet <span id="vakurRos">0</span></div>
         <div class="bar"><div class="fill vakur-ros" id="vakurRosBar"></div></div>
       </div>
-      <!-- Hatip -->
+      <!-- Hatip barları -->
       <div class="status-bar">
         <div class="label">🏘️ Hatip %<span id="hatipPct">0</span></div>
         <div class="bar"><div class="fill hatip-fill" id="hatipBar"></div></div>
@@ -506,7 +432,7 @@
         <div class="label">🏅 Hatip Rozet <span id="hatipRos">0</span></div>
         <div class="bar"><div class="fill hatip-ros" id="hatipRosBar"></div></div>
       </div>
-      <!-- Baron -->
+      <!-- Baron barları -->
       <div class="status-bar">
         <div class="label">⚡️ Baron %<span id="baronPct">0</span></div>
         <div class="bar"><div class="fill baron-fill" id="baronBar"></div></div>
@@ -523,21 +449,21 @@
       <p>Arkadaşlarını oyuna davet edebilir, birlikte güçlenebilirsiniz!</p>
     </div>
 
-    <!-- Köy İncelemesi Panel -->
+    <!-- Köy İncelemesi Panel (8x5) -->
     <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
       <div class="sub-tabs" id="koyTabs"></div>
       <div id="koyContent"></div>
     </div>
 
-    <!-- Tren Seyahatleri Panel -->
+    <!-- Tren Seyahatleri Panel (8x5) -->
     <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
       <div class="sub-tabs" id="trenTabs"></div>
       <div id="trenContent"></div>
     </div>
 
-    <!-- Diğer Boş Paneller -->
+    <!-- Örnek diğer paneller -->
     <div class="panel" id="ailePanel"><h3>Ailem</h3></div>
     <div class="panel" id="tuccarPanel"><h3>Tüccar</h3></div>
     <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3></div>
@@ -565,19 +491,242 @@
   <div id="messageIcon">📩</div>
 
   <script>
-    /**************************************
-     * GENEL DEĞİŞKENLER
-     **************************************/
+    /********************************************************
+     * 1) GLOBAL DEĞİŞKENLER
+     ********************************************************/
     let playerMoney = 500000;
-    let globalCooldown = false; // 10sn bekleme
+    let globalCooldown = false;  // 10sn bekleme
 
-    // (Raylar, Tren, Köy İncelemesi kodları vs. 
-    //  orijinal şekilde burada devam ediyor, 
-    //  kısaltmamak istersen aynen ekle.)
+    /********************************************************
+     * 2) KÖY LİSTESİ VE RAY ÇİZİMİ
+     ********************************************************/
+    const villages = [
+      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
+      "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
+      "Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan",
+      "Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr",
+      "Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
+    ];
+    // Gidiş I/II => out1/out2, Dönüş I/II => back1/back2
+    const out1 = villages.slice(0,20);
+    const out2 = villages.slice(20,40);
+    const back1 = out1; // Aynı liste
+    const back2 = out2;
 
-    // Burada “Görev” kısmını gösteriyoruz:
+    // visited dizileri
+    const visitedOut1 = new Array(20).fill(false);
+    const visitedOut2 = new Array(20).fill(false);
+    const visitedBack1 = new Array(20).fill(false);
+    const visitedBack2 = new Array(20).fill(false);
 
-    // 5 Seviye Vakur
+    // Asman en başta visited
+    visitedOut1[0] = true;
+
+    window.onload = ()=>{
+      drawAllRails();
+      populateStations('stationsOut1', out1, visitedOut1, 'out1');
+      populateStations('stationsOut2', out2, visitedOut2, 'out2');
+      populateStations('stationsBack1', back1, visitedBack1, 'back1');
+      populateStations('stationsBack2', back2, visitedBack2, 'back2');
+
+      initTrainTabs();  // Tren Seyahatleri (5 sekme x 8)
+      initKoyTabs();    // Köy İncelemesi  (5 sekme x 8)
+
+      updateMoneyDisplay();
+    };
+
+    window.onresize = ()=>{
+      drawAllRails();
+    };
+
+    function drawAllRails(){
+      drawRail('railOut1','#555','var(--accent-vakur)', out1, visitedOut1);
+      drawRail('railOut2','#555','var(--accent-vakur)', out2, visitedOut2);
+      drawRail('railBack1','#555','var(--accent-baron)', back1, visitedBack1);
+      drawRail('railBack2','#555','var(--accent-baron)', back2, visitedBack2);
+    }
+
+    function drawRail(canvasId, color1, colorCSSVar, arr, visitedArr){
+      const c = document.getElementById(canvasId), ctx = c.getContext('2d');
+      c.width = c.offsetWidth;  c.height = c.offsetHeight;
+      const accent = getComputedStyle(document.documentElement).getPropertyValue(colorCSSVar).trim();
+
+      // Ana çizgi
+      ctx.strokeStyle = color1;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0, c.height/2);
+      ctx.lineTo(c.width, c.height/2);
+      ctx.stroke();
+
+      // 20 dik çizgi
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 2;
+      for(let i=1;i<=20;i++){
+        const x = c.width*i/21;
+        ctx.beginPath();
+        ctx.moveTo(x, c.height/2 -10);
+        ctx.lineTo(x, c.height/2 +10);
+        ctx.stroke();
+
+        // visited => yeşil
+        ctx.beginPath();
+        ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
+        if(visitedArr[i-1]){
+          ctx.fillStyle="green";
+        } else {
+          ctx.fillStyle="red";
+        }
+        ctx.fill();
+      }
+    }
+
+    function populateStations(containerId, arr, visitedArr, type){
+      const cont = document.getElementById(containerId);
+      cont.innerHTML="";
+      arr.forEach((v, idx)=>{
+        const sp = document.createElement("span");
+        sp.textContent = v;
+        if(visitedArr[idx]) sp.classList.add("visited");
+        sp.onclick=()=>travelTo(type, idx);
+        cont.appendChild(sp);
+      });
+    }
+
+    function travelTo(rotatype, index){
+      let arr, visitedArr;
+      if(rotatype==="out1"){ arr=out1; visitedArr=visitedOut1; }
+      else if(rotatype==="out2"){ arr=out2; visitedArr=visitedOut2; }
+      else if(rotatype==="back1"){ arr=back1; visitedArr=visitedBack1; }
+      else if(rotatype==="back2"){ arr=back2; visitedArr=visitedBack2; }
+
+      if(visitedArr[index]){
+        alert(arr[index]+" köyüne zaten gittiniz!");
+        return;
+      }
+      if(playerMoney<500){
+        alert("Yeterli paranız yok!");
+        return;
+      }
+
+      // Asman => visitedOut1[0] = true. Başka köye gidince => false
+      if( visitedOut1[0] && !(rotatype==="out1" && index===0) ){
+        visitedOut1[0] = false; // Asman => unvisited
+        // 10s sonra yine "kırmızı" kalmaya devam
+        setTimeout(()=>{
+          drawAllRails();
+        },10000);
+      }
+
+      // 500$ kes
+      playerMoney-=500;
+      visitedArr[index] = true; // gittiğimiz köy => yeşil
+      updateMoneyDisplay();
+      alert(arr[index]+" köyüne gittiniz! (500$)");
+
+      // Stations ve rayı güncelle
+      populateStations('stationsOut1', out1, visitedOut1, 'out1');
+      populateStations('stationsOut2', out2, visitedOut2, 'out2');
+      populateStations('stationsBack1', back1, visitedBack1, 'back1');
+      populateStations('stationsBack2', back2, visitedBack2, 'back2');
+      drawAllRails();
+    }
+
+    /********************************************************
+     * 3) TREN SEYAHATLARI (5 sekme x 8 köy)
+     ********************************************************/
+    function initTrainTabs(){
+      const trenTabs = document.getElementById("trenTabs");
+      for(let i=0;i<5;i++){
+        const b = document.createElement("button");
+        b.textContent="Tren "+(i+1);
+        b.onclick=()=>{
+          document.querySelectorAll("#trenTabs button").forEach(xx=>xx.classList.remove("active"));
+          b.classList.add("active");
+          renderTrainTab(i);
+        };
+        if(i===0) b.classList.add("active");
+        trenTabs.appendChild(b);
+      }
+      renderTrainTab(0);
+    }
+
+    function renderTrainTab(tabIndex){
+      const trenContent = document.getElementById("trenContent");
+      trenContent.innerHTML="";
+      const start=tabIndex*8;
+      const end=start+8;
+      const slice = villages.slice(start,end);
+
+      slice.forEach(koy=>{
+        const div = document.createElement("div");
+        div.style.marginBottom="6px";
+        div.innerHTML=`<strong>${koy}</strong> <button>Seyahat</button>`;
+        const btn = div.querySelector("button");
+        btn.onclick=()=>{
+          // bulalım
+          let i = out1.indexOf(koy);
+          if(i>=0){ travelTo("out1", i); return;}
+          i = out2.indexOf(koy);
+          if(i>=0){ travelTo("out2", i); return;}
+          i = back1.indexOf(koy);
+          if(i>=0){ travelTo("back1", i); return;}
+          i = back2.indexOf(koy);
+          if(i>=0){ travelTo("back2", i); return;}
+        };
+        trenContent.appendChild(div);
+      });
+    }
+
+    /********************************************************
+     * 4) KÖY İNCELEMESİ (5 sekme x 8 köy)
+     ********************************************************/
+    function initKoyTabs(){
+      const koyTabs = document.getElementById("koyTabs");
+      for(let i=0;i<5;i++){
+        const b = document.createElement("button");
+        b.textContent="Bölge "+(i+1);
+        b.onclick=()=>{
+          document.querySelectorAll("#koyTabs button").forEach(xx=>xx.classList.remove("active"));
+          b.classList.add("active");
+          renderKoyTab(i);
+        };
+        if(i===0) b.classList.add("active");
+        koyTabs.appendChild(b);
+      }
+      renderKoyTab(0);
+    }
+
+    function renderKoyTab(tabIndex){
+      const koyContent = document.getElementById("koyContent");
+      koyContent.innerHTML="";
+      const start=tabIndex*8;
+      const end=start+8;
+      const slice = villages.slice(start,end);
+
+      slice.forEach(koy=>{
+        const div = document.createElement("div");
+        div.style.marginBottom="6px";
+        div.innerHTML=`<strong>${koy}</strong> <button>İncele</button>`;
+        const btn = div.querySelector("button");
+        btn.onclick=()=>{
+          // Rastgele malikhane/villa/sığınak
+          const malOptions=[5,10,15];
+          const villaOptions=[25,50,75];
+          const sigOptions=[50,75,100];
+          const mal = malOptions[Math.floor(Math.random()*malOptions.length)];
+          const vil = villaOptions[Math.floor(Math.random()*villaOptions.length)];
+          const sig = sigOptions[Math.floor(Math.random()*sigOptions.length)];
+          alert(`${koy} köyünde:\n- Malikhane: ${mal}\n- Villa: ${vil}\n- Sığınak: ${sig}`);
+        };
+        koyContent.appendChild(div);
+      });
+    }
+
+    /********************************************************
+     * 5) GÖREVLER (10sn + 30dk) VE KİLİT AÇMA
+     ********************************************************/
+    // 5 Seviye Vakur (her seviye 10 görev)
     const vakurDifficulties = [
       {
         title: "ÇIRAK VAKUR I",
@@ -657,93 +806,92 @@
           "Yurt çapında geri dönüşüm projesi başlat.",
           "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
           "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
-          // NOT: 11. “görev” yok artık. Mesajı biz alert ile vereceğiz.
+          // 11. yok! Bittiğinde alert geliyor.
         ]
       }
     ].map(d=>({
       ...d,
       tasks: d.tasks.map(t=>({
-        text: t,
-        state: "idle",
-        timeLeft:0,
-        interval:null
+        text:t, state:"idle",
+        timeLeft:0, interval:null
       }))
     }));
 
-    // Hatip
+    // Hatip (örnek 1 seviye)
     const hatipDifficulties = [
       {
         title:"ÇIRAK HATİP I",
         locked:false,
-        tasks:["Hatip Görev Örneği 1","Hatip Görev Örneği 2"]
+        tasks:[
+          "Hatip Örneği Görev 1",
+          "Hatip Örneği Görev 2"
+        ]
       }
-      // ...
     ].map(d=>({
       ...d,
-      tasks: d.tasks.map(t=>({
-        text:t,
-        state:"idle",
-        timeLeft:0,
-        interval:null
+      tasks: d.tasks.map(x=>({
+        text:x, state:"idle",
+        timeLeft:0, interval:null
       }))
     }));
 
-    // Baron
+    // Baron (örnek 1 seviye)
     const baronDifficulties = [
       {
         title:"ÇIRAK BARON I",
         locked:false,
-        tasks:["Baron Görev Örneği 1","Baron Görev Örneği 2"]
+        tasks:[
+          "Baron Örneği Görev 1",
+          "Baron Örneği Görev 2"
+        ]
       }
-      // ...
     ].map(d=>({
       ...d,
-      tasks: d.tasks.map(t=>({
-        text:t,
-        state:"idle",
-        timeLeft:0,
-        interval:null
+      tasks: d.tasks.map(x=>({
+        text:x, state:"idle",
+        timeLeft:0, interval:null
       }))
     }));
 
+    // Tüm rank zorlukları
     const difficultiesMap = {
       Vakur: vakurDifficulties,
       Hatip: hatipDifficulties,
       Baron: baronDifficulties
     };
 
+    // Modal aç
     function openTasks(rank){
       document.getElementById('overlay').style.display='flex';
       document.getElementById('taskHeader').textContent = rank+" Görevleri";
       const cont = document.getElementById('taskSections');
       cont.innerHTML="";
 
-      difficultiesMap[rank].forEach((dif, idx)=>{
+      difficultiesMap[rank].forEach((dif, difIdx)=>{
         const section = document.createElement('div');
-        section.className = 'rankSection';
+        section.className="rankSection";
         const h3 = document.createElement('h3');
         h3.textContent = dif.title + (dif.locked?" (Kilitli)":"");
         section.appendChild(h3);
 
-        dif.tasks.forEach(tObj=>{
+        dif.tasks.forEach(taskObj=>{
           const div = document.createElement('div');
-          div.className = 'taskItem' + (tObj.state==="done" ? " done" : "");
-          let btnText="Yap";
-          if(dif.locked)          btnText="Kilitli";
-          else if(tObj.state==="cdWait")      btnText="10sn bekleniyor...";
-          else if(tObj.state==="inProgress")  btnText=formatTime(tObj.timeLeft);
-          else if(tObj.state==="done")        btnText="Tamamlandı";
+          div.className="taskItem" + (taskObj.state==="done"?" done":"");
+          let btnTxt="Yap";
+          if(dif.locked) btnTxt="Kilitli";
+          else if(taskObj.state==="cdWait") btnTxt="10sn bekleniyor...";
+          else if(taskObj.state==="inProgress") btnTxt=formatTime(taskObj.timeLeft);
+          else if(taskObj.state==="done") btnTxt="Tamamlandı";
 
-          div.innerHTML = `
-            <span>${tObj.text}</span>
-            <button>${btnText}</button>
+          div.innerHTML=`
+            <span>${taskObj.text}</span>
+            <button>${btnTxt}</button>
           `;
           const btn = div.querySelector("button");
-          if(dif.locked || tObj.state==="cdWait" || tObj.state==="inProgress" || tObj.state==="done"){
-            btn.disabled = true;
+          if(dif.locked || taskObj.state==="cdWait" || taskObj.state==="inProgress" || taskObj.state==="done"){
+            btn.disabled=true;
           }
-          btn.onclick=()=>startTask(rank, idx, tObj, btn);
-
+          btn.onclick=()=>startTask(rank,difIdx,taskObj,btn);
           section.appendChild(div);
         });
 
@@ -755,18 +903,17 @@
       document.getElementById('overlay').style.display='none';
     }
 
-    // Görev başlatma: 10sn -> 30dk
-    function startTask(rank, difficultyIndex, taskObj, btn){
+    // Görev başlatma (10sn -> 30dk)
+    function startTask(rank,difIndex,taskObj,btn){
       if(globalCooldown){
         alert("Yeni bir göreve başlamak için 10sn beklemelisin!");
         return;
       }
-      // 10sn global
-      globalCooldown = true;
+      globalCooldown=true;
       taskObj.state="cdWait";
       taskObj.timeLeft=10;
-      btn.textContent = "10sn bekleniyor...";
-      btn.disabled = true;
+      btn.textContent="10sn bekleniyor...";
+      btn.disabled=true;
 
       const cdInt = setInterval(()=>{
         taskObj.timeLeft--;
@@ -774,78 +921,90 @@
           clearInterval(cdInt);
           // 30dk
           taskObj.state="inProgress";
-          taskObj.timeLeft=1800; // 30*60
-          updateTaskButton(btn, taskObj, rank, difficultyIndex);
-
-          taskObj.interval = setInterval(()=>{
+          taskObj.timeLeft=1800;
+          updateTaskButton(btn, taskObj, rank);
+          taskObj.interval=setInterval(()=>{
             taskObj.timeLeft--;
             if(taskObj.timeLeft<=0){
               clearInterval(taskObj.interval);
               taskObj.state="done";
-              updateTaskButton(btn, taskObj, rank, difficultyIndex);
+              updateTaskButton(btn, taskObj, rank);
+              // Check bitince kilit aç
+              checkDifficultyCompletion(rank);
+              // Modal'ı yenile ki kilit kalkma gözüksün
+              openTasks(rank);
             } else {
-              updateTaskButton(btn, taskObj, rank, difficultyIndex);
+              updateTaskButton(btn, taskObj, rank);
             }
           },1000);
-
           globalCooldown=false;
         } else {
-          btn.textContent = taskObj.timeLeft + "sn bekleniyor...";
+          btn.textContent = taskObj.timeLeft+"sn bekleniyor...";
         }
       },1000);
     }
 
-    function updateTaskButton(btn, taskObj, rank, difficultyIndex){
+    function updateTaskButton(btn,taskObj,rank){
       if(taskObj.state==="inProgress"){
         btn.textContent = formatTime(taskObj.timeLeft);
       } else if(taskObj.state==="done"){
-        btn.textContent="Tamamlandı";
+        btn.textContent = "Tamamlandı";
         btn.parentElement.classList.add("done");
-
-        // Son görevi bitirdik => kilit açma kontrolü
-        checkDifficultyCompletion(rank);
-        // Modal'ı da güncelleyebiliriz ki kilit kalkınca gözüksün
-        openTasks(rank);
       }
     }
 
+    // Tüm görevler bitti mi => next unlock, en sonda Hatip aç
     function checkDifficultyCompletion(rank){
       const arr = difficultiesMap[rank];
       for(let i=0;i<arr.length;i++){
         const d = arr[i];
         const allDone = d.tasks.every(t=>t.state==="done");
         if(allDone){
-          // Bir sonraki seviye varsa kilidini aç
-          if(i < arr.length-1){
+          // Bir sonraki diff unlock
+          if(i<arr.length-1){
             arr[i+1].locked=false;
           }
         }
       }
-      // Bütün seviye bitti mi?
+      // Tüm seviye bitti mi
       const allLevelsDone = arr.every(d => d.tasks.every(t=>t.state==="done"));
       if(allLevelsDone){
         if(rank==="Vakur"){
-          // Hatip kilidini aç
+          // Hatip aç
           document.querySelector(".navHatip").classList.remove("locked");
           document.getElementById("cardHatip").classList.remove("locked");
 
-          // Yüce Vakur bitti => mesaj
           alert("Tebrikler! Vakur görevlerini tamamladınız. Hatip görevlerine geçebilirsiniz! Şimdi ana menüye dönüyorsunuz.");
         }
-        // istersen Hatip bitince Baron açma
       }
     }
 
     function formatTime(sec){
-      let m = Math.floor(sec/60);
-      let s = sec%60;
-      return (m<10?"0"+m:m)+":"+(s<10?"0"+s:s);
+      const m=Math.floor(sec/60);
+      const s=sec%60;
+      const mm=(m<10?"0"+m:m);
+      const ss=(s<10?"0"+s:s);
+      return mm+":"+ss;
     }
 
-    // Tüm ray vs. kodu (travelTo, drawAllRails, initTrainTabs, initKoyTabs) 
-    // ve panel toggle, paramoney vb. 
-    // yukarıda/normal şekilde eklenmelidir.
+    /********************************************************
+     * 6) PARA GÜNCELLEME
+     ********************************************************/
+    function updateMoneyDisplay(){
+      document.getElementById('moneyDisplay').textContent = "$"+playerMoney.toLocaleString();
+    }
 
+    /********************************************************
+     * 7) PANEL AÇ/KAPA
+     ********************************************************/
+    function togglePanel(panelId){
+      const all = document.querySelectorAll(".panel");
+      all.forEach(p=>p.classList.remove("active"));
+      const target = document.getElementById(panelId+"Panel");
+      if(target){
+        target.classList.add("active");
+      }
+    }
   </script>
 </body>
 </html>
