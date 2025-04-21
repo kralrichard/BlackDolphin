@@ -415,10 +415,7 @@
       <!-- Durumum kahverengi -->
       <li><a href="#" class="navDurum active" onclick="togglePanel('durum')">Durumum</a></li>
       <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
-      
-      <!-- YENİ: Davet Et linki, Ailem'in altında -->
       <li><a href="#" onclick="togglePanel('davetEt')">Davet Et</a></li>
-      
       <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
       <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
       <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
@@ -524,11 +521,10 @@
       </div>
     </div>
 
-    <!-- Davet Et Paneli (Yeni) -->
+    <!-- Davet Et Panel -->
     <div class="panel" id="davetEtPanel">
       <h3>Davet Et</h3>
       <p>Arkadaşlarını oyuna davet edebilir, birlikte güçlenebilirsiniz!</p>
-      <!-- İçerik serbestçe doldurulabilir -->
     </div>
 
     <!-- Köy İncelemesi Panel -->
@@ -577,7 +573,7 @@
      * TÜM JS BURADAN SONRA
      **************************************/
     let playerMoney = 500000;    // Başlangıç para
-    let globalCooldown = false;  // 10sn bekleme durumu
+    let globalCooldown = false;  // 10sn bekleme
 
     // 40 köy listesi
     const villages = [
@@ -599,22 +595,16 @@
     const visitedOut2 = new Array(20).fill(false);
     const visitedBack1 = new Array(20).fill(false);
     const visitedBack2 = new Array(20).fill(false);
-
-    // Asman başta visited = true
-    visitedOut1[0] = true;
+    visitedOut1[0] = true; // Asman başlangıçta yeşil
 
     window.onload = ()=>{
-      // Raylar
       drawAllRails();
-      // station listeleri
       populateStations('stationsOut1', out1, visitedOut1, 'out1');
       populateStations('stationsOut2', out2, visitedOut2, 'out2');
       populateStations('stationsBack1', back1, visitedBack1, 'back1');
       populateStations('stationsBack2', back2, visitedBack2, 'back2');
 
-      // Tren paneli
       initTrainTabs();
-      // Köy incelemesi paneli
       initKoyTabs();
 
       updateMoneyDisplay();
@@ -641,7 +631,6 @@
       c.height = c.offsetHeight;
 
       const accent = getComputedStyle(document.documentElement).getPropertyValue(colorCSSVar).trim();
-
       // Ana çizgi
       ctx.strokeStyle = color1;
       ctx.lineWidth = 4;
@@ -653,20 +642,20 @@
       // 20 dik çizgi
       ctx.strokeStyle = accent;
       ctx.lineWidth = 2;
-      for(let i=1; i<=20; i++){
+      for(let i=1;i<=20;i++){
         const x = (c.width*i)/21;
         ctx.beginPath();
-        ctx.moveTo(x, c.height/2 -10);
-        ctx.lineTo(x, c.height/2 +10);
+        ctx.moveTo(x, c.height/2-10);
+        ctx.lineTo(x, c.height/2+10);
         ctx.stroke();
 
         ctx.beginPath();
+        ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
         if(visitedArr[i-1]){
           ctx.fillStyle="green";
         } else {
           ctx.fillStyle="red";
         }
-        ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
         ctx.fill();
       }
     }
@@ -683,14 +672,11 @@
         if(visitedArr[idx]) {
           sp.classList.add("visited");
         }
-        sp.onclick=()=>{
-          travelTo(type, idx);
-        };
+        sp.onclick=()=>travelTo(type, idx);
         cont.appendChild(sp);
       });
     }
 
-    // Asman => 10 saniye sonra unvisited (kırmızı) kalır
     function travelTo(rotatype, index){
       let arr, visitedArr;
       if(rotatype==="out1"){ arr=out1; visitedArr=visitedOut1; }
@@ -698,7 +684,6 @@
       else if(rotatype==="back1"){ arr=back1; visitedArr=visitedBack1; }
       else if(rotatype==="back2"){ arr=back2; visitedArr=visitedBack2; }
 
-      // Zaten ziyaretli?
       if(visitedArr[index]){
         alert(arr[index]+" köyüne zaten gittiniz!");
         return;
@@ -707,18 +692,16 @@
         alert("Yeterli paranız yok!");
         return;
       }
-      // Asman visitedOut1[0]
+
+      // Asman => 10sn sonra false kalsın
       if( visitedOut1[0] && !(rotatype==="out1" && index===0) ){
-        visitedOut1[0] = false; // Asman => kırmızı
-        setTimeout(()=>{
-          // 10s sonra yine false kalıyor
-          drawAllRails();
-        },10000);
+        visitedOut1[0] = false; 
+        setTimeout(()=>{ drawAllRails(); },10000);
       }
 
       // 500$
       playerMoney -= 500;
-      visitedArr[index] = true; // gittiğimiz köy yeşil
+      visitedArr[index] = true;
       updateMoneyDisplay();
       alert(arr[index]+" köyüne gittiniz! (500$)");
 
@@ -735,7 +718,7 @@
      **************************************/
     function initTrainTabs(){
       const trenTabs = document.getElementById("trenTabs");
-      for(let i=0; i<5; i++){
+      for(let i=0;i<5;i++){
         const b = document.createElement("button");
         b.textContent="Tren "+(i+1);
         b.onclick=()=>{
@@ -762,15 +745,14 @@
         div.innerHTML=`<strong>${koy}</strong> <button>Seyahat</button>`;
         const btn = div.querySelector("button");
         btn.onclick=()=>{
-          // hangi rotada ise oraya git
           let i = out1.indexOf(koy);
-          if(i>=0){ travelTo("out1", i); return;}
+          if(i>=0){ travelTo("out1",i); return;}
           i = out2.indexOf(koy);
-          if(i>=0){ travelTo("out2", i); return;}
+          if(i>=0){ travelTo("out2",i); return;}
           i = back1.indexOf(koy);
-          if(i>=0){ travelTo("back1", i); return;}
+          if(i>=0){ travelTo("back1",i); return;}
           i = back2.indexOf(koy);
-          if(i>=0){ travelTo("back2", i); return;}
+          if(i>=0){ travelTo("back2",i); return;}
         };
         trenContent.appendChild(div);
       });
@@ -821,9 +803,9 @@
     }
 
     /**************************************
-     * GÖREVLER (10sn + 30dk)
+     * GÖREVLER
      **************************************/
-    // Örnek: Sadece Vakur ilk 2 seviye doldurduk
+    // => 5 Seviye: Çırak, Usta, Uzman, Efsane, Yüce
     const vakurDifficulties = [
       {
         title: "ÇIRAK VAKUR I",
@@ -856,13 +838,61 @@
           "Engelliler için kamu binalarına erişim kolaylığı sağla.",
           "Sokak hayvanları için geçici barınak oluştur."
         ]
+      },
+      {
+        title: "UZMAN VAKUR III",
+        locked:true,
+        tasks: [
+          "Afet bölgesine yardım ekibi olarak katıl.",
+          "Kronik bir sorun için belediyeyle görüşüp çözüm talep et.",
+          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
+          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
+          "Küs olan iki arkadaşın barışmasına aracılık et.",
+          "Toplum dışlanmış birini etkinliklere dahil et.",
+          "Küçük çaplı bağış kampanyası düzenle.",
+          "Yerel hastanede gönüllü refakat programına katıl.",
+          "Belediye ile iş birliği yaparak gençlik merkezi aç.",
+          "Maddi sıkıntı yaşayan aileler için erzak paketi dağıtımı yap."
+        ]
+      },
+      {
+        title: "EFSANE VAKUR IV",
+        locked:true,
+        tasks: [
+          "Büyük ölçekli yardım projesine liderlik et.",
+          "Gençlere yönelik mentorluk programı başlat.",
+          "Meslek edindirme kursu organize et.",
+          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
+          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
+          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
+          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
+          "Ücretsiz terapi/rehberlik günü organize et.",
+          "Üniversite öğrencilerine staj imkânları sunan platform oluştur.",
+          "Çevre koruma amaçlı ağaçlandırma kampanyası düzenle."
+        ]
+      },
+      {
+        title: "YÜCE VAKUR V",
+        locked:true,
+        tasks: [
+          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
+          "Büyük bağış konseri/festival düzenle.",
+          "Gönüllüleri bir araya getiren platform kur.",
+          "Eğitim bursu fonu başlat.",
+          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
+          "Yardım vakfı kurarak sürekli yardım yürüt.",
+          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
+          "Yurt çapında geri dönüşüm projesi başlat.",
+          "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
+          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder.",
+          "🎖️ Tebrikler! VAKUR görevleri bitti!"
+        ]
       }
-      // Uzman / Efsane / Yüce eklenebilir
     ].map(d=>({
       ...d,
       tasks: d.tasks.map(t=>({
-        text: t,
-        state: "idle",   // idle -> cdWait -> inProgress -> done
+        text:t,
+        state:"idle", 
         timeLeft:0,
         interval:null
       }))
@@ -870,22 +900,36 @@
 
     // Hatip / Baron => benzer
     const hatipDifficulties = [
-      { title:"ÇIRAK HATİP I", locked:false, tasks:["..."] }
-      // ...
+      {
+        title:"ÇIRAK HATİP I",
+        locked:false,
+        tasks:["Hatip Görev Örneği 1","Hatip Görev Örneği 2"]
+      },
+      // ... Usta, Uzman, Efsane, Yüce ...
     ].map(d=>({
       ...d,
       tasks: d.tasks.map(t=>({
-        text:t, state:"idle", timeLeft:0, interval:null
+        text:t,
+        state:"idle",
+        timeLeft:0,
+        interval:null
       }))
     }));
 
     const baronDifficulties = [
-      { title:"ÇIRAK BARON I", locked:false, tasks:["..."] }
+      {
+        title:"ÇIRAK BARON I",
+        locked:false,
+        tasks:["Baron Görev Örneği 1","Baron Görev Örneği 2"]
+      }
       // ...
     ].map(d=>({
       ...d,
       tasks: d.tasks.map(t=>({
-        text:t, state:"idle", timeLeft:0, interval:null
+        text:t,
+        state:"idle",
+        timeLeft:0,
+        interval:null
       }))
     }));
 
@@ -901,7 +945,7 @@
       const cont = document.getElementById('taskSections');
       cont.innerHTML="";
 
-      difficultiesMap[rank].forEach(dif=>{
+      difficultiesMap[rank].forEach((dif, difIdx)=>{
         const section = document.createElement('div');
         section.className="rankSection";
         const h3 = document.createElement('h3');
@@ -910,10 +954,7 @@
 
         dif.tasks.forEach(taskObj=>{
           const div = document.createElement('div');
-          div.className="taskItem";
-          if(taskObj.state==="done") {
-            div.classList.add("done");
-          }
+          div.className="taskItem"+(taskObj.state==="done"?" done":"");
           let btnTxt="Yap";
           if(dif.locked) btnTxt="Kilitli";
           else if(taskObj.state==="cdWait") btnTxt="10sn bekleniyor...";
@@ -928,10 +969,12 @@
           if(dif.locked || taskObj.state==="cdWait" || taskObj.state==="inProgress" || taskObj.state==="done"){
             btn.disabled=true;
           }
-          btn.onclick=()=>startTask(taskObj, btn);
-
+          btn.onclick=()=>{
+            startTask(taskObj, btn, rank, difIdx);
+          };
           section.appendChild(div);
         });
+
         cont.appendChild(section);
       });
     }
@@ -940,8 +983,7 @@
       document.getElementById('overlay').style.display='none';
     }
 
-    // 10sn + 30dk mekaniği
-    function startTask(taskObj, btn){
+    function startTask(taskObj, btn, rank, difIdx){
       if(globalCooldown){
         alert("Yeni bir göreve başlamak için 10sn beklemelisin!");
         return;
@@ -960,16 +1002,16 @@
           // 30dk
           taskObj.state="inProgress";
           taskObj.timeLeft=1800;  // 30dk = 1800sn
-          updateTaskButton(btn, taskObj);
+          updateTaskButton(btn, taskObj, rank, difIdx);
 
           taskObj.interval=setInterval(()=>{
             taskObj.timeLeft--;
             if(taskObj.timeLeft<=0){
               clearInterval(taskObj.interval);
               taskObj.state="done";
-              updateTaskButton(btn, taskObj);
+              updateTaskButton(btn, taskObj, rank, difIdx);
             } else {
-              updateTaskButton(btn, taskObj);
+              updateTaskButton(btn, taskObj, rank, difIdx);
             }
           },1000);
 
@@ -980,12 +1022,47 @@
       },1000);
     }
 
-    function updateTaskButton(btn, tObj){
+    function updateTaskButton(btn, tObj, rank, difIdx){
       if(tObj.state==="inProgress"){
         btn.textContent = formatTime(tObj.timeLeft);
-      } else if(tObj.state==="done"){
+      }
+      else if(tObj.state==="done"){
         btn.textContent="Tamamlandı";
         btn.parentElement.classList.add("done");
+
+        // Görev bitti => Kilit açma kontrolü
+        checkDifficultyCompletion(rank);
+      }
+    }
+
+    // Tüm görevler bitti mi => next difficulty unlock
+    function checkDifficultyCompletion(rank){
+      const diffs = difficultiesMap[rank];
+      for(let i=0;i<diffs.length;i++){
+        const d = diffs[i];
+        // Tüm tasks done mu?
+        const allDone = d.tasks.every(t=>t.state==="done");
+        if(allDone){
+          // Bu difficulty bitmiş. Next'i unlock
+          if(i<diffs.length-1){
+            diffs[i+1].locked=false;
+          }
+        }
+      }
+
+      // Tüm level bitti mi => eğer Vakur ise Hatip aç
+      const allLevelsDone = diffs.every(d => d.tasks.every(t=>t.state==="done"));
+      if(allLevelsDone){
+        if(rank==="Vakur"){
+          // Hatip aç
+          document.querySelector(".navHatip").classList.remove("locked");
+          document.getElementById("cardHatip").classList.remove("locked");
+        }
+        // İstersen Hatip bitince Baron aç:
+        // if(rank==="Hatip"){
+        //   document.querySelector(".navBaron").classList.remove("locked");
+        //   document.getElementById("cardBaron").classList.remove("locked");
+        // }
       }
     }
 
