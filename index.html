@@ -71,15 +71,12 @@
       border-radius:4px;
     }
 
-    /* 
-      1) Durumum kahverengi 
-         (Ek bir sınıf: .navDurum )
-    */
+    /* Durumum kahverengi */
     .navDurum {
       background: brown !important;
       color: #fff !important;
     }
-    /* 2) Vakur - mavi, Hatip - turuncu, Baron - kırmızı (eski yerinde) */
+    /* Vakur - mavi, Hatip - turuncu, Baron - kırmızı */
     .navVakur {
       background: var(--accent-vakur) !important;
       color: #fff !important;
@@ -418,12 +415,16 @@
       <!-- Durumum kahverengi -->
       <li><a href="#" class="navDurum active" onclick="togglePanel('durum')">Durumum</a></li>
       <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
+      
+      <!-- YENİ: Davet Et linki, Ailem'in altında -->
+      <li><a href="#" onclick="togglePanel('davetEt')">Davet Et</a></li>
+      
       <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
       <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
       <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
       <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
       <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
-      <!-- Bu üçü eski yerinde; Vakur mavi, Hatip turuncu, Baron kırmızı -->
+      <!-- Vakur mavi, Hatip turuncu, Baron kırmızı -->
       <li><a href="#" class="navVakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
       <li><a href="#" class="navHatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
       <li><a href="#" class="navBaron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
@@ -521,6 +522,13 @@
         <div class="label">🏅 Baron Rozet <span id="baronRos">0</span></div>
         <div class="bar"><div class="fill baron-ros" id="baronRosBar"></div></div>
       </div>
+    </div>
+
+    <!-- Davet Et Paneli (Yeni) -->
+    <div class="panel" id="davetEtPanel">
+      <h3>Davet Et</h3>
+      <p>Arkadaşlarını oyuna davet edebilir, birlikte güçlenebilirsiniz!</p>
+      <!-- İçerik serbestçe doldurulabilir -->
     </div>
 
     <!-- Köy İncelemesi Panel -->
@@ -682,7 +690,7 @@
       });
     }
 
-    // 3) Asman’dan başka köye gidince Asman 10 sn kırmızı
+    // Asman => 10 saniye sonra unvisited (kırmızı) kalır
     function travelTo(rotatype, index){
       let arr, visitedArr;
       if(rotatype==="out1"){ arr=out1; visitedArr=visitedOut1; }
@@ -699,15 +707,11 @@
         alert("Yeterli paranız yok!");
         return;
       }
-      // EĞER Asman visitedOut1[0] true => Demek ki Asman’dan çıkıyoruz
-      // index != 0 || rotatype!='out1' => gideceğimiz yeni köy asman değilse
+      // Asman visitedOut1[0]
       if( visitedOut1[0] && !(rotatype==="out1" && index===0) ){
-        // Asman artık visited değil => kırmızı
-        visitedOut1[0] = false;
-        // 10 saniye sonra yine normal (aslında 'normal' = kırmızı unvisited)
+        visitedOut1[0] = false; // Asman => kırmızı
         setTimeout(()=>{
-          // Tekrar unvisited kalmaya devam ediyor. (İsterseniz extra işlem)
-          // visitedOut1[0] = false; // Değişiklik yok, zaten false
+          // 10s sonra yine false kalıyor
           drawAllRails();
         },10000);
       }
@@ -898,14 +902,14 @@
       cont.innerHTML="";
 
       difficultiesMap[rank].forEach(dif=>{
-        const section = document.createElement("div");
+        const section = document.createElement('div');
         section.className="rankSection";
-        const h3 = document.createElement("h3");
+        const h3 = document.createElement('h3');
         h3.textContent = dif.title+(dif.locked?" (Kilitli)":"");
         section.appendChild(h3);
 
         dif.tasks.forEach(taskObj=>{
-          const div = document.createElement("div");
+          const div = document.createElement('div');
           div.className="taskItem";
           if(taskObj.state==="done") {
             div.classList.add("done");
