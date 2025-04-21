@@ -9,15 +9,16 @@
       --bg-dark: #121212;
       --bg-light: #f4f4f4;
       --panel-dark: #1e1e1e;
-      --accent-vakur: #1e90ff;
-      --accent-hatip: #ffa500;
-      --accent-baron: #ff4500;
+      --accent-vakur: #1e90ff;   /* Mavi */
+      --accent-hatip: #ffa500;   /* Turuncu */
+      --accent-baron: #ff4500;   /* Kırmızı */
       --text-light: #f4f4f4;
       --text-dark: #333;
       --bar-bg: #ccc;
     }
     * {
-      margin:0; padding:0;
+      margin:0;
+      padding:0;
       box-sizing:border-box;
       font-family:'Segoe UI',sans-serif;
     }
@@ -50,6 +51,7 @@
       color:inherit;
       text-decoration:none;
       border-bottom:1px solid #333;
+      transition: background 0.2s;
     }
     nav li a:hover,
     nav li a.active {
@@ -67,6 +69,24 @@
       padding:8px;
       border:none;
       border-radius:4px;
+    }
+
+    /* 
+      YALNIZCA BU ÜÇ SINIF EKLENDİ:
+      Vakur Görevleri => Mavi, Hatip => Turuncu, Baron => Kırmızı
+      Menünün hover/active rengini bastırmak için !important kullanıldı.
+    */
+    .navVakur {
+      background: var(--accent-vakur) !important;
+      color: #fff !important;
+    }
+    .navHatip {
+      background: var(--accent-hatip) !important;
+      color: #fff !important;
+    }
+    .navBaron {
+      background: var(--accent-baron) !important;
+      color: #fff !important;
     }
 
     /* MAIN */
@@ -140,7 +160,7 @@
       gap:2rem;
       padding:1rem;
       flex-shrink:0;
-      flex-wrap: nowrap; /* mobilde alt alta geçebilsin diye istersen wrap yap */
+      flex-wrap: nowrap;
     }
     .card {
       background:var(--panel-dark);
@@ -338,7 +358,8 @@
     }
     #messageIcon {
       position:fixed;
-      bottom:20px; right:20px;
+      bottom:20px;
+      right:20px;
       background:var(--accent-vakur);
       padding:10px;
       border-radius:50%;
@@ -348,7 +369,6 @@
 
     /* MOBILE */
     @media (max-width: 768px) {
-      /* Sıralamayı değiştirelim */
       nav, aside {
         width:100%;
         order:2;
@@ -364,13 +384,11 @@
       header {
         justify-content:center;
       }
-      /* Raylar ve bakiye mobilde de gözüksün istersen gizleme satırını kaldırdık */
       #centerRanks {
         flex-wrap:wrap;
         gap:1rem;
         justify-content:center;
       }
-      /* Panellerin içi dar olsun */
       .panel {
         padding:10px;
       }
@@ -393,6 +411,11 @@
   <!-- SIDEBAR -->
   <nav>
     <ul>
+      <!-- ÜÇ LİNK İÇİN EK SINIFLAR: navVakur, navHatip, navBaron -->
+      <li><a href="#" class="navVakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
+      <li><a href="#" class="navHatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
+      <li><a href="#" class="navBaron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
+
       <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
       <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
       <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
@@ -400,9 +423,6 @@
       <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
       <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
       <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
-      <li><a href="#" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
-      <li><a href="#" onclick="openTasks('Hatip')" class="locked">Hatip Görevleri</a></li>
-      <li><a href="#" onclick="openTasks('Baron')" class="locked">Baron Görevleri</a></li>
       <li><a href="#" onclick="togglePanel('atYarisi')">At Yarışı</a></li>
       <li><a href="#" onclick="togglePanel('atBilgiler')">At Bilgileri</a></li>
       <li><a href="#" onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li>
@@ -448,7 +468,7 @@
       <canvas id="railBack2" class="rail"></canvas>
     </div>
 
-    <!-- Center Ranks -->
+    <!-- Center Ranks (Vakur / Hatip / Baron) -->
     <div id="centerRanks">
       <div class="card vakur" id="cardVakur">
         <h2>VAKUR</h2>
@@ -499,21 +519,21 @@
       </div>
     </div>
 
-    <!-- Köy İncelemesi Panel -->
+    <!-- Köy İncelemesi Panel (5 sekme x 8 köy) -->
     <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
       <div class="sub-tabs" id="koyTabs"></div>
       <div id="koyContent"></div>
     </div>
 
-    <!-- Tren Seyahatleri Panel -->
+    <!-- Tren Seyahatleri Panel (5 sekme x 8 köy) -->
     <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
       <div class="sub-tabs" id="trenTabs"></div>
       <div id="trenContent"></div>
     </div>
 
-    <!-- Örnek Boş Paneller -->
+    <!-- Diğer Boş Paneller -->
     <div class="panel" id="ailePanel"><h3>Ailem</h3></div>
     <div class="panel" id="tuccarPanel"><h3>Tüccar</h3></div>
     <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3></div>
@@ -544,9 +564,10 @@
     /**************************************
      * TÜM JS BURADAN SONRA
      **************************************/
-    let playerMoney = 500000;
-    let globalCooldown = false;
+    let playerMoney = 500000;    // Başlangıç para
+    let globalCooldown = false;  // 10sn bekleme durumu
 
+    // 40 köy listesi
     const villages = [
       "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
       "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
@@ -555,7 +576,7 @@
       "Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
     ];
 
-    // Gidiş Rotası I/II ve Dönüş Rotası I/II
+    // 2 gidiş, 2 dönüş => 20'şer
     const out1 = villages.slice(0,20);
     const out2 = villages.slice(20,40);
     const back1 = out1;
@@ -571,13 +592,16 @@
     visitedOut1[0] = true;
 
     window.onload = ()=>{
+      // Raylar
       drawAllRails();
       populateStations('stationsOut1', out1, visitedOut1, 'out1');
       populateStations('stationsOut2', out2, visitedOut2, 'out2');
       populateStations('stationsBack1', back1, visitedBack1, 'back1');
       populateStations('stationsBack2', back2, visitedBack2, 'back2');
 
+      // Tren paneli
       initTrainTabs();
+      // Köy incelemesi paneli
       initKoyTabs();
 
       updateMoneyDisplay();
@@ -597,6 +621,7 @@
       drawRail('railBack2','#555','var(--accent-baron)', back2, visitedBack2);
     }
 
+    // 20 istasyonluk ray
     function drawRail(canvasId, color1, colorCSSVar, arr, visitedArr){
       const c = document.getElementById(canvasId);
       const ctx = c.getContext('2d');
@@ -604,6 +629,7 @@
       c.height = c.offsetHeight;
 
       const accent = getComputedStyle(document.documentElement).getPropertyValue(colorCSSVar).trim();
+
       // Ana çizgi
       ctx.strokeStyle = color1;
       ctx.lineWidth = 4;
@@ -612,43 +638,41 @@
       ctx.lineTo(c.width, c.height/2);
       ctx.stroke();
 
-      // 20 istasyon
+      // 20 dik çizgi
       ctx.strokeStyle = accent;
       ctx.lineWidth = 2;
-      for(let i=1;i<=20;i++){
-        const x = (c.width * i) / 21;
-        // Kısa dik çizgi
+      for(let i=1; i<=20; i++){
+        const x = (c.width*i)/21;
         ctx.beginPath();
-        ctx.moveTo(x, c.height/2-10);
-        ctx.lineTo(x, c.height/2+10);
+        ctx.moveTo(x, c.height/2 -10);
+        ctx.lineTo(x, c.height/2 +10);
         ctx.stroke();
 
+        // visitedArr[i-1] => yeşil/kırmızı
         ctx.beginPath();
-        if(visitedArr[i-1]){
-          ctx.fillStyle = "green";
-        } else {
-          ctx.fillStyle = "red";
-        }
         ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
+        if(visitedArr[i-1]){
+          ctx.fillStyle="green";
+        } else {
+          ctx.fillStyle="red";
+        }
         ctx.fill();
       }
     }
 
     /**************************************
-     * STATIONS LİSTESİ (Span)
+     * STATIONS (Span)
      **************************************/
     function populateStations(containerId, arr, visitedArr, type){
       const cont = document.getElementById(containerId);
-      cont.innerHTML = "";
+      cont.innerHTML="";
       arr.forEach((v,idx)=>{
         const sp = document.createElement("span");
-        sp.textContent = v;
+        sp.textContent=v;
         if(visitedArr[idx]) {
           sp.classList.add("visited");
         }
-        sp.onclick = ()=>{
-          travelTo(type, idx);
-        };
+        sp.onclick=()=>travelTo(type, idx);
         cont.appendChild(sp);
       });
     }
@@ -660,16 +684,19 @@
       else if(type==="back1"){ arr=back1; visitedArr=visitedBack1; }
       else if(type==="back2"){ arr=back2; visitedArr=visitedBack2; }
 
+      // Zaten visited?
       if(visitedArr[index]){
         alert(arr[index]+" köyüne zaten gittiniz!");
         return;
       }
+      // Para kontrol
       if(playerMoney<500){
         alert("Yeterli paranız yok!");
         return;
       }
+      // 500$
       playerMoney -= 500;
-      visitedArr[index] = true;
+      visitedArr[index]=true;
       updateMoneyDisplay();
       alert(arr[index]+" köyüne gittiniz! (500$)");
 
@@ -682,15 +709,15 @@
     }
 
     /**************************************
-     * TREN PANEL (5 sekme x 8 köy)
+     * TREN SEYAHATLERİ (5 sekme x 8 köy)
      **************************************/
     function initTrainTabs(){
       const trenTabs = document.getElementById("trenTabs");
-      for(let i=0;i<5;i++){
+      for(let i=0; i<5; i++){
         const b = document.createElement("button");
-        b.textContent = "Tren "+(i+1);
-        b.onclick = ()=>{
-          document.querySelectorAll("#trenTabs button").forEach(b2=>b2.classList.remove("active"));
+        b.textContent="Tren "+(i+1);
+        b.onclick=()=>{
+          document.querySelectorAll("#trenTabs button").forEach(xx=>xx.classList.remove("active"));
           b.classList.add("active");
           renderTrainTab(i);
         };
@@ -702,26 +729,26 @@
 
     function renderTrainTab(tabIndex){
       const trenContent = document.getElementById("trenContent");
-      trenContent.innerHTML = "";
-      const start = tabIndex*8;
-      const end = start+8;
+      trenContent.innerHTML="";
+      const start=tabIndex*8;
+      const end=start+8;
       const slice = villages.slice(start,end);
 
       slice.forEach(koy=>{
         const div = document.createElement("div");
         div.style.marginBottom="6px";
-        div.innerHTML = `<strong>${koy}</strong> <button>Seyahat</button>`;
+        div.innerHTML=`<strong>${koy}</strong> <button>Seyahat</button>`;
         const btn = div.querySelector("button");
-        btn.onclick = ()=>{
+        btn.onclick=()=>{
           // bulalım
           let i = out1.indexOf(koy);
-          if(i>=0){ travelTo('out1',i); return;}
+          if(i>=0){ travelTo("out1", i); return;}
           i = out2.indexOf(koy);
-          if(i>=0){ travelTo('out2',i); return;}
+          if(i>=0){ travelTo("out2", i); return;}
           i = back1.indexOf(koy);
-          if(i>=0){ travelTo('back1',i); return;}
+          if(i>=0){ travelTo("back1", i); return;}
           i = back2.indexOf(koy);
-          if(i>=0){ travelTo('back2',i); return;}
+          if(i>=0){ travelTo("back2", i); return;}
         };
         trenContent.appendChild(div);
       });
@@ -734,9 +761,9 @@
       const koyTabs = document.getElementById("koyTabs");
       for(let i=0;i<5;i++){
         const b = document.createElement("button");
-        b.textContent = "Bölge "+(i+1);
-        b.onclick = ()=>{
-          document.querySelectorAll("#koyTabs button").forEach(b2=>b2.classList.remove("active"));
+        b.textContent="Bölge "+(i+1);
+        b.onclick=()=>{
+          document.querySelectorAll("#koyTabs button").forEach(xx=>xx.classList.remove("active"));
           b.classList.add("active");
           renderKoyTab(i);
         };
@@ -748,20 +775,20 @@
 
     function renderKoyTab(tabIndex){
       const koyContent = document.getElementById("koyContent");
-      koyContent.innerHTML = "";
-      const start = tabIndex*8;
-      const end = start+8;
+      koyContent.innerHTML="";
+      const start=tabIndex*8;
+      const end=start+8;
       const slice = villages.slice(start,end);
 
       slice.forEach(koy=>{
         const div = document.createElement("div");
         div.style.marginBottom="6px";
-        div.innerHTML = `<strong>${koy}</strong> <button>İncele</button>`;
+        div.innerHTML=`<strong>${koy}</strong> <button>İncele</button>`;
         const btn = div.querySelector("button");
-        btn.onclick = ()=>{
-          const malOptions = [5,10,15];
-          const villaOptions = [25,50,75];
-          const sigOptions = [50,75,100];
+        btn.onclick=()=>{
+          const malOptions=[5,10,15];
+          const villaOptions=[25,50,75];
+          const sigOptions=[50,75,100];
           const mal = malOptions[Math.floor(Math.random()*malOptions.length)];
           const vil = villaOptions[Math.floor(Math.random()*villaOptions.length)];
           const sig = sigOptions[Math.floor(Math.random()*sigOptions.length)];
@@ -774,11 +801,12 @@
     /**************************************
      * GÖREVLER (10sn + 30dk)
      **************************************/
-    // Örnek: sadece Vakur ilk 2 seviye doldurduk
+    // Örnek: Sadece Vakur ilk 2 seviye doldurduk
     const vakurDifficulties = [
       {
-        title: "ÇIRAK VAKUR I", locked:false,
-        tasks:[
+        title: "ÇIRAK VAKUR I",
+        locked:false,
+        tasks: [
           "Bir çocuğun okul çantası almasına yardımcı ol.",
           "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
           "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
@@ -792,8 +820,9 @@
         ]
       },
       {
-        title: "USTA VAKUR II", locked:true,
-        tasks:[
+        title: "USTA VAKUR II",
+        locked:true,
+        tasks: [
           "Aile içinde tartışan iki akrabayı barıştır.",
           "Mahallede yardım kermesi veya etkinlik organize et.",
           "Maddi durumu kötü bir öğrenciye burs ayarla.",
@@ -806,16 +835,18 @@
           "Sokak hayvanları için geçici barınak oluştur."
         ]
       }
+      // Uzman / Efsane / Yüce eklenebilir
     ].map(d=>({
       ...d,
       tasks: d.tasks.map(t=>({
         text: t,
-        state: "idle",
+        state: "idle",   // idle -> cdWait -> inProgress -> done
         timeLeft:0,
         interval:null
       }))
     }));
 
+    // Hatip / Baron => benzer
     const hatipDifficulties = [
       { title:"ÇIRAK HATİP I", locked:false, tasks:["..."] }
       // ...
@@ -887,45 +918,49 @@
       document.getElementById('overlay').style.display='none';
     }
 
+    // 10sn + 30dk mekaniği
     function startTask(taskObj, btn){
       if(globalCooldown){
         alert("Yeni bir göreve başlamak için 10sn beklemelisin!");
         return;
       }
-      // 10sn global bekleme
-      globalCooldown = true;
+      // 10sn global
+      globalCooldown=true;
       taskObj.state="cdWait";
       taskObj.timeLeft=10;
       btn.textContent="10sn bekleniyor...";
       btn.disabled=true;
 
-      const cdInt = setInterval(()=>{
+      const cdInt=setInterval(()=>{
         taskObj.timeLeft--;
         if(taskObj.timeLeft<=0){
           clearInterval(cdInt);
+          // 30dk
           taskObj.state="inProgress";
-          taskObj.timeLeft=1800; // 30dk = 1800sn
+          taskObj.timeLeft=1800;  // 30dk = 1800sn
           updateTaskButton(btn, taskObj);
-          taskObj.interval = setInterval(()=>{
+
+          taskObj.interval=setInterval(()=>{
             taskObj.timeLeft--;
             if(taskObj.timeLeft<=0){
               clearInterval(taskObj.interval);
               taskObj.state="done";
               updateTaskButton(btn, taskObj);
-            }else{
+            } else {
               updateTaskButton(btn, taskObj);
             }
           },1000);
+
           globalCooldown=false;
         } else {
-          btn.textContent=taskObj.timeLeft+"sn bekleniyor...";
+          btn.textContent = taskObj.timeLeft+"sn bekleniyor...";
         }
       },1000);
     }
 
     function updateTaskButton(btn, tObj){
       if(tObj.state==="inProgress"){
-        btn.textContent=formatTime(tObj.timeLeft);
+        btn.textContent = formatTime(tObj.timeLeft);
       } else if(tObj.state==="done"){
         btn.textContent="Tamamlandı";
         btn.parentElement.classList.add("done");
@@ -933,8 +968,8 @@
     }
 
     function formatTime(sec){
-      const m = Math.floor(sec/60);
-      const s = sec%60;
+      const m=Math.floor(sec/60);
+      const s=sec%60;
       const mm=(m<10?"0"+m:m);
       const ss=(s<10?"0"+s:s);
       return mm+":"+ss;
