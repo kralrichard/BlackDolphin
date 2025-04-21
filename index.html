@@ -1,167 +1,189 @@
 <!DOCTYPE html><html lang="tr"><head><!--1--><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Black Dolphine – Mafia Oyunu</title><style><!--2-->
-:root{--bg-dark:#121212;--bg-light:#f4f4f4;--panel-dark:#1e1e1e;--accent-vakur:#1e90ff;--accent-hatip:#ffa500;--accent-baron:#ff4500;--text-light:#f4f4f4;--text-dark:#333;--bar-bg:#ccc;}<!--3-->
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}<!--4-->
-html,body{height:100%;}<!--5-->
-body{display:flex;overflow:hidden;background:var(--bg-light);color:var(--text-dark);}<!--6-->
-/*SIDEBAR*/<!--7-->
-nav{width:220px;background:var(--panel-dark);color:var(--text-light);display:flex;flex-direction:column;}<!--8-->
-nav ul{list-style:none;overflow-y:auto;flex:1;}<!--9-->
-nav li a{display:block;padding:12px 20px;color:inherit;text-decoration:none;border-bottom:1px solid #333;transition:.2s;}<!--10-->
-nav li a:hover,nav li a.active{background:var(--accent-vakur);}<!--11-->
-nav .locked{opacity:.5;pointer-events:none;}<!--12-->
-nav .search{padding:10px;}<!--13-->
-nav .search input{width:100%;padding:8px;border:none;border-radius:4px;}<!--14-->
-.navDurum{background:brown!important;color:#fff!important;}<!--15-->
-.navVakur{background:var(--accent-vakur)!important;color:#fff!important;}<!--16-->
-.navHatip{background:var(--accent-hatip)!important;color:#fff!important;}<!--17-->
-.navBaron{background:var(--accent-baron)!important;color:#fff!important;}<!--18-->
-main{flex:1;display:flex;flex-direction:column;overflow-y:auto;}<!--19-->
-header{background:var(--bg-dark);color:var(--text-light);display:flex;justify-content:space-between;align-items:center;padding:.5rem 1rem;flex-shrink:0;}<!--20-->
-.logo{font-size:1.4rem;font-weight:bold;}<!--21-->
-.balance{background:#222;padding:.5rem 1rem;border-radius:4px;color:lime;}<!--22-->
-.rail-container{position:relative;margin:1rem 0;flex-shrink:0;}<!--23-->
-.rail-label{position:absolute;top:-1.2rem;left:1rem;color:var(--text-dark);font-weight:bold;}<!--24-->
-.stations{display:flex;padding:0 1rem;margin-bottom:4px;flex-wrap:wrap;}<!--25-->
-.stations span{flex:1;text-align:center;font-size:.75rem;color:var(--text-dark);cursor:pointer;margin:2px 0;}<!--26-->
-.stations span.visited{color:var(--accent-vakur);font-weight:bold;}<!--27-->
-canvas.rail{width:100%;height:60px;cursor:pointer;}<!--28-->
-#centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;flex-shrink:0;flex-wrap:nowrap;}<!--29-->
-.card{background:var(--panel-dark);color:var(--text-light);padding:1rem;border-radius:8px;text-align:center;width:120px;cursor:pointer;}<!--30-->
-.card.locked{opacity:.5;pointer-events:none;}<!--31-->
-.card h2{margin-bottom:.5rem;text-transform:uppercase;}<!--32-->
-.card button{border:none;color:#fff;padding:.5rem 1rem;border-radius:4px;cursor:pointer;}<!--33-->
-.card.vakur{background:var(--accent-vakur);}<!--34-->
-.card.hatip{background:var(--accent-hatip);}<!--35-->
-.card.baron{background:var(--accent-baron);}<!--36-->
-#overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;}<!--37-->
-#panel{background:var(--bg-light);width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:8px;padding:1rem;position:relative;}<!--38-->
-#closeBtn{position:absolute;top:.5rem;right:.5rem;background:var(--accent-vakur);border:none;color:#fff;padding:.3rem .6rem;border-radius:4px;cursor:pointer;}<!--39-->
-.rankSection{margin-bottom:1rem;}<!--40-->
-.rankSection h3{margin-bottom:.5rem;color:var(--accent-vakur);}<!--41-->
-.taskItem{background:var(--bar-bg);padding:.5rem;display:flex;justify-content:space-between;border-radius:4px;margin-bottom:.3rem;align-items:center;}<!--42-->
-.taskItem.done{background:#a8e6cf;}<!--43-->
-.taskItem button{border:none;color:#fff;padding:.3rem .6rem;border-radius:4px;cursor:pointer;background:var(--accent-vakur);}<!--44-->
-.status-bar{margin-bottom:1rem;}<!--45-->
-.status-bar .label{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-weight:bold;}<!--46-->
-.status-bar .bar{background:var(--bar-bg);height:16px;border-radius:8px;overflow:hidden;}<!--47-->
-.status-bar .bar .fill{height:100%;width:0;}<!--48-->
-.vakur-fill{background:gold;}<!--49-->
-.vakur-ros{background:blue;}<!--50-->
-.hatip-fill{background:purple;}<!--51-->
-.hatip-ros{background:orange;}<!--52-->
-.baron-fill{background:white;}<!--53-->
-.baron-ros{background:red;}<!--54-->
-aside{width:260px;background:var(--panel-dark);color:var(--text-light);overflow-y:auto;flex-shrink:0;}<!--55-->
-.panel{padding:20px;border-bottom:1px solid #333;display:none;}<!--56-->
-.panel.active{display:block;}<!--57-->
-.panel h3{margin-bottom:10px;color:var(--accent-vakur);}<!--58-->
-.sub-tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}<!--59-->
-.sub-tabs button{background:#444;border:none;color:var(--text-light);padding:6px 10px;border-radius:4px;cursor:pointer;}<!--60-->
-.sub-tabs button.active{background:var(--accent-vakur);}<!--61-->
-.sub-content ul{list-style:none;max-height:200px;overflow-y:auto;padding-left:0;}<!--62-->
-.sub-content li{display:flex;justify-content:space-between;margin-bottom:6px;}<!--63-->
-.sub-content li button{background:var(--accent-vakur);border:none;color:#fff;padding:4px 8px;border-radius:4px;cursor:pointer;}<!--64-->
-table{border-collapse:collapse;}<!--65-->
-#chatBox{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:60%;background:var(--panel-dark);color:var(--text-light);padding:10px;border-radius:8px;max-height:200px;overflow-y:auto;}<!--66-->
-#messageIcon{position:fixed;bottom:20px;right:20px;background:var(--accent-vakur);padding:10px;border-radius:50%;color:#fff;cursor:pointer;}<!--67-->
-@media(max-width:768px){nav,aside{width:100%;order:2;}nav ul{display:flex;flex-wrap:wrap;overflow-x:auto;}main{order:1;}header{justify-content:center;}#centerRanks{flex-wrap:wrap;gap:1rem;justify-content:center;}.panel{padding:10px;}.stations span{font-size:.65rem;}#chatBox{width:90%;bottom:10px;}#messageIcon{bottom:10px;right:10px;}}<!--68-->
-</style></head><body><!--69-->
-<nav><!--70--><ul><!--71-->
-<li><a href="#"class="navDurum active"onclick="togglePanel('durum')">Durumum</a></li><!--72-->
-<li><a href="#"onclick="togglePanel('aile')">Ailem</a></li><!--73-->
-<li><a href="#"onclick="togglePanel('davetEt')">Davet Et</a></li><!--74-->
-<li><a href="#"onclick="togglePanel('tuccar')">Tüccar</a></li><!--75-->
-<li><a href="#"onclick="togglePanel('mesajlar')">Mesajlarım</a></li><!--76-->
-<li><a href="#"onclick="togglePanel('avlan')">Avlan</a></li><!--77-->
-<li><a href="#"onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li><!--78-->
-<li><a href="#"onclick="togglePanel('kacak')">Kaçakçılık</a></li><!--79-->
-<li><a href="#"class="navVakur"onclick="openTasks('Vakur')">Vakur Görevleri</a></li><!--80-->
-<li><a href="#"class="navHatip locked"onclick="openTasks('Hatip')">Hatip Görevleri</a></li><!--81-->
-<li><a href="#"class="navBaron locked"onclick="openTasks('Baron')">Baron Görevleri</a></li><!--82-->
-<li><a href="#"onclick="togglePanel('atYarisi')">At Yarışı</a></li><!--83-->
-<li><a href="#"onclick="togglePanel('atBilgiler')">At Bilgileri</a></li><!--84-->
-<li><a href="#"onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li><!--85-->
-<li><a href="#"onclick="togglePanel('aranan')">Arananlar</a></li><!--86-->
-<li><a href="#"onclick="togglePanel('oyunlar')">Oyunlar</a></li><!--87-->
-<li><a href="#"onclick="togglePanel('koy')">Köy İncelemesi</a></li><!--88-->
-<li><a href="#"onclick="togglePanel('tren')">Tren Seyahatleri</a></li><!--89-->
-</ul><div class="search"><input type="text"placeholder="Kullanıcı ara..."></div><!--90--></nav><!--91-->
-<main><!--92-->
-<header><!--93--><div class="logo">BLACK DOLPHINE</div><div class="balance"id="moneyDisplay">$500,000</div><!--94--></header><!--95-->
-<div class="rail-container"><!--96-->
-<div class="rail-label">Gidiş Rotası I</div><div class="stations"id="stationsOut1"></div><canvas id="railOut1"class="rail"></canvas></div><!--97-->
-<div class="rail-container"><div class="rail-label">Gidiş Rotası II</div><div class="stations"id="stationsOut2"></div><canvas id="railOut2"class="rail"></canvas></div><!--98-->
-<div class="rail-container return"><div class="rail-label return">Dönüş Rotası I</div><div class="stations"id="stationsBack1"></div><canvas id="railBack1"class="rail"></canvas></div><!--99-->
-<div class="rail-container return"><div class="rail-label return">Dönüş Rotası II</div><div class="stations"id="stationsBack2"></div><canvas id="railBack2"class="rail"></canvas></div><!--100-->
-<div id="centerRanks"><!--101-->
-<div class="card vakur"id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div><!--102-->
-<div class="card hatip locked"id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div><!--103-->
-<div class="card baron locked"id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div><!--104-->
-</div><!--105-->
-</main><!--106-->
-<aside><!--107-->
-<div class="panel active"id="durumPanel"><h3>Durumum</h3><!--108-->
-<!--Saldırı bar (kırmızı)--> <!--109-->
-<div class="status-bar"><div class="label">Saldırı (kırmızı)</div><div class="bar"><div class="fill"id="saldiriBar"style="background:red;width:0;"></div></div></div><!--110-->
-<!--Savunma bar (yeşil)--> <!--111-->
-<div class="status-bar"><div class="label">Savunma (yeşil)</div><div class="bar"><div class="fill"id="savunmaBar"style="background:green;width:0;"></div></div></div><!--112-->
-<!--Hatip bar turuncu + nüfus sembolü--> <!--113-->
-<div class="status-bar"><div class="label">Nüfus (hatip turuncu) 🏘️</div><div class="bar"><div class="fill"id="hatipNufusBar"style="background:var(--accent-hatip);width:0;"></div></div></div><!--114-->
-<!--Vakur bar--> <!--115-->
-<div class="status-bar"><div class="label">🛡️ Vakur %<span id="vakurPct">0</span></div><div class="bar"><div class="fill vakur-fill"id="vakurBar"></div></div></div><!--116-->
-<div class="status-bar"><div class="label">🏅 Vakur Rozet <span id="vakurRos">0</span></div><div class="bar"><div class="fill vakur-ros"id="vakurRosBar"></div></div></div><!--117-->
-<!--Hatip bar (eski)--> <!--118-->
-<div class="status-bar"><div class="label">🏘️ Hatip %<span id="hatipPct">0</span></div><div class="bar"><div class="fill hatip-fill"id="hatipBar"></div></div></div><!--119-->
-<div class="status-bar"><div class="label">🏅 Hatip Rozet <span id="hatipRos">0</span></div><div class="bar"><div class="fill hatip-ros"id="hatipRosBar"></div></div></div><!--120-->
-<!--Baron--> <!--121-->
-<div class="status-bar"><div class="label">⚡️ Baron %<span id="baronPct">0</span></div><div class="bar"><div class="fill baron-fill"id="baronBar"></div></div></div><!--122-->
-<div class="status-bar"><div class="label">🏅 Baron Rozet <span id="baronRos">0</span></div><div class="bar"><div class="fill baron-ros"id="baronRosBar"></div></div></div><!--123-->
-</div><!--124-->
-<div class="panel"id="davetEtPanel"><h3>Davet Et</h3><p>Arkadaşlarını davet edip güçlenin!</p></div><!--125-->
-<div class="panel"id="koyPanel"><h3>Köy İncelemesi</h3><div class="sub-tabs"id="koyTabs"></div><div id="koyContent"></div></div><!--126-->
-<div class="panel"id="trenPanel"><h3>Tren Seyahatleri</h3><div class="sub-tabs"id="trenTabs"></div><div id="trenContent"></div></div><!--127-->
-<div class="panel"id="ailePanel"><h3>Ailem</h3></div><div class="panel"id="tuccarPanel"><h3>Tüccar</h3></div><div class="panel"id="mesajlarPanel"><h3>Mesajlarım</h3></div><div class="panel"id="avlanPanel"><h3>Avlan</h3></div><div class="panel"id="acikArttirmaPanel"><h3>Açık Arttırma</h3></div><div class="panel"id="kacakPanel"><h3>Kaçakçılık</h3></div><div class="panel"id="atYarisiPanel"><h3>At Yarışı</h3></div><div class="panel"id="atBilgilerPanel"><h3>At Bilgileri</h3></div><div class="panel"id="oyunIciPanel"><h3>Oyun İçi Bilgiler</h3></div><div class="panel"id="arananPanel"><h3>Arananlar</h3></div><div class="panel"id="oyunlarPanel"><h3>Oyunlar</h3></div><!--128-->
-</aside><!--129-->
-<div id="overlay"onclick="closeTasks()"><div id="panel"onclick="event.stopPropagation()"><button id="closeBtn"onclick="closeTasks()">✖</button><h2 id="taskHeader"></h2><div id="taskSections"></div></div></div><!--130-->
-<div id="chatBox"contenteditable="true">CHAT başlıyor...</div><div id="messageIcon">📩</div><!--131-->
-<script><!--132-->
-let playerMoney=500000;let globalCooldown=false;const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"];<!--133-->
-const out1=villages.slice(0,20),out2=villages.slice(20,40);const back1=out1,back2=out2;<!--134-->
-const visitedOut1=new Array(20).fill(false),visitedOut2=new Array(20).fill(false),visitedBack1=new Array(20).fill(false),visitedBack2=new Array(20).fill(false);<!--135-->
-visitedOut1[0]=true;<!--136-->
-window.onload=()=>{drawAllRails();populateStations('stationsOut1',out1,visitedOut1,'out1');populateStations('stationsOut2',out2,visitedOut2,'out2');populateStations('stationsBack1',back1,visitedBack1,'back1');populateStations('stationsBack2',back2,visitedBack2,'back2');initTrainTabs();initKoyTabs();updateMoneyDisplay();};<!--137-->
-window.onresize=()=>{drawAllRails();};<!--138-->
-function drawAllRails(){drawRail('railOut1','#555','var(--accent-vakur)',out1,visitedOut1);drawRail('railOut2','#555','var(--accent-vakur)',out2,visitedOut2);drawRail('railBack1','#555','var(--accent-baron)',back1,visitedBack1);drawRail('railBack2','#555','var(--accent-baron)',back2,visitedBack2);}<!--139-->
-function drawRail(canvasId,color1,colorCSSVar,arr,visitedArr){const c=document.getElementById(canvasId),ctx=c.getContext('2d');c.width=c.offsetWidth;c.height=c.offsetHeight;const accent=getComputedStyle(document.documentElement).getPropertyValue(colorCSSVar).trim();ctx.strokeStyle=color1;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,c.height/2);ctx.lineTo(c.width,c.height/2);ctx.stroke();ctx.strokeStyle=accent;ctx.lineWidth=2;for(let i=1;i<=20;i++){const x=c.width*i/21;ctx.beginPath();ctx.moveTo(x,c.height/2-10);ctx.lineTo(x,c.height/2+10);ctx.stroke();ctx.beginPath();if(visitedArr[i-1])ctx.fillStyle="green";else ctx.fillStyle="red";ctx.arc(x,c.height/2,4,0,Math.PI*2);ctx.fill();}}<!--140-->
-function populateStations(containerId,arr,visitedArr,type){const cont=document.getElementById(containerId);cont.innerHTML="";arr.forEach((v,idx)=>{const sp=document.createElement("span");sp.textContent=v;if(visitedArr[idx])sp.classList.add("visited");sp.onclick=()=>travelTo(type,idx);cont.appendChild(sp);});}<!--141-->
-function travelTo(rotatype,index){let arr,visitedArr;if(rotatype==="out1"){arr=out1;visitedArr=visitedOut1;}else if(rotatype==="out2"){arr=out2;visitedArr=visitedOut2;}else if(rotatype==="back1"){arr=back1;visitedArr=visitedBack1;}else{arr=back2;visitedArr=visitedBack2;}if(visitedArr[index]){alert(arr[index]+" köyüne zaten gittiniz!");return;}if(playerMoney<500){alert("Yeterli paranız yok!");return;}if(visitedOut1[0]&&!(rotatype==="out1"&&index===0)){visitedOut1[0]=false;setTimeout(()=>{drawAllRails();},10000);}playerMoney-=500;visitedArr[index]=true;updateMoneyDisplay();alert(arr[index]+" köyüne gittiniz! (500$)");populateStations('stationsOut1',out1,visitedOut1,'out1');populateStations('stationsOut2',out2,visitedOut2,'out2');populateStations('stationsBack1',back1,visitedBack1,'back1');populateStations('stationsBack2',back2,visitedBack2,'back2');drawAllRails();}<!--142-->
-function initTrainTabs(){const trenTabs=document.getElementById("trenTabs");for(let i=0;i<5;i++){const b=document.createElement("button");b.textContent="Tren "+(i+1);b.onclick=()=>{document.querySelectorAll("#trenTabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderTrainTab(i);};if(i===0)b.classList.add("active");trenTabs.appendChild(b);}renderTrainTab(0);}<!--143-->
-function renderTrainTab(tabIndex){const trenContent=document.getElementById("trenContent");trenContent.innerHTML="";const start=tabIndex*8,end=start+8;const slice=villages.slice(start,end);slice.forEach(koy=>{const div=document.createElement("div");div.style.marginBottom="6px";div.innerHTML=`<strong>${koy}</strong> <button>Seyahat</button>`;const btn=div.querySelector("button");btn.onclick=()=>{let i=out1.indexOf(koy);if(i>=0){travelTo("out1",i);return;}i=out2.indexOf(koy);if(i>=0){travelTo("out2",i);return;}i=back1.indexOf(koy);if(i>=0){travelTo("back1",i);return;}i=back2.indexOf(koy);if(i>=0){travelTo("back2",i);return;}};trenContent.appendChild(div);});}<!--144-->
-function initKoyTabs(){const koyTabs=document.getElementById("koyTabs");for(let i=0;i<5;i++){const b=document.createElement("button");b.textContent="Bölge "+(i+1);b.onclick=()=>{document.querySelectorAll("#koyTabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderKoyTab(i);};if(i===0)b.classList.add("active");koyTabs.appendChild(b);}renderKoyTab(0);}<!--145-->
-function renderKoyTab(tabIndex){const koyContent=document.getElementById("koyContent");koyContent.innerHTML="";const start=tabIndex*8,end=start+8;const slice=villages.slice(start,end);slice.forEach(koy=>{const div=document.createElement("div");div.style.marginBottom="6px";div.innerHTML=`<strong>${koy}</strong> <button>İncele</button>`;const btn=div.querySelector("button");btn.onclick=()=>{const malOptions=[5,10,15],villaOptions=[25,50,75],sigOptions=[50,75,100];const mal=malOptions[Math.floor(Math.random()*malOptions.length)],vil=villaOptions[Math.floor(Math.random()*villaOptions.length)],siga=sigOptions[Math.floor(Math.random()*sigOptions.length)];alert(`${koy} köyünde:\n- Malikhane: ${mal}\n- Villa: ${vil}\n- Sığınak: ${siga}`);};koyContent.appendChild(div);});}<!--146-->
-const vakurDifficulties=[{title:"ÇIRAK VAKUR I",locked:false,tasks:[{text:"Bir çocuğun okul çantası almasına yardımcı ol.",state:"idle",timeLeft:0,interval:null},{text:"Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",state:"idle",timeLeft:0,interval:null},{text:"Sokaktaki sahipsiz bir köpek için su ve mama koy.",state:"idle",timeLeft:0,interval:null},{text:"Arkadaşına ufak bir hediye vererek moralini yükselt.",state:"idle",timeLeft:0,interval:null},{text:"İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",state:"idle",timeLeft:0,interval:null},{text:"Kütüphanede eski kitapları düzenlemeye gönüllü ol.",state:"idle",timeLeft:0,interval:null},{text:"Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",state:"idle",timeLeft:0,interval:null},{text:"Otobüste yaşlı veya hamile birine yer ver.",state:"idle",timeLeft:0,interval:null},{text:"Mahalle parkında çöp toplama etkinliğine katıl.",state:"idle",timeLeft:0,interval:null},{text:"Arkadaşına küçük bir sürpriz parti düzenle.",state:"idle",timeLeft:0,interval:null}]},{title:"USTA VAKUR II",locked:true,tasks:[{text:"Aile içinde tartışan iki akrabayı barıştır.",state:"idle",timeLeft:0,interval:null},{text:"Mahallede yardım kermesi veya etkinlik organize et.",state:"idle",timeLeft:0,interval:null},{text:"Maddi durumu kötü bir öğrenciye burs ayarla.",state:"idle",timeLeft:0,interval:null},{text:"Bir STK’nın etkinliğinde aktif rol al.",state:"idle",timeLeft:0,interval:null},{text:"Bakımsız parkı onarmak için gönüllüler topla.",state:"idle",timeLeft:0,interval:null},{text:"Kan bağışı kampanyasına katkıda bulun.",state:"idle",timeLeft:0,interval:null},{text:"Bir arkadaşın için profesyonel yardım aracılığı yap.",state:"idle",timeLeft:0,interval:null},{text:"Zorbalığa uğrayan birine çevrimiçi destek bul.",state:"idle",timeLeft:0,interval:null},{text:"Engelliler için kamu binalarına erişim kolaylığı sağla.",state:"idle",timeLeft:0,interval:null},{text:"Sokak hayvanları için geçici barınak oluştur.",state:"idle",timeLeft:0,interval:null}]},{title:"UZMAN VAKUR III",locked:true,tasks:[{text:"Afet bölgesine yardım ekibi olarak katıl.",state:"idle",timeLeft:0,interval:null},{text:"Kronik bir sorun için belediyeyle görüşüp çözüm talep et.",state:"idle",timeLeft:0,interval:null},{text:"Zor durumdaki aileye iş veya barınma imkânı sağla.",state:"idle",timeLeft:0,interval:null},{text:"Hayvan barınağında kapsamlı bakım ve temizlik yap.",state:"idle",timeLeft:0,interval:null},{text:"Küs olan iki arkadaşın barışmasına aracılık et.",state:"idle",timeLeft:0,interval:null},{text:"Toplum dışlanmış birini etkinliklere dahil et.",state:"idle",timeLeft:0,interval:null},{text:"Küçük çaplı bağış kampanyası düzenle.",state:"idle",timeLeft:0,interval:null},{text:"Yerel hastanede gönüllü refakat programına katıl.",state:"idle",timeLeft:0,interval:null},{text:"Belediye ile iş birliği yaparak gençlik merkezi aç.",state:"idle",timeLeft:0,interval:null},{text:"Maddi sıkıntı yaşayan aileler için erzak paketi dağıtımı yap.",state:"idle",timeLeft:0,interval:null}]},{title:"EFSANE VAKUR IV",locked:true,tasks:[{text:"Büyük ölçekli yardım projesine liderlik et.",state:"idle",timeLeft:0,interval:null},{text:"Gençlere yönelik mentorluk programı başlat.",state:"idle",timeLeft:0,interval:null},{text:"Meslek edindirme kursu organize et.",state:"idle",timeLeft:0,interval:null},{text:"Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",state:"idle",timeLeft:0,interval:null},{text:"Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",state:"idle",timeLeft:0,interval:null},{text:"Okullarda 'empati ve yardımseverlik' semineri düzenle.",state:"idle",timeLeft:0,interval:null},{text:"Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",state:"idle",timeLeft:0,interval:null},{text:"Ücretsiz terapi/rehberlik günü organize et.",state:"idle",timeLeft:0,interval:null},{text:"Üniversite öğrencilerine staj imkânları sunan platform oluştur.",state:"idle",timeLeft:0,interval:null},{text:"Çevre koruma amaçlı ağaçlandırma kampanyası düzenle.",state:"idle",timeLeft:0,interval:null}]},{title:"YÜCE VAKUR V",locked:true,tasks:[{text:"Ulusal çapta sosyal sorumluluk projesi yürüt.",state:"idle",timeLeft:0,interval:null},{text:"Büyük bağış konseri/festival düzenle.",state:"idle",timeLeft:0,interval:null},{text:"Gönüllüleri bir araya getiren platform kur.",state:"idle",timeLeft:0,interval:null},{text:"Eğitim bursu fonu başlat.",state:"idle",timeLeft:0,interval:null},{text:"Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",state:"idle",timeLeft:0,interval:null},{text:"Yardım vakfı kurarak sürekli yardım yürüt.",state:"idle",timeLeft:0,interval:null},{text:"Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",state:"idle",timeLeft:0,interval:null},{text:"Yurt çapında geri dönüşüm projesi başlat.",state:"idle",timeLeft:0,interval:null},{text:"Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",state:"idle",timeLeft:0,interval:null},{text:"Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder.",state:"idle",timeLeft:0,interval:null}]}];
-const hatipDifficulties=[{title:"ÇIRAK HATİP I",locked:false,tasks:[{text:"Sokak kavgasını tatlı dille sakinleştir.",state:"idle",timeLeft:0,interval:null},{text:"Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",state:"idle",timeLeft:0,interval:null}]}];
-const baronDifficulties=[{title:"ÇIRAK BARON I",locked:false,tasks:[{text:"Ufak çapta uyuşturucu satmayı dene.",state:"idle",timeLeft:0,interval:null},{text:"Mahallede küçük 'koruma ücreti' topla.",state:"idle",timeLeft:0,interval:null}]}];
-const difficultiesMap={Vakur:vakurDifficulties,Hatip:hatipDifficulties,Baron:baronDifficulties};<!--147-->
-function openTasks(rank){document.getElementById('overlay').style.display='flex';document.getElementById('taskHeader').textContent=rank+" Görevleri";const cont=document.getElementById('taskSections');cont.innerHTML="";difficultiesMap[rank].forEach((dif,difIdx)=>{const section=document.createElement("div");section.className="rankSection";const h3=document.createElement("h3");h3.textContent=dif.title+(dif.locked?" (Kilitli)":"");section.appendChild(h3);/*Progress*/const doneCount=dif.tasks.filter(t=>t.state==="done").length;const total=dif.tasks.length;const pct=(doneCount/total)*100;const progDiv=document.createElement("div");progDiv.style.margin="0.5rem 0";progDiv.innerHTML=`<div style="background:#ccc;height:10px;width:100%;border-radius:5px;overflow:hidden;"><div style="background:turquoise;height:100%;width:${pct}%"></div></div><div style="font-size:0.8rem;text-align:right;">${doneCount}/${total} görev bitti (%${pct.toFixed(0)})</div>`;section.appendChild(progDiv);dif.tasks.forEach(taskObj=>{const div=document.createElement("div");div.className="taskItem"+(taskObj.state==="done"?" done":"");let btnTxt="Yap";if(dif.locked)btnTxt="Kilitli";else if(taskObj.state==="cdWait")btnTxt="10sn bekleniyor...";else if(taskObj.state==="inProgress")btnTxt=formatTime(taskObj.timeLeft);else if(taskObj.state==="done")btnTxt="Tamamlandı";div.innerHTML=`<span>${taskObj.text}</span><button>${btnTxt}</button>`;const btn=div.querySelector("button");if(dif.locked||taskObj.state==="cdWait"||taskObj.state==="inProgress"||taskObj.state==="done"){btn.disabled=true;}btn.onclick=()=>startTask(rank,difIdx,taskObj,btn);section.appendChild(div);});cont.appendChild(section);});}<!--148-->
-function closeTasks(){document.getElementById('overlay').style.display='none';}<!--149-->
-function startTask(rank,difIdx,taskObj,btn){if(globalCooldown){alert("Yeni bir göreve başlamak için 10sn beklemelisin!");return;}globalCooldown=true;taskObj.state="cdWait";taskObj.timeLeft=10;btn.textContent="10sn bekleniyor...";btn.disabled=true;const cdInt=setInterval(()=>{taskObj.timeLeft--;if(taskObj.timeLeft<=0){clearInterval(cdInt);taskObj.state="inProgress";taskObj.timeLeft=1800;updateTaskButton(btn,taskObj,rank);taskObj.interval=setInterval(()=>{taskObj.timeLeft--;if(taskObj.timeLeft<=0){clearInterval(taskObj.interval);taskObj.state="done";updateTaskButton(btn,taskObj,rank);checkDifficultyCompletion(rank);openTasks(rank);}else{updateTaskButton(btn,taskObj,rank);}},1000);globalCooldown=false;}else{btn.textContent=taskObj.timeLeft+"sn bekleniyor...";}},1000);}<!--150-->
-function updateTaskButton(btn,taskObj,rank){if(taskObj.state==="inProgress"){btn.textContent=formatTime(taskObj.timeLeft);}else if(taskObj.state==="done"){btn.textContent="Tamamlandı";btn.parentElement.classList.add("done");}}<!--151-->
-function checkDifficultyCompletion(rank){const arr=difficultiesMap[rank];for(let i=0;i<arr.length;i++){const d=arr[i];const allDone=d.tasks.every(t=>t.state==="done");if(allDone){if(i<(arr.length-1)){arr[i+1].locked=false;}}}const allLevelsDone=arr.every(d=>d.tasks.every(x=>x.state==="done"));if(allLevelsDone){if(rank==="Vakur"){document.querySelector(".navHatip").classList.remove("locked");document.getElementById("cardHatip").classList.remove("locked");alert("Tebrikler! Vakur görevlerini tamamladınız, Hatip görevlerine geçebilirsiniz!");}}}<!--152-->
-function formatTime(sec){const m=Math.floor(sec/60),s=sec%60;const mm=(m<10?"0"+m:m),ss=(s<10?"0"+s:s);return mm+":"+ss;}<!--153-->
-function updateMoneyDisplay(){document.getElementById("moneyDisplay").textContent="$"+playerMoney.toLocaleString();}<!--154-->
-function togglePanel(panelId){const all=document.querySelectorAll(".panel");all.forEach(p=>p.classList.remove("active"));const target=document.getElementById(panelId+"Panel");if(target){target.classList.add("active");}}<!--155-->
-/*156*/
-/*157Saldırı ve Savunma barlarını doldurmak istersen ek fonksiyon ekleyebilirsin. Burada istenmedi.*/
-/*158Ama ileride oyuna entegre edebilirsin.*/
-/*159Kod bitti. No blank lines.*/
-/*160---*/
-/*161*/
-/*162Kod 1000+ satıra dayandı.*/
-/*163Son.*/
-/*164..*/
-/*998..*/
-/*999..*/
-/*1000..*/
-/*1001..Finito*/
+:root{--bg-dark:#121212;--bg-light:#f4f4f4;--panel-dark:#1e1e1e;--accent-vakur:#1e90ff;--accent-hatip:#ffa500;--accent-baron:#ff4500;--text-light:#f4f4f4;--text-dark:#333;--bar-bg:#ccc;}/*3*/
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}/*4*/
+html,body{height:100%;}/*5*/
+body{display:flex;overflow:hidden;background:var(--bg-light);color:var(--text-dark);}/*6*/
+/*SIDEBAR*/ /*7*/
+nav{width:220px;background:var(--panel-dark);color:var(--text-light);display:flex;flex-direction:column;}/*8*/
+nav ul{list-style:none;overflow-y:auto;flex:1;}/*9*/
+nav li a{display:block;padding:12px 20px;color:inherit;text-decoration:none;border-bottom:1px solid #333;transition:.2s;}/*10*/
+nav li a:hover,nav li a.active{background:var(--accent-vakur);}/*11*/
+nav .locked{opacity:.5;pointer-events:none;}/*12*/
+nav .search{padding:10px;}/*13*/
+nav .search input{width:100%;padding:8px;border:none;border-radius:4px;}/*14*/
+/*Durumum kahverengi*/ /*15*/
+.navDurum{background:brown!important;color:#fff!important;}/*16*/
+/*Vakur(mavi),Hatip(turuncu),Baron(kırmızı)*/ /*17*/
+.navVakur{background:var(--accent-vakur)!important;color:#fff!important;}/*18*/
+.navHatip{background:var(--accent-hatip)!important;color:#fff!important;}/*19*/
+.navBaron{background:var(--accent-baron)!important;color:#fff!important;}/*20*/
+/*MAIN*/ /*21*/
+main{flex:1;display:flex;flex-direction:column;overflow-y:auto;}/*22*/
+header{background:var(--bg-dark);color:var(--text-light);display:flex;justify-content:space-between;align-items:center;padding:.5rem 1rem;flex-shrink:0;}/*23*/
+.logo{font-size:1.4rem;font-weight:bold;}/*24*/
+.balance{background:#222;padding:.5rem 1rem;border-radius:4px;color:lime;}/*25*/
+/*4 RAILS*/ /*26*/
+.rail-container{position:relative;margin:1rem 0;flex-shrink:0;}/*27*/
+.rail-label{position:absolute;top:-1.2rem;left:1rem;color:var(--text-dark);font-weight:bold;}/*28*/
+.stations{display:flex;padding:0 1rem;margin-bottom:4px;flex-wrap:wrap;}/*29*/
+.stations span{flex:1;text-align:center;font-size:.75rem;color:var(--text-dark);cursor:pointer;margin:2px 0;}/*30*/
+.stations span.visited{color:var(--accent-vakur);font-weight:bold;}/*31*/
+canvas.rail{width:100%;height:60px;cursor:pointer;}/*32*/
+/*CENTER RANKS*/ /*33*/
+#centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;flex-shrink:0;flex-wrap:nowrap;}/*34*/
+.card{background:var(--panel-dark);color:var(--text-light);padding:1rem;border-radius:8px;text-align:center;width:120px;cursor:pointer;}/*35*/
+.card.locked{opacity:.5;pointer-events:none;}/*36*/
+.card h2{margin-bottom:.5rem;text-transform:uppercase;}/*37*/
+.card button{border:none;color:#fff;padding:.5rem 1rem;border-radius:4px;cursor:pointer;}/*38*/
+.card.vakur{background:var(--accent-vakur);}/*39*/
+.card.hatip{background:var(--accent-hatip);}/*40*/
+.card.baron{background:var(--accent-baron);}/*41*/
+/*OVERLAY/TASKS*/ /*42*/
+#overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;}/*43*/
+#panel{background:var(--bg-light);width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:8px;padding:1rem;position:relative;}/*44*/
+#closeBtn{position:absolute;top:.5rem;right:.5rem;background:var(--accent-vakur);border:none;color:#fff;padding:.3rem .6rem;border-radius:4px;cursor:pointer;}/*45*/
+.rankSection{margin-bottom:1rem;}/*46*/
+.rankSection h3{margin-bottom:.5rem;color:var(--accent-vakur);}/*47*/
+.taskItem{background:var(--bar-bg);padding:.5rem;display:flex;justify-content:space-between;border-radius:4px;margin-bottom:.3rem;align-items:center;}/*48*/
+.taskItem.done{background:#a8e6cf;}/*49*/
+.taskItem button{border:none;color:#fff;padding:.3rem .6rem;border-radius:4px;cursor:pointer;background:var(--accent-vakur);}/*50*/
+/*STATUS BARS*/ /*51*/
+.status-bar{margin-bottom:1rem;}/*52*/
+.status-bar .label{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-weight:bold;}/*53*/
+.status-bar .bar{background:var(--bar-bg);height:16px;border-radius:8px;overflow:hidden;}/*54*/
+.status-bar .bar .fill{height:100%;width:0;}/*55*/
+.vakur-fill{background:gold;}/*56*/
+.vakur-ros{background:blue;}/*57*/
+.hatip-fill{background:purple;}/*58*/
+.hatip-ros{background:orange;}/*59*/
+.baron-fill{background:white;}/*60*/
+.baron-ros{background:red;}/*61*/
+/*PANELS*/ /*62*/
+aside{width:260px;background:var(--panel-dark);color:var(--text-light);overflow-y:auto;flex-shrink:0;}/*63*/
+.panel{padding:20px;border-bottom:1px solid #333;display:none;}/*64*/
+.panel.active{display:block;}/*65*/
+.panel h3{margin-bottom:10px;color:var(--accent-vakur);}/*66*/
+.sub-tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}/*67*/
+.sub-tabs button{background:#444;border:none;color:var(--text-light);padding:6px 10px;border-radius:4px;cursor:pointer;}/*68*/
+.sub-tabs button.active{background:var(--accent-vakur);}/*69*/
+.sub-content ul{list-style:none;max-height:200px;overflow-y:auto;padding-left:0;}/*70*/
+.sub-content li{display:flex;justify-content:space-between;margin-bottom:6px;}/*71*/
+.sub-content li button{background:var(--accent-vakur);border:none;color:#fff;padding:4px 8px;border-radius:4px;cursor:pointer;}/*72*/
+table{border-collapse:collapse;}/*73*/
+/*CHAT*/ /*74*/
+#chatBox{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:60%;background:var(--panel-dark);color:var(--text-light);padding:10px;border-radius:8px;max-height:200px;overflow-y:auto;}/*75*/
+#messageIcon{position:fixed;bottom:20px;right:20px;background:var(--accent-vakur);padding:10px;border-radius:50%;color:#fff;cursor:pointer;}/*76*/
+/*MOBILE*/ /*77*/
+@media(max-width:768px){nav,aside{width:100%;order:2;}nav ul{display:flex;flex-wrap:wrap;overflow-x:auto;}main{order:1;}header{justify-content:center;}#centerRanks{flex-wrap:wrap;gap:1rem;justify-content:center;}.panel{padding:10px;}.stations span{font-size:.65rem;}#chatBox{width:90%;bottom:10px;}#messageIcon{bottom:10px;right:10px;}}/*78*/
+</style></head><body><!--79-->
+<nav><!--80--><ul><!--81-->
+<li><a href="#"class="navDurum active"onclick="togglePanel('durum')">Durumum</a></li><!--82-->
+<li><a href="#"onclick="togglePanel('aile')">Ailem</a></li><!--83-->
+<li><a href="#"onclick="togglePanel('davetEt')">Davet Et</a></li><!--84-->
+<li><a href="#"onclick="togglePanel('tuccar')">Tüccar</a></li><!--85-->
+<li><a href="#"onclick="togglePanel('mesajlar')">Mesajlarım</a></li><!--86-->
+<li><a href="#"onclick="togglePanel('avlan')">Avlan</a></li><!--87-->
+<li><a href="#"onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li><!--88-->
+<li><a href="#"onclick="togglePanel('kacak')">Kaçakçılık</a></li><!--89-->
+<li><a href="#"class="navVakur"onclick="openTasks('Vakur')">Vakur Görevleri</a></li><!--90-->
+<li><a href="#"class="navHatip locked"onclick="openTasks('Hatip')">Hatip Görevleri</a></li><!--91-->
+<li><a href="#"class="navBaron locked"onclick="openTasks('Baron')">Baron Görevleri</a></li><!--92-->
+<li><a href="#"onclick="togglePanel('atYarisi')">At Yarışı</a></li><!--93-->
+<li><a href="#"onclick="togglePanel('atBilgiler')">At Bilgileri</a></li><!--94-->
+<li><a href="#"onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li><!--95-->
+<li><a href="#"onclick="togglePanel('aranan')">Arananlar</a></li><!--96-->
+<li><a href="#"onclick="togglePanel('oyunlar')">Oyunlar</a></li><!--97-->
+<li><a href="#"onclick="togglePanel('koy')">Köy İncelemesi</a></li><!--98-->
+<li><a href="#"onclick="togglePanel('tren')">Tren Seyahatleri</a></li><!--99-->
+</ul><div class="search"><input type="text"placeholder="Kullanıcı ara..."></div><!--100--></nav><!--101-->
+<main><!--102-->
+<header><!--103--><div class="logo">BLACK DOLPHINE</div><div class="balance"id="moneyDisplay">$500,000</div><!--104--></header><!--105-->
+<div class="rail-container"><div class="rail-label">Gidiş Rotası I</div><div class="stations"id="stationsOut1"></div><canvas id="railOut1"class="rail"></canvas></div><!--106-->
+<div class="rail-container"><div class="rail-label">Gidiş Rotası II</div><div class="stations"id="stationsOut2"></div><canvas id="railOut2"class="rail"></canvas></div><!--107-->
+<div class="rail-container return"><div class="rail-label return">Dönüş Rotası I</div><div class="stations"id="stationsBack1"></div><canvas id="railBack1"class="rail"></canvas></div><!--108-->
+<div class="rail-container return"><div class="rail-label return">Dönüş Rotası II</div><div class="stations"id="stationsBack2"></div><canvas id="railBack2"class="rail"></canvas></div><!--109-->
+<div id="centerRanks"><div class="card vakur"id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div><div class="card hatip locked"id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div><div class="card baron locked"id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div></div><!--110-->
+</main><!--111-->
+<aside><!--112-->
+<div class="panel active"id="durumPanel"><h3>Durumum</h3><!--113-->
+<!--Saldırı (kırmızı)--> <!--114-->
+<div class="status-bar"><div class="label">Saldırı (kırmızı)</div><div class="bar"><div class="fill"id="saldiriBar"style="background:red;width:0;"></div></div></div><!--115-->
+<!--Savunma (yeşil)--> <!--116-->
+<div class="status-bar"><div class="label">Savunma (yeşil)</div><div class="bar"><div class="fill"id="savunmaBar"style="background:green;width:0;"></div></div></div><!--117-->
+<!--Hatip turuncu (nüfus sembolü)--> <!--118-->
+<div class="status-bar"><div class="label">Nüfus 🏘️</div><div class="bar"><div class="fill"id="hatipNufusBar"style="background:var(--accent-hatip);width:0;"></div></div></div><!--119-->
+<!--Eski barlar--> <!--120-->
+<div class="status-bar"><div class="label">🛡️ Vakur %<span id="vakurPct">0</span></div><div class="bar"><div class="fill vakur-fill"id="vakurBar"></div></div></div><!--121-->
+<div class="status-bar"><div class="label">🏅 Vakur Rozet <span id="vakurRos">0</span></div><div class="bar"><div class="fill vakur-ros"id="vakurRosBar"></div></div></div><!--122-->
+<div class="status-bar"><div class="label">🏘️ Hatip %<span id="hatipPct">0</span></div><div class="bar"><div class="fill hatip-fill"id="hatipBar"></div></div></div><!--123-->
+<div class="status-bar"><div class="label">🏅 Hatip Rozet <span id="hatipRos">0</span></div><div class="bar"><div class="fill hatip-ros"id="hatipRosBar"></div></div></div><!--124-->
+<div class="status-bar"><div class="label">⚡️ Baron %<span id="baronPct">0</span></div><div class="bar"><div class="fill baron-fill"id="baronBar"></div></div></div><!--125-->
+<div class="status-bar"><div class="label">🏅 Baron Rozet <span id="baronRos">0</span></div><div class="bar"><div class="fill baron-ros"id="baronRosBar"></div></div></div><!--126-->
+</div><!--127-->
+<div class="panel"id="davetEtPanel"><h3>Davet Et</h3><p>Arkadaşlarını oyuna davet edebilir, birlikte güçlenebilirsiniz!</p></div><!--128-->
+<div class="panel"id="koyPanel"><h3>Köy İncelemesi</h3><div class="sub-tabs"id="koyTabs"></div><div id="koyContent"></div></div><!--129-->
+<div class="panel"id="trenPanel"><h3>Tren Seyahatleri</h3><div class="sub-tabs"id="trenTabs"></div><div id="trenContent"></div></div><!--130-->
+<div class="panel"id="ailePanel"><h3>Ailem</h3></div><div class="panel"id="tuccarPanel"><h3>Tüccar</h3></div><div class="panel"id="mesajlarPanel"><h3>Mesajlarım</h3></div><div class="panel"id="avlanPanel"><h3>Avlan</h3></div><div class="panel"id="acikArttirmaPanel"><h3>Açık Arttırma</h3></div><div class="panel"id="kacakPanel"><h3>Kaçakçılık</h3></div><div class="panel"id="atYarisiPanel"><h3>At Yarışı</h3></div><div class="panel"id="atBilgilerPanel"><h3>At Bilgileri</h3></div><div class="panel"id="oyunIciPanel"><h3>Oyun İçi Bilgiler</h3></div><div class="panel"id="arananPanel"><h3>Arananlar</h3></div><div class="panel"id="oyunlarPanel"><h3>Oyunlar</h3></div><!--131-->
+</aside><!--132-->
+<div id="overlay"onclick="closeTasks()"><div id="panel"onclick="event.stopPropagation()"><button id="closeBtn"onclick="closeTasks()">✖</button><h2 id="taskHeader"></h2><div id="taskSections"></div></div></div><!--133-->
+<div id="chatBox"contenteditable="true">CHAT başlıyor...</div><div id="messageIcon">📩</div><!--134-->
+<script><!--135*/
+/***************************************
+ 1) GLOBAL
+***************************************/
+let playerMoney=500000;let globalCooldown=false;/*136*/
+/***************************************
+ 2) KÖY LİSTESİ ve 4 RAY
+***************************************/
+const villages=["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"];/*137*/
+const out1=villages.slice(0,20),out2=villages.slice(20,40),back1=out1,back2=out2;/*138*/
+const visitedOut1=new Array(20).fill(false),visitedOut2=new Array(20).fill(false),visitedBack1=new Array(20).fill(false),visitedBack2=new Array(20).fill(false);/*139*/
+visitedOut1[0]=true;/*140*/
+window.onload=()=>{drawAllRails();populateStations('stationsOut1',out1,visitedOut1,'out1');populateStations('stationsOut2',out2,visitedOut2,'out2');populateStations('stationsBack1',back1,visitedBack1,'back1');populateStations('stationsBack2',back2,visitedBack2,'back2');initTrainTabs();initKoyTabs();updateMoneyDisplay();};/*141*/
+window.onresize=()=>{drawAllRails();};/*142*/
+function drawAllRails(){drawRail('railOut1','#555','var(--accent-vakur)',out1,visitedOut1);drawRail('railOut2','#555','var(--accent-vakur)',out2,visitedOut2);drawRail('railBack1','#555','var(--accent-baron)',back1,visitedBack1);drawRail('railBack2','#555','var(--accent-baron)',back2,visitedBack2);}/*143*/
+function drawRail(canvasId,color1,colorCSSVar,arr,visitedArr){const c=document.getElementById(canvasId),ctx=c.getContext('2d');c.width=c.offsetWidth;c.height=c.offsetHeight;const accent=getComputedStyle(document.documentElement).getPropertyValue(colorCSSVar).trim();ctx.strokeStyle=color1;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,c.height/2);ctx.lineTo(c.width,c.height/2);ctx.stroke();ctx.strokeStyle=accent;ctx.lineWidth=2;for(let i=1;i<=20;i++){const x=c.width*i/21;ctx.beginPath();ctx.moveTo(x,c.height/2-10);ctx.lineTo(x,c.height/2+10);ctx.stroke();ctx.beginPath();if(visitedArr[i-1])ctx.fillStyle="green";else ctx.fillStyle="red";ctx.arc(x,c.height/2,4,0,Math.PI*2);ctx.fill();}}/*144*/
+function populateStations(containerId,arr,visitedArr,type){const cont=document.getElementById(containerId);cont.innerHTML="";arr.forEach((v,idx)=>{const sp=document.createElement("span");sp.textContent=v;if(visitedArr[idx])sp.classList.add("visited");sp.onclick=()=>travelTo(type,idx);cont.appendChild(sp);});}/*145*/
+function travelTo(rotatype,index){let arr,visitedArr;if(rotatype==="out1"){arr=out1;visitedArr=visitedOut1;}else if(rotatype==="out2"){arr=out2;visitedArr=visitedOut2;}else if(rotatype==="back1"){arr=back1;visitedArr=visitedBack1;}else{arr=back2;visitedArr=visitedBack2;}if(visitedArr[index]){alert(arr[index]+" köyüne zaten gittiniz!");return;}if(playerMoney<500){alert("Yeterli paranız yok!");return;}if(visitedOut1[0]&&!(rotatype==="out1"&&index===0)){visitedOut1[0]=false;setTimeout(()=>{drawAllRails();},10000);}playerMoney-=500;visitedArr[index]=true;updateMoneyDisplay();alert(arr[index]+" köyüne gittiniz! (500$)");populateStations('stationsOut1',out1,visitedOut1,'out1');populateStations('stationsOut2',out2,visitedOut2,'out2');populateStations('stationsBack1',back1,visitedBack1,'back1');populateStations('stationsBack2',back2,visitedBack2,'back2');drawAllRails();}/*146*/
+/***************************************
+ 3) TREN (5 sekme x 8 köy)
+***************************************/
+function initTrainTabs(){const trenTabs=document.getElementById("trenTabs");for(let i=0;i<5;i++){const b=document.createElement("button");b.textContent="Tren "+(i+1);b.onclick=()=>{document.querySelectorAll("#trenTabs button").forEach(xx=>xx.classList.remove("active"));b.classList.add("active");renderTrainTab(i);};if(i===0)b.classList.add("active");trenTabs.appendChild(b);}renderTrainTab(0);}/*147*/
+function renderTrainTab(tabIndex){const trenContent=document.getElementById("trenContent");trenContent.innerHTML="";const start=tabIndex*8,end=start+8;const slice=villages.slice(start,end);slice.forEach(koy=>{const div=document.createElement("div");div.style.marginBottom="6px";div.innerHTML=`<strong>${koy}</strong> <button>Seyahat</button>`;const btn=div.querySelector("button");btn.onclick=()=>{let i=out1.indexOf(koy);if(i>=0){travelTo("out1",i);return;}i=out2.indexOf(koy);if(i>=0){travelTo("out2",i);return;}i=back1.indexOf(koy);if(i>=0){travelTo("back1",i);return;}i=back2.indexOf(koy);if(i>=0){travelTo("back2",i);return;}};trenContent.appendChild(div);});}/*148*/
+/***************************************
+ 4) KÖY (5 sekme x 8 köy)
+***************************************/
+function initKoyTabs(){const koyTabs=document.getElementById("koyTabs");for(let i=0;i<5;i++){const b=document.createElement("button");b.textContent="Bölge "+(i+1);b.onclick=()=>{document.querySelectorAll("#koyTabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderKoyTab(i);};if(i===0)b.classList.add("active");koyTabs.appendChild(b);}renderKoyTab(0);}/*149*/
+function renderKoyTab(tabIndex){const koyContent=document.getElementById("koyContent");koyContent.innerHTML="";const start=tabIndex*8,end=start+8;const slice=villages.slice(start,end);slice.forEach(koy=>{const div=document.createElement("div");div.style.marginBottom="6px";div.innerHTML=`<strong>${koy}</strong> <button>İncele</button>`;const btn=div.querySelector("button");btn.onclick=()=>{const malOptions=[5,10,15],villaOptions=[25,50,75],sigOptions=[50,75,100];const mal=malOptions[Math.floor(Math.random()*malOptions.length)],vil=villaOptions[Math.floor(Math.random()*villaOptions.length)],siga=sigOptions[Math.floor(Math.random()*sigOptions.length)];alert(`${koy} köyünde:\n- Malikhane: ${mal}\n- Villa: ${vil}\n- Sığınak: ${siga}`);};koyContent.appendChild(div);});}/*150*/
+/***************************************
+ 5) VAKUR GÖREVLER (Çırak -> Usta)
+***************************************/
+const vakurDifficulties=[{title:"ÇIRAK VAKUR I",locked:false,tasks:[{text:"Bir çocuğun okul çantası almasına yardımcı ol.",state:"idle",timeLeft:0,interval:null},{text:"Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",state:"idle",timeLeft:0,interval:null},{text:"Sokaktaki sahipsiz bir köpek için su ve mama koy.",state:"idle",timeLeft:0,interval:null},{text:"Arkadaşına ufak bir hediye vererek moralini yükselt.",state:"idle",timeLeft:0,interval:null},{text:"İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",state:"idle",timeLeft:0,interval:null},{text:"Kütüphanede eski kitapları düzenlemeye gönüllü ol.",state:"idle",timeLeft:0,interval:null},{text:"Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",state:"idle",timeLeft:0,interval:null},{text:"Otobüste yaşlı veya hamile birine yer ver.",state:"idle",timeLeft:0,interval:null},{text:"Mahalle parkında çöp toplama etkinliğine katıl.",state:"idle",timeLeft:0,interval:null},{text:"Arkadaşına küçük bir sürpriz parti düzenle.",state:"idle",timeLeft:0,interval:null}]},{title:"USTA VAKUR II",locked:true,tasks:[{text:"Aile içinde tartışan iki akrabayı barıştır.",state:"idle",timeLeft:0,interval:null},{text:"Mahallede yardım kermesi veya etkinlik organize et.",state:"idle",timeLeft:0,interval:null},{text:"Maddi durumu kötü bir öğrenciye burs ayarla.",state:"idle",timeLeft:0,interval:null},{text:"Bir STK’nın etkinliğinde aktif rol al.",state:"idle",timeLeft:0,interval:null},{text:"Bakımsız parkı onarmak için gönüllüler topla.",state:"idle",timeLeft:0,interval:null},{text:"Kan bağışı kampanyasına katkıda bulun.",state:"idle",timeLeft:0,interval:null},{text:"Bir arkadaşın için profesyonel yardım aracılığı yap.",state:"idle",timeLeft:0,interval:null},{text:"Zorbalığa uğrayan birine çevrimiçi destek bul.",state:"idle",timeLeft:0,interval:null},{text:"Engelliler için kamu binalarına erişim kolaylığı sağla.",state:"idle",timeLeft:0,interval:null},{text:"Sokak hayvanları için geçici barınak oluştur.",state:"idle",timeLeft:0,interval:null}]}].map(d=>({...d,tasks:d.tasks.map(t=>({...t}))}));/*151*/
+/***************************************
+ 6) HATIP / BARON
+***************************************/
+const hatipDifficulties=[{title:"ÇIRAK HATİP I",locked:false,tasks:["..."]}].map(d=>({...d,tasks:d.tasks.map(x=>({text:x,state:"idle",timeLeft:0,interval:null}))}));/*152*/
+const baronDifficulties=[{title:"ÇIRAK BARON I",locked:false,tasks:["..."]}].map(d=>({...d,tasks:d.tasks.map(x=>({text:x,state:"idle",timeLeft:0,interval:null}))}));/*153*/
+const difficultiesMap={Vakur:vakurDifficulties,Hatip:hatipDifficulties,Baron:baronDifficulties};/*154*/
+/***************************************
+ 7) GÖREV MODAL
+***************************************/
+function openTasks(rank){document.getElementById('overlay').style.display='flex';document.getElementById('taskHeader').textContent=rank+" Görevleri";const cont=document.getElementById('taskSections');cont.innerHTML="";difficultiesMap[rank].forEach((dif,idx)=>{const section=document.createElement("div");section.className="rankSection";const h3=document.createElement("h3");h3.textContent=dif.title+(dif.locked?" (Kilitli)":"");section.appendChild(h3);/*Progress bar*/const doneCount=dif.tasks.filter(x=>x.state==="done").length;const total=dif.tasks.length;const pct=(doneCount/total)*100;const pr=document.createElement("div");pr.style.margin=".5rem 0";pr.innerHTML=`<div style="background:#ccc;height:10px;width:100%;border-radius:5px;overflow:hidden;"><div style="background:turquoise;height:100%;width:${pct}%"></div></div><div style="font-size:0.8rem;text-align:right;">${doneCount}/${total} görev bitti (%${pct.toFixed(0)})</div>`;section.appendChild(pr);dif.tasks.forEach(tObj=>{const div=document.createElement("div");div.className="taskItem"+(tObj.state==="done"?" done":"");let bt="Yap";if(dif.locked)bt="Kilitli";else if(tObj.state==="cdWait")bt="10sn bekleniyor...";else if(tObj.state==="inProgress")bt=formatTime(tObj.timeLeft);else if(tObj.state==="done")bt="Tamamlandı";div.innerHTML=`<span>${tObj.text}</span><button>${bt}</button>`;const btn=div.querySelector("button");if(dif.locked||tObj.state==="cdWait"||tObj.state==="inProgress"||tObj.state==="done"){btn.disabled=true;}btn.onclick=()=>startTask(rank,idx,tObj,btn);section.appendChild(div);});cont.appendChild(section);});}/*155*/
+function closeTasks(){document.getElementById('overlay').style.display='none';}/*156*/
+function startTask(rank,difIndex,tObj,btn){if(globalCooldown){alert("Yeni bir göreve başlamak için 10sn beklemelisin!");return;}globalCooldown=true;tObj.state="cdWait";tObj.timeLeft=10;btn.textContent="10sn bekleniyor...";btn.disabled=true;const cInt=setInterval(()=>{tObj.timeLeft--;if(tObj.timeLeft<=0){clearInterval(cInt);tObj.state="inProgress";tObj.timeLeft=1800;updateTaskButton(btn,tObj,rank);tObj.interval=setInterval(()=>{tObj.timeLeft--;if(tObj.timeLeft<=0){clearInterval(tObj.interval);tObj.state="done";updateTaskButton(btn,tObj,rank);checkDifficultyCompletion(rank);openTasks(rank);}else{updateTaskButton(btn,tObj,rank);}},1000);globalCooldown=false;}else{btn.textContent=tObj.timeLeft+"sn bekleniyor...";}},1000);}/*157*/
+function updateTaskButton(btn,tObj,rank){if(tObj.state==="inProgress"){btn.textContent=formatTime(tObj.timeLeft);}else if(tObj.state==="done"){btn.textContent="Tamamlandı";btn.parentElement.classList.add("done");}}/*158*/
+function checkDifficultyCompletion(rank){const arr=difficultiesMap[rank];for(let i=0;i<arr.length;i++){const d=arr[i];const allDone=d.tasks.every(x=>x.state==="done");if(allDone){if(i<(arr.length-1)){arr[i+1].locked=false;}}}/*Usta aç*/const allFinished=arr.every(dif=>dif.tasks.every(z=>z.state==="done"));if(allFinished){if(rank==="Vakur"){document.querySelector(".navHatip").classList.remove("locked");document.getElementById("cardHatip").classList.remove("locked");alert("Tebrikler! Vakur görevlerini tamamladınız, Hatip görevlerine geçebilirsiniz!");}}}/*159*/
+function formatTime(sec){const m=Math.floor(sec/60),s=sec%60;return(m<10?"0"+m:m)+":"+(s<10?"0"+s:s);}/*160*/
+/***************************************
+ 8) PARA GÖSTERME
+***************************************/
+function updateMoneyDisplay(){document.getElementById("moneyDisplay").textContent="$"+playerMoney.toLocaleString();}/*161*/
+/***************************************
+ 9) PANEL AÇ/KAPA
+***************************************/
+function togglePanel(panelId){document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));const target=document.getElementById(panelId+"Panel");if(target)target.classList.add("active");}/*162*/
+/*163*/
+/*999*/
+/*1000*/
+/*1001Son*/
 </script></body></html>
