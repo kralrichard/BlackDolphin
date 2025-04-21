@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Black Dolphine – Mafia Oyunu</title>
   <style>
     :root {
@@ -16,125 +16,61 @@
       --text-dark: #333;
       --bar-bg: #ccc;
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    html, body { height:100%; }
-    body { display:flex; overflow:hidden; background:var(--bg-light); color:var(--text-dark); }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+    html,body{height:100%;}
+    body{display:flex;overflow:hidden;background:var(--bg-light);color:var(--text-dark);}
     /* SIDEBAR */
-    nav { width:220px; background:var(--panel-dark); color:var(--text-light); display:flex; flex-direction:column; }
-    nav ul { list-style:none; overflow-y:auto; flex:1; }
-    nav li a {
-      display:block; padding:12px 20px; color:inherit; text-decoration:none;
-      border-bottom:1px solid #333;
-    }
-    nav li a:hover, nav li a.active { background:var(--accent-vakur); }
-    nav .locked { opacity:0.5; pointer-events:none; }
-    nav .search { padding:10px; }
-    nav .search input { width:100%; padding:8px; border:none; border-radius:4px; }
+    nav{width:220px;background:var(--panel-dark);color:var(--text-light);display:flex;flex-direction:column;}
+    nav ul{list-style:none;overflow-y:auto;flex:1;}
+    nav li a{display:block;padding:12px 20px;color:inherit;text-decoration:none;border-bottom:1px solid #333;}
+    nav li a.active, nav li a:hover{background:var(--accent-vakur);}
+    nav li a.locked{opacity:0.5;pointer-events:none;}
+    nav .search{padding:10px;}
+    nav .search input{width:100%;padding:8px;border:none;border-radius:4px;}
     /* MAIN */
-    main { flex:1; display:flex; flex-direction:column; overflow-y:auto; }
-    header {
-      background:var(--bg-dark); color:var(--text-light);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:0.5rem 1rem; flex-shrink:0;
-    }
-    .logo { font-size:1.4rem; font-weight:bold; }
-    .balance {
-      background:#222; padding:0.5rem 1rem; border-radius:4px; color:lime;
-    }
+    main{flex:1;display:flex;flex-direction:column;overflow-y:auto;}
+    header{background:var(--bg-dark);color:var(--text-light);display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;flex-shrink:0;}
+    .logo{font-size:1.4rem;font-weight:bold;}
+    .balance{background:#222;padding:0.5rem 1rem;border-radius:4px;color:lime;}
     /* RAILS */
-    .rail-container {
-      position:relative; height:60px; margin:0 1rem; flex-shrink:0;
-    }
-    canvas.rail { width:100%; height:100%; }
-    .rail-label {
-      position:absolute; top:10px; left:20px; color:var(--text-dark); font-weight:bold;
-    }
-    .rail-label.return { top:auto; bottom:10px; }
+    .rail-container{position:relative;height:60px;margin:0 1rem;flex-shrink:0;}
+    canvas.rail{width:100%;height:100%;}
+    .rail-label{position:absolute;top:10px;left:20px;color:var(--text-dark);font-weight:bold;}
+    .rail-label.return{top:auto;bottom:10px;}
     /* CENTER RANKS */
-    #centerRanks {
-      display:flex; justify-content:center; gap:2rem; padding:1rem; flex-shrink:0;
-    }
-    .card {
-      background:var(--panel-dark); color:var(--text-light);
-      padding:1rem; border-radius:8px; text-align:center;
-      width:120px; cursor:pointer;
-    }
-    .card.locked { opacity:0.5; pointer-events:none; }
-    .card h2 { margin-bottom:0.5rem; text-transform:uppercase; }
-    .card button {
-      border:none; color:#fff; padding:0.5rem 1rem; border-radius:4px;
-      cursor:pointer;
-    }
-    /* OVERLAY (TASK MODAL) */
-    #overlay {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.7); display:none;
-      align-items:center; justify-content:center;
-    }
-    #panel {
-      background:var(--bg-light); width:90%; max-width:600px;
-      max-height:80%; overflow-y:auto; border-radius:8px; padding:1rem; position:relative;
-    }
-    #closeBtn {
-      position:absolute; top:0.5rem; right:0.5rem;
-      background:#444; border:none; color:#fff; padding:0.3rem 0.6rem;
-      border-radius:4px; cursor:pointer;
-    }
-    .rankSection { margin-bottom:1rem; }
-    .rankSection h3 { margin-bottom:0.5rem; color:var(--accent-vakur); }
-    .taskItem {
-      background:var(--bar-bg); padding:0.5rem; display:flex;
-      justify-content:space-between; border-radius:4px; margin-bottom:0.3rem;
-    }
-    .taskItem.done { background:#a8e6cf; }
-    .taskItem button {
-      border:none; color:#fff; padding:0.3rem 0.6rem; border-radius:4px;
-      cursor:pointer;
-    }
-    /* STATUS BARS (DURUMUM) */
-    .status-bar { margin-bottom:1rem; }
-    .status-bar .label {
-      display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem; font-weight:bold;
-    }
-    .status-bar .bar {
-      background:var(--bar-bg); height:16px; border-radius:8px; overflow:hidden;
-    }
-    .status-bar .bar .fill { height:100%; width:0%; }
+    #centerRanks{display:flex;justify-content:center;gap:2rem;padding:1rem;flex-shrink:0;}
+    .card{background:var(--panel-dark);color:var(--text-light);padding:1rem;border-radius:8px;text-align:center;width:120px;cursor:pointer;}
+    .card.locked{opacity:0.5;pointer-events:none;}
+    .card h2{margin-bottom:0.5rem;text-transform:uppercase;}
+    .card button{border:none;color:#fff;padding:0.5rem 1rem;border-radius:4px;cursor:pointer;}
+    /* OVERLAY */
+    #overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;}
+    #panel{background:var(--bg-light);width:90%;max-width:600px;max-height:80%;overflow-y:auto;border-radius:8px;padding:1rem;position:relative;}
+    #closeBtn{position:absolute;top:0.5rem;right:0.5rem;background:#444;border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
+    .rankSection{margin-bottom:1rem;}
+    .rankSection h3{margin-bottom:0.5rem;color:var(--accent-vakur);}
+    .taskItem{background:var(--bar-bg);padding:0.5rem;display:flex;justify-content:space-between;border-radius:4px;margin-bottom:0.3rem;align-items:center;}
+    .taskItem.done{background:#a8e6cf;}
+    .taskItem button{border:none;color:#fff;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;}
+    /* STATUS BARS */
+    .status-bar{margin-bottom:1rem;}
+    .status-bar .label{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem;font-weight:bold;}
+    .status-bar .bar{background:var(--bar-bg);height:16px;border-radius:8px;overflow:hidden;}
+    .status-bar .bar .fill{height:100%;width:0%;}
     /* PANELS */
-    aside {
-      width:260px; background:var(--panel-dark);
-      color:var(--text-light); overflow-y:auto; flex-shrink:0;
-    }
-    .panel { padding:20px; border-bottom:1px solid #333; display:none; }
-    .panel.active { display:block; }
-    .panel h3 { margin-bottom:10px; color:var(--accent-vakur); }
-    .sub-tabs { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
-    .sub-tabs button {
-      background:#444; border:none; color:var(--text-light);
-      padding:6px 10px; border-radius:4px; cursor:pointer;
-    }
-    .sub-tabs button.active { background:var(--accent-vakur); }
-    .sub-content ul {
-      list-style:none; max-height:200px; overflow-y:auto; padding-left:0;
-    }
-    .sub-content li {
-      display:flex; justify-content:space-between; margin-bottom:6px;
-    }
-    .sub-content li button {
-      background:var(--accent-vakur); border:none; color:#fff;
-      padding:4px 8px; border-radius:4px; cursor:pointer;
-    }
+    aside{width:260px;background:var(--panel-dark);color:var(--text-light);overflow-y:auto;flex-shrink:0;}
+    .panel{padding:20px;border-bottom:1px solid #333;display:none;}
+    .panel.active{display:block;}
+    .panel h3{margin-bottom:10px;color:var(--accent-vakur);}
+    .sub-tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+    .sub-tabs button{background:#444;border:none;color:var(--text-light);padding:6px 10px;border-radius:4px;cursor:pointer;}
+    .sub-tabs button.active{background:var(--accent-vakur);}
+    .sub-content ul{list-style:none;max-height:200px;overflow-y:auto;padding-left:0;}
+    .sub-content li{display:flex;justify-content:space-between;margin-bottom:6px;}
+    .sub-content li button{background:var(--accent-vakur);border:none;color:#fff;padding:4px 8px;border-radius:4px;cursor:pointer;}
     /* CHAT */
-    #chatBox {
-      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-      width:60%; background:var(--panel-dark); color:var(--text-light);
-      padding:10px; border-radius:8px; max-height:200px; overflow-y:auto;
-    }
-    #messageIcon {
-      position:fixed; bottom:20px; right:20px;
-      background:var(--accent-vakur); padding:10px; border-radius:50%; color:#fff;
-      cursor:pointer;
-    }
+    #chatBox{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:60%;background:var(--panel-dark);color:var(--text-light);padding:10px;border-radius:8px;max-height:200px;overflow-y:auto;}
+    #messageIcon{position:fixed;bottom:20px;right:20px;background:var(--accent-vakur);padding:10px;border-radius:50%;color:#fff;cursor:pointer;}
     /* MOBILE */
     @media(max-width:768px){
       nav,aside{width:100%;order:2;}
@@ -173,68 +109,63 @@
       <li><a href="#" onclick="togglePanel('koy',event)">Köy İncelemesi</a></li>
       <li><a href="#" onclick="togglePanel('tren',event)">Tren Seyahatleri</a></li>
     </ul>
-    <div class="search"><input type="text" placeholder="Kullanıcı ara…"></div>
+    <div class="search"><input placeholder="Kullanıcı ara…" /></div>
   </nav>
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
       <div class="balance">$500.000</div>
     </header>
-    <div class="rail-container">
-      <div class="rail-label">Gidiş Rotası</div>
-      <canvas id="railOut" class="rail"></canvas>
-    </div>
+    <div class="rail-container"><div class="rail-label">Gidiş Rotası</div><canvas id="railOut" class="rail"></canvas></div>
     <div id="centerRanks">
       <div class="card" id="cardVakur"><h2 style="color:var(--accent-vakur)">VAKUR</h2>
-        <button onclick="openTasks('Vakur',event)" style="background:var(--accent-vakur)">Serüven</button>
+        <button style="background:var(--accent-vakur)" onclick="openTasks('Vakur',event)">Serüven</button>
       </div>
       <div class="card locked" id="cardHatip"><h2 style="color:var(--accent-hatip)">HATİP</h2>
-        <button onclick="openTasks('Hatip',event)" style="background:var(--accent-hatip)">Serüven</button>
+        <button style="background:var(--accent-hatip)" onclick="openTasks('Hatip',event)">Serüven</button>
       </div>
       <div class="card locked" id="cardBaron"><h2 style="color:var(--accent-baron)">BARON</h2>
-        <button onclick="openTasks('Baron',event)" style="background:var(--accent-baron)">Serüven</button>
+        <button style="background:var(--accent-baron)" onclick="openTasks('Baron',event)">Serüven</button>
       </div>
     </div>
-    <div class="rail-container">
-      <div class="rail-label return">Dönüş Rotası</div>
-      <canvas id="railBack" class="rail"></canvas>
-    </div>
+    <div class="rail-container"><div class="rail-label return">Dönüş Rotası</div><canvas id="railBack" class="rail"></canvas></div>
   </main>
 
   <!-- RIGHT PANELS -->
   <aside>
     <div class="panel active" id="durumPanel">
       <h3>Durumum</h3>
-      <!-- Vakur -->
+      <!-- Vakur % / Rozet -->
       <div class="status-bar">
         <div class="label">🛡️ Vakur %<span id="vakurPct">0</span></div>
-        <div class="bar"><div class="fill" id="vakurBar" style="background:var(--accent-vakur)"></div></div>
+        <div class="bar"><div id="vakurBar" class="fill" style="background:var(--accent-vakur)"></div></div>
       </div>
       <div class="status-bar">
         <div class="label">🏅 Vakur Rozet <span id="vakurRos">0</span></div>
-        <div class="bar"><div class="fill" id="vakurRosBar" style="background:var(--accent-vakur)"></div></div>
+        <div class="bar"><div id="vakurRosBar" class="fill" style="background:var(--accent-vakur)"></div></div>
       </div>
       <!-- Hatip -->
       <div class="status-bar">
         <div class="label">🏘️ Hatip %<span id="hatipPct">0</span></div>
-        <div class="bar"><div class="fill" id="hatipBar" style="background:var(--accent-hatip)"></div></div>
+        <div class="bar"><div id="hatipBar" class="fill" style="background:var(--accent-hatip)"></div></div>
       </div>
       <div class="status-bar">
         <div class="label">🏅 Hatip Rozet <span id="hatipRos">0</span></div>
-        <div class="bar"><div class="fill" id="hatipRosBar" style="background:var(--accent-hatip)"></div></div>
+        <div class="bar"><div id="hatipRosBar" class="fill" style="background:var(--accent-hatip)"></div></div>
       </div>
       <!-- Baron -->
       <div class="status-bar">
         <div class="label">⚡️ Baron %<span id="baronPct">0</span></div>
-        <div class="bar"><div class="fill" id="baronBar" style="background:var(--accent-baron)"></div></div>
+        <div class="bar"><div id="baronBar" class="fill" style="background:var(--accent-baron)"></div></div>
       </div>
       <div class="status-bar">
         <div class="label">🏅 Baron Rozet <span id="baronRos">0</span></div>
-        <div class="bar"><div class="fill" id="baronRosBar" style="background:var(--accent-baron)"></div></div>
+        <div class="bar"><div id="baronRosBar" class="fill" style="background:var(--accent-baron)"></div></div>
       </div>
     </div>
+    <!-- diğer paneller -->
     <div class="panel" id="ailePanel"><h3>Ailem</h3><ul><li>Üye 1</li><li>Üye 2</li></ul></div>
     <div class="panel" id="tuccarPanel"><h3>Tüccar</h3><ul><li>Silah – 2500$</li><li>Bomba – 1000$</li></ul></div>
     <div class="panel" id="mesajlarPanel"><h3>Mesajlarım</h3><ul><li>Mesaj 1</li></ul></div>
@@ -272,7 +203,7 @@
   <div id="messageIcon">📩</div>
 
   <script>
-    // 40+2 Köy + Ray Çizimi
+    // 40 Köy + 2 yeni
     const villages=[
       "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
       "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
@@ -300,7 +231,7 @@
     };
     window.onresize=()=>{ drawRail('railOut','#555','#e63946'); drawRail('railBack','#555','#a8dadc'); };
 
-    // Sidebar panel switch
+    // Sidebar switch
     function togglePanel(id,event){
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       event.currentTarget.classList.add('active');
@@ -309,15 +240,14 @@
       closeTasks();
     }
 
-    // Köy/Tren tabs
+    // Tabs
     function initTabs(tabId,pageId,items){
-      const tabs=document.getElementById(tabId), pages=document.getElementById(pageId);
+      const tabs=document.getElementById(tabId),pages=document.getElementById(pageId);
       tabs.innerHTML=''; pages.innerHTML='';
-      const per=8, pagesCount=Math.ceil(items.length/per);
-      for(let p=0;p<pagesCount;p++){
-        let btn=document.createElement('button');
-        btn.innerText=p+1; btn.onclick=()=>showPage(p,tabId,pageId);
-        tabs.appendChild(btn);
+      const per=8,count=Math.ceil(items.length/per);
+      for(let p=0;p<count;p++){
+        let btn=document.createElement('button'); btn.innerText=p+1;
+        btn.onclick=()=>showPage(p,tabId,pageId); tabs.appendChild(btn);
         let div=document.createElement('div'); div.className='sub-content';
         let ul=document.createElement('ul');
         for(let i=p*per;i<Math.min((p+1)*per,items.length);i++){
@@ -336,22 +266,205 @@
       document.querySelectorAll(`#${pageId} .sub-content`)[idx].style.display='block';
     }
 
-    // 150 Görev tanımı
+    // 150 görev
     const tasks={
-      Vakur:[ /* 5×10 görev (ÇIRAK–YÜCE) yukarıdaki kod bloğundan kopyalayın */ ],
-      Hatip:[ /* 5×10 görev */ ],
-      Baron:[ /* 5×10 görev */ ]
+      Vakur:[
+        {title:"ÇIRAK VAKUR I",tasks:[
+          "Bir çocuğun okul çantası almasına yardımcı ol.",
+          "Mahalledeki yaşlı bir komşunun alışveriş poşetlerini taşı.",
+          "Sokaktaki sahipsiz bir köpek için su ve mama koy.",
+          "Arkadaşına ufak bir hediye vererek moralini yükselt.",
+          "İşsiz bir tanıdığına CV hazırlama konusunda destek ol.",
+          "Kütüphanede eski kitapları düzenlemeye gönüllü ol.",
+          "Bir hayır kurumuna ufak bir bağış yap veya yardım topla.",
+          "Otobüste yaşlı veya hamile birine yer ver.",
+          "Mahalle parkında çöp toplama etkinliğine katıl.",
+          "Arkadaşına küçük bir sürpriz parti düzenle."
+        ]},
+        {title:"USTA VAKUR II",tasks:[
+          "Aile içinde tartışan iki akrabayı barıştır.",
+          "Mahallede yardım kermesi organize et.",
+          "Maddi durumu kötü bir öğrenciye burs ayarla.",
+          "Bir STK’nın etkinliğinde aktif rol al.",
+          "Bakımsız parkı onarmak için gönüllüler topla.",
+          "Kan bağışı kampanyasına katkıda bulun.",
+          "Bir arkadaşın için profesyonel yardım aracılığı yap.",
+          "Zorbalığa uğrayan birine çevrim içi destek bul.",
+          "Engelliler için kamu binalarına erişim kolaylığı sağla.",
+          "Sokak hayvanları için geçici barınak oluştur."
+        ]},
+        {title:"UZMAN VAKUR III",tasks:[
+          "Afet bölgesine yardım ekibi olarak katıl.",
+          "Kronik bir sorun için belediyeyle görüşüp çözüm talep et.",
+          "Zor durumdaki aileye iş veya barınma imkânı sağla.",
+          "Hayvan barınağında kapsamlı bakım ve temizlik yap.",
+          "Küs olan iki arkadaşın barışmasına aracılık et.",
+          "Toplum dışlanmış birini etkinliklere dahil et.",
+          "Küçük çaplı bağış kampanyası düzenle.",
+          "Yerel hastanede gönüllü refakat programına katıl.",
+          "Belediye ile iş birliği yaparak gençlik merkezi aç.",
+          "Maddi sıkıntı yaşayan aileler için erzak paketi dağıtımı yap."
+        ]},
+        {title:"EFSANE VAKUR IV",tasks:[
+          "Büyük ölçekli yardım projesine liderlik et.",
+          "Gençlere yönelik mentorluk programı başlat.",
+          "Meslek edindirme kursu organize et.",
+          "Toplumsal soruna belediye-STK ortaklığıyla çözüm üret.",
+          "Gönüllü ekibi kurarak yaşlı bakımevlerini ziyaret et.",
+          "Okullarda 'empati ve yardımseverlik' semineri düzenle.",
+          "Sosyal medya kampanyasıyla yardım toplama etkinliği düzenle.",
+          "Ücretsiz terapi/rehberlik günü organize et.",
+          "Üniversite öğrencilerine staj imkânları sunan platform oluştur.",
+          "Çevre koruma amaçlı ağaçlandırma kampanyası düzenle."
+        ]},
+        {title:"YÜCE VAKUR V",tasks:[
+          "Ulusal çapta sosyal sorumluluk projesi yürüt.",
+          "Büyük bağış konseri/festival düzenle.",
+          "Gönüllüleri bir araya getiren platform kur.",
+          "Eğitim bursu fonu başlat.",
+          "Aile içi şiddete koruma ve rehabilitasyon hizmeti oluştur.",
+          "Yardım vakfı kurarak sürekli yardım yürüt.",
+          "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
+          "Yurt çapında geri dönüşüm projesi başlat.",
+          "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
+          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
+        ]}
+      ],
+      Hatip:[
+        {title:"ÇIRAK HATİP I",tasks:[
+          "Sokak kavgasını tatlı dille sakinleştir.",
+          "Arkadaşlar arasındaki tartışmayı yapıcı sözlerle çöz.",
+          "Aile içi gerginliği dinleyerek gider.",
+          "Sosyal medyada tartışmayı tatlıya bağla.",
+          "Yanlış bilgiyi doğru kaynakla düzelt.",
+          "Dedikoduyu kaynağından çürüterek sakinleştir.",
+          "Okul/kulüp etkinliğinde kısa konuşma yap.",
+          "Ufak grupta hitabet pratiği yap.",
+          "Arkadaş grubuna moral verici konuşma yap.",
+          "Sosyal medya üzerinden bilgilendirici yayın yap."
+        ]},
+        {title:"USTA HATİP II",tasks:[
+          "Komşular arasındaki sorunu toplantı ile çöz.",
+          "İş yerindeki iletişim kopukluğunu arabuluculuk yaparak gider.",
+          "Yerel hayır kurumuna bağış toplamak için ikna et.",
+          "Küçük öğrenci grubuna hitabet eğitimi düzenle.",
+          "Aile şirketinde tartışmada hakemlik yap.",
+          "Sivil toplum girişiminde gönüllü konuşmacı ol.",
+          "Mahalle muhtarıyla imza kampanyası başlat.",
+          "Gönüllü ekiple sokak sanatçılarına destek sağla.",
+          "Mahallede çevre bilinci semineri düzenle.",
+          "Gençlere yönelik küçük münazara yarışmaları organize et."
+        ]},
+        {title:"UZMAN HATİP III",tasks:[
+          "İki rakip grubu bir araya getirip barış görüşmesi yap.",
+          "Ulusal platformda toplumsal bir konuda konuş.",
+          "Büyük iş anlaşmazlığında arabulucu rol üstlen.",
+          "Mahalle halkının taleplerini dile getirip sonuç al.",
+          "Üniversite protestosunu uzlaşma yoluyla sonlandır.",
+          "Esnaf arasındaki fiyat anlaşmazlığını uzlaştır.",
+          "Binlerce kişilik tartışmayı sakinleştir.",
+          "Sivil toplum zirvesinde temsilci olarak konuş.",
+          "Yerel basında toplumsal sorunlar üzerine köşe yazısı yayınla.",
+          "İşsizlere yönelik motivasyon konuşması gerçekleştir."
+        ]},
+        {title:"EFSANE HATİP IV",tasks:[
+          "Bölgesel toplum hareketine önderlik et.",
+          "Ulusal konferansta çözüm önerileri sun.",
+          "Yerel siyasetçiler ve STK’ler arasında diyaloğu güçlendir.",
+          "Barış çalıştayında moderatörlük yap.",
+          "Kurumsal şirkette üst düzey müzakerelerde bulun.",
+          "Mahalle gerginliğini uzlaşı belgesiyle sonlandır.",
+          "Şehrin önde gelenleriyle büyük kampanya düzenle.",
+          "Üniversitede 'Barışçıl İletişim ve Diplomasi' dersi ver.",
+          "Kamu kurumlarında iletişim eğitimi ver.",
+          "Şiddetsiz iletişim üzerine farkındalık kampanyası başlat."
+        ]},
+        {title:"YÜCE HATİP V",tasks:[
+          "Yerel topluluklarda barış kültürü aşıla.",
+          "Sosyal medya üzerinden olumlu mesajlar yay.",
+          "Yerel liderlerle yakın işbirliği kur.",
+          "Eski çatışmaları unut, yeni başlangıçlar yap.",
+          "Kriz zamanlarında destek ağı oluştur.",
+          "Halk arasında iletişimi güçlendir.",
+          "Barış temalı etkinlikler düzenle.",
+          "Toplumu huzura kavuşturan projeler geliştir.",
+          "Mafya aileleri arasında dayanışmayı sağla.",
+          "Etkinliklerle sosyal dengeyi koru."
+        ]}
+      ],
+      Baron:[
+        {title:"Basit Baron I",tasks:[
+          "Ufak çapta uyuşturucu satmayı dene.",
+          "Mahallede küçük koruma ücreti topla.",
+          "Kafe/mekândan ufak haraç iste.",
+          "Sokak satıcıları arasında rekabeti lehine çevir.",
+          "Sahte marka ürünlerin satış ağını oluştur.",
+          "Şantaj veya tehditle rakibi sustur.",
+          "Ufak çetenin desteğiyle güvenlik sağlandığını iddia et.",
+          "Kaçak içki satışı yapan ekibe arka çık.",
+          "Düşük profilli haraç toplama yap.",
+          "Gece bekçisi ile bağlantı kur."
+        ]},
+        {title:"Orta Baron II",tasks:[
+          "Esnaftan düzenli koruma parası toplamaya başla.",
+          "Polis/memurlarla rüşvet bağlantısı kur.",
+          "Yasadışı kumar organizasyonu başlat.",
+          "Rakip çeteyle gerginliği lehine çöz.",
+          "Silah veya uyuşturucu sevkiyatına lojistik destek ver.",
+          "Yasa dışı bahis mekanlarıyla anlaş.",
+          "Kara para aklama için küçük sermaye oluştur.",
+          "Gece kulübünün gizli ortak statüsünü al.",
+          "Yerel siyasetçilere fon aktar.",
+          "Arka kapı ilişkileri yönet."
+        ]},
+        {title:"Zor Baron III",tasks:[
+          "Orta ölçekli uyuşturucu ağında distribütörlüğü ele al.",
+          "Rakip baronun iş anlaşmasına sızıp bilgileri çal.",
+          "Polis ve siyasi bağlantıları güçlendir.",
+          "Büyük kazanç sağlayacak silah sevkiyatı organize et.",
+          "Gece kulüplerinde yatırımın tekeli olsun.",
+          "Rakip çetenin liderini korkutarak saflarına katıl.",
+          "Beyaz yakalı iş çevresinde kara para aklamayı genişlet.",
+          "Orta düzey siyasetçilere fon sağlayarak nüfuzunu arttır.",
+          "Kara nakit akış şeması kur.",
+          "Bölgesel güvenlik ağını kontrol et."
+        ]},
+        {title:"İleri Baron IV",tasks:[
+          "Uluslararası uyuşturucu hattına doğrudan giriş yap.",
+          "Üst düzey bürokratlarla gizli anlaşmalar yap.",
+          "Rakip baronlarla barış konferansı düzenleyip ittifak kur.",
+          "Yurt dışı kara para aklama ofisleri aç.",
+          "Güvenlik birimlerinde kilit isimleri satın al.",
+          "Şehrin limanlarında kontrol sağla.",
+          "Gösterişli hayır işleriyle meşrulaş.",
+          "Kumarhane zinciri kurarak yasadışı gelirleri yasallaştır.",
+          "Ulusal medya ile bağlantı yönet.",
+          "Yüksek profilli haraç programı başlat."
+        ]},
+        {title:"Son Baron V",tasks:[
+          "Küresel çapta eğitim reformlarını destekleyen vakıf kur ve finanse et.",
+          "Prestijli üniversitelerin kampüs inşaatlarına yatırım yap.",
+          "Üst düzey bilimsel araştırmalara mali destek sağla.",
+          "Küresel sağlık fonları kurarak sağlık sistemlerini destekle.",
+          "Protez bacak ve sağlık ekipmanları üretimine büyük yatırım yap.",
+          "Dünya genelinde mafya zirvesine katılarak temsilcilik yap.",
+          "Yurt dışı yatırımları yönet.",
+          "Uluslararası kaçakçılık ağının liderliğini devral.",
+          "Kumarhane zinciri ve malikâne sahibi ol.",
+          "Küresel finans ağını kontrol et."
+        ]}
+      ]
     };
-    // (Görev dizilerini yukarıdaki bloktan eksiksiz kopyalayın)
 
     let done={Vakur:0,Hatip:0,Baron:0}, unlocked={Vakur:true,Hatip:false,Baron:false};
 
     function openTasks(rank,event){
-      if(!unlocked[rank]) return alert(rank+' kilitli!');
-      // aktifleştir sidebar link
+      if(!unlocked[rank]){ alert(rank+' kilitli!'); return; }
       document.querySelectorAll('nav li a').forEach(a=>a.classList.remove('active'));
       event.currentTarget.classList.add('active');
-      // render
+      document.querySelectorAll('aside .panel').forEach(p=>p.classList.remove('active'));
+      document.getElementById('durumPanel').classList.remove('active');
+      // render tasks
       document.getElementById('taskHeader').innerText=rank+' Görevleri';
       const secEl=document.getElementById('taskSections'); secEl.innerHTML='';
       tasks[rank].forEach(sec=>{
@@ -362,7 +475,8 @@
           let sp=document.createElement('span'); sp.innerText=t;
           let btn=document.createElement('button'); btn.innerText='Tamamla';
           btn.onclick=()=>startCount(rank,btn);
-          ti.appendChild(sp); ti.appendChild(btn); d.appendChild(ti);
+          ti.appendChild(sp); ti.appendChild(btn);
+          d.appendChild(ti);
         });
         secEl.appendChild(d);
       });
@@ -386,22 +500,24 @@
     function completeTask(rank,btn){
       btn.disabled=true; btn.parentElement.classList.add('done');
       done[rank]++; updateStatus();
-      if(rank==='Vakur' && done.Vakur===50){
-        unlocked.Hatip=true; document.getElementById('cardHatip').classList.remove('locked');
+      if(rank==='Vakur'&&done.Vakur===50){
+        unlocked.Hatip=true;
+        document.getElementById('cardHatip').classList.remove('locked');
         alert('Hatip görevleri açıldı!');
       }
-      if(rank==='Hatip' && done.Hatip===50){
-        unlocked.Baron=true; document.getElementById('cardBaron').classList.remove('locked');
+      if(rank==='Hatip'&&done.Hatip===50){
+        unlocked.Baron=true;
+        document.getElementById('cardBaron').classList.remove('locked');
         alert('Baron görevleri açıldı!');
       }
-      if(rank==='Baron' && done.Baron===50){
-        alert('Tüm görevler tamamlandı!');
+      if(rank==='Baron'&&done.Baron===50){
+        alert('Tebrikler! Tüm görevler tamamlandı.');
       }
       btn.innerText='✔';
     }
 
     function updateStatus(){
-      const upd=(r,barId,pctId,rosId,fillColor)=>{
+      const upd=(r,barId,pctId,rosId,accent)=>{
         let pct=Math.round(done[r]/50*100);
         document.getElementById(barId).style.width=`${pct}%`;
         document.getElementById(pctId).innerText=pct;
@@ -413,9 +529,7 @@
       upd('Baron','baronBar','baronPct','baronRos');
     }
 
-    function closeTasks(){
-      document.getElementById('overlay').style.display='none';
-    }
+    function closeTasks(){ document.getElementById('overlay').style.display='none'; }
   </script>
 </body>
 </html>
