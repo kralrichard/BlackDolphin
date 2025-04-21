@@ -72,10 +72,14 @@
     }
 
     /* 
-      YALNIZCA BU ÜÇ SINIF EKLENDİ:
-      Vakur Görevleri => Mavi, Hatip => Turuncu, Baron => Kırmızı
-      Menünün hover/active rengini bastırmak için !important kullanıldı.
+      1) Durumum kahverengi 
+         (Ek bir sınıf: .navDurum )
     */
+    .navDurum {
+      background: brown !important;
+      color: #fff !important;
+    }
+    /* 2) Vakur - mavi, Hatip - turuncu, Baron - kırmızı (eski yerinde) */
     .navVakur {
       background: var(--accent-vakur) !important;
       color: #fff !important;
@@ -411,18 +415,18 @@
   <!-- SIDEBAR -->
   <nav>
     <ul>
-      <!-- ÜÇ LİNK İÇİN EK SINIFLAR: navVakur, navHatip, navBaron -->
-      <li><a href="#" class="navVakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
-      <li><a href="#" class="navHatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
-      <li><a href="#" class="navBaron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
-
-      <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
+      <!-- Durumum kahverengi -->
+      <li><a href="#" class="navDurum active" onclick="togglePanel('durum')">Durumum</a></li>
       <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
       <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
       <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
       <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
       <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
       <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
+      <!-- Bu üçü eski yerinde; Vakur mavi, Hatip turuncu, Baron kırmızı -->
+      <li><a href="#" class="navVakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
+      <li><a href="#" class="navHatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
+      <li><a href="#" class="navBaron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
       <li><a href="#" onclick="togglePanel('atYarisi')">At Yarışı</a></li>
       <li><a href="#" onclick="togglePanel('atBilgiler')">At Bilgileri</a></li>
       <li><a href="#" onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li>
@@ -468,7 +472,7 @@
       <canvas id="railBack2" class="rail"></canvas>
     </div>
 
-    <!-- Center Ranks (Vakur / Hatip / Baron) -->
+    <!-- Center Ranks -->
     <div id="centerRanks">
       <div class="card vakur" id="cardVakur">
         <h2>VAKUR</h2>
@@ -519,14 +523,14 @@
       </div>
     </div>
 
-    <!-- Köy İncelemesi Panel (5 sekme x 8 köy) -->
+    <!-- Köy İncelemesi Panel -->
     <div class="panel" id="koyPanel">
       <h3>Köy İncelemesi</h3>
       <div class="sub-tabs" id="koyTabs"></div>
       <div id="koyContent"></div>
     </div>
 
-    <!-- Tren Seyahatleri Panel (5 sekme x 8 köy) -->
+    <!-- Tren Seyahatleri Panel -->
     <div class="panel" id="trenPanel">
       <h3>Tren Seyahatleri</h3>
       <div class="sub-tabs" id="trenTabs"></div>
@@ -588,12 +592,13 @@
     const visitedBack1 = new Array(20).fill(false);
     const visitedBack2 = new Array(20).fill(false);
 
-    // Asman visited
+    // Asman başta visited = true
     visitedOut1[0] = true;
 
     window.onload = ()=>{
       // Raylar
       drawAllRails();
+      // station listeleri
       populateStations('stationsOut1', out1, visitedOut1, 'out1');
       populateStations('stationsOut2', out2, visitedOut2, 'out2');
       populateStations('stationsBack1', back1, visitedBack1, 'back1');
@@ -621,7 +626,6 @@
       drawRail('railBack2','#555','var(--accent-baron)', back2, visitedBack2);
     }
 
-    // 20 istasyonluk ray
     function drawRail(canvasId, color1, colorCSSVar, arr, visitedArr){
       const c = document.getElementById(canvasId);
       const ctx = c.getContext('2d');
@@ -648,14 +652,13 @@
         ctx.lineTo(x, c.height/2 +10);
         ctx.stroke();
 
-        // visitedArr[i-1] => yeşil/kırmızı
         ctx.beginPath();
-        ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
         if(visitedArr[i-1]){
           ctx.fillStyle="green";
         } else {
           ctx.fillStyle="red";
         }
+        ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
         ctx.fill();
       }
     }
@@ -668,39 +671,54 @@
       cont.innerHTML="";
       arr.forEach((v,idx)=>{
         const sp = document.createElement("span");
-        sp.textContent=v;
+        sp.textContent = v;
         if(visitedArr[idx]) {
           sp.classList.add("visited");
         }
-        sp.onclick=()=>travelTo(type, idx);
+        sp.onclick=()=>{
+          travelTo(type, idx);
+        };
         cont.appendChild(sp);
       });
     }
 
-    function travelTo(type, index){
+    // 3) Asman’dan başka köye gidince Asman 10 sn kırmızı
+    function travelTo(rotatype, index){
       let arr, visitedArr;
-      if(type==="out1"){ arr=out1; visitedArr=visitedOut1; }
-      else if(type==="out2"){ arr=out2; visitedArr=visitedOut2; }
-      else if(type==="back1"){ arr=back1; visitedArr=visitedBack1; }
-      else if(type==="back2"){ arr=back2; visitedArr=visitedBack2; }
+      if(rotatype==="out1"){ arr=out1; visitedArr=visitedOut1; }
+      else if(rotatype==="out2"){ arr=out2; visitedArr=visitedOut2; }
+      else if(rotatype==="back1"){ arr=back1; visitedArr=visitedBack1; }
+      else if(rotatype==="back2"){ arr=back2; visitedArr=visitedBack2; }
 
-      // Zaten visited?
+      // Zaten ziyaretli?
       if(visitedArr[index]){
         alert(arr[index]+" köyüne zaten gittiniz!");
         return;
       }
-      // Para kontrol
       if(playerMoney<500){
         alert("Yeterli paranız yok!");
         return;
       }
+      // EĞER Asman visitedOut1[0] true => Demek ki Asman’dan çıkıyoruz
+      // index != 0 || rotatype!='out1' => gideceğimiz yeni köy asman değilse
+      if( visitedOut1[0] && !(rotatype==="out1" && index===0) ){
+        // Asman artık visited değil => kırmızı
+        visitedOut1[0] = false;
+        // 10 saniye sonra yine normal (aslında 'normal' = kırmızı unvisited)
+        setTimeout(()=>{
+          // Tekrar unvisited kalmaya devam ediyor. (İsterseniz extra işlem)
+          // visitedOut1[0] = false; // Değişiklik yok, zaten false
+          drawAllRails();
+        },10000);
+      }
+
       // 500$
       playerMoney -= 500;
-      visitedArr[index]=true;
+      visitedArr[index] = true; // gittiğimiz köy yeşil
       updateMoneyDisplay();
       alert(arr[index]+" köyüne gittiniz! (500$)");
 
-      // Güncelle
+      // UI güncelle
       populateStations('stationsOut1', out1, visitedOut1, 'out1');
       populateStations('stationsOut2', out2, visitedOut2, 'out2');
       populateStations('stationsBack1', back1, visitedBack1, 'back1');
@@ -740,7 +758,7 @@
         div.innerHTML=`<strong>${koy}</strong> <button>Seyahat</button>`;
         const btn = div.querySelector("button");
         btn.onclick=()=>{
-          // bulalım
+          // hangi rotada ise oraya git
           let i = out1.indexOf(koy);
           if(i>=0){ travelTo("out1", i); return;}
           i = out2.indexOf(koy);
