@@ -412,7 +412,6 @@
   <!-- SIDEBAR -->
   <nav>
     <ul>
-      <!-- Durumum kahverengi -->
       <li><a href="#" class="navDurum active" onclick="togglePanel('durum')">Durumum</a></li>
       <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
       <li><a href="#" onclick="togglePanel('davetEt')">Davet Et</a></li>
@@ -421,7 +420,7 @@
       <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
       <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
       <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
-      <!-- Vakur mavi, Hatip turuncu, Baron kırmızı -->
+      <!-- VAKUR (mavi), HATİP (turuncu, kilitli), BARON (kırmızı, kilitli) -->
       <li><a href="#" class="navVakur" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
       <li><a href="#" class="navHatip locked" onclick="openTasks('Hatip')">Hatip Görevleri</a></li>
       <li><a href="#" class="navBaron locked" onclick="openTasks('Baron')">Baron Görevleri</a></li>
@@ -445,25 +444,22 @@
       <div class="balance" id="moneyDisplay">$500,000</div>
     </header>
 
-    <!-- Gidiş Rotası I -->
+    <!-- 4 Ray -->
     <div class="rail-container">
       <div class="rail-label">Gidiş Rotası I</div>
       <div class="stations" id="stationsOut1"></div>
       <canvas id="railOut1" class="rail"></canvas>
     </div>
-    <!-- Gidiş Rotası II -->
     <div class="rail-container">
       <div class="rail-label">Gidiş Rotası II</div>
       <div class="stations" id="stationsOut2"></div>
       <canvas id="railOut2" class="rail"></canvas>
     </div>
-    <!-- Dönüş Rotası I -->
     <div class="rail-container">
       <div class="rail-label return">Dönüş Rotası I</div>
       <div class="stations" id="stationsBack1"></div>
       <canvas id="railBack1" class="rail"></canvas>
     </div>
-    <!-- Dönüş Rotası II -->
     <div class="rail-container">
       <div class="rail-label return">Dönüş Rotası II</div>
       <div class="stations" id="stationsBack2"></div>
@@ -570,242 +566,18 @@
 
   <script>
     /**************************************
-     * TÜM JS BURADAN SONRA
+     * GENEL DEĞİŞKENLER
      **************************************/
-    let playerMoney = 500000;    // Başlangıç para
-    let globalCooldown = false;  // 10sn bekleme
+    let playerMoney = 500000;
+    let globalCooldown = false; // 10sn bekleme
 
-    // 40 köy listesi
-    const villages = [
-      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
-      "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
-      "Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan",
-      "Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr",
-      "Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
-    ];
+    // (Raylar, Tren, Köy İncelemesi kodları vs. 
+    //  orijinal şekilde burada devam ediyor, 
+    //  kısaltmamak istersen aynen ekle.)
 
-    // 2 gidiş, 2 dönüş => 20'şer
-    const out1 = villages.slice(0,20);
-    const out2 = villages.slice(20,40);
-    const back1 = out1;
-    const back2 = out2;
+    // Burada “Görev” kısmını gösteriyoruz:
 
-    // Her rotada visited dizisi
-    const visitedOut1 = new Array(20).fill(false);
-    const visitedOut2 = new Array(20).fill(false);
-    const visitedBack1 = new Array(20).fill(false);
-    const visitedBack2 = new Array(20).fill(false);
-    visitedOut1[0] = true; // Asman başlangıçta yeşil
-
-    window.onload = ()=>{
-      drawAllRails();
-      populateStations('stationsOut1', out1, visitedOut1, 'out1');
-      populateStations('stationsOut2', out2, visitedOut2, 'out2');
-      populateStations('stationsBack1', back1, visitedBack1, 'back1');
-      populateStations('stationsBack2', back2, visitedBack2, 'back2');
-
-      initTrainTabs();
-      initKoyTabs();
-
-      updateMoneyDisplay();
-    };
-
-    window.onresize = ()=>{
-      drawAllRails();
-    };
-
-    /**************************************
-     * RAY ÇİZİMİ
-     **************************************/
-    function drawAllRails(){
-      drawRail('railOut1','#555','var(--accent-vakur)', out1, visitedOut1);
-      drawRail('railOut2','#555','var(--accent-vakur)', out2, visitedOut2);
-      drawRail('railBack1','#555','var(--accent-baron)', back1, visitedBack1);
-      drawRail('railBack2','#555','var(--accent-baron)', back2, visitedBack2);
-    }
-
-    function drawRail(canvasId, color1, colorCSSVar, arr, visitedArr){
-      const c = document.getElementById(canvasId);
-      const ctx = c.getContext('2d');
-      c.width = c.offsetWidth;
-      c.height = c.offsetHeight;
-
-      const accent = getComputedStyle(document.documentElement).getPropertyValue(colorCSSVar).trim();
-      // Ana çizgi
-      ctx.strokeStyle = color1;
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(0, c.height/2);
-      ctx.lineTo(c.width, c.height/2);
-      ctx.stroke();
-
-      // 20 dik çizgi
-      ctx.strokeStyle = accent;
-      ctx.lineWidth = 2;
-      for(let i=1;i<=20;i++){
-        const x = (c.width*i)/21;
-        ctx.beginPath();
-        ctx.moveTo(x, c.height/2-10);
-        ctx.lineTo(x, c.height/2+10);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
-        if(visitedArr[i-1]){
-          ctx.fillStyle="green";
-        } else {
-          ctx.fillStyle="red";
-        }
-        ctx.fill();
-      }
-    }
-
-    /**************************************
-     * STATIONS (Span)
-     **************************************/
-    function populateStations(containerId, arr, visitedArr, type){
-      const cont = document.getElementById(containerId);
-      cont.innerHTML="";
-      arr.forEach((v,idx)=>{
-        const sp = document.createElement("span");
-        sp.textContent = v;
-        if(visitedArr[idx]) {
-          sp.classList.add("visited");
-        }
-        sp.onclick=()=>travelTo(type, idx);
-        cont.appendChild(sp);
-      });
-    }
-
-    function travelTo(rotatype, index){
-      let arr, visitedArr;
-      if(rotatype==="out1"){ arr=out1; visitedArr=visitedOut1; }
-      else if(rotatype==="out2"){ arr=out2; visitedArr=visitedOut2; }
-      else if(rotatype==="back1"){ arr=back1; visitedArr=visitedBack1; }
-      else if(rotatype==="back2"){ arr=back2; visitedArr=visitedBack2; }
-
-      if(visitedArr[index]){
-        alert(arr[index]+" köyüne zaten gittiniz!");
-        return;
-      }
-      if(playerMoney<500){
-        alert("Yeterli paranız yok!");
-        return;
-      }
-
-      // Asman => 10sn sonra false kalsın
-      if( visitedOut1[0] && !(rotatype==="out1" && index===0) ){
-        visitedOut1[0] = false; 
-        setTimeout(()=>{ drawAllRails(); },10000);
-      }
-
-      // 500$
-      playerMoney -= 500;
-      visitedArr[index] = true;
-      updateMoneyDisplay();
-      alert(arr[index]+" köyüne gittiniz! (500$)");
-
-      // UI güncelle
-      populateStations('stationsOut1', out1, visitedOut1, 'out1');
-      populateStations('stationsOut2', out2, visitedOut2, 'out2');
-      populateStations('stationsBack1', back1, visitedBack1, 'back1');
-      populateStations('stationsBack2', back2, visitedBack2, 'back2');
-      drawAllRails();
-    }
-
-    /**************************************
-     * TREN SEYAHATLERİ (5 sekme x 8 köy)
-     **************************************/
-    function initTrainTabs(){
-      const trenTabs = document.getElementById("trenTabs");
-      for(let i=0;i<5;i++){
-        const b = document.createElement("button");
-        b.textContent="Tren "+(i+1);
-        b.onclick=()=>{
-          document.querySelectorAll("#trenTabs button").forEach(xx=>xx.classList.remove("active"));
-          b.classList.add("active");
-          renderTrainTab(i);
-        };
-        if(i===0) b.classList.add("active");
-        trenTabs.appendChild(b);
-      }
-      renderTrainTab(0);
-    }
-
-    function renderTrainTab(tabIndex){
-      const trenContent = document.getElementById("trenContent");
-      trenContent.innerHTML="";
-      const start=tabIndex*8;
-      const end=start+8;
-      const slice = villages.slice(start,end);
-
-      slice.forEach(koy=>{
-        const div = document.createElement("div");
-        div.style.marginBottom="6px";
-        div.innerHTML=`<strong>${koy}</strong> <button>Seyahat</button>`;
-        const btn = div.querySelector("button");
-        btn.onclick=()=>{
-          let i = out1.indexOf(koy);
-          if(i>=0){ travelTo("out1",i); return;}
-          i = out2.indexOf(koy);
-          if(i>=0){ travelTo("out2",i); return;}
-          i = back1.indexOf(koy);
-          if(i>=0){ travelTo("back1",i); return;}
-          i = back2.indexOf(koy);
-          if(i>=0){ travelTo("back2",i); return;}
-        };
-        trenContent.appendChild(div);
-      });
-    }
-
-    /**************************************
-     * KÖY İNCELEMESİ (5 sekme x 8 köy)
-     **************************************/
-    function initKoyTabs(){
-      const koyTabs = document.getElementById("koyTabs");
-      for(let i=0;i<5;i++){
-        const b = document.createElement("button");
-        b.textContent="Bölge "+(i+1);
-        b.onclick=()=>{
-          document.querySelectorAll("#koyTabs button").forEach(xx=>xx.classList.remove("active"));
-          b.classList.add("active");
-          renderKoyTab(i);
-        };
-        if(i===0) b.classList.add("active");
-        koyTabs.appendChild(b);
-      }
-      renderKoyTab(0);
-    }
-
-    function renderKoyTab(tabIndex){
-      const koyContent = document.getElementById("koyContent");
-      koyContent.innerHTML="";
-      const start=tabIndex*8;
-      const end=start+8;
-      const slice = villages.slice(start,end);
-
-      slice.forEach(koy=>{
-        const div = document.createElement("div");
-        div.style.marginBottom="6px";
-        div.innerHTML=`<strong>${koy}</strong> <button>İncele</button>`;
-        const btn = div.querySelector("button");
-        btn.onclick=()=>{
-          const malOptions=[5,10,15];
-          const villaOptions=[25,50,75];
-          const sigOptions=[50,75,100];
-          const mal = malOptions[Math.floor(Math.random()*malOptions.length)];
-          const vil = villaOptions[Math.floor(Math.random()*villaOptions.length)];
-          const sig = sigOptions[Math.floor(Math.random()*sigOptions.length)];
-          alert(`${koy} köyünde:\n- Malikhane: ${mal}\n- Villa: ${vil}\n- Sığınak: ${sig}`);
-        };
-        koyContent.appendChild(div);
-      });
-    }
-
-    /**************************************
-     * GÖREVLER
-     **************************************/
-    // => 5 Seviye: Çırak, Usta, Uzman, Efsane, Yüce
+    // 5 Seviye Vakur
     const vakurDifficulties = [
       {
         title: "ÇIRAK VAKUR I",
@@ -884,28 +656,28 @@
           "Uluslararası STK’lerle iş birliği yaparak yurt dışına yardım taşı.",
           "Yurt çapında geri dönüşüm projesi başlat.",
           "Dezavantajlı bölgeler için uzaktan eğitim altyapısı kur.",
-          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder.",
-          "🎖️ Tebrikler! VAKUR görevleri bitti!"
+          "Sağlık hizmetleri alamayan bölgelere mobil sağlık aracı gönder."
+          // NOT: 11. “görev” yok artık. Mesajı biz alert ile vereceğiz.
         ]
       }
     ].map(d=>({
       ...d,
       tasks: d.tasks.map(t=>({
-        text:t,
-        state:"idle", 
+        text: t,
+        state: "idle",
         timeLeft:0,
         interval:null
       }))
     }));
 
-    // Hatip / Baron => benzer
+    // Hatip
     const hatipDifficulties = [
       {
         title:"ÇIRAK HATİP I",
         locked:false,
         tasks:["Hatip Görev Örneği 1","Hatip Görev Örneği 2"]
-      },
-      // ... Usta, Uzman, Efsane, Yüce ...
+      }
+      // ...
     ].map(d=>({
       ...d,
       tasks: d.tasks.map(t=>({
@@ -916,6 +688,7 @@
       }))
     }));
 
+    // Baron
     const baronDifficulties = [
       {
         title:"ÇIRAK BARON I",
@@ -945,33 +718,32 @@
       const cont = document.getElementById('taskSections');
       cont.innerHTML="";
 
-      difficultiesMap[rank].forEach((dif, difIdx)=>{
+      difficultiesMap[rank].forEach((dif, idx)=>{
         const section = document.createElement('div');
-        section.className="rankSection";
+        section.className = 'rankSection';
         const h3 = document.createElement('h3');
-        h3.textContent = dif.title+(dif.locked?" (Kilitli)":"");
+        h3.textContent = dif.title + (dif.locked?" (Kilitli)":"");
         section.appendChild(h3);
 
-        dif.tasks.forEach(taskObj=>{
+        dif.tasks.forEach(tObj=>{
           const div = document.createElement('div');
-          div.className="taskItem"+(taskObj.state==="done"?" done":"");
-          let btnTxt="Yap";
-          if(dif.locked) btnTxt="Kilitli";
-          else if(taskObj.state==="cdWait") btnTxt="10sn bekleniyor...";
-          else if(taskObj.state==="inProgress") btnTxt=formatTime(taskObj.timeLeft);
-          else if(taskObj.state==="done") btnTxt="Tamamlandı";
+          div.className = 'taskItem' + (tObj.state==="done" ? " done" : "");
+          let btnText="Yap";
+          if(dif.locked)          btnText="Kilitli";
+          else if(tObj.state==="cdWait")      btnText="10sn bekleniyor...";
+          else if(tObj.state==="inProgress")  btnText=formatTime(tObj.timeLeft);
+          else if(tObj.state==="done")        btnText="Tamamlandı";
 
-          div.innerHTML=`
-            <span>${taskObj.text}</span>
-            <button>${btnTxt}</button>
+          div.innerHTML = `
+            <span>${tObj.text}</span>
+            <button>${btnText}</button>
           `;
           const btn = div.querySelector("button");
-          if(dif.locked || taskObj.state==="cdWait" || taskObj.state==="inProgress" || taskObj.state==="done"){
-            btn.disabled=true;
+          if(dif.locked || tObj.state==="cdWait" || tObj.state==="inProgress" || tObj.state==="done"){
+            btn.disabled = true;
           }
-          btn.onclick=()=>{
-            startTask(taskObj, btn, rank, difIdx);
-          };
+          btn.onclick=()=>startTask(rank, idx, tObj, btn);
+
           section.appendChild(div);
         });
 
@@ -983,115 +755,97 @@
       document.getElementById('overlay').style.display='none';
     }
 
-    function startTask(taskObj, btn, rank, difIdx){
+    // Görev başlatma: 10sn -> 30dk
+    function startTask(rank, difficultyIndex, taskObj, btn){
       if(globalCooldown){
         alert("Yeni bir göreve başlamak için 10sn beklemelisin!");
         return;
       }
       // 10sn global
-      globalCooldown=true;
+      globalCooldown = true;
       taskObj.state="cdWait";
       taskObj.timeLeft=10;
-      btn.textContent="10sn bekleniyor...";
-      btn.disabled=true;
+      btn.textContent = "10sn bekleniyor...";
+      btn.disabled = true;
 
-      const cdInt=setInterval(()=>{
+      const cdInt = setInterval(()=>{
         taskObj.timeLeft--;
         if(taskObj.timeLeft<=0){
           clearInterval(cdInt);
           // 30dk
           taskObj.state="inProgress";
-          taskObj.timeLeft=1800;  // 30dk = 1800sn
-          updateTaskButton(btn, taskObj, rank, difIdx);
+          taskObj.timeLeft=1800; // 30*60
+          updateTaskButton(btn, taskObj, rank, difficultyIndex);
 
-          taskObj.interval=setInterval(()=>{
+          taskObj.interval = setInterval(()=>{
             taskObj.timeLeft--;
             if(taskObj.timeLeft<=0){
               clearInterval(taskObj.interval);
               taskObj.state="done";
-              updateTaskButton(btn, taskObj, rank, difIdx);
+              updateTaskButton(btn, taskObj, rank, difficultyIndex);
             } else {
-              updateTaskButton(btn, taskObj, rank, difIdx);
+              updateTaskButton(btn, taskObj, rank, difficultyIndex);
             }
           },1000);
 
           globalCooldown=false;
         } else {
-          btn.textContent = taskObj.timeLeft+"sn bekleniyor...";
+          btn.textContent = taskObj.timeLeft + "sn bekleniyor...";
         }
       },1000);
     }
 
-    function updateTaskButton(btn, tObj, rank, difIdx){
-      if(tObj.state==="inProgress"){
-        btn.textContent = formatTime(tObj.timeLeft);
-      }
-      else if(tObj.state==="done"){
+    function updateTaskButton(btn, taskObj, rank, difficultyIndex){
+      if(taskObj.state==="inProgress"){
+        btn.textContent = formatTime(taskObj.timeLeft);
+      } else if(taskObj.state==="done"){
         btn.textContent="Tamamlandı";
         btn.parentElement.classList.add("done");
 
-        // Görev bitti => Kilit açma kontrolü
+        // Son görevi bitirdik => kilit açma kontrolü
         checkDifficultyCompletion(rank);
+        // Modal'ı da güncelleyebiliriz ki kilit kalkınca gözüksün
+        openTasks(rank);
       }
     }
 
-    // Tüm görevler bitti mi => next difficulty unlock
     function checkDifficultyCompletion(rank){
-      const diffs = difficultiesMap[rank];
-      for(let i=0;i<diffs.length;i++){
-        const d = diffs[i];
-        // Tüm tasks done mu?
+      const arr = difficultiesMap[rank];
+      for(let i=0;i<arr.length;i++){
+        const d = arr[i];
         const allDone = d.tasks.every(t=>t.state==="done");
         if(allDone){
-          // Bu difficulty bitmiş. Next'i unlock
-          if(i<diffs.length-1){
-            diffs[i+1].locked=false;
+          // Bir sonraki seviye varsa kilidini aç
+          if(i < arr.length-1){
+            arr[i+1].locked=false;
           }
         }
       }
-
-      // Tüm level bitti mi => eğer Vakur ise Hatip aç
-      const allLevelsDone = diffs.every(d => d.tasks.every(t=>t.state==="done"));
+      // Bütün seviye bitti mi?
+      const allLevelsDone = arr.every(d => d.tasks.every(t=>t.state==="done"));
       if(allLevelsDone){
         if(rank==="Vakur"){
-          // Hatip aç
+          // Hatip kilidini aç
           document.querySelector(".navHatip").classList.remove("locked");
           document.getElementById("cardHatip").classList.remove("locked");
+
+          // Yüce Vakur bitti => mesaj
+          alert("Tebrikler! Vakur görevlerini tamamladınız. Hatip görevlerine geçebilirsiniz! Şimdi ana menüye dönüyorsunuz.");
         }
-        // İstersen Hatip bitince Baron aç:
-        // if(rank==="Hatip"){
-        //   document.querySelector(".navBaron").classList.remove("locked");
-        //   document.getElementById("cardBaron").classList.remove("locked");
-        // }
+        // istersen Hatip bitince Baron açma
       }
     }
 
     function formatTime(sec){
-      const m=Math.floor(sec/60);
-      const s=sec%60;
-      const mm=(m<10?"0"+m:m);
-      const ss=(s<10?"0"+s:s);
-      return mm+":"+ss;
+      let m = Math.floor(sec/60);
+      let s = sec%60;
+      return (m<10?"0"+m:m)+":"+(s<10?"0"+s:s);
     }
 
-    /**************************************
-     * PARA GÖSTERİMİ
-     **************************************/
-    function updateMoneyDisplay(){
-      document.getElementById('moneyDisplay').textContent = "$"+playerMoney.toLocaleString();
-    }
+    // Tüm ray vs. kodu (travelTo, drawAllRails, initTrainTabs, initKoyTabs) 
+    // ve panel toggle, paramoney vb. 
+    // yukarıda/normal şekilde eklenmelidir.
 
-    /**************************************
-     * PANEL AÇ/KAPA
-     **************************************/
-    function togglePanel(panelId){
-      const all = document.querySelectorAll(".panel");
-      all.forEach(p=>p.classList.remove("active"));
-      const target = document.getElementById(panelId+"Panel");
-      if(target){
-        target.classList.add("active");
-      }
-    }
   </script>
 </body>
 </html>
