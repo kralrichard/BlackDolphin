@@ -1,476 +1,224 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Black Dolphine – Mafia Oyunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Dolphine - Mafia Oyunu</title>
   <style>
-    :root {
-      --bg-dark: #121212;
-      --bg-light: #f4f4f4;
-      --panel-dark: #1e1e1e;
-      --accent-vakur: #1e90ff;
-      --accent-hatip: #ffa500;
-      --accent-baron: #ff4500;
-      --text-light: #f4f4f4;
-      --text-dark: #333;
-      --bar-bg: #ccc;
+    /* CSS kodları (stil ayarları) */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body {
+      background: #f4f4f4;
+      color: #333;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
-    html, body { height:100%; }
-    body { display:flex; overflow:hidden; background:var(--bg-light); color:var(--text-dark); }
-    /* -------------------- SIDEBAR -------------------- */
     nav {
-      width:220px;
-      background:var(--panel-dark);
-      color:var(--text-light);
-      display:flex;
-      flex-direction:column;
+      width: 220px;
+      background: #1e1e1e;
+      color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
     }
     nav ul {
-      list-style:none;
-      overflow-y:auto;
-      flex:1;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1;
+      overflow-y: auto;
     }
     nav li a {
-      display:block;
-      padding:12px 20px;
-      color:inherit;
-      text-decoration:none;
-      border-bottom:1px solid #333;
+      display: block;
+      padding: 12px 20px;
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid #333;
     }
-    nav li a:hover,
-    nav li a.active {
-      background:var(--accent-vakur);
+    nav li a:hover, nav li a.active {
+      background: #1e90ff;
     }
-    nav .locked {
-      opacity:0.5;
-      pointer-events:none;
-    }
-    nav .search {
-      padding:10px;
-    }
-    nav .search input {
-      width:100%;
-      padding:8px;
-      border:none;
-      border-radius:4px;
-    }
-    /* -------------------- MAIN -------------------- */
     main {
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      overflow-y:auto;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
     header {
-      background:var(--bg-dark);
-      color:var(--text-light);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:0.5rem 1rem;
-      flex-shrink:0;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
     }
-    .logo {
-      font-size:1.4rem;
-      font-weight:bold;
-    }
-    .balance {
-      background:#222;
-      padding:0.5rem 1rem;
-      border-radius:4px;
-      color:lime;
-    }
-    /* -------------------- RAILS -------------------- */
+    .logo { font-size: 1.5rem; font-weight: bold; }
+    .balance { background: #222; padding: 0.5rem 1rem; border-radius: 4px; color: lime; }
     .rail-container {
-      position:relative;
-      margin:1rem 0;
-      flex-shrink:0;
+      margin: 1rem;
     }
     .rail-label {
-      position:absolute;
-      top:-1.2rem;
-      left:1rem;
-      color:var(--text-dark);
-      font-weight:bold;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
     }
     .stations {
-      display:flex;
-      padding:0 1rem;
-      margin-bottom:4px;
-      flex-wrap:wrap;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 5px;
     }
     .stations span {
-      flex:1;
-      text-align:center;
-      font-size:0.75rem;
-      color:var(--text-dark);
-      cursor:pointer;
-    }
-    .stations span.visited {
-      color:var(--accent-vakur);
-      font-weight:bold;
+      background: #ddd;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
     }
     canvas.rail {
-      width:100%;
-      height:60px;
+      width: 100%;
+      height: 40px;
+      background: #ccc;
     }
-    /* -------------------- CENTER RANKS -------------------- */
     #centerRanks {
-      display:flex;
-      justify-content:center;
-      gap:2rem;
-      padding:1rem;
-      flex-shrink:0;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
     }
     .card {
-      background:var(--panel-dark);
-      color:var(--text-light);
-      padding:1rem;
-      border-radius:8px;
-      text-align:center;
-      width:120px;
-      cursor:pointer;
+      background: #1e1e1e;
+      color: #f4f4f4;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      width: 120px;
     }
-    .card.locked {
-      opacity:0.5;
-      pointer-events:none;
-    }
-    .card h2 {
-      margin-bottom:0.5rem;
-      text-transform:uppercase;
-    }
+    .card h2 { margin-bottom: 0.5rem; }
     .card button {
-      border:none;
-      color:#fff;
-      padding:0.5rem 1rem;
-      border-radius:4px;
-      cursor:pointer;
-    }
-    .card.vakur {
-      background:var(--accent-vakur);
-    }
-    .card.hatip {
-      background:var(--accent-hatip);
-    }
-    .card.baron {
-      background:var(--accent-baron);
-    }
-    /* -------------------- OVERLAY / TASKS -------------------- */
-    #overlay {
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background:rgba(0,0,0,0.7);
-      display:none;
-      align-items:center;
-      justify-content:center;
-    }
-    #panel {
-      background:var(--bg-light);
-      width:90%; max-width:600px;
-      max-height:80%; overflow-y:auto;
-      border-radius:8px; padding:1rem;
-      position:relative;
-    }
-    #closeBtn {
-      position:absolute; top:0.5rem; right:0.5rem;
-      background:var(--accent-vakur); border:none;
-      color:#fff; padding:0.3rem 0.6rem;
-      border-radius:4px; cursor:pointer;
-    }
-    .rankSection {
-      margin-bottom:1rem;
-    }
-    .rankSection h3 {
-      margin-bottom:0.5rem;
-      color:var(--accent-vakur);
-    }
-    .taskItem {
-      background:var(--bar-bg);
-      padding:0.5rem;
-      display:flex; justify-content:space-between;
-      border-radius:4px; margin-bottom:0.3rem;
-      align-items:center;
-    }
-    .taskItem.done {
-      background:#a8e6cf;
-    }
-    .taskItem button {
-      border:none; color:#fff;
-      padding:0.3rem 0.6rem; border-radius:4px;
-      cursor:pointer; background:var(--accent-vakur);
-    }
-    /* -------------------- STATUS BARS -------------------- */
-    .status-bar {
-      margin-bottom:1rem;
-    }
-    .status-bar .label {
-      display:flex; align-items:center; gap:0.5rem;
-      margin-bottom:0.3rem; font-weight:bold;
-    }
-    .status-bar .bar {
-      background:var(--bar-bg); height:16px;
-      border-radius:8px; overflow:hidden;
-    }
-    .status-bar .bar .fill {
-      height:100%; width:0;
-    }
-    .vakur-fill  { background:gold; }
-    .vakur-ros   { background:blue; }
-    .hatip-fill  { background:purple; }
-    .hatip-ros   { background:orange; }
-    .baron-fill  { background:white; }
-    .baron-ros   { background:red; }
-    /* -------------------- PANELS -------------------- */
-    aside {
-      width:260px; background:var(--panel-dark);
-      color:var(--text-light); overflow-y:auto;
-      flex-shrink:0;
+      padding: 0.5rem 1rem;
+      background: #1e90ff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
     .panel {
-      padding:20px; border-bottom:1px solid #333;
-      display:none;
+      padding: 1rem;
+      display: none;
     }
-    .panel.active {
-      display:block;
+    .panel.active { display: block; }
+    .status-bar { margin-bottom: 1rem; }
+    .status-bar .bar {
+      background: #ccc;
+      height: 16px;
+      border-radius: 8px;
+      overflow: hidden;
     }
-    .panel h3 {
-      margin-bottom:10px;
-      color:var(--accent-vakur);
-    }
-    .sub-tabs {
-      display:flex; gap:8px; margin-bottom:10px;
-      flex-wrap:wrap;
-    }
-    .sub-tabs button {
-      background:#444; border:none;
-      color:var(--text-light);
-      padding:6px 10px; border-radius:4px;
-      cursor:pointer;
-    }
-    .sub-tabs button.active {
-      background:var(--accent-vakur);
-    }
-    .sub-content ul {
-      list-style:none; max-height:200px;
-      overflow-y:auto; padding-left:0;
-    }
-    .sub-content li {
-      display:flex; justify-content:space-between;
-      margin-bottom:6px;
-    }
-    .sub-content li button {
-      background:var(--accent-vakur); border:none;
-      color:#fff; padding:4px 8px; border-radius:4px;
-      cursor:pointer;
-    }
-    /* -------------------- CHAT -------------------- */
-    #chatBox {
-      position:fixed; bottom:20px; left:50%;
-      transform:translateX(-50%);
-      width:60%; background:var(--panel-dark);
-      color:var(--text-light); padding:10px;
-      border-radius:8px; max-height:200px; overflow-y:auto;
-    }
-    #messageIcon {
-      position:fixed; bottom:20px; right:20px;
-      background:var(--accent-vakur); padding:10px;
-      border-radius:50%; color:#fff; cursor:pointer;
-    }
-    /* -------------------- MOBILE -------------------- */
-    @media(max-width:768px){
-      nav,aside { width:100%; order:2; }
-      nav ul { display:flex; flex-wrap:wrap; overflow-x:auto; }
-      main { order:1; }
-      header { justify-content:center; }
-      .balance, .rail-container { display:none; }
-      #centerRanks { flex-wrap:wrap; gap:1rem; }
-      .panel { padding:10px; }
-      #chatBox { width:90%; bottom:10px; }
-      #messageIcon { bottom:10px; right:10px; }
+    .status-bar .bar .fill {
+      height: 100%;
+      width: 0;
     }
   </style>
 </head>
 <body>
-
-  <!-- SIDEBAR -->
   <nav>
     <ul>
-      <li><a href="#" onclick="togglePanel('durum')" class="active">Durumum</a></li>
-      <li><a href="#" onclick="togglePanel('aile')">Ailem</a></li>
-      <li><a href="#" onclick="togglePanel('tuccar')">Tüccar</a></li>
-      <li><a href="#" onclick="togglePanel('mesajlar')">Mesajlarım</a></li>
-      <li><a href="#" onclick="togglePanel('avlan')">Avlan</a></li>
-      <li><a href="#" onclick="togglePanel('acikArttirma')">Açık Arttırma</a></li>
-      <li><a href="#" onclick="togglePanel('kacak')">Kaçakçılık</a></li>
-      <li><a href="#" onclick="openTasks('Vakur')">Vakur Görevleri</a></li>
-      <li><a href="#" onclick="openTasks('Hatip')" class="locked">Hatip Görevleri</a></li>
-      <li><a href="#" onclick="openTasks('Baron')" class="locked">Baron Görevleri</a></li>
-      <li><a href="#" onclick="togglePanel('atYarisi')">At Yarışı</a></li>
-      <li><a href="#" onclick="togglePanel('atBilgiler')">At Bilgileri</a></li>
-      <li><a href="#" onclick="togglePanel('oyunIci')">Oyun İçi Bilgiler</a></li>
-      <li><a href="#" onclick="togglePanel('aranan')">Arananlar</a></li>
-      <li><a href="#" onclick="togglePanel('oyunlar')">Oyunlar</a></li>
-      <li><a href="#" onclick="togglePanel('koy')">Köy İncelemesi</a></li>
-      <li><a href="#" onclick="togglePanel('tren')">Tren Seyahatleri</a></li>
+      <li><a href="#" class="active">Durumum</a></li>
+      <li><a href="#">Ailem</a></li>
+      <li><a href="#">Tüccar</a></li>
+      <li><a href="#">Mesajlarım</a></li>
+      <li><a href="#">Kaçakçılık</a></li>
+      <li><a href="#">Köy İncelemesi</a></li>
+      <li><a href="#">Tren Seyahatleri</a></li>
     </ul>
-    <div class="search"><input type="text" placeholder="Kullanıcı ara..."></div>
   </nav>
-
-  <!-- MAIN -->
   <main>
     <header>
       <div class="logo">BLACK DOLPHINE</div>
       <div class="balance">$500,000</div>
     </header>
 
-    <!-- Gidiş Rotası I -->
     <div class="rail-container">
       <div class="rail-label">Gidiş Rotası I</div>
       <div class="stations" id="stationsOut1"></div>
       <canvas id="railOut1" class="rail"></canvas>
     </div>
-    <!-- Gidiş Rotası II -->
     <div class="rail-container">
       <div class="rail-label">Gidiş Rotası II</div>
       <div class="stations" id="stationsOut2"></div>
       <canvas id="railOut2" class="rail"></canvas>
     </div>
-    <!-- Dönüş Rotası I -->
     <div class="rail-container">
-      <div class="rail-label return">Dönüş Rotası I</div>
+      <div class="rail-label">Dönüş Rotası I</div>
       <div class="stations" id="stationsBack1"></div>
       <canvas id="railBack1" class="rail"></canvas>
     </div>
-    <!-- Dönüş Rotası II -->
     <div class="rail-container">
-      <div class="rail-label return">Dönüş Rotası II</div>
+      <div class="rail-label">Dönüş Rotası II</div>
       <div class="stations" id="stationsBack2"></div>
       <canvas id="railBack2" class="rail"></canvas>
     </div>
 
-    <!-- Center Ranks -->
     <div id="centerRanks">
-      <div class="card vakur" id="cardVakur"><h2>VAKUR</h2><button onclick="openTasks('Vakur')">Serüven</button></div>
-      <div class="card hatip locked" id="cardHatip"><h2>HATİP</h2><button onclick="openTasks('Hatip')">Serüven</button></div>
-      <div class="card baron locked" id="cardBaron"><h2>BARON</h2><button onclick="openTasks('Baron')">Serüven</button></div>
+      <div class="card vakur"><h2>VAKUR</h2><button>Serüven</button></div>
+      <div class="card hatip"><h2>HATİP</h2><button>Serüven</button></div>
+      <div class="card baron"><h2>BARON</h2><button>Serüven</button></div>
     </div>
   </main>
-
-  <!-- RIGHT PANEL -->
-  <aside>
-    <div class="panel active" id="durumPanel">
-      <h3>Durumum</h3>
-      <!-- Vakur -->
-      <div class="status-bar">
-        <div class="label">🛡️ Vakur %<span id="vakurPct">0</span></div>
-        <div class="bar"><div class="fill vakur-fill" id="vakurBar"></div></div>
-      </div>
-      <div class="status-bar">
-        <div class="label">🏅 Vakur Rozet <span id="vakurRos">0</span></div>
-        <div class="bar"><div class="fill vakur-ros" id="vakurRosBar"></div></div>
-      </div>
-      <!-- Hatip -->
-      <div class="status-bar">
-        <div class="label">🏘️ Hatip %<span id="hatipPct">0</span></div>
-        <div class="bar"><div class="fill hatip-fill" id="hatipBar"></div></div>
-      </div>
-      <div class="status-bar">
-        <div class="label">🏅 Hatip Rozet <span id="hatipRos">0</span></div>
-        <div class="bar"><div class="fill hatip-ros" id="hatipRosBar"></div></div>
-      </div>
-      <!-- Baron -->
-      <div class="status-bar">
-        <div class="label">⚡️ Baron %<span id="baronPct">0</span></div>
-        <div class="bar"><div class="fill baron-fill" id="baronBar"></div></div>
-      </div>
-      <div class="status-bar">
-        <div class="label">🏅 Baron Rozet <span id="baronRos">0</span></div>
-        <div class="bar"><div class="fill baron-ros" id="baronRosBar"></div></div>
-      </div>
-    </div>
-    <!-- Other panels omitted for brevity -->
-  </aside>
-
-  <!-- TASK MODAL -->
-  <div id="overlay" onclick="closeTasks()">
-    <div id="panel" onclick="event.stopPropagation()">
-      <button id="closeBtn" onclick="closeTasks()">✖</button>
-      <h2 id="taskHeader"></h2>
-      <div id="taskSections"></div>
-    </div>
-  </div>
-
-  <!-- CHAT -->
-  <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
-  <div id="messageIcon">📩</div>
-
   <script>
-    // Köy listesi (40 adet)
-    const villages = [
-      "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
-      "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
-      "Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan",
-      "Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr",
-      "Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
-    ];
-    // İki gidiş, iki dönüş için 20'şer
-    const out1 = villages.slice(0,20),
-          out2 = villages.slice(20,40);
+    const villages = ["Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut","Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık","Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan","Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr","Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"];
+    const out1 = villages.slice(0,20);
+    const out2 = villages.slice(20,40);
 
-    function drawRail(id,color1,color2){
-      const c = document.getElementById(id), ctx = c.getContext('2d');
-      c.width = c.offsetWidth; c.height = c.offsetHeight;
-      ctx.strokeStyle = color1; ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
-      ctx.strokeStyle = color2; ctx.lineWidth = 2;
-      for(let i=1;i<=20;i++){
-        const x = c.width * i/21;
-        ctx.beginPath(); ctx.moveTo(x,c.height/2-10); ctx.lineTo(x,c.height/2+10); ctx.stroke();
+    function drawRail(id, color1, color2) {
+      const c = document.getElementById(id);
+      const ctx = c.getContext('2d');
+      c.width = c.offsetWidth;
+      c.height = c.offsetHeight;
+      ctx.strokeStyle = color1;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0, c.height/2);
+      ctx.lineTo(c.width, c.height/2);
+      ctx.stroke();
+      ctx.strokeStyle = color2;
+      ctx.lineWidth = 2;
+      for(let i = 1; i <= 20; i++) {
+        const x = c.width * i / 21;
+        ctx.beginPath();
+        ctx.moveTo(x, c.height/2 - 10);
+        ctx.lineTo(x, c.height/2 + 10);
+        ctx.stroke();
       }
     }
 
-    function populateStations(containerId,array){
+    function populateStations(containerId, array) {
       const cont = document.getElementById(containerId);
       cont.innerHTML = '';
-      array.forEach(v=>{
+      array.forEach(v => {
         const sp = document.createElement('span');
         sp.innerText = v;
-        sp.onclick = ()=>travelTo(v);
+        sp.onclick = () => travelTo(v);
         cont.appendChild(sp);
       });
     }
 
-    window.onload = ()=>{
-      drawRail('railOut1','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-vakur'));
-      drawRail('railOut2','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-vakur'));
-      drawRail('railBack1','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-baron'));
-      drawRail('railBack2','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-baron'));
-      populateStations('stationsOut1',out1);
-      populateStations('stationsOut2',out2);
-      populateStations('stationsBack1',out1);
-      populateStations('stationsBack2',out2);
-      // diğer init çağrıları
-    };
-
-    window.onresize = ()=>{
-      drawRail('railOut1','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-vakur'));
-      drawRail('railOut2','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-vakur'));
-      drawRail('railBack1','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-baron'));
-      drawRail('railBack2','#555',getComputedStyle(document.documentElement).getPropertyValue('--accent-baron'));
-    };
-
-    function travelTo(v){
-      document.querySelectorAll('.stations span').forEach(sp=>{
-        sp.classList.toggle('visited', sp.innerText===v);
+    function travelTo(v) {
+      document.querySelectorAll('.stations span').forEach(sp => {
+        sp.classList.toggle('visited', sp.innerText === v);
       });
-      alert(v+' köyüne gittiniz!');
+      alert(v + ' köyüne gittiniz!');
     }
 
-    // Tüm fonksiyonlar ve veri yapıları yukarıdaki örneğe uygun şekilde devam ediyor...
+    window.onload = () => {
+      drawRail('railOut1','#555','#1e90ff');
+      drawRail('railOut2','#555','#1e90ff');
+      drawRail('railBack1','#555','#ff4500');
+      drawRail('railBack2','#555','#ff4500');
+      populateStations('stationsOut1', out1);
+      populateStations('stationsOut2', out2);
+      populateStations('stationsBack1', out1);
+      populateStations('stationsBack2', out2);
+    };
   </script>
 </body>
 </html>
