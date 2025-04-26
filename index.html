@@ -142,8 +142,30 @@
       font-weight: bold;
     }
     canvas.rail {
-      min-width: calc( (arr.length + 1) * 80px );
-      c.style.width
+      display: inline-block;
+      height: 60px;
+      cursor: pointer;
+    }
+
+/* Chat’ın altına koyacağın raylar için */
+#railsUnderChat {
+  position: fixed;
+  bottom: 100px;       /* ChatBox’ın üstüne gelmesi için */
+  left: 0;
+  right: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0.5rem;
+  background: rgba(30,30,30,0.9);
+  z-index: 1000;
+}
+.rail-overflow .rail-container {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 1rem;
+}
+
+
     }
 
     /* CENTER RANKS */
@@ -326,27 +348,7 @@
         font-size: 0.65rem;
       }
       #chatBox {
-        width: 90%; bottom: 10px;
-      }
-      #messageIcon {
-        bottom: 10px; right: 10px;
-      }
-    } #railsUnderChat {
-  position: fixed;
-  bottom: 100px;       /* ChatBox’ın yüksekliğine göre ayarla (örneğin 100px yukarı) */
-  left: 0;
-  right: 0;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 0.5rem;
-  background: rgba(30,30,30,0.9);
-  z-index: 1000;
-}
-.rail-overflow .rail-container {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 1rem;
-}
+     
 
   </style>
 </head>
@@ -514,20 +516,34 @@
   </div>
 
   <!-- CHAT -->
-  <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
-  <!-- Chat’ın hemen altına yeni ray bölümü -->
+  <!-- CHAT -->
+<div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
+
+<!-- Chat’ın hemen altına yeni ray bölümü -->
 <div id="railsUnderChat" class="rail-overflow">
-  <!-- Aşağıya 4 tane eskisiyle aynı rail-container’ı kopyala -->
   <div class="rail-container">
     <div class="rail-label">Gidiş Rotası I</div>
-    <div class="stations" id="stationsExtraOut1"></div>
-    <canvas id="railExtraOut1" class="rail"></canvas>
+    <div class="stations" id="stationsUnderOut1"></div>
+    <canvas id="railUnderOut1" class="rail"></canvas>
   </div>
-  <!-- Diğer 3 container’ı da buraya -->
+  <div class="rail-container">
+    <div class="rail-label">Gidiş Rotası II</div>
+    <div class="stations" id="stationsUnderOut2"></div>
+    <canvas id="railUnderOut2" class="rail"></canvas>
+  </div>
+  <div class="rail-container">
+    <div class="rail-label return">Dönüş Rotası I</div>
+    <div class="stations" id="stationsUnderBack1"></div>
+    <canvas id="railUnderBack1" class="rail"></canvas>
+  </div>
+  <div class="rail-container">
+    <div class="rail-label return">Dönüş Rotası II</div>
+    <div class="stations" id="stationsUnderBack2"></div>
+    <canvas id="railUnderBack2" class="rail"></canvas>
+  </div>
 </div>
-<div id="messageIcon">📩</div>
 
-  <div id="messageIcon">📩</div>
+  
 
   <script>
     /**************************************
@@ -578,11 +594,16 @@
       drawAllRails();
     };
 
-    function drawAllRails(){
-      drawRail('railOut1','#555','var(--accent-vakur)', out1, visitedOut1);
-      drawRail('railOut2','#555','var(--accent-vakur)', out2, visitedOut2);
-      drawRail('railBack1','#555','var(--accent-baron)', back1, visitedBack1);
-      drawRail('railBack2','#555','var(--accent-baron)', back2, visitedBack2);
+    function drawUnderRails(){
+        drawRail('railUnderOut1',  '#555', '--accent-vakur', out1,  visitedOut1);
+        drawRail('railUnderOut2',  '#555', '--accent-vakur', out2,  visitedOut2);
+        drawRail('railUnderBack1','#555', '--accent-baron', back1, visitedBack1);
+        drawRail('railUnderBack2','#555', '--accent-baron', back2, visitedBack2);
+
+        populateStations('stationsUnderOut1',  out1,  visitedOut1,  'out1');
+        populateStations('stationsUnderOut2',  out2,  visitedOut2,  'out2');
+        populateStations('stationsUnderBack1', back1, visitedBack1, 'back1');
+        populateStations('stationsUnderBack2', back2, visitedBack2, 'back2');
     }
 
     function drawRail(canvasId, color1, colorCSSVar, arr, visitedArr){
