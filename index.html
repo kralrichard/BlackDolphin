@@ -508,78 +508,7 @@
     let globalCooldown = false;  // 10sn bekleme
 
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Köy Rotaları</title>
-  <style>
-    :root {
-      --accent-vakur: #1e90ff;
-      --accent-baron: #ff4500;
-    }
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 16px;
-      box-sizing: border-box;
-    }
-    .scroll-container {
-      overflow-x: auto;
-      white-space: nowrap;
-      width: 100%;
-      margin-bottom: 8px;
-    }
-    canvas {
-      display: inline-block;
-      height: 100px;
-      vertical-align: middle;
-    }
-    .stations span {
-      display: inline-block;
-      margin-right: 12px;
-      cursor: pointer;
-    }
-    .stations .visited {
-      font-weight: bold;
-      color: green;
-    }
-    #trenTabs button.active,
-    #koyTabs button.active {
-      background: #ddd;
-    }
-  </style>
-</head>
-<body>
-  <h2>Gidiş Rotası 1</h2>
-  <div class="scroll-container">
-    <canvas id="railOut1"></canvas>
-  </div>
-  <div id="stationsOut1" class="stations scroll-container"></div>
-
-  <h2>Gidiş Rotası 2</h2>
-  <div class="scroll-container">
-    <canvas id="railOut2"></canvas>
-  </div>
-  <div id="stationsOut2" class="stations scroll-container"></div>
-
-  <h2>Dönüş Rotası 1</h2>
-  <div class="scroll-container">
-    <canvas id="railBack1"></canvas>
-  </div>
-  <div id="stationsBack1" class="stations scroll-container"></div>
-
-  <h2>Dönüş Rotası 2</h2>
-  <div class="scroll-container">
-    <canvas id="railBack2"></canvas>
-  </div>
-  <div id="stationsBack2" class="stations scroll-container"></div>
-
-  <!-- Tren ve Köy sekmeleri -->
-  <div id="trenTabs"></div>
-  <div id="trenContent"></div>
-  <div id="koyTabs"></div>
-  <div id="koyContent"></div>
-
-  <script>
+ 
     const villages = [
       /* ... 84 köy listesi aynen ... */
     ];
