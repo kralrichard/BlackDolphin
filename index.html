@@ -571,6 +571,9 @@
  * @param {Array}  arr         – İstasyon isimleri dizisi
  * @param {Array}  visitedArr  – İstasyon ziyaret durumu dizisi (boolean[])
  */
+/**
+ * Tek bir ray çizer ve yatay scroll için dinamik genişlik ayarlar.
+ */
 function drawRail(canvasId, color, cssVar, arr, visitedArr) {
   const c   = document.getElementById(canvasId);
   const ctx = c.getContext('2d');
@@ -579,9 +582,9 @@ function drawRail(canvasId, color, cssVar, arr, visitedArr) {
   const w = (arr.length + 1) * 80;
   c.width       = w;
   c.style.width = w + 'px';
-  c.height      = 60; // rail yüksekliğini ihtiyacına göre ayarla
+  c.height      = 60; // rail yüksekliğini ihtiyacınıza göre ayarlayın
 
-  // Temizle
+  // Tuvali temizle
   ctx.clearRect(0, 0, w, c.height);
 
   // Ana hat çizgisi
