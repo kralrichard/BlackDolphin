@@ -121,6 +121,7 @@
       position: relative;
       margin: 1rem 0;
       flex-shrink: 0;
+      overflow-x: auto; 
     }
     .rail-label {
       position: absolute;
@@ -141,9 +142,12 @@
       color: var(--accent-vakur);
       font-weight: bold;
     }
-    canvas.rail {
-      width: 100%; height: 60px; cursor: pointer;
-    }
+   canvas.rail {
+- width: 100%;
+  height: 60px;
+  cursor: pointer;
+}
+
 
     /* CENTER RANKS */
     #centerRanks {
@@ -507,58 +511,77 @@
     let playerMoney = 500000;
     let globalCooldown = false;  // 10sn bekleme
 
-/**************************************
- * 2) KÖY LİSTESİ & RAYLAR
- **************************************/
-const villages = [ /* … 84 köy dizisi … */ ];
+    /**************************************
+     * 2) KÖY LİSTESİ & RAYLAR
+     **************************************/
+    const villages = [
+     "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
+      "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
+      "Masucark","Kırıka","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan",
+      "Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr",
+      "Keferqub","Marut","Avemur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
+      ,"Hecek","Zoncık","Tıhonek","Cerdo","Şeqİsa","PerePere","Mızebıl",
+      "Bellık","KoçSokran","AgaciyeMezın","MıdebEJor","Zaret","Mehesere","Ollık",
+      "CesasiBenç","CesasiDınna","Aligör","XerapRabe","EskinLixe","Kersan","Henırk",
+      "Tılxerman","Şopık","Kabcı","Kera","Sıvedi","Areban","KureMusa","Kirmit","GundeSor",
+      "Kestonık","Navşan","Xerat","Mirxan","Mecucık","Zebeşker","MızarGır","XerapSor",
+      "Şeis","Şevran","Boydi","MastiCark","Şuman","Mıshecerk"
 
-// 42-42 gidiş ve 42-42 dönüş rotası
-const out1  = villages.slice(0,  42);
-const out2  = villages.slice(42, 84);
-const back1 = out1;
-const back2 = out2;
+    ];
+   - const out1 = villages.slice(0,42), out2 = villages.slice(42,84);
+- const back1 = out1, back2 = out2;
 
-// Dinamik uzunlukta ziyaret dizileri
-const visitedOut1  = new Array(out1.length).fill(false);
-const visitedOut2  = new Array(out2.length).fill(false);
-const visitedBack1 = new Array(back1.length).fill(false);
-const visitedBack2 = new Array(back2.length).fill(false);
+- const visitedOut1 = new Array(20).fill(false);
+- const visitedOut2 = new Array(20).fill(false);
+- const visitedBack1 = new Array(20).fill(false);
+- const visitedBack2 = new Array(20).fill(false);
++ // 42-42 gidiş ve 42-42 dönüş
++ const out1  = villages.slice(0,  42);
++ const out2  = villages.slice(42, 84);
++ const back1 = out1, back2 = out2;
 
-visitedOut1[0] = true; // Asman başlangıç ziyareti
++ // Dinamik uzunlukta ziyaret dizileri
++ const visitedOut1  = new Array(out1.length).fill(false);
++ const visitedOut2  = new Array(out2.length).fill(false);
++ const visitedBack1 = new Array(back1.length).fill(false);
++ const visitedBack2 = new Array(back2.length).fill(false);
 
-// Sayfa yüklenince…
-window.onload = () => {
-  drawAllRails();
-  populateStations('stationsOut1',  out1,  visitedOut1,  'out1');
-  populateStations('stationsOut2',  out2,  visitedOut2,  'out2');
-  populateStations('stationsBack1', back1, visitedBack1, 'back1');
-  populateStations('stationsBack2', back2, visitedBack2, 'back2');
-  initTrainTabs();
-  initKoyTabs();
-  updateMoneyDisplay();
-};
+    visitedOut1[0] = true; // Asman
 
-// Yeniden boyutlanınca rayları yeniden çiz
-window.onresize = () => drawAllRails();
+    window.onload = () => {
+      drawAllRails();
+      populateStations('stationsOut1', out1, visitedOut1, 'out1');
+      populateStations('stationsOut2', out2, visitedOut2, 'out2');
+      populateStations('stationsBack1', back1, visitedBack1, 'back1');
+      populateStations('stationsBack2', back2, visitedBack2, 'back2');
+      initTrainTabs();
+      initKoyTabs();
+      updateMoneyDisplay();
+    };
 
-// Tüm rayları üst üste çiz
-function drawAllRails() {
-  drawRail('railOut1',  '#555', '--accent-vakur',  out1,  visitedOut1);
-  drawRail('railOut2',  '#555', '--accent-vakur',  out2,  visitedOut2);
-  drawRail('railBack1', '#555', '--accent-baron', back1, visitedBack1);
-  drawRail('railBack2', '#555', '--accent-baron', back2, visitedBack2);
-}
+    window.onresize = () => {
+      drawAllRails();
+    };
 
-// Tek bir ray çizen fonksiyon
+   /**
+ * Tek bir ray çizer ve yatay scroll için dinamik genişlik ayarlar.
+ * @param {string} canvasId    – Canvas öğesinin ID’si
+ * @param {string} color       – Ana çizgi rengi (ör. '#555')
+ * @param {string} cssVar      – Nokta/çizgi rengi için CSS değişkeni (ör. '--accent-vakur')
+ * @param {Array}  arr         – İstasyon isimleri dizisi
+ * @param {Array}  visitedArr  – İstasyon ziyaret durumu dizisi (boolean[])
+ */
 function drawRail(canvasId, color, cssVar, arr, visitedArr) {
   const c   = document.getElementById(canvasId);
   const ctx = c.getContext('2d');
+
   // Yatay scroll için genişlik = (istasyon sayısı + 1) * 80px
   const w = (arr.length + 1) * 80;
   c.width       = w;
   c.style.width = w + 'px';
-  c.height      = 100;
+  c.height      = 60; // rail yüksekliğini ihtiyacına göre ayarla
 
+  // Temizle
   ctx.clearRect(0, 0, w, c.height);
 
   // Ana hat çizgisi
@@ -587,63 +610,140 @@ function drawRail(canvasId, color, cssVar, arr, visitedArr) {
 
     // Nokta
     ctx.beginPath();
-    ctx.arc(x, c.height/2, 4, 0, Math.PI*2);
+    ctx.arc(x, c.height/2, 4, 0, Math.PI * 2);
     ctx.fillStyle = visitedArr[i - 1] ? 'green' : 'red';
     ctx.fill();
   }
 }
 
-// İstasyonları DOM’a ekleyen fonksiyon
-function populateStations(containerId, arr, visitedArr, routeKey) {
-  const cont = document.getElementById(containerId);
-  cont.innerHTML = '';
 
-  arr.forEach((v, idx) => {
-    const sp = document.createElement('span');
-    sp.textContent = v;
-    if (visitedArr[idx]) sp.classList.add('visited');
-    sp.onclick = () => travelTo(routeKey, idx);
-    cont.appendChild(sp);
-  });
-}
+    function populateStations(containerId, arr, visitedArr, type){
+      const cont = document.getElementById(containerId);
+      cont.innerHTML = "";
+      arr.forEach((v, idx)=>{
+        const sp = document.createElement("span");
+        sp.textContent = v;
+        if(visitedArr[idx]) {
+          sp.classList.add("visited");
+        }
+        sp.onclick = () => {
+          travelTo(type, idx);
+        };
+        cont.appendChild(sp);
+      });
+    }
 
-// Seyahat butonuna tıklandığında çalışacak fonksiyon
-function travelTo(route, idx) {
-  let arr, visitedArr;
-  if      (route === 'out1')  { arr = out1;  visitedArr = visitedOut1;  }
-  else if (route === 'out2')  { arr = out2;  visitedArr = visitedOut2;  }
-  else if (route === 'back1') { arr = back1; visitedArr = visitedBack1; }
-  else                         { arr = back2; visitedArr = visitedBack2; }
+    function travelTo(rt, idx){
+      let arr, visitedArr;
+      if(rt==="out1"){ arr=out1; visitedArr=visitedOut1; }
+      else if(rt==="out2"){ arr=out2; visitedArr=visitedOut2; }
+      else if(rt==="back1"){ arr=back1; visitedArr=visitedBack1; }
+      else { arr=back2; visitedArr=visitedBack2; }
 
-  if (visitedArr[idx]) {
-    alert(arr[idx] + ' köyüne zaten gittiniz!');
-    return;
-  }
-  if (playerMoney < 500) {
-    alert('Yeterli paranız yok!');
-    return;
-  }
+      if(visitedArr[idx]){
+        alert(arr[idx]+" köyüne zaten gittiniz!");
+        return;
+      }
+      if(playerMoney < 500){
+        alert("Yeterli paranız yok!");
+        return;
+      }
+      if(visitedOut1[0] && !(rt==="out1" && idx===0)){
+        visitedOut1[0] = false;
+        setTimeout(() => {
+          drawAllRails();
+        },10000);
+      }
 
-  playerMoney -= 500;
-  visitedArr[idx] = true;
-  updateMoneyDisplay();
-  alert(arr[idx] + ' köyüne gittiniz! (500$)');
+      playerMoney -= 500;
+      visitedArr[idx] = true;
+      updateMoneyDisplay();
+      alert(arr[idx]+" köyüne gittiniz! (500$)");
 
-  // Hem seyahat hem inceleme sekmelerini güncelle
-  populateStations('stationsOut1',  out1,  visitedOut1,  'out1');
-  populateStations('stationsOut2',  out2,  visitedOut2,  'out2');
-  populateStations('stationsBack1', back1, visitedBack1, 'back1');
-  populateStations('stationsBack2', back2, visitedBack2, 'back2');
-  drawAllRails();
-}
+      populateStations('stationsOut1', out1, visitedOut1, 'out1');
+      populateStations('stationsOut2', out2, visitedOut2, 'out2');
+      populateStations('stationsBack1', back1, visitedBack1, 'back1');
+      populateStations('stationsBack2', back2, visitedBack2, 'back2');
+      drawAllRails();
+    }
 
-// Aşağıdaki fonksiyonları orijinal hâlinle koruyabilirsin:
-function initTrainTabs() { /* … */ }
-function renderTrainTab(tabIndex) { /* … */ }
-function initKoyTabs() { /* … */ }
-function renderKoyTab(idx) { /* … */ }
+    // Tren
+    function initTrainTabs(){
+      const trenTabs = document.getElementById("trenTabs");
+      for(let i=0;i<5;i++){
+        const b = document.createElement("button");
+        b.textContent = "Tren "+(i+1);
+        b.onclick = () => {
+          document.querySelectorAll("#trenTabs button").forEach(x=>x.classList.remove("active"));
+          b.classList.add("active");
+          renderTrainTab(i);
+        };
+        if(i===0) b.classList.add("active");
+        trenTabs.appendChild(b);
+      }
+      renderTrainTab(0);
+    }
 
-    
+    function renderTrainTab(tabIndex){
+      const trenContent=document.getElementById("trenContent");
+      trenContent.innerHTML="";
+      const start=tabIndex*8, end=start+8;
+      const slice = villages.slice(start,end);
+
+      slice.forEach(koy=>{
+        const div=document.createElement("div");
+        div.style.marginBottom="6px";
+        div.innerHTML=<strong>${koy}</strong> <button>Seyahat</button>;
+        const btn=div.querySelector("button");
+        btn.onclick=()=>{
+          let i=out1.indexOf(koy); if(i>=0){ travelTo("out1",i);return;}
+          i=out2.indexOf(koy); if(i>=0){ travelTo("out2",i);return;}
+          i=back1.indexOf(koy); if(i>=0){ travelTo("back1",i);return;}
+          i=back2.indexOf(koy); if(i>=0){ travelTo("back2",i);return;}
+        };
+        trenContent.appendChild(div);
+      });
+    }
+
+    // Köy
+    function initKoyTabs(){
+      const koyTabs=document.getElementById("koyTabs");
+      for(let i=0;i<5;i++){
+        const b=document.createElement("button");
+        b.textContent = "Bölge "+(i+1);
+        b.onclick=()=>{
+          document.querySelectorAll("#koyTabs button").forEach(x=>x.classList.remove("active"));
+          b.classList.add("active");
+          renderKoyTab(i);
+        };
+        if(i===0) b.classList.add("active");
+        koyTabs.appendChild(b);
+      }
+      renderKoyTab(0);
+    }
+
+    function renderKoyTab(tabIndex){
+      const koyContent=document.getElementById("koyContent");
+      koyContent.innerHTML="";
+      const start=tabIndex*8, end=start+8;
+      const slice=villages.slice(start,end);
+
+      slice.forEach(koy=>{
+        const div=document.createElement("div");
+        div.style.marginBottom="6px";
+        div.innerHTML=<strong>${koy}</strong> <button>İncele</button>;
+        const btn=div.querySelector("button");
+        btn.onclick=()=>{
+          const malOptions=[5,10,15],villaOptions=[25,50,75],sigOptions=[50,75,100];
+          const m=malOptions[Math.floor(Math.random()*malOptions.length)];
+          const v=villaOptions[Math.floor(Math.random()*villaOptions.length)];
+          const s=sigOptions[Math.floor(Math.random()*sigOptions.length)];
+          alert(${koy} köyünde:\n- Malikhane: ${m}\n- Villa: ${v}\n- Sığınak: ${s});
+        };
+        koyContent.appendChild(div);
+      });
+    }
+
     /**************************************
      * 6) TÜM RANKLARIN 5 SEVİYE x 10 GÖREVİ
      **************************************/
@@ -957,14 +1057,14 @@ function renderKoyTab(idx) { /* … */ }
 
         const barDiv = document.createElement("div");
         barDiv.style.margin = "0.5rem 0";
-        barDiv.innerHTML = `
+        barDiv.innerHTML = 
           <div style="background:#ccc;width:100%;height:10px;overflow:hidden;border-radius:5px;">
             <div style="background:orange;height:100%;width:${pct}%;"></div>
           </div>
           <div style="font-size:0.8rem;text-align:right;">
             ${doneCount}/${total} görev bitti (%${pct.toFixed(0)})
           </div>
-        `;
+        ;
         section.appendChild(barDiv);
 
         dif.tasks.forEach(taskObj => {
@@ -977,10 +1077,10 @@ function renderKoyTab(idx) { /* … */ }
           else if(taskObj.state==="inProgress") btnText=formatTime(taskObj.timeLeft);
           else if(taskObj.state==="done") btnText="Tamamlandı";
 
-          div.innerHTML=`
+          div.innerHTML=
             <span>${taskObj.text}</span>
             <button>${btnText}</button>
-          `;
+          ;
           const btn=div.querySelector("button");
           if(dif.locked||taskObj.state==="cdWait"||taskObj.state==="inProgress"||taskObj.state==="done"){
             btn.disabled=true;
