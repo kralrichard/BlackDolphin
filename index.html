@@ -166,7 +166,7 @@
 }
 
 
-    }
+    
 
     /* CENTER RANKS */
     #centerRanks {
@@ -348,7 +348,8 @@
         font-size: 0.65rem;
       }
       #chatBox {
-     
+
+      }
 
   </style>
 </head>
@@ -592,7 +593,7 @@
 
     window.onresize = () => {
       drawAllRails();
-      drawUnderRails();
+     drawUnderRails();
     };
 
     function drawUnderRails(){
@@ -605,7 +606,7 @@
         populateStations('stationsUnderOut2',  out2,  visitedOut2,  'out2');
         populateStations('stationsUnderBack1', back1, visitedBack1, 'back1');
         populateStations('stationsUnderBack2', back2, visitedBack2, 'back2');
-    
+    }
 
     function drawRail(canvasId, color1, colorCSSVar, arr, visitedArr){
       const c = document.getElementById(canvasId);
