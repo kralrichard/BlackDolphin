@@ -741,7 +741,11 @@ function drawRail(canvasId, color, cssVar, arr, visitedArr) {
           const m=malOptions[Math.floor(Math.random()*malOptions.length)];
           const v=villaOptions[Math.floor(Math.random()*villaOptions.length)];
           const s=sigOptions[Math.floor(Math.random()*sigOptions.length)];
-          alert(${koy} köyünde:\n- Malikhane: ${m}\n- Villa: ${v}\n- Sığınak: ${s});
+          alert(`${koy} köyünde:
+               Malikhane: ${m}
+               Villa: ${v}
+               Sığınak: ${s}`);
+
         };
         koyContent.appendChild(div);
       });
@@ -1082,8 +1086,11 @@ function drawRail(canvasId, color, cssVar, arr, visitedArr) {
           else if(taskObj.state==="done") btnText="Tamamlandı";
 
           div.innerHTML=
-            <span>${taskObj.text}</span>
-            <button>${btnText}</button>
+            div.innerHTML = `
+          <span>${taskObj.text}</span>
+             <button>${btnText}</button>
+        `;
+ 
           ;
           const btn=div.querySelector("button");
           if(dif.locked||taskObj.state==="cdWait"||taskObj.state==="inProgress"||taskObj.state==="done"){
