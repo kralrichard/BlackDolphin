@@ -663,11 +663,11 @@ function drawRail(canvasId, color, cssVar, arr, visitedArr) {
       updateMoneyDisplay();
       alert(arr[idx]+" köyüne gittiniz! (500$)");
 
-      populateStations('stationsOut1', out1, visitedOut1, 'out1');
-      populateStations('stationsOut2', out2, visitedOut2, 'out2');
-      populateStations('stationsBack1', back1, visitedBack1, 'back1');
-      populateStations('stationsBack2', back2, visitedBack2, 'back2');
-      drawAllRails();
+       function drawAllRails() {
+       drawRail('railOut1', '#555', '--accent-vakur', out1, visitedOut1);
+       drawRail('railOut2', '#555', '--accent-hatip', out2, visitedOut2);
+       drawRail('railBack1', '#555', '--accent-vakur', back1, visitedBack1);
+       drawRail('railBack2', '#555', '--accent-hatip', back2, visitedBack2);
     }
 
     // Tren
@@ -1085,13 +1085,12 @@ function drawRail(canvasId, color, cssVar, arr, visitedArr) {
           else if(taskObj.state==="inProgress") btnText=formatTime(taskObj.timeLeft);
           else if(taskObj.state==="done") btnText="Tamamlandı";
 
-          div.innerHTML=
-            div.innerHTML = `
-          <span>${taskObj.text}</span>
-             <button>${btnText}</button>
-        `;
- 
-          ;
+           div.innerHTML =
+              <span>${taskObj.text}</span>
+              <button>${btnText}</button>
+            `;
+
+          
           const btn=div.querySelector("button");
           if(dif.locked||taskObj.state==="cdWait"||taskObj.state==="inProgress"||taskObj.state==="done"){
             btn.disabled=true;
