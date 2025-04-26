@@ -142,7 +142,8 @@
       font-weight: bold;
     }
     canvas.rail {
-      width: 100%; height: 60px; cursor: pointer;
+      min-width: calc( (arr.length + 1) * 80px );
+      c.style.width
     }
 
     /* CENTER RANKS */
@@ -330,7 +331,23 @@
       #messageIcon {
         bottom: 10px; right: 10px;
       }
-    }
+    } #railsUnderChat {
+  position: fixed;
+  bottom: 100px;       /* ChatBox’ın yüksekliğine göre ayarla (örneğin 100px yukarı) */
+  left: 0;
+  right: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0.5rem;
+  background: rgba(30,30,30,0.9);
+  z-index: 1000;
+}
+.rail-overflow .rail-container {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 1rem;
+}
+
   </style>
 </head>
 <body>
@@ -498,6 +515,18 @@
 
   <!-- CHAT -->
   <div id="chatBox" contenteditable="true">CHAT başlıyor...</div>
+  <!-- Chat’ın hemen altına yeni ray bölümü -->
+<div id="railsUnderChat" class="rail-overflow">
+  <!-- Aşağıya 4 tane eskisiyle aynı rail-container’ı kopyala -->
+  <div class="rail-container">
+    <div class="rail-label">Gidiş Rotası I</div>
+    <div class="stations" id="stationsExtraOut1"></div>
+    <canvas id="railExtraOut1" class="rail"></canvas>
+  </div>
+  <!-- Diğer 3 container’ı da buraya -->
+</div>
+<div id="messageIcon">📩</div>
+
   <div id="messageIcon">📩</div>
 
   <script>
@@ -513,17 +542,24 @@
     const villages = [
       "Asman","Mizrin","Qeruk","Twılveser","Ashma","Ogean","Karuk","Tilkarut",
       "Midep","Emerk","Tilal","Olik","Mıshecerk","Mızelb","Kergü","Cinnık",
-      "Masucark","Kırıkan","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan",
+      "Masucark","Kırıka","Kuzluk","Qeremsal","Medırbaz","Hecuk","Zebeşker","Mirğan",
       "Dideri","Kazıka","Nehlnehli","Birdirej","Cembel","Mizar","Tihonek","Giregewr",
-      "Keferqub","Marut","Avamur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
+      "Keferqub","Marut","Avemur","Bubık","Aşme","Oğan","Mirxan","Thashluk"
+      ,"Hecek","Zoncık","Tıhonek","Cerdo","Şeqİsa","PerePere","Mızebıl",
+      "Bellık","KoçSokran","AgaciyeMezın","MıdebEJor","Zaret","Mehesere","Ollık",
+      "CesasiBenç","CesasiDınna","Aligör","XerapRabe","EskinLixe","Kersan","Henırk",
+      "Tılxerman","Şopık","Kabcı","Kera","Sıvedi","Areban","KureMusa","Kirmit","GundeSor",
+      "Kestonık","Navşan","Xerat","Mirxan","Mecucık","Zebeşker","MızarGır","XerapSor",
+      "Şeis","Şevran","Boydi","MastiCark","Şuman","Mıshecerk"
+
     ];
-    const out1 = villages.slice(0,20), out2 = villages.slice(20,40);
+    const out1 = villages.slice(0,42), out2 = villages.slice(42,84);
     const back1 = out1, back2 = out2;
 
-    const visitedOut1 = new Array(20).fill(false);
-    const visitedOut2 = new Array(20).fill(false);
-    const visitedBack1 = new Array(20).fill(false);
-    const visitedBack2 = new Array(20).fill(false);
+    const visitedOut1 = new Array(out1.length).fill(false);
+    const visitedOut2 = new Array(out2.length).fill(false);
+    const visitedBack1 = new Array(back1.length).fill(false);
+    const visitedBack2 = new Array(back2.length).fill(false);
 
     visitedOut1[0] = true; // Asman
 
@@ -568,8 +604,8 @@
       // 20 dik
       ctx.strokeStyle = accent;
       ctx.lineWidth = 2;
-      for(let i=1;i<=20;i++){
-        const x = c.width*i/21;
+      for (let i = 1; i <= arr.length; i++) { … }{
+        const x = c.width * i / (arr.length + 1);
         ctx.beginPath();
         ctx.moveTo(x, c.height/2-10);
         ctx.lineTo(x, c.height/2+10);
@@ -639,13 +675,16 @@
     // Tren
     function initTrainTabs(){
       const trenTabs = document.getElementById("trenTabs");
-      for(let i=0;i<5;i++){
+      for(const segmentSize = 8;
+const tabCount = Math.ceil(villages.length / segmentSize);
+for (let i = 0; i < tabCount; i++) { … }){
         const b = document.createElement("button");
         b.textContent = "Tren "+(i+1);
         b.onclick = () => {
           document.querySelectorAll("#trenTabs button").forEach(x=>x.classList.remove("active"));
           b.classList.add("active");
-          renderTrainTab(i);
+          renderTrainTab(const start = i * segmentSize;
+const end   = Math.min(start + segmentSize, villages.length););
         };
         if(i===0) b.classList.add("active");
         trenTabs.appendChild(b);
@@ -677,13 +716,16 @@
     // Köy
     function initKoyTabs(){
       const koyTabs=document.getElementById("koyTabs");
-      for(let i=0;i<5;i++){
+      for(const segmentSize = 8;
+const tabCount = Math.ceil(villages.length / segmentSize);
+for (let i = 0; i < tabCount; i++) { … }){
         const b=document.createElement("button");
         b.textContent = "Bölge "+(i+1);
         b.onclick=()=>{
           document.querySelectorAll("#koyTabs button").forEach(x=>x.classList.remove("active"));
           b.classList.add("active");
-          renderKoyTab(i);
+          renderKoyTab(const start = i * segmentSize;
+const end   = Math.min(start + segmentSize, villages.length););
         };
         if(i===0) b.classList.add("active");
         koyTabs.appendChild(b);
